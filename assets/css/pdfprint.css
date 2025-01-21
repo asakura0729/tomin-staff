@@ -1,0 +1,87 @@
+.w230mm {
+    width: 230mm;
+    padding: 10mm;
+}
+
+.table-print {
+    color: #444;
+}
+
+.table-print caption {
+    caption-side: top;
+    text-align: center;
+    color: #444;
+}
+
+.table-print>thead>tr>th,
+.table-print>thead>tr>td,
+.table-print>tbody>tr>td,
+.table-print>tbody>tr>th {
+    border: 1px solid #666;
+    font-weight: normal;
+    padding: .25rem;
+}
+
+.table.table-print>thead>tr>th {
+    text-align: center;
+}
+
+.table.table-print>tbody>tr>th {
+    text-align: left;
+}
+
+.font-size-10pt {
+    font-size: 10pt;
+}
+
+.font-size-12pt {
+    font-size: 12pt;
+}
+
+.p-2px {
+    padding: 2px;
+}
+
+.color-black-important {
+    color: #000 !important;
+}
+
+.bg-stamp {
+    background-image: url('/assets/img/fig_stamp.png');
+    background-position: 150px 70px;
+    background-repeat: no-repeat;
+    background-size: 30%;
+}
+
+.page-break {
+    page-break-after: always;
+    margin-bottom: 3rem;
+}
+
+@media screen {
+    body {
+        padding-top: 50px;
+        background-color: #eee;
+    }
+    .size-a4 {
+        width: 210mm;
+        min-height: 297mm;
+        padding: 10mm;
+        box-sizing: content-box;
+    }
+}
+
+@media print {
+    .page-break {
+        margin-bottom: 0;
+    }
+    .table-print td {
+        break-inside: avoid !important;
+    }
+    .font-size-print-13pt {
+        font-size: 13pt;
+    }
+    .font-size-print-14pt {
+        font-size: 14pt;
+    }
+}
