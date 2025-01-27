@@ -6,7 +6,7 @@ class appFuncLogin
     public static $sessionLoginStatus = "";
     public static $sessionLoginName = "";
 
-    public function sessionLogin($array, $post, $loginStatus, $user): array
+    public static function sessionLogin($array, $post, $loginStatus, $user): array
     {
         $session = [];
         if (isset($post['id']) && isset($post['password'])) {
@@ -21,7 +21,7 @@ class appFuncLogin
         return $session;
     }
 
-    public function sessionUser($session)
+    public static function sessionUser($session)
     {
         if (isset($session['user'])) {
             return $session['user'];
@@ -30,7 +30,7 @@ class appFuncLogin
         }
     }
 
-    public function loginCheck($session, $loginStatus)
+    public static function loginCheck($session, $loginStatus)
     {
         if (isset($session[$loginStatus])) {
             if ($session[$loginStatus] === true) {
@@ -40,7 +40,7 @@ class appFuncLogin
         return false;
     }
 
-    public function redirect($session, $path, $loginStatus)
+    public static function redirect($session, $path, $loginStatus)
     {
         if (!isset($session[$loginStatus])) {
             header('location:' . $path);
@@ -48,7 +48,7 @@ class appFuncLogin
         }
     }
 
-    public function loginRedirect($session, $path, $loginStatus)
+    public static function loginRedirect($session, $path, $loginStatus)
     {
         if (isset($session[$loginStatus]) && $session[$loginStatus] == true) {
             header('location:' . $path);
@@ -56,7 +56,7 @@ class appFuncLogin
         }
     }
 
-    public function logout($session, $post): array
+    public static function logout($session, $post): array
     {
         if (isset($post['logout']) && $post['logout'] == 1) {
             return [];

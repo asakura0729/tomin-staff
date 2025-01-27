@@ -1,6 +1,4 @@
-<div class="row align-items-center">
-    <div class="col-3"><?php echo $title; ?></div>
-    <div class="col-9 col-lg-4">
-        <input data-time type="date" name="<?php echo $name; ?>" class="form-control p-1 " value="<?php echo $value; ?>">
-    </div>
+<div class="pb-2">
+    <label class="m-0 pb-1"><?php echo $title; ?></label>
+    <input type="date" name="<?php echo $inputName; ?>" class="form-control" value="<?php echo $value; ?>" <?php echo $add; ?>>
 </div>

@@ -5,12 +5,14 @@
 <?php require_once '../_tmpl/header.php'; ?>
 <?php require_once '../_tmpl/l-header.php'; ?>
 
-<div class="container">
-    <?php
-    $errorFlag = appHttpAdminLoginIndex::$errorFlag;
-    $title = "宛名印刷";
-    require_once '../_module/form/login.php';
-    ?>
+<div class="l-wrap">
+    <div class="container">
+        <?php
+        $errorFlag = appHttpAdminLoginIndex::$errorFlag;
+        $title = "ログイン";
+        require_once '../_module/form/login.php';
+        ?>
+    </div>
 </div>
 
 <?php require_once '../_tmpl/l-footer.php'; ?>

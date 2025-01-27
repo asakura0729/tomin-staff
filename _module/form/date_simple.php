@@ -1,1 +1,0 @@
-<input data-time type="date" name="<?php echo $name; ?>" class="form-control p-1 " value="<?php echo $value; ?>">

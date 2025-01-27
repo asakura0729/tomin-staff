@@ -1,42 +1,31 @@
 <?php if (appConfigPage::$tmpl != 'simple') : ?>
-    <header id="page-header" class="l-header w-100 bg-contrast color-contrast position-fixed box-shadow-l">
-        <div class="container-fluid">
-            <div class="row align-items-center no-gutters">
-                <div class="col-4 col-lg-6 pl-4">
-                    <?php if (isset($_SESSION) && appFuncLogin::loginCheck($_SESSION, 'adminlogin') == true) : ?>
-                        <a class="navbar-brand color-white" href="<?php echo appConfigSite::sitemap['admin']['path']; ?>">
-                            都民のお葬式
-                        </a>
-                    <?php endif; ?>
-                </div>
-                <?php if (isset($_SESSION) && appFuncLogin::loginCheck($_SESSION, 'adminlogin') == true) : ?>
-                    <div class="col-8 col-lg-6 text-right p-2">
-                        <div class="d-inline-block pr-3 color-white">
-                            <div class="d-inline-block align-middle">
-                                <span class="pr-2">
-                                    <?php echo appConfigSession::$userName; ?>
-                                </span>
-                                がログイン中
-                            </div>
-                        </div>
-                        <div class="d-inline-block">
-                            <form method="post">
-                                <input type="hidden" name="logout" value="1">
-                                <button type="submit" class="btn border"><span class="color-white">ログアウト</span></button>
-                            </form>
-                        </div>
-                    </div>
+    <header id="page-header" class="l-header w-100 color-contrast position-fixed bg-white border-bottom">
+        <div class="d-flex align-items-center justify-content-between bg-contrast">
+            <div class="pl-4 font-notoserif">
+                <?php if (appFuncLogin::loginCheck($_SESSION, 'adminlogin') == true) : ?>
+                    <a class="color-white d-block" href="<?php echo appConfigSite::sitemap['admin']['path']; ?>">都民のお葬式</a>
+                <?php else: ?>
+                    <span class="color-white d-block">都民のお葬式</span>
                 <?php endif; ?>
             </div>
+            <?php if (appFuncLogin::loginCheck($_SESSION, 'adminlogin') == true) : ?>
+                <form method="post" class="dropdown">
+                    <button class="btn dropdown-toggle color-white align-top p-0 pb-1 pl-2 pr-3" type="button" id="page-header-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="color-white"><span class="pr-2"><?php echo appConfigSession::$userName; ?></span>がログイン中</span>
+                    </button>
+                    <div class="dropdown-menu w-100" aria-labelledby="page-header-dropdown">
+                        <button type="submit" class="dropdown-item">ログアウト</button>
+                    </div>
+                    <input type="hidden" name="logout" value="1">
+                </form>
+            <?php endif; ?>
         </div>
+        <?php if (appFuncLogin::loginCheck($_SESSION, 'adminlogin') == true) : ?>
+            <nav class="nav">
+                <?php foreach (appConfigSite::headerNav as $key => $value): ?>
+                    <?php appLibraryDisp::globalModule('btn/hx-gnav', ['page' => $key]); ?>
+                <?php endforeach; ?>
+            </nav>
+        <?php endif; ?>
     </header>
 <?php endif; ?>
-
-<article id="page-top" class="<?php if (appConfigPage::$tmpl != 'simple') : ?>l-wrap bg-lgray<?php endif; ?>">
-    <?php if (appConfigSite::maintenance == true) : ?>
-        <div class="container print-none">
-            <div class="alert alert-danger p-2 text-center" role="alert">
-                ただいまメンテナンス作業を行っています。データ登録・変更の操作は控えてください。
-            </div>
-        </div>
-    <?php endif; ?>

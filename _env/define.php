@@ -10,20 +10,19 @@
 // 開発環境
 //-----------------------------------------------------
 define("ENV", "develop");
-define("DB_DSN", "mysql:dbname=loveme;host=localhost;");
-define("DB_USER", "root");
-define("DB_PASSWORD", "");
+define("DB_DSN", "mysql:dbname=tomin_db;host=db;charset=utf8");
+define("DB_USER", "test");
+define("DB_PASSWORD", "test");
 
 //-----------------------------------------------------
 // ステージング環境
 //-----------------------------------------------------
 /*
 define("ENV", "staging");
-define("DB_DSN", "mysql:dbname=g3cm5_test;host=mysql66.onamae.ne.jp;charset=utf8");
-define("DB_USER", "g3cm5_test");
+define("DB_DSN", "mysql:dbname=tomin_db;host=mysql66.onamae.ne.jp;charset=utf8");
+define("DB_USER", "tomin_db");
 define("DB_PASSWORD", "BtKgb_0714");
 */
-
 
 //-----------------------------------------------------
 // 本番環境

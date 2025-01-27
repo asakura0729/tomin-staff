@@ -1,12 +1,12 @@
 <?php
-/*======================================================================
-
-データベースまわりの関数
-
-======================================================================*/
+//======================================================================
+// データベース送受信
+//======================================================================
 class appFuncDatabase
 {
-    //データベース接続
+    //-----------------------------------------------------
+    // データベース接続
+    //-----------------------------------------------------
     public static function connect()
     {
         $dsn = sprintf(DB_DSN);
@@ -21,35 +21,48 @@ class appFuncDatabase
         return $dbh;
     }
 
-    //データ取得
-    public static function getData($dbh, $sql, $params = '')
+    //-----------------------------------------------------
+    // データ取得
+    //-----------------------------------------------------
+    public static function getData(string $sql, array $params = []): array
     {
-        $results = "";
         try {
+            $dbh = self::connect();
             $sth = $dbh->prepare($sql);
             $sth->execute($params);
             $results = $sth->fetchAll();
         } catch (PDOException $e) {
-            $results = 'Error:' . $e->getMessage();
+            echo 'Error:' . $e->getMessage();
+            exit;
         }
         return $results;
     }
 
-    //データ更新
-    public static function updateData($dbh, $sql, $params = '')
+    //-----------------------------------------------------
+    // データ取得（一件）
+    //-----------------------------------------------------
+    public static function getSingleData(string $sql, array $params = []): array
     {
-        $sth = $dbh->prepare($sql);
-        $results = $sth->execute($params);
-        $results = intval($results);
-        return $results;
+        $results = self::getData($sql, $params);
+        if (isset($results[0])) {
+            return $results[0];
+        }
+        return [];
     }
 
-    //データ挿入
-    public static function insertData($dbh, $sql, $params = '')
+    //-----------------------------------------------------
+    // データ更新
+    //-----------------------------------------------------
+    public static function updateData(string $sql, array $params = []): bool
     {
-        $sth = $dbh->prepare($sql);
-        $results = $sth->execute($params);
-        $results = intval($results);
+        try {
+            $dbh = self::connect();
+            $sth = $dbh->prepare($sql);
+            $results = $sth->execute($params);
+        } catch (PDOException $e) {
+            echo 'Error:' . $e->getMessage();
+            exit;
+        }
         return $results;
     }
 }

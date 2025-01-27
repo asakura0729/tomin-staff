@@ -1,0 +1,1 @@
+<a href="<?php echo appConfigSite::sitemap[$id]['path']; ?>"><?php echo appConfigSite::sitemap[$id]['name']; ?></a>

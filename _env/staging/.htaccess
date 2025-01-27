@@ -1,0 +1,23 @@
+AuthUserFile /home/r0117357/public_html/deverop-tomin-staff.prototype-web.net/.htpasswd
+AuthType Basic
+AuthName "IDとパスワードを記入してください"
+require valid-user
+<Files ~ “^.(htpasswd|htaccess)$”>
+deny from all
+</Files>
+
+
+AddType image/xicon .ico
+<Files favicon.ico>
+ErrorDocument 404 /favicon.ico
+</Files>
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+</IfModule>
+
+DirectoryIndex top/index.php index.php
+ErrorDocument 404 /error/404.php
+Options -Indexes
