@@ -11,6 +11,7 @@ include_once __DIR__ . '/config/funeral.php';
 include_once __DIR__ . '/func/array.php';
 include_once __DIR__ . '/func/database.php';
 include_once __DIR__ . '/func/string.php';
+include_once __DIR__ . '/func/calc.php';
 include_once __DIR__ . '/func/editfile.php';
 include_once __DIR__ . '/func/pager.php';
 include_once __DIR__ . '/func/path.php';

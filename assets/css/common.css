@@ -1,3 +1,7 @@
+:root {
+    --contrast: #1e4164;
+}
+
 /*  
 layout
 ---------------------------------*/
@@ -446,7 +450,7 @@ a.color-base {
 
 .color-contrast,
 a.color-contrast {
-    color: #1e4164;
+    color: var(--contrast);
 }
 
 @media (min-width:992px) {
@@ -504,7 +508,7 @@ background
 }
 
 .bg-contrast {
-    background: #1e4164;
+    background: var(--contrast);
 }
 
 .bg-lpink {
@@ -700,6 +704,25 @@ components
     height: 60px;
     display: grid;
     place-items: center;
+}
+
+/*collapse*/
+.btn-collapse{
+    position: relative;
+}
+
+.btn-collapse::after {
+    content: "\f106";
+    font-family: FontAwesome;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: .6rem;
+    color: var(--contrast);
+}
+
+.btn-collapse.collapsed::after {
+    content: "\f107";
 }
 
 /*htmx-spinner*/

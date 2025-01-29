@@ -1,13 +1,19 @@
-<section class="pb-2 position-relative" data-form-elem>
+<section class="pb-2 position-relative animation-fadein" data-form-elem>
     <div class="bg-white">
-        <header class="d-flex justify-content-between text-center bg-contrast-l border-bottom p-2">
-            <h3 class="font-size-1_2 m-0 p-0">顧客</h3>
-            <div class="pos-top-right p-2">
-                <?php //appLibraryDisp::globalModule('form/btn_add', ['add' => '']); 
-                ?>
-            </div>
+        <header class="border">
+            <?php if (isset($option['index'])): ?>
+                <?php appLibraryDisp::globalModule(
+                    'btn/collapse_xl',
+                    [
+                        'target' => '#sec2-fc_' . $option['index'],
+                        'title' => '顧客【' . appFuncCalc::foreachCount($option['index']) . '】'
+                    ]
+                ); ?>
+            <?php else: ?>
+                <?php appLibraryDisp::globalModule('btn/collapse_xl', ['target' => '', 'title' => '顧客']); ?>
+            <?php endif; ?>
         </header>
-        <div class="p-3">
+        <div <?php if (isset($option['index'])): ?>id="sec2-fc_<?php echo $option['index']; ?>" class="p-3 collapse" <?php else: ?> class="p-3" <?php endif; ?>>
             <div class="pb-3">□資料送付チェックボックス（未実装）</div>
             <?php appLibraryDisp::dbform('hidden', [appDatabaseFuneralclient::primaryKey], appDatabaseFuneralclient::table, $option['result'], ['multiple' => true]); ?>
             <?php appLibraryDisp::dbform('hidden', ['funeral_id'], appDatabaseFuneralclient::table, $option['result'], ['multiple' => true, 'add' => 'data-primary']); ?>

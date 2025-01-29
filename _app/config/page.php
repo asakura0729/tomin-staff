@@ -5,6 +5,7 @@
 class appConfigPage
 {
     const pageMain = '#page-main';
+    const pageHeader = '#page-header';
     const pageIndicator = '#page-indicator';
     
     public static $uri = null;

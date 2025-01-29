@@ -29,20 +29,22 @@ class appDatabaseReport extends appConfigDatabase
     self::categoryNone => '未設定',
     self::categoryCs => '顧客対応',
     self::categoryTel =>  '架電',
-    self::categoryApproval =>  '承認'
   ];
   public const categoryNone = 'none';
   public const categoryCs = 'report_cs';
   public const categoryTel = 'report_tel';
-  public const categoryApproval = 'report_approval';
 
   /*テーブル構成(JOIN)*/
   public const tableCs = [
     'report_id' => [self::row => 'report_id'],
     'funeral_id' => [self::row => 'funeral_id'],
+    'fc_id' => [self::row => 'fc_id', 'title' => '顧客ID'],
     'cs_category' => [self::row => 'cs_category', 'title' => 'カテゴリ'],
-    'cs_status' => [self::row => 'cs_status', 'title' => '状況'],
+    'approval_date' => [self::row => 'approval_date', 'title' => '承認日時'],
+    'approval_status' => [self::row => 'approval_status', 'title' => '承認状況'],
+    'approval_by' => [self::row => 'approval_by', 'title' => '承認者'],
   ];
+
   public const tableTel = [
     'report_id' => [self::row => 'report_id'],
     'funeral_id' => [self::row => 'funeral_id'],
@@ -50,15 +52,8 @@ class appDatabaseReport extends appConfigDatabase
     'tel_status' => [self::row => 'tel_status', 'title' => '状況'],
     'tel_by' => [self::row => 'tel_by'],
   ];
-  public const tableApproval = [
-    'report_id' => [self::row => 'report_id'],
-    'funeral_id' => [self::row => 'tel_date', 'title' => '架電日時'],
-    'approval_date' => [self::row => 'tel_status', 'title' => '状況'],
-    'approval_by' => [self::row => 'tel_by'],
-    'approval_status' => [self::row => 'approval_status'],
-  ];
 
-  /*cs_statusyの値*/
+  /*cs_categoryの値*/
   public const csCategory = [
     'none' => 'なし',
     'inquiry' => '問い合わせ（初回）',
@@ -72,5 +67,12 @@ class appDatabaseReport extends appConfigDatabase
     'document'  => '資料請求',
     'cancel'  => 'キャンセル',
     'other'  => 'その他'
+  ];
+
+  /*cs_Statusの値*/
+  public const csStatus = [
+    'none' => '未承認',
+    'approval'  => '承認',
+    'remand'  => '差戻し'
   ];
 }
