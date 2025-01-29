@@ -13,6 +13,7 @@ include_once __DIR__ . '/func/database.php';
 include_once __DIR__ . '/func/string.php';
 include_once __DIR__ . '/func/editfile.php';
 include_once __DIR__ . '/func/pager.php';
+include_once __DIR__ . '/func/path.php';
 include_once __DIR__ . '/func/login.php';
 include_once __DIR__ . '/database/funeral.php';
 include_once __DIR__ . '/database/funeral_client.php';

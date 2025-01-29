@@ -15,7 +15,7 @@ class appConfigUser
         'staff' => ['id' => 'staff', 'password' => 'tp8396', 'username' => 'スタッフ', 'level' => self::level['manager']['level']],
     ];*/
     public const list = [
-        'tpf' => ['id' => 'tpf', 'password' => 'tp0135', 'username' => 'スタッフ', 'level' => self::level['manager']['level']],
+        'tpf' => ['user_id' => '0', 'id' => 'tpf', 'password' => 'tp0135', 'username' => 'スタッフ', 'level' => self::level['manager']['level']],
     ];
 
     public const selectmenu = [

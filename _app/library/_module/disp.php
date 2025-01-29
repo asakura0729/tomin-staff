@@ -24,10 +24,12 @@ class appLibraryDisp
     //-----------------------------------------------------
     // フォーム要素の読み込み
     //-----------------------------------------------------
-    public static function form(string $tmplName, string $name = "", string $title = "", string $value = "", array $option = [])
+    public static function form(string $tmplName, string $inputName = "", string $title = "", string $value = "", array $option = [])
     {
         $placeholder = appFuncArray::issetKey($option, 'placeholder');
+        $selectItem = appFuncArray::issetKey($option, 'selectItem', []);
         $add = appFuncArray::issetKey($option, 'add');
+        $multiple = appFuncArray::issetKey($option, 'multiple', false);
         include __DIR__ . '/../../../_module/form/' . $tmplName . '.php';
     }
 
@@ -40,12 +42,15 @@ class appLibraryDisp
         $selectItem = appFuncArray::issetKey($option, 'selectItem', []);
         $add = appFuncArray::issetKey($option, 'add', '');
         $multiple = appFuncArray::issetKey($option, 'multiple', false);
+        $value = appFuncArray::issetKey($option, 'value', '');
         foreach ($inputNames as $index => $inputName) {
             $tableRow = appFuncArray::issetKey($tableConfig, $inputName);
             $title = appFuncArray::issetKey($tableRow, 'title');
             $title = appFuncArray::issetKey($titles, $index, $title);
             $placeholder = appFuncArray::issetKey($tableRow, 'placeholder');
-            $value = appFuncArray::issetKey($result, $inputName);
+            if ($value === '') {
+                $value = appFuncArray::issetKey($result, $inputName);
+            }
             if ($multiple === true) {
                 $inputName = $inputName . '[]';
             }
@@ -73,29 +78,33 @@ class appLibraryDisp
         include $tmpl;
     }
 
+    public static function link($sitemapKey, $option = [])
+    {
+        $pathKey = appFuncArray::issetKey($option, 'path', 'path');
+        $params = appFuncArray::issetKey($option, 'params', []);
+        $path = appConfigSite::sitemap[$sitemapKey][$pathKey];
+        $getParams = appFuncArray::issetKey(appConfigSite::sitemap[$sitemapKey], appConfigSite::sitemapGetParams, []);
+        $addGetParam = appFuncPath::setGetParam($getParams, $params);
+        $result = $path . $addGetParam;
+        echo $result;
+    }
+
     public static function hxLink($sitemapKey, $option = [])
     {
-        $setQueryParams = appFuncArray::issetKey($option, 'getParams', []);
+        $setQueryParams = appFuncArray::issetKey($option, appConfigSite::sitemapGetParams, []);
         if (!isset(appConfigSite::sitemap[$sitemapKey])) {
-            return;
+            return "";
         }
-        $page = appConfigSite::sitemap[$sitemapKey];
+        $pageData = appConfigSite::sitemap[$sitemapKey];
         $target = appConfigPage::pageMain;
-        $hxGet = appFuncArray::issetKey($page, 'contents', '');
-        $hxPushUrl = appFuncArray::issetKey($page, 'path', '');
-        $hxReplaceUrl = appFuncArray::issetKey($page, 'path', '');
-        $getParams = appFuncArray::issetKey($page, 'getParams', []);
-        if (count($getParams) > 0) {
-            $addGetParam = '?';
-            foreach ($getParams as $index => $getParam) {
-                $getParamValue = appFuncArray::issetKey($setQueryParams, $index, '');
-                $addGetParam .=  $getParam . '=' . $getParamValue . '&';
-            }
-            $addGetParam = substr($addGetParam, 0, -1);
-            $hxGet .= $addGetParam;
-            $hxPushUrl .= $addGetParam;
-            $hxReplaceUrl .= $addGetParam;
-        }
+        $hxGet = appFuncArray::issetKey($pageData, 'contents', '');
+        $hxPushUrl = appFuncArray::issetKey($pageData, 'path', '');
+        $hxReplaceUrl = appFuncArray::issetKey($pageData, 'path', '');
+        $getParams = appFuncArray::issetKey($pageData, appConfigSite::sitemapGetParams, []);
+        $addGetParam = appFuncPath::setGetParam($getParams, $setQueryParams);
+        $hxGet .= $addGetParam;
+        $hxPushUrl .= $addGetParam;
+        $hxReplaceUrl .= $addGetParam;
         $result = <<<EOF
             hx-push-url="{$hxPushUrl}" hx-replace-url="{$hxReplaceUrl}" data-hx-get="{$hxGet}" data-hx-target="{$target}"
             EOF;

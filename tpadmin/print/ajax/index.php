@@ -181,7 +181,7 @@
     </div>
 </div>
 
-<div id="prev" class="l-prev">
+<div id="prev" class="l-prev animation-fadein">
     <div class="position-relative print_wrap bg-white mx-auto">
         <header class="font-notoserif d-flex justify-content-end align-items-center font-size-2 pb-poscode line-height-1">
             <div data-postcode class="wrap-postcode mr-1 border-poscode-red p-1 text-center"><span class="color-lgray print_nodisp">0</span></div>

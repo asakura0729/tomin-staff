@@ -1,13 +1,13 @@
 <?php require_once '../../../_app/http/tpadmin/crm/ajax/index.php'; ?>
 
-<section class="pb-3">
+<article class="pb-3 animation-fadein">
     <div class="bg-white p-3 border">
         <?php appLibraryDisp::heading('h2', '検索'); ?>
 
     </div>
-</section>
+</article>
 
-<section class="pb-3">
+<section class="pb-3 animation-fadein delay-0_5">
     <div class="bg-white p-3 border">
         <?php appLibraryDisp::heading('h2', '検索結果'); ?>
         <table class="table table-bordered table-sm">

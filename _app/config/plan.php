@@ -807,7 +807,7 @@ class appConfigPlan
     const enshrined =  [
         'home' => ['id' => 'home', 'name' => '自宅安置'],
         'storage' => ['id' => 'storage', 'name' => 'お預かり安置'],
-        'stay' => ['stay' => '3', 'name' => '付添い安置']
+        'stay' => ['id' => '3', 'name' => '付添い安置']
     ];
 
     /*

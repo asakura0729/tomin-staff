@@ -11,27 +11,42 @@ class appLibraryEditsql
     private const auto_increment = appConfigDatabase::auto_increment;
 
     //-----------------------------------------------------
+    // 最新情報を一件取得
+    //-----------------------------------------------------
+    public static function getLatest($tableName, $table, $primaryKey): string
+    {
+        $sql = appLibraryEditsql::requestSql(
+            ['tableName' => $tableName, 'table' => $table]
+        );
+        $sql .= ' ORDER BY ' . $primaryKey . ' DESC LIMIT 1';
+        $dbresult = appFuncDatabase::getSingleData($sql);
+        $result = $dbresult[$primaryKey];
+        return $result;
+    }
+
+    //-----------------------------------------------------
     // SQL文作成：データ取得用
     //-----------------------------------------------------
-    public static function requestSql(array $option = []): string
+    public static function requestSql(array $tableOption = [], array $joinOption = []): string
     {
         $select = "";
         $from = "";
-        $tables = [$option];
-        foreach ($tables as $index => $table) {
-            $tableName = appFuncArray::issetKey($table, 'tableName', '');
-            $table = appFuncArray::issetKey($table, 'table', []);
-            $filter = appFuncArray::issetKey($table, 'filter', []);
-            $join = appFuncArray::issetKey($table, 'join');
-            $select .= self::select($tableName, $table, $filter);
-            if ($index > 0) {
-                $from .= $join . ' ';
-            } else {
-                $from .= $tableName;
-            }
-        }
+
+        $tableName = appFuncArray::issetKey($tableOption, 'tableName', '');
+        $table = appFuncArray::issetKey($tableOption, 'table', []);
+        $filter = appFuncArray::issetKey($tableOption, 'filter', []);
+        $primaryKey = appFuncArray::issetKey($joinOption, 'primaryKey', '');
+        $joinTableName = appFuncArray::issetKey($joinOption, 'tableName', '');
+        $joinTable = appFuncArray::issetKey($joinOption, 'table', []);
+        $joinFilter = appFuncArray::issetKey($joinOption, 'filter', []);
+        $select .= self::select($tableName, $table, $filter);
+        $select .= self::select($joinTableName, $joinTable, $joinFilter);
         $select = substr($select, 0, -1);
-        return  'select ' . $select . ' from ' . $from . ' ';
+        $result =  'select ' . $select . ' from ' . $tableName . ' ';
+        if ($primaryKey != '') {
+            $result .= ' LEFT JOIN ' . $joinTableName . ' ON ' . $tableName . '.' . $primaryKey . ' = ' . $joinTableName . '.' .  $primaryKey;
+        }
+        return $result;
     }
 
     //-----------------------------------------------------

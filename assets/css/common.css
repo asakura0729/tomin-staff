@@ -276,6 +276,16 @@ typography
     pointer-events: none;
 }
 
+@keyframes fadeInOpacity {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
 .font-notosans {
     font-family: 'Noto Sans JP', sans-serif;
 }
@@ -740,6 +750,23 @@ Animation
 
     to {
         margin-top: 0px;
+    }
+}
+
+.animation-fadein {
+    opacity: 1;
+    animation-name: fadeInOpacity;
+    animation-timing-function: ease-in;
+    animation-duration: 0.25s;
+}
+
+@keyframes fadeInOpacity {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
     }
 }
 

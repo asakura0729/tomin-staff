@@ -27,6 +27,14 @@ class appFuncString
         return $result;
     }
     /*
+    数値のみを抜き出す
+    */
+    public static function getInt($str): string
+    {
+        $str = preg_match("/^[0-9]+$/", $str);
+        return $str;
+    }
+    /*
     時刻のフォーマット
     */
     public static function datetime($datetime, $type = "datetime")

@@ -39,6 +39,7 @@ class appLibraryDataformat
             if (isset($post[$row])) {
                 $result[$paramKey] = $post[$row];
             }
+            
         }
         return $result;
     }

@@ -33,7 +33,7 @@ class appFuncDatabase
             $results = $sth->fetchAll();
         } catch (PDOException $e) {
             echo 'Error:' . $e->getMessage();
-            exit;
+            return false;
         }
         return $results;
     }
@@ -61,7 +61,7 @@ class appFuncDatabase
             $results = $sth->execute($params);
         } catch (PDOException $e) {
             echo 'Error:' . $e->getMessage();
-            exit;
+            return false;
         }
         return $results;
     }

@@ -1,12 +1,15 @@
-<section class="pb-2 position-relative">
+<section class="pb-2 position-relative" data-form-elem>
     <div class="bg-white">
         <header class="d-flex justify-content-between text-center bg-contrast-l border-bottom p-2">
             <h3 class="font-size-1_2 m-0 p-0">顧客</h3>
             <div class="pos-top-right p-2">
-                <?php //appLibraryDisp::globalModule('form/btn_add', ['add' => '']); ?>
+                <?php //appLibraryDisp::globalModule('form/btn_add', ['add' => '']); 
+                ?>
             </div>
         </header>
         <div class="p-3">
+            <?php appLibraryDisp::dbform('hidden', ['fc_id'], appDatabaseFuneralclient::table, $option['result'], ['multiple' => true]); ?>
+            <?php appLibraryDisp::dbform('hidden', [appDatabaseFuneralclient::primaryKey], appDatabaseFuneralclient::table, $option['result'], ['multiple' => true, 'add' => 'data-primary']); ?>
             <?php appLibraryDisp::globalModule('form/label', ['title' => '氏名']); ?>
             <div class="form-row pb-2">
                 <?php appLibraryDisp::dbform('text_row', ['fc_fname', 'fc_lname'], appDatabaseFuneralclient::table, $option['result'], ['multiple' => true]); ?>
