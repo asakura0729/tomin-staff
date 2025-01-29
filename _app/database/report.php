@@ -60,6 +60,7 @@ class appDatabaseReport extends appConfigDatabase
 
   /*cs_statusyの値*/
   public const csCategory = [
+    'none' => 'なし',
     'inquiry' => '問い合わせ（初回）',
     'inquiry_r' => '問い合わせ（再）',
     'order'  => 'ご依頼（初回）',

@@ -21,6 +21,8 @@
     }
 </style>
 
+<div id="debug"></div>
+
 <div id="form-wrap" class="row no-gutters pb-5 animation-fadein">
     <div class="col-12 col-lg-3">
         <form id="form-funeral_id" class="col-12">
@@ -102,7 +104,7 @@
                             <?php foreach (appHttpTpAdminCrmAjaxDetail::$resultReportCs as $value): ?>
                                 <tr>
                                     <td>
-                                        <button class="btn" data-toggle="modal" data-target="#modal" hx-push-url="/tpadmin/crm/detail?funeral_id=2" hx-replace-url="/tpadmin/crm/detail?funeral_id=2" data-hx-get="/tpadmin/crm/ajax/detail?funeral_id=2" data-hx-target="#page-main">
+                                        <button type="button" class="btn" data-toggle="modal" data-target="#modal" data-hx-get="/tpadmin/crm/ajax/report_cs?funeral_id=<?php echo appHttpTpAdminCrmAjaxDetail::$resultFuneral['funeral_id']; ?>&report_id=<?php echo $value['report_id']; ?>" data-hx-target="#modal-body">
                                             <i class="fa fa-pencil color-contrast" aria-hidden="true"></i>
                                         </button>
                                     </td>
@@ -114,7 +116,7 @@
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="4" class="text-center p-3">データが存在しません</td>
+                                <td colspan="5" class="text-center p-3">データが存在しません</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
@@ -164,7 +166,7 @@
                 <?php appLibraryDisp::dbform('hidden', ['report_category'], appDatabaseReport::table, [], ['value' => appDatabaseReport::categoryCs, 'multiple' => true]); ?>
                 <?php appLibraryDisp::dbform('select_label', ['cs_category'], appDatabaseReport::tableCs, [], ['multiple' => true, 'add' => 'data-cs_category="#sec-4"', 'selectItem' => appDatabaseReport::csCategory]); ?>
                 <?php appLibraryDisp::dbform('hidden', ['comment'], appDatabaseReport::table, [], ['add' => 'id="sec-4-comment"', 'multiple' => true]); ?>
-                <?php appLibraryDisp::dbform('hidden', ['funeral_id'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral, ['add' => 'data-primary']); ?>
+                <?php appLibraryDisp::dbform('hidden', ['funeral_id'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral, ['add' => 'data-primary', 'multiple' => true]); ?>
                 <?php appLibraryDisp::form('hidden', appLibraryCrm::postConfirm, 'データの種類', appLibraryCrm::confirmReport); ?>
                 <div data-editor='#sec-4-comment'></div>
             </div>
@@ -193,7 +195,15 @@
             </div>
             <div class="bg-white">
                 <?php appLibraryDisp::heading('h2', '架電日時登録', ['class' => 'text-center m-0 p-3']); ?>
-                <div id="sec-6-1" class="bg-llgray p-3 pb-4 border-top"><?php appLibraryDisp::globalModule('comp/nodata', ['title' => '架電日時未登録']); ?></div>
+                <div id="sec-6-1" class="bg-llgray p-3 pb-4 border-top">
+                    <?php if (count(appHttpTpAdminCrmAjaxDetail::$resultReportTel) > 0): ?>
+                        <?php foreach (appHttpTpAdminCrmAjaxDetail::$resultReportTel as $value): ?>
+                            <?php appLibraryDisp::module('../_module/form_report_tel.php', ['result' => $value]); ?>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <?php appLibraryDisp::globalModule('comp/nodata', ['title' => '架電日時未登録']); ?>
+                    <?php endif; ?>
+                </div>
             </div>
             <?php appLibraryDisp::form('hidden', appLibraryCrm::postConfirm, 'データの種類', appLibraryCrm::confirmReport); ?>
         </form>
@@ -207,8 +217,8 @@
 
 <div id="modal" class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            ...
+        <div id="modal-body" class="modal-content">
+
         </div>
     </div>
 </div>

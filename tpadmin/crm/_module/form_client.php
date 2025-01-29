@@ -8,8 +8,9 @@
             </div>
         </header>
         <div class="p-3">
-            <?php appLibraryDisp::dbform('hidden', ['fc_id'], appDatabaseFuneralclient::table, $option['result'], ['multiple' => true]); ?>
-            <?php appLibraryDisp::dbform('hidden', [appDatabaseFuneralclient::primaryKey], appDatabaseFuneralclient::table, $option['result'], ['multiple' => true, 'add' => 'data-primary']); ?>
+            <div class="pb-3">□資料送付チェックボックス（未実装）</div>
+            <?php appLibraryDisp::dbform('hidden', [appDatabaseFuneralclient::primaryKey], appDatabaseFuneralclient::table, $option['result'], ['multiple' => true]); ?>
+            <?php appLibraryDisp::dbform('hidden', ['funeral_id'], appDatabaseFuneralclient::table, $option['result'], ['multiple' => true, 'add' => 'data-primary']); ?>
             <?php appLibraryDisp::globalModule('form/label', ['title' => '氏名']); ?>
             <div class="form-row pb-2">
                 <?php appLibraryDisp::dbform('text_row', ['fc_fname', 'fc_lname'], appDatabaseFuneralclient::table, $option['result'], ['multiple' => true]); ?>

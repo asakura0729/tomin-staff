@@ -44,7 +44,6 @@ class appLibraryCrm
             /*分岐：IDが指定されている場合はDB通信を行う*/
             $sql .= ' WHERE ';
             $sql .= appDatabaseFuneral::primaryKey . '="' .  $primaryKey . '"';
-            $sql .= ' and deleteFlg!=' . appConfigDatabase::deleteFlgTrue;
             $dbresult = appFuncDatabase::getSingleData($sql);
         }
         $result = appLibraryDataformat::dbResult($dbresult, appDatabaseFuneral::table);
@@ -72,16 +71,20 @@ class appLibraryCrm
     //-----------------------------------------------------
     // レポートを取得
     //-----------------------------------------------------
-    public static function getReport($category, $table)
+    public static function getReport($category, $table = [], $report_id = "")
     {
         $primaryKey = appFuncArray::issetKey($_GET, appDatabaseFuneral::primaryKey, '');
+        $reportId = appFuncArray::issetKey($_GET, appDatabaseReport::primaryKey, '');
         $sql = appLibraryEditsql::requestSql(
             ['tableName' => appDatabaseReport::tableName, 'table' => appDatabaseReport::table],
             ['primaryKey' => appDatabaseReport::primaryKey, 'tableName' => $category, 'table' => $table]
         );
         $sql .= ' WHERE ';
-        $sql .= appDatabaseFuneral::primaryKey . '="' .  $primaryKey . '" and ';
+        $sql .= $category . '.' . appDatabaseFuneral::primaryKey . '="' .  $primaryKey . '" and ';
         $sql .= 'report_category="' .  $category . '" ';
+        if ($reportId != '') {
+            $sql .= ' and ' . appDatabaseReport::tableName . '.' . appDatabaseReport::primaryKey . '="' .  $reportId . '" ';
+        }
         $result = appFuncDatabase::getData($sql);
         return $result;
     }
@@ -135,11 +138,9 @@ class appLibraryCrm
         $sql = appLibraryEditsql::updateSql(['tableName' => appDatabaseFuneral::tableName, 'table' => appDatabaseFuneral::table, 'dbPost' => $post]);
         $sql .= ' WHERE ';
         $sql .= appDatabaseFuneral::primaryKey . '="' .  $primaryKey . '"';
-        $sql .= ' and deleteFlg!=' . appConfigDatabase::deleteFlgTrue;
         $param = appLibraryDataformat::dbPost($post, appDatabaseFuneral::table);
         $result = appFuncDatabase::updateData($sql, $param);
         return $result;
-        /* header('Location:' . appConfigSite::sitemap['adminCrm']['path']);*/
     }
 
     //-----------------------------------------------------
@@ -149,6 +150,7 @@ class appLibraryCrm
     {
         $post['insert_date'] = date('Y-m-d H:i:s');
         $post['insert_by'] = 0;
+
         return $post;
     }
 
@@ -166,6 +168,7 @@ class appLibraryCrm
         }
         $post['update_date'] = date('Y-m-d H:i:s');
         $post['update_by'] = 0;
+
         return $post;
     }
 
@@ -183,24 +186,25 @@ class appLibraryCrm
             /*分岐：顧客情報なし*/
             return $result;
         }
-        $dbpost = [];
+        $count = 0;
         foreach ($post[appDatabaseFuneralclient::primaryKey] as $index => $postPrimaryKey) {
-            $count = 0;
+            $dbpost = [];
             foreach (appDatabaseFuneralclient::table as $row) {
                 $inputName = $row[appDatabaseFuneralclient::row];
                 if (isset($post[$inputName])) {
-                    $dbpost[$count][$inputName] = $post[$inputName][$count];
+                    $dbpost[$inputName] = $post[$inputName][$count];
                 }
             }
-            $sqlConfig = ['tableName' => appDatabaseFuneralclient::tableName, 'table' => appDatabaseFuneralclient::table, 'dbPost' => $dbpost[$count]];
+            $sqlConfig = ['tableName' => appDatabaseFuneralclient::tableName, 'table' => appDatabaseFuneralclient::table, 'dbPost' => $dbpost];
             if ($postPrimaryKey != '') {
                 /*分岐1：既存顧客*/
                 $sql = appLibraryEditsql::updateSql($sqlConfig);
+                $sql .= ' WHERE ' . appDatabaseFuneralclient::primaryKey . '=' . $postPrimaryKey;
             } else {
                 /*分岐2：新規顧客*/
                 $sql = appLibraryEditsql::insertSql($sqlConfig);
             }
-            $param = appLibraryDataformat::dbPost($dbpost[$count], appDatabaseFuneralclient::table);
+            $param = appLibraryDataformat::dbPost($dbpost, appDatabaseFuneralclient::table);
             $result = appFuncDatabase::updateData($sql, $param);
             $count++;
         }
@@ -221,8 +225,8 @@ class appLibraryCrm
             /*分岐：レポートなし*/
             return $result;
         }
+        $count = 0;
         foreach ($post[appDatabaseReport::primaryKey] as $index => $postPrimaryKey) {
-            $count = 0;
             $result = self::updateReportBase($postPrimaryKey, $post, $count);
             if ($result === true) {
                 $result = self::updateJoinReport($postPrimaryKey, $post, $count);
@@ -256,6 +260,7 @@ class appLibraryCrm
         if ($postPrimaryKey != '') {
             /*分岐1：既存*/
             $sql = appLibraryEditsql::updateSql($sqlConfig);
+            $sql .= ' WHERE ' . appDatabaseReport::primaryKey . '=' . $postPrimaryKey;
         } else {
             /*分岐2：新規*/
             $sql = appLibraryEditsql::insertSql($sqlConfig);
@@ -300,6 +305,7 @@ class appLibraryCrm
             /*分岐1：既存*/
             $sqlConfig = ['tableName' => $tableName, 'table' => $table, 'dbPost' => $dbpost];
             $sql = appLibraryEditsql::updateSql($sqlConfig);
+            $sql .= ' WHERE ' . appDatabaseReport::primaryKey . '=' . $postPrimaryKey;
         } else {
             /*分岐2：新規*/
             $dbpost[appDatabaseReport::primaryKey] = appLibraryEditsql::getLatest(

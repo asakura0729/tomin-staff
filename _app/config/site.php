@@ -30,6 +30,7 @@ class appConfigSite
         'adminCrmInsert' => ['path' => '/tpadmin/crm/insert', 'contents' => '/tpadmin/crm/ajax/detail', 'title' => '顧客情報登録'],
         'adminCrmDetail' => ['path' => '/tpadmin/crm/detail', 'contents' => '/tpadmin/crm/ajax/detail', 'title' => '顧客情報詳細', self::sitemapGetParams => [self::getFuneralId]],
         'adminCrmConfirm' => ['path' => '/tpadmin/crm/confirm', 'contents' => '/tpadmin/crm/confirm', 'title' => 'データ送信'],
+        'adminCrmTel' => ['path' => '/tpadmin/crm/tel', 'contents' => '/tpadmin/crm/ajax/tel', 'title' => '架電リスト'],
     ];
     public const sitemapGetParams = 'getParams';
     //======================================================================
@@ -44,6 +45,7 @@ class appConfigSite
     public const headerNav = [
         'adminCrm' => self::sitemap['adminCrm'],
         'adminCrmInsert' => self::sitemap['adminCrmInsert'],
-        'adminPrint' => self::sitemap['adminPrint']
+        'adminCrmTel' => self::sitemap['adminCrmTel'],
+        'adminPrint' => self::sitemap['adminPrint'],
     ];
 }

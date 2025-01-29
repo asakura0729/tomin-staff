@@ -42,14 +42,15 @@ class appLibraryDisp
         $selectItem = appFuncArray::issetKey($option, 'selectItem', []);
         $add = appFuncArray::issetKey($option, 'add', '');
         $multiple = appFuncArray::issetKey($option, 'multiple', false);
-        $value = appFuncArray::issetKey($option, 'value', '');
+        $overwriteValue = appFuncArray::issetKey($option, 'value', '');
         foreach ($inputNames as $index => $inputName) {
             $tableRow = appFuncArray::issetKey($tableConfig, $inputName);
             $title = appFuncArray::issetKey($tableRow, 'title');
             $title = appFuncArray::issetKey($titles, $index, $title);
             $placeholder = appFuncArray::issetKey($tableRow, 'placeholder');
-            if ($value === '') {
-                $value = appFuncArray::issetKey($result, $inputName);
+            $value = appFuncArray::issetKey($result, $inputName);
+            if ($overwriteValue != '') {
+                $value = $overwriteValue;
             }
             if ($multiple === true) {
                 $inputName = $inputName . '[]';
