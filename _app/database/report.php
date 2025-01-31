@@ -13,7 +13,7 @@ class appDatabaseReport extends appConfigDatabase
   /*テーブル構成*/
   public const table = [
     self::primaryKey => [self::row => self::primaryKey, self::auto_increment => true],
-    'report_category' => [self::row => 'report_category', 'title' => 'カテゴリ'],
+    self::categoryRow => [self::row => self::categoryRow, 'title' => 'カテゴリ'],
     'disp_flg' => [self::row => 'disp_flg', 'title' => '表示_非表示'],
     'title' => [self::row => 'title', 'title' => 'タイトル', 'placeholder' => 'タイトル'],
     'comment' => [self::row => 'comment', 'title' => 'コメント', 'placeholder' => '任意の文章を入力'],
@@ -25,29 +25,29 @@ class appDatabaseReport extends appConfigDatabase
   ];
 
   /*report_categoryの値*/
+  public const categoryRow = 'report_category';
+  public const categoryNone = 'none';
+  public const categoryCs = 'report_cs';
+  public const categoryCsArchive = 'report_cs_archive';
+  public const categoryTel = 'report_tel';
   public const category = [
     self::categoryNone => '未設定',
     self::categoryCs => '顧客対応',
+    self::categoryCsArchive => '顧客対応ログ',
     self::categoryTel =>  '架電',
   ];
-  public const categoryNone = 'none';
-  public const categoryCs = 'report_cs';
-  public const categoryTel = 'report_tel';
 
-  /*テーブル構成(JOIN)*/
+  /*テーブル構成(顧客対応)*/
   public const tableCs = [
     'report_id' => [self::row => 'report_id'],
-    'funeral_id' => [self::row => 'funeral_id'],
-    'fc_id' => [self::row => 'fc_id', 'title' => '顧客ID'],
-    'cs_category' => [self::row => 'cs_category', 'title' => 'カテゴリ'],
-    'approval_date' => [self::row => 'approval_date', 'title' => '承認日時'],
-    'approval_status' => [self::row => 'approval_status', 'title' => '承認状況'],
-    'approval_by' => [self::row => 'approval_by', 'title' => '承認者'],
+    'container_cs_id' => [self::row => 'container_cs_id', 'title' => 'コンテナID'],
+    'cs_category' => [self::row => 'cs_category', 'title' => 'カテゴリ']
   ];
 
+  /*テーブル構成(架電)*/
   public const tableTel = [
     'report_id' => [self::row => 'report_id'],
-    'funeral_id' => [self::row => 'funeral_id'],
+    'funeral_id' => [self::row => 'funeral_id', 'title' => '葬儀ID'],
     'tel_date' => [self::row => 'tel_date', 'title' => '架電日時'],
     'tel_status' => [self::row => 'tel_status', 'title' => '状況'],
     'tel_by' => [self::row => 'tel_by'],
@@ -67,12 +67,5 @@ class appDatabaseReport extends appConfigDatabase
     'document'  => '資料請求',
     'cancel'  => 'キャンセル',
     'other'  => 'その他'
-  ];
-
-  /*cs_Statusの値*/
-  public const csStatus = [
-    'none' => '未承認',
-    'approval'  => '承認',
-    'remand'  => '差戻し'
   ];
 }

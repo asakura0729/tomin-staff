@@ -4,7 +4,8 @@
 //======================================================================
 class appConfigSession
 {
-    public static $login = false;
-    public static $userId = null;
-    public static $userName = null;
+    public const loginStatus = "loginStatus";
+    public const userId = "userId";
+    public const loginId = "loginId";
+    public const userName = "userName";
 }

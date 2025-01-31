@@ -30,8 +30,4 @@ class appDatabaseFuneralclient extends appConfigDatabase
     'deleteFlg' => [self::row => 'deleteFlg']
   ];
 
-  public const update = <<<EOF
-UPDATE [self::row=>'funeral_client[self::row=>' SET (
-)
-EOF;
 }

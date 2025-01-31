@@ -8,7 +8,7 @@
     <?php if (appConfigPage::$tmpl == "home" || appConfigPage::$tmpl == "custom") : ?>
         <title><?php echo appConfigPage::$title; ?></title>
     <?php else : ?>
-        <title><?php echo appConfigPage::$title; ?>｜<?php echo appConfigSite::siteName; ?></title>
+        <title><?php echo appConfigPage::$title; ?>｜<?php echo appRoutesWeb::siteName; ?></title>
     <?php endif; ?>
 
     <meta name="description" content="<?php echo appConfigPage::$description; ?>">

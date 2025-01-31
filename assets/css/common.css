@@ -621,23 +621,6 @@ utilities
     cursor: pointer;
 }
 
-.collapse-d-none {
-    display: block;
-}
-
-.collapsed .collapse-d-none {
-    display: none;
-}
-
-.collapse-d-block {
-    display: none;
-}
-
-.collapsed .collapse-d-block {
-    display: block;
-}
-
-
 .pos-middle-top {
     position: absolute;
     top: 0;
@@ -707,22 +690,34 @@ components
 }
 
 /*collapse*/
-.btn-collapse{
+.btn-collapse-text,
+.btn-collapse-icon {
     position: relative;
 }
 
-.btn-collapse::after {
+.btn-collapse-text::after,
+.btn-collapse-icon::after {
+    position: absolute;
     content: "\f106";
     font-family: FontAwesome;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: .6rem;
     color: var(--contrast);
 }
 
-.btn-collapse.collapsed::after {
+.btn-collapse-text.collapsed::after,
+.btn-collapse-icon.collapsed::after {
     content: "\f107";
+}
+
+.btn-collapse-text::after {
+    top: 50%;
+    right: .6rem;
+    transform: translateY(-50%);
+}
+
+.btn-collapse-icon::after {
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
 }
 
 /*htmx-spinner*/

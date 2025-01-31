@@ -1,4 +1,4 @@
-<div class="pb-2">
+<div class="pb-2 animation-fadein">
     <div class="p-3 bg-white">
         <?php appLibraryDisp::dbform('hidden', ['funeral_id'], appDatabaseFuneral::table, [], ['multiple' => true, 'add' => 'data-primary']); ?>
         <?php appLibraryDisp::dbform('hidden', ['report_category'], appDatabaseReport::table, [], ['value' => appDatabaseReport::categoryTel, 'multiple' => true]); ?>

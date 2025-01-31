@@ -6,10 +6,10 @@ class appHttpAdminLoginIndex
 
 if (isset($_POST['login'])) {
     /*社員の場合*/
-    $_SESSION = appFuncLogin::sessionLogin(appConfigUser::list, $_POST, 'adminlogin', 'user');
-    appFuncLogin::loginRedirect($_SESSION, appConfigSite::sitemap['admin']['path'], 'adminlogin');
+    $_SESSION = appFuncLogin::sessionLogin();
+    appFuncLogin::loginRedirect(appRoutesWeb::sitemap['admin']['path']);
     /*エラーメッセージ*/
     appHttpAdminLoginIndex::$errorFlag = true;
 } else {
-    appFuncLogin::loginRedirect($_SESSION, appConfigSite::sitemap['admin']['path'], 'adminlogin');
+    appFuncLogin::loginRedirect(appRoutesWeb::sitemap['admin']['path']);
 }

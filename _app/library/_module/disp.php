@@ -9,6 +9,11 @@ class appLibraryDisp
         include $tmpl;
     }
 
+    public static function minifySource($file)
+    {
+        echo appFuncMinify::minifySource($file);
+    }
+
     //-----------------------------------------------------
     // 見出し要素の読み込み
     //-----------------------------------------------------
@@ -83,8 +88,8 @@ class appLibraryDisp
     {
         $pathKey = appFuncArray::issetKey($option, 'path', 'path');
         $params = appFuncArray::issetKey($option, 'params', []);
-        $path = appConfigSite::sitemap[$sitemapKey][$pathKey];
-        $getParams = appFuncArray::issetKey(appConfigSite::sitemap[$sitemapKey], appConfigSite::sitemapGetParams, []);
+        $path = appRoutesWeb::sitemap[$sitemapKey][$pathKey];
+        $getParams = appFuncArray::issetKey(appRoutesWeb::sitemap[$sitemapKey], appRoutesWeb::sitemapGetParams, []);
         $addGetParam = appFuncPath::setGetParam($getParams, $params);
         $result = $path . $addGetParam;
         echo $result;
@@ -92,16 +97,16 @@ class appLibraryDisp
 
     public static function hxLink($sitemapKey, $option = [])
     {
-        $setQueryParams = appFuncArray::issetKey($option, appConfigSite::sitemapGetParams, []);
-        if (!isset(appConfigSite::sitemap[$sitemapKey])) {
+        $setQueryParams = appFuncArray::issetKey($option, appRoutesWeb::sitemapGetParams, []);
+        if (!isset(appRoutesWeb::sitemap[$sitemapKey])) {
             return "";
         }
-        $pageData = appConfigSite::sitemap[$sitemapKey];
+        $pageData = appRoutesWeb::sitemap[$sitemapKey];
         $target = appConfigPage::pageMain;
         $hxGet = appFuncArray::issetKey($pageData, 'contents', '');
         $hxPushUrl = appFuncArray::issetKey($pageData, 'path', '');
         $hxReplaceUrl = appFuncArray::issetKey($pageData, 'path', '');
-        $getParams = appFuncArray::issetKey($pageData, appConfigSite::sitemapGetParams, []);
+        $getParams = appFuncArray::issetKey($pageData, appRoutesWeb::sitemapGetParams, []);
         $addGetParam = appFuncPath::setGetParam($getParams, $setQueryParams);
         $hxGet .= $addGetParam;
         $hxPushUrl .= $addGetParam;
@@ -118,7 +123,7 @@ class appLibraryDisp
         $path = appFuncArray::issetKey($uriArr, 0, '');
         $getParam = appFuncArray::issetKey($uriArr, 1, '');
         $result = "";
-        foreach (appConfigSite::sitemap as $page) {
+        foreach (appRoutesWeb::sitemap as $page) {
             if ($page['path'] === $path) {
                 $includeFile = $page['contents'];
                 if ($getParam != '') {

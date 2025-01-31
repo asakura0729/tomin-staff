@@ -33,7 +33,7 @@ class appFuncDatabase
             $results = $sth->fetchAll();
         } catch (PDOException $e) {
             echo 'Error:' . $e->getMessage();
-            return false;
+            exit;
         }
         return $results;
     }
@@ -53,16 +53,35 @@ class appFuncDatabase
     //-----------------------------------------------------
     // データ更新
     //-----------------------------------------------------
-    public static function updateData(string $sql, array $params = []): bool
+    public const updateDataBool = 'bool'; //DB登録の成否（true...成功）
+    public const updateDataMsg = 'msg'; //エラーメッセージ
+    public const updateDataLastInsertId = 'lastInsertId'; //登録したID
+    public const updateDataResults = [
+        self::updateDataBool => true,
+        self::updateDataMsg => '',
+        self::updateDataLastInsertId => ''
+    ];
+    public static function updateData(string $sql, array $params = []): array
     {
+        $results = self::updateDataResults;
+        $bool = true;
+        $msg = "";
+        $lastInsertId = "";
         try {
             $dbh = self::connect();
             $sth = $dbh->prepare($sql);
-            $results = $sth->execute($params);
+            $msg = '';
+            $bool = $sth->execute($params);
+            $lastInsertId = $dbh->lastInsertId();
         } catch (PDOException $e) {
-            echo 'Error:' . $e->getMessage();
-            return false;
+            $msg = 'Error:' . $e->getMessage();
+            $bool = false;
         }
+        $results = [
+            self::updateDataBool => $bool,
+            self::updateDataMsg => $msg,
+            self::updateDataLastInsertId => $lastInsertId
+        ];
         return $results;
     }
 }

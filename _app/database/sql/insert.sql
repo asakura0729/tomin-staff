@@ -50,6 +50,22 @@ CREATE TABLE `funeral_client` (
   `deleteFlg` tinyint(4) NOT NULL,
   PRIMARY KEY (`fc_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+-- テーブルの構造 `container_cs`(レポート)
+CREATE TABLE `container_cs` (
+  `container_cs_id` int(4) NOT NULL AUTO_INCREMENT COMMENT 'コンテナID',
+  `funeral_id` int(4) COMMENT '葬儀ID',
+  `fc_id` int(4) COMMENT '顧客ID',
+  `approval_date` varchar(20) COMMENT '承認日時',
+  `approval_status` varchar(20) COMMENT '承認状況',
+  `approval_comment` varchar(20) COMMENT '承認コメント',
+  `approval_by` int(4) COMMENT '承認者',
+  `insert_date` datetime ,
+  `update_date` datetime ,
+  `insert_by` varchar(4) ,
+  `update_by` varchar(4) ,
+  `deleteFlg` tinyint(4) ,
+  PRIMARY KEY (`container_cs_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 -- テーブルの構造 `report`(レポート)
 CREATE TABLE `report` (
   `report_id` int(4) NOT NULL AUTO_INCREMENT COMMENT 'レポートID',
@@ -64,7 +80,7 @@ CREATE TABLE `report` (
   `deleteFlg` tinyint(4) NOT NULL,
   PRIMARY KEY (`report_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
--- テーブルの構造 `report_cs`(問い合わせ)
+-- テーブルの構造 `report_cs`(顧客対応)
 CREATE TABLE `report_cs` (
   `report_id` int(4) NOT NULL COMMENT 'レポートID',
   `client_id` int(4) NOT NULL COMMENT '顧客ID',
@@ -72,13 +88,12 @@ CREATE TABLE `report_cs` (
   `cs_status` varchar(20) NOT NULL COMMENT '進捗状況',
   `cs_by` varchar(4) NOT NULL COMMENT '対応者'
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
--- テーブルの構造 `report_approval`(承認)
-CREATE TABLE `report_approval` (
-  `report_id` int(4) NOT NULL COMMENT 'レポートID',
-  `funeral_id` varchar(4) NOT NULL COMMENT '葬儀ID',
-  `approval_date` date NOT NULL COMMENT '承認日',
-  `approval_by` varchar(4) NOT NULL COMMENT '承認者',
-  `approval_status` varchar(20) NOT NULL COMMENT '承認状況'
+-- テーブルの構造 `report_cs_archive`(顧客対応　ログ)
+CREATE TABLE `archive_report_cs` (
+  `report_id` int(4) COMMENT 'レポートID',
+  `parent_report_id` int(4) COMMENT '親レポートID',
+  `htmlbody` text COMMENT '過去ログ',
+  `approval_comment` text COMMENT '承認者コメント',
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 -- テーブルの構造 `report_tel`(架電)
 CREATE TABLE `report_tel` (

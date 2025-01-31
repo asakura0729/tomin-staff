@@ -11,4 +11,11 @@ class appFuncCalc
     {
         return $index += 1;
     }
+    //-----------------------------------------------------
+    // 関数：DBから取得したPRIMARY IDを基にIDを生成
+    //-----------------------------------------------------
+    public static function newPrimaryIndex(int $index): int
+    {
+        return $index += 1;
+    }
 }

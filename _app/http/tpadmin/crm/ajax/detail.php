@@ -11,5 +11,5 @@ class appHttpTpAdminCrmAjaxDetail
 
 appHttpTpAdminCrmAjaxDetail::$resultFuneral = appLibraryCrm::getFuneralDetail();
 appHttpTpAdminCrmAjaxDetail::$resultClient = appLibraryCrm::getClientData();
-appHttpTpAdminCrmAjaxDetail::$resultReportCs = appLibraryCrm::getReport(appDatabaseReport::categoryCs, appDatabaseReport::tableCs);
+appHttpTpAdminCrmAjaxDetail::$resultReportCs = appLibraryCrm::getCsReportLatest();
 appHttpTpAdminCrmAjaxDetail::$resultReportTel = appLibraryCrm::getReport(appDatabaseReport::categoryTel, appDatabaseReport::tableTel);

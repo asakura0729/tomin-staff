@@ -2,6 +2,11 @@
 
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
 <style>
+    .l-form-wrap {
+        padding-top: 2rem;
+        padding-bottom: 20vh;
+    }
+
     .l-submit {
         position: fixed;
         bottom: 0;
@@ -23,6 +28,9 @@
         width: 100%;
         padding-top: 0;
         z-index: 200;
+        transform: translate(0, 0);
+        transition-duration: 0.25s;
+        transition-timing-function: ease;
     }
 
     .ql-container {
@@ -30,7 +38,8 @@
     }
 </style>
 
-<div id="form-wrap">
+<div id="form-wrap" class="l-form-wrap">
+
     <article id="archive" class="l-archive border">
         <?php
         //======================================================================
@@ -46,8 +55,7 @@
         <?php appLibraryDisp::globalModule('btn/collapse_xl', ['target' => '#archive-collapse', 'title' => '過去対応ログ']); ?>
     </article>
 
-
-    <div class="row no-gutters pb-5 animation-fadein pt-4">
+    <div class="row no-gutters pb-5 animation-fadein">
         <div class="col-12 col-lg-3">
             <div class="pb-4">
                 <?php
@@ -153,97 +161,87 @@
 
 
         <div class="col-12 col-lg-4">
-            <form id="sec-4" class="pb-4 position-relative" data-disabled>
-                <?php
-                //======================================================================
-                // レポート（本日対応ログ）
-                //======================================================================
-                ?>
-                <div class="p-3 bg-white">
-                    <div class="pb-3">
-                        <?php appLibraryDisp::heading('h2', '本日対応ログ', ['class' => 'text-center']); ?>
-                        <?php appLibraryDisp::globalModule(
-                            'btn/collapse_xl',
-                            [
-                                'target' => '#sec-4-collapse-1',
-                                'title' => '登録／編集'
-                            ]
-                        ); ?>
+            <div class="bg-white">
+                <form id="sec-4" class="pb-2" data-disabled>
+                    <?php
+                    //======================================================================
+                    // レポート（本日対応ログ）
+                    //======================================================================
+                    ?>
+                    <?php appLibraryDisp::heading('h2', '本日対応ログ', ['class' => 'text-center pt-3']); ?>
+                    <div id="sec4-report_cs" class="border-top border-bottom">
+                        <?php appLibraryDisp::globalModule('btn/collapse_xl', ['target' => '#sec-4-collapse-1', 'title' => '登録／編集']); ?>
                         <div id="sec-4-collapse-1" class="collapse">
-                            <div class="p-3">
-                                <?php appLibraryDisp::dbform('hidden', ['report_id'], appDatabaseReport::table, [], ['multiple' => true]); ?>
-                                <?php appLibraryDisp::dbform('hidden', ['title'], appDatabaseReport::table, [], ['value' => '対応ログ', 'multiple' => true]); ?>
-                                <?php appLibraryDisp::dbform('hidden', ['report_category'], appDatabaseReport::table, [], ['value' => appDatabaseReport::categoryCs, 'multiple' => true]); ?>
-                                <?php appLibraryDisp::dbform('select_label', ['cs_category'], appDatabaseReport::tableCs, [], ['add' => 'data-disabled-toggle="#sec-4"', 'multiple' => true, 'selectItem' => appDatabaseReport::csCategory]); ?>
-                                <?php appLibraryDisp::dbform('hidden', ['comment'], appDatabaseReport::table, [], ['add' => 'id="sec-4-comment"', 'multiple' => true]); ?>
-                                <?php appLibraryDisp::dbform('hidden', ['funeral_id'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral, ['add' => 'data-primary', 'multiple' => true]); ?>
-                                <div data-editor='#sec-4-comment'></div>
+                            <div class="p-3 pb-4">
+                                <?php appLibraryDisp::dbform('hidden', ['report_category'], appDatabaseReport::table, [], ['value' => appDatabaseReport::categoryCs,]); ?>
+                                <?php appLibraryDisp::dbform('hidden', ['title'], appDatabaseReport::table, [], ['value' => '対応ログ',]); ?>
+                                <?php appLibraryDisp::dbform('hidden', ['comment'], appDatabaseReport::table, appHttpTpAdminCrmAjaxDetail::$resultReportCs, ['add' => 'id="sec-4-comment"',]); ?>
+                                <?php appLibraryDisp::dbform('select_label', ['cs_category'], appDatabaseReport::tableCs, appHttpTpAdminCrmAjaxDetail::$resultReportCs, ['add' => 'data-disabled-toggle="#sec-4"', 'selectItem' => appDatabaseReport::csCategory]); ?>
+                                <?php appLibraryDisp::dbform('editor', ['comment'], appDatabaseReport::table, appHttpTpAdminCrmAjaxDetail::$resultReportCs, ['targetForm' => '#sec-4-comment']); ?>
+                                <?php appLibraryDisp::form('hidden', appLibraryCrm::postConfirm, 'データの種類', appLibraryCrm::confirmReport); ?>
                             </div>
                         </div>
                     </div>
-                    <div class="pb-3">
-                        <?php appLibraryDisp::heading('h2', '承認者確認', ['class' => 'text-center']); ?>
-                        <?php appLibraryDisp::globalModule(
-                            'btn/collapse_xl',
-                            [
-                                'target' => '#sec-4-collapse-2',
-                                'title' => '登録／編集'
-                            ]
-                        ); ?>
+                    <div id="sec4-container_report_cs" class="border-top border-bottom">
+                        <?php appLibraryDisp::globalModule('btn/collapse_xl', ['target' => '#sec-4-collapse-2', 'title' => '承認者確認']); ?>
                         <div id="sec-4-collapse-2" class="collapse">
-                            <div class="p-3">
-                                <?php appLibraryDisp::dbform('hidden', ['approval_status'], appDatabaseReport::tableCs, [], ['multiple' => true]); ?>
-                                <?php appLibraryDisp::dbform('hidden', ['comment'], appDatabaseReport::table, [], ['add' => 'id="sec-4-approval_comment"', 'multiple' => true]); ?>
-                                <div data-editor='#sec-4-approval_comment'></div>
+                            <div class="p-3 pb-4">
+                                <?php appLibraryDisp::dbform('hidden', [appDatabaseContainerCs::primaryKey], appDatabaseContainerCs::table, []); ?>
+                                <?php appLibraryDisp::dbform('hidden', ['funeral_id'], appDatabaseContainerCs::table, appHttpTpAdminCrmAjaxDetail::$resultReportCs, ['add' => 'data-primary',]); ?>
+                                <?php appLibraryDisp::dbform('radio_label', ['approval_status'], appDatabaseContainerCs::table, appHttpTpAdminCrmAjaxDetail::$resultReportCs, ['selectItem' => appDatabaseContainerCs::status]); ?>
+                                <?php appLibraryDisp::dbform('editor', ['approval_comment'], appDatabaseContainerCs::table, appHttpTpAdminCrmAjaxDetail::$resultReportCs, ['targetForm' => '#sec-4-approval_comment']); ?>
+                                <?php appLibraryDisp::dbform('hidden', ['approval_comment'], appDatabaseContainerCs::table, appHttpTpAdminCrmAjaxDetail::$resultReportCs, ['add' => 'id="sec-4-approval_comment"',]); ?>
                             </div>
                         </div>
                     </div>
-                    <?php appLibraryDisp::form('hidden', appLibraryCrm::postConfirm, 'データの種類', appLibraryCrm::confirmReport); ?>
-                </div>
-            </form>
-            <form id="sec-5" class="pb-4 position-relative">
+                    <?php appLibraryDisp::form('hidden', appLibraryCrm::postConfirm, 'データの種類', appLibraryCrm::confirmContainerCs); ?>
+                </form>
+            </div>
+
+            <form id="sec-6" class="pt-4 pb-4 position-relative">
                 <?php
                 //======================================================================
                 // レポート（申し送り事項）
                 //======================================================================
                 ?>
-                <div class="p-3 bg-white">
-                    <?php appLibraryDisp::heading('h2', '申し送り事項', ['class' => 'text-center']); ?>
-                    <?php appLibraryDisp::globalModule(
-                        'btn/collapse_xl',
-                        [
-                            'target' => '#sec-5-collapse',
-                            'title' => '登録／編集'
-                        ]
-                    ); ?>
-                    <div id="sec-5-collapse" class="collapse">
-                        <div class="p-3">
-                            <div data-editor='#sec-3-comment'>
-                                <?php appLibraryDisp::dbform('disp', ['funeral_comment'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral); ?>
+                <div class="bg-white">
+                    <?php appLibraryDisp::heading('h2', '申し送り事項', ['class' => 'text-center pt-3']); ?>
+                    <div class="border-top border-bottom">
+                        <?php appLibraryDisp::globalModule('btn/collapse_xl', ['target' => '#sec-6-collapse']); ?>
+                        <div id="sec-6-collapse" class="collapse">
+                            <div class="p-3">
+                                <div data-editor='#sec-3-comment'>
+                                    <?php appLibraryDisp::dbform('disp', ['funeral_comment'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral); ?>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
-            <form id="sec-6" class="pb-4 position-relative">
+            <form id="sec-7" class="pb-4 position-relative">
                 <?php
                 //======================================================================
                 // レポート（架電日時登録）
                 //======================================================================
                 ?>
-                <div class="pos-top-right p-2 pr-3">
-                    <?php appLibraryDisp::globalModule('form/btn_add', ['add' => 'data-add data-hx-get="/tpadmin/crm/ajax/report_tel" data-hx-target="#sec-6-1" hx-swap="afterbegin"']); ?>
-                </div>
                 <div class="bg-white">
                     <?php appLibraryDisp::heading('h2', '架電日時登録', ['class' => 'text-center m-0 p-3']); ?>
-                    <div id="sec-6-1" class="bg-llgray p-3 pb-4 border-top">
-                        <?php if (count(appHttpTpAdminCrmAjaxDetail::$resultReportTel) > 0): ?>
-                            <?php foreach (appHttpTpAdminCrmAjaxDetail::$resultReportTel as $value): ?>
-                                <?php appLibraryDisp::module('../_module/form_report_tel.php', ['result' => $value]); ?>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <?php appLibraryDisp::globalModule('comp/nodata', ['title' => '架電日時未登録']); ?>
-                        <?php endif; ?>
+                    <div class="border-top border-bottom">
+                        <?php appLibraryDisp::globalModule('btn/collapse_xl', ['target' => '#sec-7-collapse']); ?>
+                        <div id="sec-7-collapse" class="collapse">
+                            <div class="d-flex flex-row-reverse p-1">
+                                <?php appLibraryDisp::globalModule('form/btn_add', ['add' => 'data-add data-hx-get="/tpadmin/crm/ajax/report_tel" data-hx-target="#sec-7-add" hx-swap="afterbegin"']); ?>
+                            </div>
+                            <div id="sec-7-add" class="bg-llgray p-3 pb-4 border-top">
+                                <?php if (count(appHttpTpAdminCrmAjaxDetail::$resultReportTel) > 0): ?>
+                                    <?php foreach (appHttpTpAdminCrmAjaxDetail::$resultReportTel as $value): ?>
+                                        <?php appLibraryDisp::module('../_module/form_report_tel.php', ['result' => $value]); ?>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <?php appLibraryDisp::globalModule('comp/nodata', ['title' => '架電日時未登録']); ?>
+                                <?php endif; ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <?php appLibraryDisp::form('hidden', appLibraryCrm::postConfirm, 'データの種類', appLibraryCrm::confirmReport); ?>
@@ -260,7 +258,7 @@
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 <script>
     if (typeof formConfig === 'undefined') {
-        const formConfig = (function() {
+        const formConfig = function() {
             const elem = {
                 main: "<?php echo appConfigPage::pageMain; ?>",
                 header: "<?php echo appConfigPage::pageHeader; ?>",
@@ -280,7 +278,7 @@
             }
 
             const ajax = {
-                confirm: "<?php echo appConfigSite::ajax['adminCrmConfirm']['path']; ?>",
+                confirm: "<?php echo appRoutesWeb::ajax['adminCrmConfirm']['path']; ?>",
                 detail: "<?php appLibraryDisp::link('adminCrmDetail', ['path' => 'contents']); ?>"
             }
 
@@ -353,6 +351,16 @@
                 });
             }
 
+            const pageRefresh = function() {
+                const funeralId = elemFormFuneralId.querySelector('[name="funeral_id"]').value;
+                const loadContents = ajax.detail + funeralId;
+                <?php if (appLibraryCrm::debug === false): ?>
+                    htmx.ajax('GET', loadContents, {
+                        target: elem.main
+                    });
+                <?php endif; ?>
+            }
+
             const pageLoadDisabled = (function() {
                 formElem.querySelectorAll(elem.dataDisabled).forEach(form => {
                     dataDisabledToggle(form, true);
@@ -387,11 +395,7 @@
                         }).then(() => {
                             formSubmitEditor();
                             formSubmitPostConfirm(elemFormFuneralId);
-                            const funeralId = elemFormFuneralId.querySelector('[name="funeral_id"]').value;
-                            const loadContents = ajax.detail + funeralId;
-                            htmx.ajax('GET', loadContents, {
-                                target: elem.main
-                            });
+                            pageRefresh();
                         });
                     }
                 });
@@ -407,11 +411,12 @@
                     }
                 });
             })();
-
             setTimeout(() => {
                 setEditor();
             }, "500");
-        }());
-
+        }
+        setTimeout(() => {
+            formConfig();
+        }, "250");
     }
 </script>

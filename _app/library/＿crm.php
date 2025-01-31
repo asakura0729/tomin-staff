@@ -2,9 +2,8 @@
 //======================================================================
 // CRM
 //======================================================================
-class appLibraryCrm
+class OLDDATA
 {
-
     //-----------------------------------------------------
     // 使用するパラメータ
     //-----------------------------------------------------
@@ -13,6 +12,7 @@ class appLibraryCrm
     const confirmFuneralData = 'funeral';
     const confirmFuneralClientData = 'funeral_client';
     const confirmReport = 'report';
+    const debug = true;
 
     //======================================================================
     // データ取得
@@ -20,7 +20,7 @@ class appLibraryCrm
     //-----------------------------------------------------
     // 葬儀情報を取得（一覧）
     //-----------------------------------------------------
-    public static function getFuneral()
+    public static function getFuneral(): array
     {
         $sql = appLibraryEditsql::requestSql(
             ['tableName' => appDatabaseFuneral::tableName, 'table' => appDatabaseFuneral::table]
@@ -35,7 +35,7 @@ class appLibraryCrm
     //-----------------------------------------------------
     // 葬儀情報を取得（詳細）
     //-----------------------------------------------------
-    public static function getFuneralDetail()
+    public static function getFuneralDetail(): array
     {
         $primaryKey = appFuncArray::issetKey($_GET, appDatabaseFuneral::primaryKey, '');
         $sql = appLibraryEditsql::requestSql(['tableName' => appDatabaseFuneral::tableName, 'table' => appDatabaseFuneral::table]);
@@ -53,7 +53,7 @@ class appLibraryCrm
     //-----------------------------------------------------
     // 顧客情報を取得
     //-----------------------------------------------------
-    public static function getClientData()
+    public static function getClientData(): array
     {
         $primaryKey = appFuncArray::issetKey($_GET, appDatabaseFuneral::primaryKey, '');
         $sql = appLibraryEditsql::requestSql(
@@ -71,10 +71,35 @@ class appLibraryCrm
     //-----------------------------------------------------
     // レポートを取得
     //-----------------------------------------------------
-    public static function getReport($category, $table = [], $report_id = "")
+    public static function getReport(string $category, array $table = [], string  $reportId = ""): array
     {
         $primaryKey = appFuncArray::issetKey($_GET, appDatabaseFuneral::primaryKey, '');
-        $reportId = appFuncArray::issetKey($_GET, appDatabaseReport::primaryKey, '');
+        $reportId = appFuncArray::issetKey($_GET, appDatabaseReport::primaryKey, $reportId);
+        $sql = self::getReportSql($primaryKey, $category, $table, $reportId);
+        $result = appFuncDatabase::getData($sql);
+        return $result;
+    }
+
+    //-----------------------------------------------------
+    // レポートを取得(最新一件)
+    //-----------------------------------------------------
+    public static function getReportLatest($category, $table = []): array
+    {
+        $primaryKey = appFuncArray::issetKey($_GET, appDatabaseFuneral::primaryKey, '');
+        $sql = self::getReportSql($primaryKey, $category, $table);
+        $sql .= ' LIMIT 1';
+        $result = appFuncDatabase::getData($sql);
+        if (isset($result[0])) {
+            $result = $result[0];
+        }
+        return $result;
+    }
+
+    //-----------------------------------------------------
+    // レポートを取得＞SQL作成
+    //-----------------------------------------------------
+    public static function getReportSql(string $primaryKey, string $category, array $table = [], string  $reportId = ""): string
+    {
         $sql = appLibraryEditsql::requestSql(
             ['tableName' => appDatabaseReport::tableName, 'table' => appDatabaseReport::table],
             ['primaryKey' => appDatabaseReport::primaryKey, 'tableName' => $category, 'table' => $table]
@@ -82,11 +107,30 @@ class appLibraryCrm
         $sql .= ' WHERE ';
         $sql .= $category . '.' . appDatabaseFuneral::primaryKey . '="' .  $primaryKey . '" and ';
         $sql .= 'report_category="' .  $category . '" ';
-        if ($reportId != '') {
-            $sql .= ' and ' . appDatabaseReport::tableName . '.' . appDatabaseReport::primaryKey . '="' .  $reportId . '" ';
+        $sql .= ' ORDER BY ' . appDatabaseReport::tableName . '.' . appDatabaseReport::primaryKey . ' DESC ';
+        return $sql;
+    }
+
+    //======================================================================
+    // データベース追加・更新（汎用）
+    //======================================================================
+    //-----------------------------------------------------
+    // データベースに追加するValue値を設定
+    //-----------------------------------------------------
+    public static function createDbPost($table, $post, $count = null): array
+    {
+        $dbpost = [];
+        foreach ($table as $row) {
+            $inputName = $row[appConfigDatabase::row];
+            if (isset($post[$inputName])) {
+                if ($count === null) {
+                    $dbpost[$inputName] = $post[$inputName];
+                } else {
+                    $dbpost[$inputName] = $post[$inputName][$count];
+                }
+            }
         }
-        $result = appFuncDatabase::getData($sql);
-        return $result;
+        return $dbpost;
     }
 
     //======================================================================
@@ -104,25 +148,31 @@ class appLibraryCrm
                 $result[appDatabaseFuneral::primaryKey] = $_POST[appDatabaseFuneral::primaryKey];
             } else {
                 /*分岐2：新規*/
-                self::insertFuneralData();
-                $result[appDatabaseFuneral::primaryKey] = appLibraryEditsql::getLatest(
-                    appDatabaseFuneral::tableName,
-                    appDatabaseFuneral::table,
-                    appDatabaseFuneral::primaryKey
-                );
+                $dbresult = self::insertFuneralData();
+                $sql = appLibraryEditsql::getInsertID();
+                $dbresult = appFuncDatabase::getData($sql);
+                $result[appDatabaseFuneral::primaryKey] = $dbresult[0];
             }
         }
         return $result;
     }
 
     //-----------------------------------------------------
+    // 葬儀情報追加・更新＞SQL用を作成
+    //-----------------------------------------------------
+    public static function setFuneralSqlConfig($post): array
+    {
+        return ['tableName' => appDatabaseFuneral::tableName, 'table' => appDatabaseFuneral::table, 'dbPost' => $post];
+    }
+
+    //-----------------------------------------------------
     // 葬儀情報追加・更新＞葬儀情報を追加
     //-----------------------------------------------------
-    public static function insertFuneralData(): bool
+    public static function insertFuneralData(): array
     {
         $post = $_POST;
         $post = self::insertDataFormat($post);
-        $sql = appLibraryEditsql::insertSql(['tableName' => appDatabaseFuneral::tableName, 'table' => appDatabaseFuneral::table, 'dbPost' => $post]);
+        $sql = appLibraryEditsql::insertSql(self::setFuneralSqlConfig($post));
         $param = appLibraryDataformat::dbPost($post, appDatabaseFuneral::table);
         $result = appFuncDatabase::updateData($sql, $param);
         return $result;
@@ -131,11 +181,11 @@ class appLibraryCrm
     //-----------------------------------------------------
     // 葬儀情報追加・更新＞葬儀情報を更新
     //-----------------------------------------------------
-    public static function updateFuneralData(): bool
+    public static function updateFuneralData(): array
     {
         $post = self::updateDataFormat($_POST);
         $primaryKey = $post[appDatabaseFuneral::primaryKey];
-        $sql = appLibraryEditsql::updateSql(['tableName' => appDatabaseFuneral::tableName, 'table' => appDatabaseFuneral::table, 'dbPost' => $post]);
+        $sql = appLibraryEditsql::updateSql(self::setFuneralSqlConfig($post));
         $sql .= ' WHERE ';
         $sql .= appDatabaseFuneral::primaryKey . '="' .  $primaryKey . '"';
         $param = appLibraryDataformat::dbPost($post, appDatabaseFuneral::table);
@@ -150,7 +200,6 @@ class appLibraryCrm
     {
         $post['insert_date'] = date('Y-m-d H:i:s');
         $post['insert_by'] = 0;
-
         return $post;
     }
 
@@ -173,37 +222,20 @@ class appLibraryCrm
     }
 
     //======================================================================
-    // 顧客情報追加・更新
+    // 顧客情報追加／更新
     //======================================================================
-    //-----------------------------------------------------
-    // 顧客情報を追加／更新
-    //-----------------------------------------------------
-    public static function updateFuneralClientData(): bool
+    public static function updateFuneralClientData(): array
     {
         $post = $_POST;
-        $result = true;
+        $result = [];
         if (!isset($post[appDatabaseFuneralclient::primaryKey])) {
             /*分岐：顧客情報なし*/
             return $result;
         }
         $count = 0;
         foreach ($post[appDatabaseFuneralclient::primaryKey] as $index => $postPrimaryKey) {
-            $dbpost = [];
-            foreach (appDatabaseFuneralclient::table as $row) {
-                $inputName = $row[appDatabaseFuneralclient::row];
-                if (isset($post[$inputName])) {
-                    $dbpost[$inputName] = $post[$inputName][$count];
-                }
-            }
-            $sqlConfig = ['tableName' => appDatabaseFuneralclient::tableName, 'table' => appDatabaseFuneralclient::table, 'dbPost' => $dbpost];
-            if ($postPrimaryKey != '') {
-                /*分岐1：既存顧客*/
-                $sql = appLibraryEditsql::updateSql($sqlConfig);
-                $sql .= ' WHERE ' . appDatabaseFuneralclient::primaryKey . '=' . $postPrimaryKey;
-            } else {
-                /*分岐2：新規顧客*/
-                $sql = appLibraryEditsql::insertSql($sqlConfig);
-            }
+            $dbpost = self::createDbPost(appDatabaseFuneralclient::table, $post, $count);
+            $sql = self::createUpdateFuneralClientSql($postPrimaryKey, $dbpost);
             $param = appLibraryDataformat::dbPost($dbpost, appDatabaseFuneralclient::table);
             $result = appFuncDatabase::updateData($sql, $param);
             $count++;
@@ -211,51 +243,68 @@ class appLibraryCrm
         return $result;
     }
 
+    //-----------------------------------------------------
+    // 顧客情報追加／更新＞SQLを作成
+    //-----------------------------------------------------
+    public static function createUpdateFuneralClientSql($postPrimaryKey, $dbpost): string
+    {
+        $sql = "";
+        $sqlConfig = ['tableName' => appDatabaseFuneralclient::tableName, 'table' => appDatabaseFuneralclient::table, 'dbPost' => $dbpost];
+        if ($postPrimaryKey != '') {
+            /*分岐1：既存顧客*/
+            $sql = appLibraryEditsql::updateSql($sqlConfig);
+            $sql .= ' WHERE ' . appDatabaseFuneralclient::primaryKey . '=' . $postPrimaryKey;
+        } else {
+            /*分岐2：新規顧客*/
+            $sql = appLibraryEditsql::insertSql($sqlConfig);
+        }
+        return $sql;
+    }
+
     //======================================================================
-    // レポート追加・更新
+    // レポート追加／更新
     //======================================================================
     //-----------------------------------------------------
     // レポートを追加／更新
     //-----------------------------------------------------
-    public static function updateReport(): bool
+    public static function updateReport(): array
     {
         $post = $_POST;
-        $result = true;
         if (!isset($post[appDatabaseReport::primaryKey])) {
             /*分岐：レポートなし*/
-            return $result;
+            return appFuncDatabase::updateDataResults;
         }
         $count = 0;
         foreach ($post[appDatabaseReport::primaryKey] as $index => $postPrimaryKey) {
-            $result = self::updateReportBase($postPrimaryKey, $post, $count);
-            if ($result === true) {
-                $result = self::updateJoinReport($postPrimaryKey, $post, $count);
-            }
-            $count++;
-        }
-        return $result;
-    }
-    //-----------------------------------------------------
-    // レポート用の配列を作成
-    //-----------------------------------------------------
-    public static function editDbPost($table, $post, $count): array
-    {
-        $result = [];
-        foreach ($table as $row) {
-            $inputName = $row[appDatabaseReport::row];
-            if (isset($post[$inputName])) {
-                $result[$inputName] = $post[$inputName][$count];
+            $parentDbResult = self::updateParentReport($postPrimaryKey, $post, $count);
+            if ($parentDbResult[appFuncDatabase::updateDataBool] === true) {
+                $childDbResult = self::updateChildReport($postPrimaryKey, $post, $count, $parentDbResult);
+                $count++;
+            } else {
+                break;
             }
         }
+        return $childDbResult;
+    }
+
+    //-----------------------------------------------------
+    // レポートを追加／更新＞親テーブル
+    //-----------------------------------------------------
+    public static function updateParentReport($postPrimaryKey, $post, $count): array
+    {
+        $dbpost = self::createDbPost(appDatabaseReport::table, $post, $count);
+        $sql = self::updateParentReportSql($postPrimaryKey, $dbpost);
+        $param = appLibraryDataformat::dbPost($dbpost, appDatabaseReport::table);
+        $result = appFuncDatabase::updateData($sql, $param);
         return $result;
     }
+
     //-----------------------------------------------------
-    // レポートを追加／更新(基本)
+    // レポートを追加／更新＞親テーブル＞SQL作成
     //-----------------------------------------------------
-    public static function updateReportBase($postPrimaryKey, $post, $count): bool
+    public static function updateParentReportSql($postPrimaryKey, $dbpost): string
     {
-        $dbpost = self::editDbPost(appDatabaseReport::table, $post, $count);
-        $dbpost = self::insertDataFormat($dbpost);
+        $sql = "";
         $sqlConfig = ['tableName' => appDatabaseReport::tableName, 'table' => appDatabaseReport::table, 'dbPost' => $dbpost];
         if ($postPrimaryKey != '') {
             /*分岐1：既存*/
@@ -265,59 +314,73 @@ class appLibraryCrm
             /*分岐2：新規*/
             $sql = appLibraryEditsql::insertSql($sqlConfig);
         }
-        $param = appLibraryDataformat::dbPost($dbpost, appDatabaseReport::table);
+        return $sql;
+    }
+
+    //-----------------------------------------------------
+    // レポートを追加／更新＞子テーブル
+    //-----------------------------------------------------
+    public static function updateChildReport($postPrimaryKey, $post, $count, $parentDbResult): array
+    {
+        if (!isset($post[appDatabaseReport::categoryRow]) || !isset($post[appDatabaseReport::categoryRow][$count])) {
+            /*分岐：データなし*/
+            return appFuncDatabase::updateDataResults;
+        }
+        list($tableName, $table) = self::selectReportTable($post[appDatabaseReport::categoryRow][$count]);
+        $dbpost = self::createDbPost($table, $post, $count);
+        if ($postPrimaryKey === '') {
+            /*分岐：新規の場合、親テーブルのIDを継承*/
+            $dbpost[appDatabaseReport::primaryKey] = $parentDbResult[appFuncDatabase::updateDataLastInsertId];
+        }
+        $sql = self::updateChildReportSql($postPrimaryKey, $dbpost, $tableName, $table);
+        $param = appLibraryDataformat::dbPost($dbpost, $table);
         $result = appFuncDatabase::updateData($sql, $param);
         return $result;
     }
+
     //-----------------------------------------------------
-    // レポートを追加／更新(JOIN)
+    // レポートを追加／更新＞子テーブル＞SQLを作成
     //-----------------------------------------------------
-    public static function updateJoinReport($postPrimaryKey, $post, $count): bool
+    public static function updateChildReportSql($postPrimaryKey, $dbpost, $tableName, $table): string
     {
-        $result = true;
-        $reportCategory = "";
-        if (isset($post['report_category'])) {
-            /*分岐：レポートのカテゴリを取得*/
-            $reportCategory = appFuncArray::issetKey($post['report_category'], $count, '');
+        $sql = "";
+        $sqlConfig = ['tableName' => $tableName, 'table' => $table, 'dbPost' => $dbpost];
+        if ($postPrimaryKey != '') {
+            /*分岐1：既存*/
+            $sql = appLibraryEditsql::updateSql($sqlConfig);
+        } else {
+            /*分岐2：新規追加*/
+            $sql = appLibraryEditsql::insertSql($sqlConfig);
         }
+        return $sql;
+    }
+
+    //-----------------------------------------------------
+    // レポートを追加／更新＞データベース選択
+    //-----------------------------------------------------
+    public static function selectReportTable($reportCategory): array
+    {
         switch ($reportCategory) {
             case appDatabaseReport::categoryCs:
                 /*分岐1：顧客対応*/
-                $table = appDatabaseReport::tableCs;
                 $tableName = appDatabaseReport::categoryCs;
+                $table = appDatabaseReport::tableCs;
                 break;
             case appDatabaseReport::categoryTel:
                 /*分岐2：課電*/
-                $table = appDatabaseReport::tableTel;
                 $tableName = appDatabaseReport::categoryTel;
-                break;
-            case appDatabaseReport::categoryApproval:
-                /*分岐3：承認*/
-                $table = appDatabaseReport::tableApproval;
-                $tableName = appDatabaseReport::categoryApproval;
+                $table = appDatabaseReport::tableTel;
                 break;
             default:
-                return $result;
+                /*分岐3：該当なし*/
+                $tableName = "";
+                $table = "";
                 break;
         }
-        $dbpost = self::editDbPost($table, $post, $count);
-        if ($postPrimaryKey != '') {
-            /*分岐1：既存*/
-            $sqlConfig = ['tableName' => $tableName, 'table' => $table, 'dbPost' => $dbpost];
-            $sql = appLibraryEditsql::updateSql($sqlConfig);
-            $sql .= ' WHERE ' . appDatabaseReport::primaryKey . '=' . $postPrimaryKey;
-        } else {
-            /*分岐2：新規*/
-            $dbpost[appDatabaseReport::primaryKey] = appLibraryEditsql::getLatest(
-                appDatabaseReport::tableName,
-                appDatabaseReport::table,
-                appDatabaseReport::primaryKey
-            );
-            $sqlConfig = ['tableName' => $tableName, 'table' => $table, 'dbPost' => $dbpost];
-            $sql = appLibraryEditsql::insertSql($sqlConfig);
-        }
-        $param = appLibraryDataformat::dbPost($dbpost, $table);
-        $result = appFuncDatabase::updateData($sql, $param);
+        $result = [
+            $tableName,
+            $table
+        ];
         return $result;
     }
 }

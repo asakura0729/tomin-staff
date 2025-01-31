@@ -11,17 +11,32 @@ class appLibraryEditsql
     private const auto_increment = appConfigDatabase::auto_increment;
 
     //-----------------------------------------------------
-    // 最新情報を一件取得
+    // SQL文作成：最新のIDを一件取得
     //-----------------------------------------------------
     public static function getLatest($tableName, $table, $primaryKey): string
     {
-        $sql = appLibraryEditsql::requestSql(
-            ['tableName' => $tableName, 'table' => $table]
-        );
+        $sql = self::requestSql(['tableName' => $tableName, 'table' => $table, 'filter' => [$primaryKey]]);
         $sql .= ' ORDER BY ' . $primaryKey . ' DESC LIMIT 1';
-        $dbresult = appFuncDatabase::getSingleData($sql);
-        $result = $dbresult[$primaryKey];
-        return $result;
+        return $sql;
+    }
+
+    //-----------------------------------------------------
+    // SQL文作成：insertされたばかりのindex値を取得
+    //-----------------------------------------------------
+    public static function getInsertID(): string
+    {
+        $sql = 'SELECT LAST_INSERT_ID() as primaryKey;';
+        return $sql;
+    }
+
+    //-----------------------------------------------------
+    // IDの存在を確認
+    //-----------------------------------------------------
+    public static function getExistence($tableName, $table, $primaryKey, $id): string
+    {
+        $sql = self::requestSql(['tableName' => $tableName, 'table' => $table, 'filter' => [$primaryKey]]);
+        $sql .= ' WHERE ' . $primaryKey . '=' . $id;
+        return $sql;
     }
 
     //-----------------------------------------------------
@@ -31,7 +46,6 @@ class appLibraryEditsql
     {
         $select = "";
         $from = "";
-
         $tableName = appFuncArray::issetKey($tableOption, 'tableName', '');
         $table = appFuncArray::issetKey($tableOption, 'table', []);
         $filter = appFuncArray::issetKey($tableOption, 'filter', []);

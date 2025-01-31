@@ -6,8 +6,8 @@ class appLibraryRoute
 {
     public static function pageLink($sitemapKey, $row, $params = []): string
     {
-        $result = appConfigSite::sitemap[$sitemapKey][$row];
-        $getParams = appFuncArray::issetKey(appConfigSite::sitemap[$sitemapKey], appConfigSite::sitemapGetParams, []);
+        $result = appRoutesWeb::sitemap[$sitemapKey][$row];
+        $getParams = appFuncArray::issetKey(appRoutesWeb::sitemap[$sitemapKey], appRoutesWeb::sitemapGetParams, []);
         foreach ($getParams as $value) {
             $result .= $value . '=';
         }
