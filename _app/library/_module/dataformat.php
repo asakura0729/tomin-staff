@@ -60,13 +60,27 @@ class appLibraryDataformat
     //-----------------------------------------------------
     // データベースに追加するValue値を設定
     //-----------------------------------------------------
-    public static function dbPostParam($table, $post): array
+    public static function dbPostParam($table, $primaryKey, $post): array
     {
         $dbpost = [];
-        foreach ($table as $row) {
-            $inputName = $row[appConfigDatabase::row];
+        foreach ($table as $tableRow) {
+            $inputName = $tableRow[appConfigDatabase::row];
             if (isset($post[$inputName])) {
+                /*判断：テーブルに定義された値がPOSTに存在*/
                 $dbpost[$inputName] = $post[$inputName];
+            } elseif (isset($tableRow['value'])) {
+                /*判断：テーブルにデフォルト値が存在*/
+                $dbpost[$inputName] = $tableRow['value'];
+            }
+        }
+        $date = date('Y-m-d H:i:s');
+        if (isset($post[$primaryKey])) {
+            $dbpost['update_date'] = $date;
+            $dbpost['update_by'] = $_SESSION[appConfigSession::userId];
+            if ($post[$primaryKey] === '') {
+                /*分岐：新規*/
+                $dbpost['insert_date'] = $date;
+                $dbpost['insert_by'] = $_SESSION[appConfigSession::userId];
             }
         }
         return $dbpost;
@@ -75,7 +89,7 @@ class appLibraryDataformat
     //-----------------------------------------------------
     // バインドパラメータ作成
     //-----------------------------------------------------
-    public static function bindParam(array $post = [], array $table = []): array
+    public static function bindParam(array $dbPostParam = [], array $table = []): array
     {
         $result = [];
         foreach ($table as $value) {
@@ -85,8 +99,8 @@ class appLibraryDataformat
             if ($auto_increment === true) {
                 continue;
             }
-            if (isset($post[$row])) {
-                $result[$paramKey] = $post[$row];
+            if (isset($dbPostParam[$row])) {
+                $result[$paramKey] = $dbPostParam[$row];
             }
         }
         return $result;

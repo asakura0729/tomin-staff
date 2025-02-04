@@ -29,4 +29,7 @@ switch (appHttpTpAdminCrmConfirm::$postConfirm) {
         /*分岐：レポート送信*/
         appHttpTpAdminCrmConfirm::$result = appLibraryCrm::updateReports();
         break;
+    default:
+        echo "エラー";
+        break;
 }

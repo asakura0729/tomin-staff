@@ -21,9 +21,7 @@ trait appLibraryCrmPost
             } else {
                 /*分岐2：新規*/
                 $dbresult = self::insertFuneralData();
-                $sql = appLibraryEditsql::getInsertID();
-                $dbresult = appFuncDatabase::getData($sql);
-                $result[appDatabaseFuneral::primaryKey] = $dbresult[0];
+                $result[appDatabaseFuneral::primaryKey] = $dbresult[appFuncDatabase::updateDataLastInsertId];
             }
         }
         return $result;
@@ -35,9 +33,10 @@ trait appLibraryCrmPost
     public static function insertFuneralData(): array
     {
         $post = $_POST;
-        $post = self::insertDataFormat($post);
-        $sql = appLibraryEditsql::insertSql(self::setFuneralSqlConfig($post));
-        $param = appLibraryDataformat::bindParam($post, appDatabaseFuneral::table);
+        $post[appDatabaseFuneral::primaryKey] = '';
+        $dbPost = appLibraryDataformat::dbPostParam(appDatabaseFuneral::table, appDatabaseFuneral::primaryKey, $post);
+        $sql = appLibraryEditsql::insertSql(self::setFuneralSqlConfig($dbPost));
+        $param = appLibraryDataformat::bindParam($dbPost, appDatabaseFuneral::table);
         $result = appFuncDatabase::updateData($sql, $param);
         return $result;
     }
@@ -47,16 +46,16 @@ trait appLibraryCrmPost
     //-----------------------------------------------------
     public static function updateFuneralData(): array
     {
-        $post = self::updateDataFormat($_POST);
-        $primaryKey = $post[appDatabaseFuneral::primaryKey];
-        $sql = appLibraryEditsql::updateSql(self::setFuneralSqlConfig($post));
+        $post = $_POST;
+        $dbPost = appLibraryDataformat::dbPostParam(appDatabaseFuneral::table, appDatabaseFuneral::primaryKey, $post);
+        $primaryKey = $dbPost[appDatabaseFuneral::primaryKey];
+        $sql = appLibraryEditsql::updateSql(self::setFuneralSqlConfig($dbPost));
         $sql .= ' WHERE ';
         $sql .= appDatabaseFuneral::primaryKey . '="' .  $primaryKey . '"';
-        $param = appLibraryDataformat::bindParam($post, appDatabaseFuneral::table);
+        $param = appLibraryDataformat::bindParam($dbPost, appDatabaseFuneral::table);
         $result = appFuncDatabase::updateData($sql, $param);
         return $result;
     }
-
     //-----------------------------------------------------
     // 葬儀情報追加・更新＞SQL用を作成
     //-----------------------------------------------------
@@ -64,21 +63,10 @@ trait appLibraryCrmPost
     {
         return ['tableName' => appDatabaseFuneral::tableName, 'table' => appDatabaseFuneral::table, 'dbPost' => $post];
     }
-
-    //-----------------------------------------------------
-    // 葬儀情報追加・更新＞データ整形（葬儀情報追加）
-    //-----------------------------------------------------
-    public static function insertDataFormat($post): array
-    {
-        $post['insert_date'] = date('Y-m-d H:i:s');
-        $post['insert_by'] = 0;
-        return $post;
-    }
-
     //-----------------------------------------------------
     // 葬儀情報追加・更新＞データ整形（葬儀情報更新）
     //-----------------------------------------------------
-    public static function updateDataFormat($post): array
+    public static function setfuneralFormat($post): array
     {
         if (isset($post['funeral_date'])) {
             $funeral_date = new DateTime($post['funeral_date']);
@@ -87,9 +75,6 @@ trait appLibraryCrmPost
         if (isset($post['totalpeople'])) {
             $post['totalpeople'] = intval($post['totalpeople']);
         }
-        $post['update_date'] = date('Y-m-d H:i:s');
-        $post['update_by'] = 0;
-
         return $post;
     }
 
@@ -109,7 +94,7 @@ trait appLibraryCrmPost
         $count = 0;
         $dbPosts = appLibraryDataformat::dbPostMultiple($post, $primaryKey);
         foreach ($dbPosts as $dbPost) {
-            $dbPost = appLibraryDataformat::dbPostParam($table, $dbPost);
+            $dbPost = appLibraryDataformat::dbPostParam($table, $primaryKey, $dbPost);
             $sql = self::createUpdateFuneralClientSql($dbPost);
             $param = appLibraryDataformat::bindParam($dbPost, $table);
             $result = appFuncDatabase::updateData($sql, $param);
@@ -148,17 +133,17 @@ trait appLibraryCrmPost
         $table = appDatabaseContainerCs::table;
         $primaryKey = appDatabaseContainerCs::primaryKey;
         if (isset($post[$primaryKey])) {
-            $dbpost = appLibraryDataformat::dbPostParam($table, $post);
+            $dbpost = appLibraryDataformat::dbPostParam($table, $primaryKey, $post);
             $sqlConfig = ['tableName' => $tableName, 'table' => $table, 'dbPost' => $dbpost];
             if ($post[$primaryKey] != '') {
                 /*分岐1：更新*/
                 $sql = appLibraryEditsql::updateSql($sqlConfig);
-                $param = appLibraryDataformat::bindParam($post, $table);
+                $param = appLibraryDataformat::bindParam($dbpost, $table);
                 $result = appFuncDatabase::updateData($sql, $param);
             } else {
                 /*分岐2：新規*/
                 $sql = appLibraryEditsql::insertSql($sqlConfig);
-                $param = appLibraryDataformat::bindParam($post, $table);
+                $param = appLibraryDataformat::bindParam($dbpost, $table);
                 $result = appFuncDatabase::updateData($sql, $param);
                 $post[$primaryKey] = $result[appFuncDatabase::updateDataLastInsertId];
             }
@@ -166,7 +151,6 @@ trait appLibraryCrmPost
                 $result = self::updateReport($post);
             }
         }
-        var_dump($result);
         return $result;
     }
 
@@ -209,7 +193,7 @@ trait appLibraryCrmPost
     //-----------------------------------------------------
     public static function updateParentReport($post): array
     {
-        $dbpost = appLibraryDataformat::dbPostParam(appDatabaseReport::table, $post);
+        $dbpost = appLibraryDataformat::dbPostParam(appDatabaseReport::table, appDatabaseReport::primaryKey, $post);
         $sql = self::updateParentReportSql($dbpost);
         $param = appLibraryDataformat::bindParam($dbpost, appDatabaseReport::table);
         $result = appFuncDatabase::updateData($sql, $param);
@@ -243,7 +227,7 @@ trait appLibraryCrmPost
         $result = appFuncDatabase::updateDataResults;
         $reportCategory = $post[appDatabaseReport::categoryRow];
         list($tableName, $table) = self::selectReportTable($reportCategory);
-        $dbpost = appLibraryDataformat::dbPostParam($table, $post);
+        $dbpost = appLibraryDataformat::dbPostParam($table, appDatabaseReport::primaryKey, $post);
         $insertReportId = $parentDbResult[appFuncDatabase::updateDataLastInsertId];
         if ($insertReportId != '') {
             /*分岐：新規*/

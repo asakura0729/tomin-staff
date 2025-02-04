@@ -14,7 +14,7 @@ class appDatabaseContainerCs extends appConfigDatabase
     'funeral_id' => [self::row => 'funeral_id', 'title' => '葬儀ID'],
     'fc_id' => [self::row => 'fc_id', 'title' => '顧客ID'],
     'approval_date' => [self::row => 'approval_date', 'title' => '承認日時'],
-    self::approval_status => [self::row => self::approval_status, 'title' => '承認状況', 'value' => self::status['none']],
+    self::approval_status => [self::row => self::approval_status, 'title' => '承認状況', 'value' => self::statusNone],
     'approval_comment' => [self::row => 'approval_comment', 'title' => '承認コメント'],
     'approval_by' => [self::row => 'approval_by', 'title' => '承認者'],
     'insert_date' => [self::row => 'insert_date', 'value' => 'datetime'],

@@ -16,7 +16,6 @@
     <?php appLibraryDisp::globalModule('btn/collapse_xl', ['target' => '#archive-collapse', 'title' => '過去対応ログ', 'icon' => 'fa-list', 'add' => 'data-hx-get="' . appRoutesWeb::ajax['adminCrmDetailAjaxReportCs']['path'] . appHttpTpAdminCrmAjaxDetail::$funeralId . '" data-hx-target="#archive-body"']); ?>
 </article>
 
-
 <div id="form-wrap" class="l-form-wrap">
     <?php require_once '../_module/form_detail.php'; ?>
 </div>
@@ -47,7 +46,8 @@
 
             const ajax = {
                 confirm: "<?php echo appRoutesWeb::ajax['adminCrmConfirm']['path']; ?>",
-                detail: "<?php appLibraryDisp::link('adminCrmDetail', ['path' => 'contents']); ?>"
+                detailAjax: "<?php appLibraryDisp::link('adminCrmDetail', ['path' => 'contents']); ?>",
+                detailUrl: "<?php appLibraryDisp::link('adminCrmDetail', ['path' => 'path']); ?>"
             }
 
             const cssClass = {
@@ -95,11 +95,13 @@
 
             const pageRefresh = function() {
                 const funeralId = qs(elem.formFuneralId).querySelector('[name="funeral_id"]').value;
-                const loadContents = ajax.detail + funeralId;
+                const loadContents = ajax.detailAjax + funeralId;
+                const pushUrl = ajax.detailUrl + funeralId;
                 <?php if (appLibraryCrm::debug === false): ?>
                     htmx.ajax('GET', loadContents, {
-                        target: elem.main
+                        target: elem.main,
                     });
+                    history.pushState({}, "", pushUrl);
                 <?php endif; ?>
             }
 
@@ -139,8 +141,9 @@
                     const targetElement = qs(id);
                     htmx.ajax('POST', ajax.confirm, {
                         source: id,
-                        target: '#sec-confirm'
+                        target: id,
                     });
+                    console.log(ajax.confirm);
                 });
             }
 

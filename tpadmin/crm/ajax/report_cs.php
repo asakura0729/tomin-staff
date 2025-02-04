@@ -5,7 +5,7 @@
     <thead class="bg-contrast-l text-center">
         <tr>
             <th class="w-50px" scope="col">#</th>
-            <th class="w-200px" scope="col">日時</th>
+            <th class="w-200px" scope="col">受電日時</th>
             <th class="w-100px" scope="col">状況</th>
             <th class="w-200px" scope="col">カテゴリ</th>
             <th scope="col">コメント</th>

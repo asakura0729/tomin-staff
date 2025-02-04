@@ -17,5 +17,5 @@ class appLibraryCrm
     const confirmFuneralClientData = 'funeral_client';
     const confirmContainerCs = 'conainer_cs';
     const confirmReport = 'report';
-    const debug = false;
+    const debug = true;
 }

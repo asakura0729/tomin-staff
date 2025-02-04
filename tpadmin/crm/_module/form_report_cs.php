@@ -2,11 +2,12 @@
     <?php appLibraryDisp::globalModule('btn/collapse_xl', ['target' => '#sec-4-collapse-1', 'title' => '登録／編集']); ?>
     <div id="sec-4-collapse-1" class="collapse" data-disabled>
         <div class="p-3 pb-4">
-            <?php appLibraryDisp::dbform('hidden', ['report_category'], appDatabaseReport::table, [], ['value' => appDatabaseReport::categoryCs,]); ?>
+            <?php appLibraryDisp::dbform('hidden', [appDatabaseReport::primaryKey], appDatabaseReport::table, [], []); ?>
+            <?php appLibraryDisp::dbform('hidden', ['report_category'], appDatabaseReport::table, [], ['value' => appDatabaseReport::categoryCs]); ?>
             <?php appLibraryDisp::dbform('hidden', ['title'], appDatabaseReport::table, [], ['value' => '対応ログ']); ?>
             <?php appLibraryDisp::dbform('hidden', ['comment'], appDatabaseReport::table, appHttpTpAdminCrmAjaxDetail::$resultReportCs, ['add' => 'id="sec-4-comment"',]); ?>
             <?php appLibraryDisp::dbform('select_label', ['cs_category'], appDatabaseReport::tableCs, [], ['add' => 'data-disabled-toggle="#sec-4"', 'selectItem' => appDatabaseReport::csCategory]); ?>
-            <?php appLibraryDisp::dbform('editor', ['comment'], appDatabaseReport::table, [], ['targetForm' => '#sec-4-comment']); ?>
+            <?php appLibraryDisp::dbform('editor', ['comment'], appDatabaseReport::table, appHttpTpAdminCrmAjaxDetail::$resultReportCs, ['targetForm' => '#sec-4-comment']); ?>
             <?php appLibraryDisp::dbform('hidden', ['log'], appDatabaseReport::tableCs, [], ['add' => 'data-report-log']); ?>
             <?php appLibraryDisp::form('hidden', appLibraryCrm::postConfirm, 'データの種類', appLibraryCrm::confirmReport); ?>
         </div>

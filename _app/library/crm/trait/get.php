@@ -41,8 +41,9 @@ trait appLibraryCrmGet
         }
         if (count($result) > 0) {
             $result = $result[0];
+        }else{
+            $result = appLibraryDataformat::dbResult([], appDatabaseFuneral::table);
         }
-        $result = appLibraryDataformat::dbResult([], appDatabaseFuneral::table);
         return $result;
     }
     //-----------------------------------------------------
@@ -172,6 +173,7 @@ trait appLibraryCrmGet
     {
         $sql = self::getCsReportSql();
         $sql .= self::getCsReportSqlWhere($option);
+        $sql .= self::getCsReportSqlOrder();
         $result = appFuncDatabase::getData($sql);
         return $result;
     }
@@ -186,10 +188,12 @@ trait appLibraryCrmGet
             $sql = self::getCsReportSql();
             $sql .= self::getCsReportSqlWhere($option);
             $sql .= ' and ' . appDatabaseContainerCs::tableName . '.' . appDatabaseContainerCs::approval_status . '!="' . appDatabaseContainerCs::statusSuccess . '"';
+            $sql .= self::getCsReportSqlOrder();
             $dbResult = appFuncDatabase::getData($sql);
         }
         if (count($dbResult) > 0) {
-            $dbResult[appDatabaseContainerCs::approval_status] = appLibraryDataformat::dbResultSetDefaultVal($dbResult[0], appDatabaseContainerCs::table, appDatabaseContainerCs::approval_status);
+            $dbResult = $dbResult[0];
+            $dbResult[appDatabaseContainerCs::approval_status] = appLibraryDataformat::dbResultSetDefaultVal($dbResult, appDatabaseContainerCs::table, appDatabaseContainerCs::approval_status);
         } else {
             $dbResult = [];
         }
@@ -222,6 +226,14 @@ trait appLibraryCrmGet
             /*分岐：葬儀ID指定あり*/
             $sql = ' WHERE ' . appDatabaseContainerCs::tableName . '.' . appDatabaseFuneral::primaryKey . '="' .  $funeralId . '" ';
         }
+        return $sql;
+    }
+    //-----------------------------------------------------
+    // コンテナ（顧客対応まとめ）を取得＞SQL作成＞Order句作成
+    //-----------------------------------------------------
+    public static function getCsReportSqlOrder(): string
+    {
+        $sql = ' ORDER BY ' . appDatabaseContainerCs::tableName . '.' . appDatabaseContainerCs::primaryKey . ' DESC ';
         return $sql;
     }
 }
