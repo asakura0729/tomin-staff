@@ -1,6 +1,6 @@
 <?php
 //======================================================================
-// セッション
+// セッションに付与される値
 //======================================================================
 class appConfigSession
 {
@@ -8,4 +8,5 @@ class appConfigSession
     public const userId = "userId";
     public const loginId = "loginId";
     public const userName = "userName";
+    public const authority = "authority";
 }

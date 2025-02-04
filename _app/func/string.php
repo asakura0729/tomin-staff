@@ -53,7 +53,7 @@ class appFuncString
     /*
     文字列を切り出し
     */
-    public static function extract($str, $val)
+    public static function extract($str, $val): string
     {
         $result = strip_tags($str);
         $result = trim($result);

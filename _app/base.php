@@ -1,5 +1,6 @@
 <?php
 include_once __DIR__ . '/../_env/define.php';
+include_once __DIR__ . '/config/site.php';
 include_once __DIR__ . '/config/user.php';
 include_once __DIR__ . '/config/page.php';
 include_once __DIR__ . '/config/status.php';
@@ -13,7 +14,7 @@ include_once __DIR__ . '/func/calc.php';
 include_once __DIR__ . '/func/editfile.php';
 include_once __DIR__ . '/func/pager.php';
 include_once __DIR__ . '/func/path.php';
-include_once __DIR__ . '/func/login.php';
+include_once __DIR__ . '/func/session.php';
 include_once __DIR__ . '/func/minify.php';
 include_once __DIR__ . '/database/funeral.php';
 include_once __DIR__ . '/database/funeral_client.php';

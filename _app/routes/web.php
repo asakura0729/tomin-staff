@@ -1,19 +1,9 @@
 <?php
 //======================================================================
-// WEBサイトの設定//labu:tpst2025
+// WEBサイトの各ページ設定
 //======================================================================
 class appRoutesWeb
 {
-    //======================================================================
-    // メンテナンスモード
-    //======================================================================
-    public const maintenance = false;
-    //======================================================================
-    // サイト基本情報
-    //======================================================================
-    public const siteName = '都民のお葬式';
-    public const website = "https://tomin-osohshiki.jp/";
-    public const tel = "03-6419-2012";
     //======================================================================
     //GETパラメータ
     //======================================================================
@@ -29,6 +19,7 @@ class appRoutesWeb
         'adminCrm' => ['path' => '/tpadmin/crm/', 'contents' => '/tpadmin/crm/ajax/index', 'title' => '顧客検索'],
         'adminCrmInsert' => ['path' => '/tpadmin/crm/insert', 'contents' => '/tpadmin/crm/ajax/detail', 'title' => '顧客情報登録'],
         'adminCrmDetail' => ['path' => '/tpadmin/crm/detail', 'contents' => '/tpadmin/crm/ajax/detail', 'title' => '顧客情報詳細', self::sitemapGetParams => [self::getFuneralId]],
+        'adminCrmLog' => ['path' => '/tpadmin/crm/log', 'contents' => '/tpadmin/crm/ajax/log', 'title' => '過去ログ', self::sitemapGetParams => ['report_id']],
         'adminCrmTel' => ['path' => '/tpadmin/crm/tel', 'contents' => '/tpadmin/crm/ajax/tel', 'title' => '架電リスト'],
     ];
     public const sitemapGetParams = 'getParams';
@@ -38,6 +29,7 @@ class appRoutesWeb
     public const ajax = [
         'adminCrmConfirm' => ['path' => '/tpadmin/crm/ajax/confirm', 'title' => 'データ送信'],
         'adminCrmDetailAjaxAddtext' => ['path' => '/tpadmin/crm/ajax/add_text?input_name=', 'title' => 'テキスト入力フォーム追加'],
+        'adminCrmDetailAjaxReportCs' => ['path' => '/tpadmin/crm/ajax/report_cs?funeral_id=', 'title' => 'テキスト入力フォーム追加'],
     ];
     //======================================================================
     // グローバルナビゲーション一覧

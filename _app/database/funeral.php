@@ -30,10 +30,10 @@ class appDatabaseFuneral extends appConfigDatabase
     'option' => [self::row => 'option', 'title' => 'オプション'],
     'totalpeople' => [self::row => 'totalpeople', 'title' => '葬儀参列人数', 'placeholder' => '0'],
     'funeral_comment' => [self::row => 'funeral_comment', 'title' => 'コメント'],
-    'insert_date' => [self::row => 'insert_date'],
-    'update_date' => [self::row => 'update_date'],
-    'insert_by' => [self::row => 'insert_by'],
-    'update_by' => [self::row => 'update_by'],
-    'deleteFlg' => [self::row => 'deleteFlg']
+    'insert_date' => [self::row => 'insert_date', 'value' => 'datetime'],
+    'update_date' => [self::row => 'update_date', 'value' => 'datetime'],
+    'insert_by' => [self::row => 'insert_by', 'value' => 'int'],
+    'update_by' => [self::row => 'update_by', 'value' => 'int'],
+    'deleteFlg' => [self::row => 'deleteFlg', 'value' => false]
   ];
 }

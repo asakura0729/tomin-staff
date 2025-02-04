@@ -17,11 +17,11 @@ class appDatabaseReport extends appConfigDatabase
     'disp_flg' => [self::row => 'disp_flg', 'title' => '表示_非表示'],
     'title' => [self::row => 'title', 'title' => 'タイトル', 'placeholder' => 'タイトル'],
     'comment' => [self::row => 'comment', 'title' => 'コメント', 'placeholder' => '任意の文章を入力'],
-    'insert_date' => [self::row => 'insert_date'],
-    'update_date' => [self::row => 'update_date'],
-    'insert_by' => [self::row => 'insert_by'],
-    'update_by' => [self::row => 'update_by'],
-    'deleteFlg' => [self::row => 'deleteFlg']
+    'insert_date' => [self::row => 'insert_date', 'value' => 'datetime'],
+    'update_date' => [self::row => 'update_date', 'value' => 'datetime'],
+    'insert_by' => [self::row => 'insert_by', 'value' => 'int'],
+    'update_by' => [self::row => 'update_by', 'value' => 'int'],
+    'deleteFlg' => [self::row => 'deleteFlg', 'value' => false]
   ];
 
   /*report_categoryの値*/
@@ -41,7 +41,8 @@ class appDatabaseReport extends appConfigDatabase
   public const tableCs = [
     'report_id' => [self::row => 'report_id'],
     'container_cs_id' => [self::row => 'container_cs_id', 'title' => 'コンテナID'],
-    'cs_category' => [self::row => 'cs_category', 'title' => 'カテゴリ']
+    'cs_category' => [self::row => 'cs_category', 'title' => 'カテゴリ'],
+    'log' => [self::row => 'log', 'title' => '対応ログ']
   ];
 
   /*テーブル構成(架電)*/
@@ -67,5 +68,11 @@ class appDatabaseReport extends appConfigDatabase
     'document'  => '資料請求',
     'cancel'  => 'キャンセル',
     'other'  => 'その他'
+  ];
+
+  /*tel_statusの値*/
+  public const telStatus = [
+    'none' => '未対応',
+    'complete' => '完了',
   ];
 }

@@ -18,4 +18,17 @@ class appFuncArray
         }
         return $result;
     }
+    //-----------------------------------------------------
+    // 関数：配列を結合
+    //-----------------------------------------------------
+    public static function arrayMerge(array $arrays): array
+    {
+        $result = [];
+        foreach ($arrays as $array) {
+            foreach ($array as $key => $value) {
+                $result[$key] = $value;
+            }
+        }
+        return $result;
+    }
 }

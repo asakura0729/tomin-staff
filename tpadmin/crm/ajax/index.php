@@ -3,7 +3,6 @@
 <article class="pb-3 animation-fadein">
     <div class="bg-white p-3 border">
         <?php appLibraryDisp::heading('h2', '検索'); ?>
-
     </div>
 </article>
 

@@ -21,13 +21,14 @@ class appDatabaseFuneralclient extends appConfigDatabase
     'fc_tel' => [self::row => 'fc_tel', 'title' => '電話番号', 'placeholder' => '09012345678'],
     'fc_gender' => [self::row => 'fc_gender', 'title' => '性別'],
     'fc_region' => [self::row => 'fc_region', 'title' => '住民票', 'placeholder' => '東京都港区'],
+    'fc_address' => [self::row => 'fc_address', 'title' => '住所', 'placeholder' => '東京都港区○○○○'],
     'fc_relation' => [self::row => 'fc_relation', 'title' => '続柄'],
     'fc_comment' => [self::row => 'fc_comment', 'title' => 'コメント'],
-    'insert_date' => [self::row => 'insert_date'],
-    'update_date' => [self::row => 'update_date'],
-    'insert_by' => [self::row => 'insert_by'],
-    'update_by' => [self::row => 'update_by'],
-    'deleteFlg' => [self::row => 'deleteFlg']
+    'insert_date' => [self::row => 'insert_date', 'value' => 'datetime'],
+    'update_date' => [self::row => 'update_date', 'value' => 'datetime'],
+    'insert_by' => [self::row => 'insert_by', 'value' => 'int'],
+    'update_by' => [self::row => 'update_by', 'value' => 'int'],
+    'deleteFlg' => [self::row => 'deleteFlg', 'value' => false]
   ];
 
 }

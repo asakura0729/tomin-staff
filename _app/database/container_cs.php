@@ -14,19 +14,25 @@ class appDatabaseContainerCs extends appConfigDatabase
     'funeral_id' => [self::row => 'funeral_id', 'title' => '葬儀ID'],
     'fc_id' => [self::row => 'fc_id', 'title' => '顧客ID'],
     'approval_date' => [self::row => 'approval_date', 'title' => '承認日時'],
-    'approval_status' => [self::row => 'approval_status', 'title' => '承認状況'],
-    'approval_comment' => [self::row => 'approval_by', 'title' => '承認コメント'],
+    self::approval_status => [self::row => self::approval_status, 'title' => '承認状況', 'value' => self::status['none']],
+    'approval_comment' => [self::row => 'approval_comment', 'title' => '承認コメント'],
     'approval_by' => [self::row => 'approval_by', 'title' => '承認者'],
-    'insert_date' => [self::row => 'insert_date'],
-    'update_date' => [self::row => 'update_date'],
-    'insert_by' => [self::row => 'insert_by'],
-    'update_by' => [self::row => 'update_by'],
-    'deleteFlg' => [self::row => 'deleteFlg']
+    'insert_date' => [self::row => 'insert_date', 'value' => 'datetime'],
+    'update_date' => [self::row => 'update_date', 'value' => 'datetime'],
+    'insert_by' => [self::row => 'insert_by', 'value' => 'int'],
+    'update_by' => [self::row => 'update_by', 'value' => 'int'],
+    'deleteFlg' => [self::row => 'deleteFlg', 'value' => false]
   ];
+  public const approval_status = 'approval_status';
+
   /*approval_statusの値*/
   public const status = [
-    'none' => '未承認',
-    'approval'  => '承認',
-    'remand'  => '差戻し'
+    self::statusNone => '未承認',
+    self::statusSuccess  => '承認',
+    self::statusRemand  => '差戻し'
   ];
+  public const statusNone = 'none';
+  public const statusSuccess = 'success';
+  public const statusRemand = 'remand';
+  
 }

@@ -9,17 +9,13 @@ class appLibraryDisp
         include $tmpl;
     }
 
-    public static function minifySource($file)
-    {
-        echo appFuncMinify::minifySource($file);
-    }
-
     //-----------------------------------------------------
     // 見出し要素の読み込み
     //-----------------------------------------------------
     public static function heading($tag, $title, $option = [])
     {
         $cssClass = appFuncArray::issetKey($option, 'class', '');
+        $icon = appFuncArray::issetKey($option, 'icon', '');
         if ($cssClass != '') {
             $cssClass = ' ' . $cssClass;
         }
@@ -48,6 +44,7 @@ class appLibraryDisp
         $add = appFuncArray::issetKey($option, 'add', '');
         $multiple = appFuncArray::issetKey($option, 'multiple', false);
         $overwriteValue = appFuncArray::issetKey($option, 'value', '');
+        $css = appFuncArray::issetKey($option, 'css', '');
         foreach ($inputNames as $index => $inputName) {
             $tableRow = appFuncArray::issetKey($tableConfig, $inputName);
             $title = appFuncArray::issetKey($tableRow, 'title');
@@ -74,9 +71,23 @@ class appLibraryDisp
         return $tableConfig[$col]['title'];
     }
 
-    public static function formChoices($tmpl, $title, $name, $value = null, $choices = array(),  $add = null)
+    public static function arrayCountString(array $array, string $strTrue = "", string $strFalse = "")
     {
-        include $tmpl;
+        if (count($array) > 0) {
+            echo $strTrue;
+        } else {
+            echo $strFalse;
+        }
+    }
+
+
+    public static function  strlenString(string $string, string $strTrue = "", string $strFalse = "")
+    {
+        if (strlen($string) > 0) {
+            echo $strTrue;
+        } else {
+            echo $strFalse;
+        }
     }
 
     public static function btn($tmpl, $title, $classIcon = null, $add = null)

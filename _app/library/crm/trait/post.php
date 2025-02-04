@@ -6,34 +6,12 @@ trait appLibraryCrmPost
 {
 
     //======================================================================
-    // 汎用
-    //======================================================================
-    //-----------------------------------------------------
-    // データベースに追加するValue値を設定
-    //-----------------------------------------------------
-    public static function createDbPost($table, $post, $count = null): array
-    {
-        $dbpost = [];
-        foreach ($table as $row) {
-            $inputName = $row[appConfigDatabase::row];
-            if (isset($post[$inputName])) {
-                if ($count === null) {
-                    $dbpost[$inputName] = $post[$inputName];
-                } else {
-                    $dbpost[$inputName] = $post[$inputName][$count];
-                }
-            }
-        }
-        return $dbpost;
-    }
-
-    //======================================================================
     // 葬儀情報追加・更新
     //======================================================================
     //-----------------------------------------------------
     // 葬儀情報追加・更新＞更新対象の葬儀IDを取得
     //-----------------------------------------------------
-    public static function getFuneralId(): array
+    public static function postFuneralId(): array
     {
         $result[appDatabaseFuneral::primaryKey] = "";
         if (isset($_POST[appDatabaseFuneral::primaryKey])) {
@@ -52,14 +30,6 @@ trait appLibraryCrmPost
     }
 
     //-----------------------------------------------------
-    // 葬儀情報追加・更新＞SQL用を作成
-    //-----------------------------------------------------
-    public static function setFuneralSqlConfig($post): array
-    {
-        return ['tableName' => appDatabaseFuneral::tableName, 'table' => appDatabaseFuneral::table, 'dbPost' => $post];
-    }
-
-    //-----------------------------------------------------
     // 葬儀情報追加・更新＞葬儀情報を追加
     //-----------------------------------------------------
     public static function insertFuneralData(): array
@@ -67,7 +37,7 @@ trait appLibraryCrmPost
         $post = $_POST;
         $post = self::insertDataFormat($post);
         $sql = appLibraryEditsql::insertSql(self::setFuneralSqlConfig($post));
-        $param = appLibraryDataformat::dbPost($post, appDatabaseFuneral::table);
+        $param = appLibraryDataformat::bindParam($post, appDatabaseFuneral::table);
         $result = appFuncDatabase::updateData($sql, $param);
         return $result;
     }
@@ -82,9 +52,17 @@ trait appLibraryCrmPost
         $sql = appLibraryEditsql::updateSql(self::setFuneralSqlConfig($post));
         $sql .= ' WHERE ';
         $sql .= appDatabaseFuneral::primaryKey . '="' .  $primaryKey . '"';
-        $param = appLibraryDataformat::dbPost($post, appDatabaseFuneral::table);
+        $param = appLibraryDataformat::bindParam($post, appDatabaseFuneral::table);
         $result = appFuncDatabase::updateData($sql, $param);
         return $result;
+    }
+
+    //-----------------------------------------------------
+    // 葬儀情報追加・更新＞SQL用を作成
+    //-----------------------------------------------------
+    public static function setFuneralSqlConfig($post): array
+    {
+        return ['tableName' => appDatabaseFuneral::tableName, 'table' => appDatabaseFuneral::table, 'dbPost' => $post];
     }
 
     //-----------------------------------------------------
@@ -121,16 +99,19 @@ trait appLibraryCrmPost
     public static function updateFuneralClientData(): array
     {
         $post = $_POST;
+        $table = appDatabaseFuneralclient::table;
+        $primaryKey = appDatabaseFuneralclient::primaryKey;
         $result = [];
-        if (!isset($post[appDatabaseFuneralclient::primaryKey])) {
+        if (!isset($post[$primaryKey])) {
             /*分岐：顧客情報なし*/
             return $result;
         }
         $count = 0;
-        foreach ($post[appDatabaseFuneralclient::primaryKey] as $index => $postPrimaryKey) {
-            $dbpost = self::createDbPost(appDatabaseFuneralclient::table, $post, $count);
-            $sql = self::createUpdateFuneralClientSql($postPrimaryKey, $dbpost);
-            $param = appLibraryDataformat::dbPost($dbpost, appDatabaseFuneralclient::table);
+        $dbPosts = appLibraryDataformat::dbPostMultiple($post, $primaryKey);
+        foreach ($dbPosts as $dbPost) {
+            $dbPost = appLibraryDataformat::dbPostParam($table, $dbPost);
+            $sql = self::createUpdateFuneralClientSql($dbPost);
+            $param = appLibraryDataformat::bindParam($dbPost, $table);
             $result = appFuncDatabase::updateData($sql, $param);
             $count++;
         }
@@ -140,9 +121,10 @@ trait appLibraryCrmPost
     //-----------------------------------------------------
     // 顧客情報追加／更新＞SQLを作成
     //-----------------------------------------------------
-    public static function createUpdateFuneralClientSql($postPrimaryKey, $dbpost): string
+    public static function createUpdateFuneralClientSql($dbpost): string
     {
         $sql = "";
+        $postPrimaryKey = $dbpost[appDatabaseFuneralclient::primaryKey];
         $sqlConfig = ['tableName' => appDatabaseFuneralclient::tableName, 'table' => appDatabaseFuneralclient::table, 'dbPost' => $dbpost];
         if ($postPrimaryKey != '') {
             /*分岐1：既存顧客*/
@@ -156,27 +138,68 @@ trait appLibraryCrmPost
     }
 
     //======================================================================
+    // コンテナ+レポート（顧客対応）追加／更新
+    //======================================================================
+    public static function updateContainerCs(): array
+    {
+        $result = [];
+        $post = $_POST;
+        $tableName = appDatabaseContainerCs::tableName;
+        $table = appDatabaseContainerCs::table;
+        $primaryKey = appDatabaseContainerCs::primaryKey;
+        if (isset($post[$primaryKey])) {
+            $dbpost = appLibraryDataformat::dbPostParam($table, $post);
+            $sqlConfig = ['tableName' => $tableName, 'table' => $table, 'dbPost' => $dbpost];
+            if ($post[$primaryKey] != '') {
+                /*分岐1：更新*/
+                $sql = appLibraryEditsql::updateSql($sqlConfig);
+                $param = appLibraryDataformat::bindParam($post, $table);
+                $result = appFuncDatabase::updateData($sql, $param);
+            } else {
+                /*分岐2：新規*/
+                $sql = appLibraryEditsql::insertSql($sqlConfig);
+                $param = appLibraryDataformat::bindParam($post, $table);
+                $result = appFuncDatabase::updateData($sql, $param);
+                $post[$primaryKey] = $result[appFuncDatabase::updateDataLastInsertId];
+            }
+            if (isset($post[appDatabaseReport::categoryRow])) {
+                $result = self::updateReport($post);
+            }
+        }
+        var_dump($result);
+        return $result;
+    }
+
+    //======================================================================
     // レポート追加／更新
     //======================================================================
     //-----------------------------------------------------
-    // レポートを追加／更新
+    // レポートを追加／更新(複数)
     //-----------------------------------------------------
-    public static function updateReport(): array
+    public static function updateReports(): array
     {
         $post = $_POST;
-        if (!isset($post[appDatabaseReport::primaryKey])) {
-            /*分岐：レポートなし*/
-            return appFuncDatabase::updateDataResults;
-        }
-        $count = 0;
-        foreach ($post[appDatabaseReport::primaryKey] as $index => $postPrimaryKey) {
-            $parentDbResult = self::updateParentReport($postPrimaryKey, $post, $count);
-            if ($parentDbResult[appFuncDatabase::updateDataBool] === true) {
-                $childDbResult = self::updateChildReport($postPrimaryKey, $post, $count, $parentDbResult);
-                $count++;
-            } else {
+        $result = appFuncDatabase::updateDataResults;
+        $dbPosts = appLibraryDataformat::dbPostMultiple($post, appDatabaseReport::primaryKey);
+        foreach ($dbPosts as $index => $dbPost) {
+            $result = self::updateReport($dbPost);
+            if ($result[appFuncDatabase::updateDataBool] === false) {
                 break;
             }
+        }
+        return $result;
+    }
+
+    //-----------------------------------------------------
+    // レポートを追加／更新
+    //-----------------------------------------------------
+    public static function updateReport($post): array
+    {
+        $parentDbResult = self::updateParentReport($post);
+        if ($parentDbResult[appFuncDatabase::updateDataBool] === true) {
+            $childDbResult = self::updateChildReport($post, $parentDbResult);
+        } else {
+            return $parentDbResult;
         }
         return $childDbResult;
     }
@@ -184,11 +207,11 @@ trait appLibraryCrmPost
     //-----------------------------------------------------
     // レポートを追加／更新＞親テーブル
     //-----------------------------------------------------
-    public static function updateParentReport($postPrimaryKey, $post, $count): array
+    public static function updateParentReport($post): array
     {
-        $dbpost = self::createDbPost(appDatabaseReport::table, $post, $count);
-        $sql = self::updateParentReportSql($postPrimaryKey, $dbpost);
-        $param = appLibraryDataformat::dbPost($dbpost, appDatabaseReport::table);
+        $dbpost = appLibraryDataformat::dbPostParam(appDatabaseReport::table, $post);
+        $sql = self::updateParentReportSql($dbpost);
+        $param = appLibraryDataformat::bindParam($dbpost, appDatabaseReport::table);
         $result = appFuncDatabase::updateData($sql, $param);
         return $result;
     }
@@ -196,10 +219,11 @@ trait appLibraryCrmPost
     //-----------------------------------------------------
     // レポートを追加／更新＞親テーブル＞SQL作成
     //-----------------------------------------------------
-    public static function updateParentReportSql($postPrimaryKey, $dbpost): string
+    public static function updateParentReportSql($dbPost): string
     {
         $sql = "";
-        $sqlConfig = ['tableName' => appDatabaseReport::tableName, 'table' => appDatabaseReport::table, 'dbPost' => $dbpost];
+        $sqlConfig = ['tableName' => appDatabaseReport::tableName, 'table' => appDatabaseReport::table, 'dbPost' => $dbPost];
+        $postPrimaryKey = appFuncArray::issetKey($dbPost, appDatabaseReport::primaryKey, '');
         if ($postPrimaryKey != '') {
             /*分岐1：既存*/
             $sql = appLibraryEditsql::updateSql($sqlConfig);
@@ -214,20 +238,19 @@ trait appLibraryCrmPost
     //-----------------------------------------------------
     // レポートを追加／更新＞子テーブル
     //-----------------------------------------------------
-    public static function updateChildReport($postPrimaryKey, $post, $count, $parentDbResult): array
+    public static function updateChildReport($post, $parentDbResult): array
     {
-        if (!isset($post[appDatabaseReport::categoryRow]) || !isset($post[appDatabaseReport::categoryRow][$count])) {
-            /*分岐：データなし*/
-            return appFuncDatabase::updateDataResults;
+        $result = appFuncDatabase::updateDataResults;
+        $reportCategory = $post[appDatabaseReport::categoryRow];
+        list($tableName, $table) = self::selectReportTable($reportCategory);
+        $dbpost = appLibraryDataformat::dbPostParam($table, $post);
+        $insertReportId = $parentDbResult[appFuncDatabase::updateDataLastInsertId];
+        if ($insertReportId != '') {
+            /*分岐：新規*/
+            $dbpost[appDatabaseReport::primaryKey] = $insertReportId;
         }
-        list($tableName, $table) = self::selectReportTable($post[appDatabaseReport::categoryRow][$count]);
-        $dbpost = self::createDbPost($table, $post, $count);
-        if ($postPrimaryKey === '') {
-            /*分岐：新規の場合、親テーブルのIDを継承*/
-            $dbpost[appDatabaseReport::primaryKey] = $parentDbResult[appFuncDatabase::updateDataLastInsertId];
-        }
-        $sql = self::updateChildReportSql($postPrimaryKey, $dbpost, $tableName, $table);
-        $param = appLibraryDataformat::dbPost($dbpost, $table);
+        $sql = self::updateChildReportSql($dbpost, $tableName, $table, $insertReportId);
+        $param = appLibraryDataformat::bindParam($dbpost, $table);
         $result = appFuncDatabase::updateData($sql, $param);
         return $result;
     }
@@ -235,22 +258,22 @@ trait appLibraryCrmPost
     //-----------------------------------------------------
     // レポートを追加／更新＞子テーブル＞SQLを作成
     //-----------------------------------------------------
-    public static function updateChildReportSql($postPrimaryKey, $dbpost, $tableName, $table): string
+    public static function updateChildReportSql($dbpost, $tableName, $table, $insertReportId): string
     {
         $sql = "";
         $sqlConfig = ['tableName' => $tableName, 'table' => $table, 'dbPost' => $dbpost];
-        if ($postPrimaryKey != '') {
-            /*分岐1：既存*/
-            $sql = appLibraryEditsql::updateSql($sqlConfig);
-        } else {
-            /*分岐2：新規追加*/
+        if ($insertReportId != '') {
+            /*分岐1：新規*/
             $sql = appLibraryEditsql::insertSql($sqlConfig);
+        } else {
+            /*分岐2：既存*/
+            $sql = appLibraryEditsql::updateSql($sqlConfig);
         }
         return $sql;
     }
 
     //-----------------------------------------------------
-    // レポートを追加／更新＞データベース選択
+    // レポートを追加／更新＞子テーブル＞データベース選択
     //-----------------------------------------------------
     public static function selectReportTable($reportCategory): array
     {
@@ -268,7 +291,7 @@ trait appLibraryCrmPost
             default:
                 /*分岐3：該当なし*/
                 $tableName = "";
-                $table = "";
+                $table = [];
                 break;
         }
         $result = [

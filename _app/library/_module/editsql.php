@@ -42,24 +42,26 @@ class appLibraryEditsql
     //-----------------------------------------------------
     // SQL文作成：データ取得用
     //-----------------------------------------------------
-    public static function requestSql(array $tableOption = [], array $joinOption = []): string
+    public static function requestSql(...$tableArr): string
     {
         $select = "";
         $from = "";
-        $tableName = appFuncArray::issetKey($tableOption, 'tableName', '');
-        $table = appFuncArray::issetKey($tableOption, 'table', []);
-        $filter = appFuncArray::issetKey($tableOption, 'filter', []);
-        $primaryKey = appFuncArray::issetKey($joinOption, 'primaryKey', '');
-        $joinTableName = appFuncArray::issetKey($joinOption, 'tableName', '');
-        $joinTable = appFuncArray::issetKey($joinOption, 'table', []);
-        $joinFilter = appFuncArray::issetKey($joinOption, 'filter', []);
-        $select .= self::select($tableName, $table, $filter);
-        $select .= self::select($joinTableName, $joinTable, $joinFilter);
-        $select = substr($select, 0, -1);
-        $result =  'select ' . $select . ' from ' . $tableName . ' ';
-        if ($primaryKey != '') {
-            $result .= ' LEFT JOIN ' . $joinTableName . ' ON ' . $tableName . '.' . $primaryKey . ' = ' . $joinTableName . '.' .  $primaryKey;
+        $prevTableName = "";
+        foreach ($tableArr as $index => $col) {
+            $tableName = appFuncArray::issetKey($col, 'tableName', '');
+            $table = appFuncArray::issetKey($col, 'table', []);
+            $filter = appFuncArray::issetKey($col, 'filter', []);
+            $primaryKey = appFuncArray::issetKey($col, 'primaryKey', '');
+            $select .= self::select($tableName, $table, $filter);
+            if ($index > 0) {
+                $from .= ' LEFT JOIN ' . $tableName . ' ON ' . $prevTableName . '.' . $primaryKey . ' = ' . $tableName . '.' .  $primaryKey;
+            } else {
+                $from .= $tableName;
+            }
+            $prevTableName = $tableName;
         }
+        $select = substr($select, 0, -1);
+        $result =  'select ' . $select . ' from ' . $from . ' ';
         return $result;
     }
 

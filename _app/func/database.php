@@ -39,18 +39,6 @@ class appFuncDatabase
     }
 
     //-----------------------------------------------------
-    // データ取得（一件）
-    //-----------------------------------------------------
-    public static function getSingleData(string $sql, array $params = []): array
-    {
-        $results = self::getData($sql, $params);
-        if (isset($results[0])) {
-            return $results[0];
-        }
-        return [];
-    }
-
-    //-----------------------------------------------------
     // データ更新
     //-----------------------------------------------------
     public const updateDataBool = 'bool'; //DB登録の成否（true...成功）
