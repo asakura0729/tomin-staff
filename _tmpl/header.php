@@ -21,7 +21,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Noto+Serif+JP:wght@600&family=Oswald:wght@600&display=swap" rel="stylesheet">
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/assets/css/common.css?20240724" rel="stylesheet" />
+    <link href="/assets/css/common.css?202502" rel="stylesheet" />
     <link href="/assets/css/font-awesome.min.css" rel="stylesheet" onload="this.media='all'" />
     <?php echo appConfigPage::$css; ?>
     <script src="/assets/js/htmx.min.js"></script>

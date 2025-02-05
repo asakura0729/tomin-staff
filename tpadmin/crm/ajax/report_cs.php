@@ -17,8 +17,8 @@
                 <tr>
                     <td class="align-middle"><?php appLibraryDisp::globalModule('btn/hx-edit', ['page' => 'adminCrmLog', 'getParams' => [$value['report_id']]]); ?></td>
                     <td class="align-middle"><?php echo $value['insert_date']; ?></td>
-                    <td class="align-middle text-center"><?php echo appDatabaseContainerCs::status[$value['approval_status']]; ?></td>
-                    <td class="align-middle text-center"><?php echo appDatabaseReport::csCategory[$value['cs_category']]; ?></td>
+                    <td class="align-middle text-center"><?php echo appFuncArray::issetKey(appDatabaseContainerCs::status, $value['approval_status'], appDatabaseContainerCs::status[appDatabaseContainerCs::statusNone]); ?></td>
+                    <td class="align-middle text-center">---</td>
                     <td class="align-middle"><?php echo appFuncString::extract($value['comment'], 100); ?></td>
                 </tr>
             <?php endforeach; ?>

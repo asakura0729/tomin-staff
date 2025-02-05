@@ -17,11 +17,11 @@ class appDatabaseContainerCs extends appConfigDatabase
     self::approval_status => [self::row => self::approval_status, 'title' => '承認状況', 'value' => self::statusNone],
     'approval_comment' => [self::row => 'approval_comment', 'title' => '承認コメント'],
     'approval_by' => [self::row => 'approval_by', 'title' => '承認者'],
-    'insert_date' => [self::row => 'insert_date', 'value' => 'datetime'],
-    'update_date' => [self::row => 'update_date', 'value' => 'datetime'],
-    'insert_by' => [self::row => 'insert_by', 'value' => 'int'],
-    'update_by' => [self::row => 'update_by', 'value' => 'int'],
-    'deleteFlg' => [self::row => 'deleteFlg', 'value' => false]
+    'insert_date' => [self::row => 'insert_date'],
+    'update_date' => [self::row => 'update_date'],
+    'insert_by' => [self::row => 'insert_by'],
+    'update_by' => [self::row => 'update_by'],
+    'deleteFlg' => [self::row => 'deleteFlg', 'value' => 0]
   ];
   public const approval_status = 'approval_status';
 
@@ -34,5 +34,4 @@ class appDatabaseContainerCs extends appConfigDatabase
   public const statusNone = 'none';
   public const statusSuccess = 'success';
   public const statusRemand = 'remand';
-  
 }

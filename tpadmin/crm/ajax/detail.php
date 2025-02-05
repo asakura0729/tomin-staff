@@ -33,7 +33,8 @@
                 formFuneralId: '#form-funeral_id',
                 archiveArea: '#archive',
                 dbSubmitForms: ["#sec-1", "#sec-2", "#sec-4", "#sec-6"],
-                dataAdd: '[data-add]',
+                dataAddItem: '[data-additem]',
+                dataAddItemPush: '[data-additem-push]',
                 dataEditor: '[data-editor]',
                 dataDisabled: '[data-disabled]',
                 dataDisabledToggle: '[data-disabled-toggle]',
@@ -81,7 +82,7 @@
                     }
                     const childElemId = '#' + childElem.id;
                     parentElement.appendChild(childElem);
-                    new Quill(childElemId, {
+                    const quill = new Quill(childElemId, {
                         theme: 'snow'
                     });
                 });
@@ -108,6 +109,18 @@
             const formSubmit_csReportlogValue = function() {
                 const innerHTMLContent = formElem.innerHTML;
                 formElem.querySelector(elem.dataReportLog).value = innerHTMLContent;
+            }
+
+            const formSubmit_addItemValueSet = function() {
+                document.querySelectorAll(elem.dataAddItemPush).forEach(function(parent) {
+                    const arr = [];
+                    const targetInput = parent.getAttribute(getAttributeData(elem.dataAddItemPush));
+                    parent.querySelectorAll('input').forEach(function(input) {
+                        arr.push(input.value);
+                    });
+                    const json_text = JSON.stringify(arr);
+                    qs(targetInput).value = json_text;
+                });
             }
 
             const formSubmit_formElemMove = function() {
@@ -181,7 +194,7 @@
             })();
 
             const removeNodataText = (function() {
-                formElem.querySelectorAll(elem.dataAdd).forEach(button => {
+                formElem.querySelectorAll(elem.dataAddItem).forEach(button => {
                     button.addEventListener('click', function() {
                         const hxTarget = this.getAttribute(elem.hxTarget);
                         const target = qs(hxTarget);
@@ -216,6 +229,7 @@
                             swap: 'innerHTML'
                         }).then(() => {
                             formSubmit_csReportlogValue();
+                            formSubmit_addItemValueSet();
                             formSubmit_editorValueSet();
                             formSubmit_formElemMove();
                             formSubmit_postConfirm(elemFormFuneralId);

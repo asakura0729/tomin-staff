@@ -24,11 +24,11 @@ class appDatabaseFuneralclient extends appConfigDatabase
     'fc_address' => [self::row => 'fc_address', 'title' => '住所', 'placeholder' => '東京都港区○○○○'],
     'fc_relation' => [self::row => 'fc_relation', 'title' => '続柄'],
     'fc_comment' => [self::row => 'fc_comment', 'title' => 'コメント'],
-    'insert_date' => [self::row => 'insert_date', 'value' => 'datetime'],
-    'update_date' => [self::row => 'update_date', 'value' => 'datetime'],
-    'insert_by' => [self::row => 'insert_by', 'value' => 'int'],
-    'update_by' => [self::row => 'update_by', 'value' => 'int'],
-    'deleteFlg' => [self::row => 'deleteFlg', 'value' => false]
+    'insert_date' => [self::row => 'insert_date'],
+    'update_date' => [self::row => 'update_date'],
+    'insert_by' => [self::row => 'insert_by'],
+    'update_by' => [self::row => 'update_by'],
+    'deleteFlg' => [self::row => 'deleteFlg', 'value' => 0]
   ];
 
 }

@@ -16,9 +16,15 @@ class appLibraryDataformat
     public static function dbResult(array $dbResult = [], array $table = []): array
     {
         $result = [];
-        foreach ($table as $value) {
-            $row = $value[self::row];
+        foreach ($table as $tableRow) {
+            $row = $tableRow[self::row];
+            $format = appFuncArray::issetKey($tableRow, 'format', '');
             $result[$row] = appFuncArray::issetKey($dbResult, $row, '');
+            switch ($format) {
+                case 'json':
+                    $result[$row . '_jd'] = json_decode($result[$row], true);
+                    break;
+            }
         }
         return $result;
     }

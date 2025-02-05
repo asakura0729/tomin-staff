@@ -28,7 +28,7 @@ class appRoutesWeb
     //======================================================================
     public const ajax = [
         'adminCrmConfirm' => ['path' => '/tpadmin/crm/ajax/confirm', 'title' => 'データ送信'],
-        'adminCrmDetailAjaxAddtext' => ['path' => '/tpadmin/crm/ajax/add_text?input_name=', 'title' => 'テキスト入力フォーム追加'],
+        'adminCrmDetailAjaxAddtext' => ['path' => '/tpadmin/crm/ajax/add_text', 'title' => 'テキスト入力フォーム追加'],
         'adminCrmDetailAjaxReportCs' => ['path' => '/tpadmin/crm/ajax/report_cs?funeral_id=', 'title' => 'テキスト入力フォーム追加'],
     ];
     //======================================================================

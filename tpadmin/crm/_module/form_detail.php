@@ -44,7 +44,7 @@
             //======================================================================
             ?>
             <div class="pos-top-right p-2">
-                <?php appLibraryDisp::globalModule('form/btn_add', ['add' => 'data-add data-hx-get="/tpadmin/crm/ajax/client" data-hx-target="#sec-2-1" hx-swap="afterbegin"']); ?>
+                <?php appLibraryDisp::globalModule('form/btn_add', ['add' => 'data-additem data-hx-get="/tpadmin/crm/ajax/client" data-hx-target="#sec-2-1" hx-swap="afterbegin"']); ?>
             </div>
             <div class="bg-white">
                 <?php appLibraryDisp::heading('h2', '依頼者情報', ['class' => 'text-center m-0 p-3', 'icon' => 'fa-user-circle']); ?>
@@ -86,11 +86,11 @@
                     <div class="w-150px d-flex"><?php appLibraryDisp::dbform('text_label', ['totalpeople'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral); ?></div>
                 </div>
                 <div class="col-12">
-                    <?php appLibraryDisp::module('../_module/form_add.php', ['id' => 'sec-3-1', 'table' => appDatabaseFuneral::table['crematory']]); ?>
-                    <?php appLibraryDisp::module('../_module/form_add.php', ['id' => 'sec-3-2', 'table' => appDatabaseFuneral::table['hall']]); ?>
-                    <?php appLibraryDisp::module('../_module/form_add.php', ['id' => 'sec-3-3', 'table' => appDatabaseFuneral::table['option']]); ?>
+                    <?php appLibraryDisp::module('../_module/form_add.php', ['id' => 'sec-3-1', 'table' => appDatabaseFuneral::table['crematory'], 'result' => appHttpTpAdminCrmAjaxDetail::$resultFuneral]); ?>
+                    <?php appLibraryDisp::module('../_module/form_add.php', ['id' => 'sec-3-2', 'table' => appDatabaseFuneral::table['hall'], 'result' => appHttpTpAdminCrmAjaxDetail::$resultFuneral]); ?>
+                    <?php appLibraryDisp::module('../_module/form_add.php', ['id' => 'sec-3-3', 'table' => appDatabaseFuneral::table['option'], 'result' => appHttpTpAdminCrmAjaxDetail::$resultFuneral]); ?>
                 </div>
-                <?php appLibraryDisp::dbform('hidden',  ['funeral_comment'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral, ['add' => 'id="sec-3-comment"']); ?>
+                <?php appLibraryDisp::dbform('hidden', ['funeral_comment'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral, ['add' => 'id="sec-3-comment"']); ?>
                 <?php appLibraryDisp::dbform('hidden', ['funeral_id'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral, ['add' => 'data-funeral_id']); ?>
             </div>
         </div>
@@ -145,7 +145,7 @@
                     <?php appLibraryDisp::globalModule('btn/collapse_xl', ['target' => '#sec-6-collapse']); ?>
                     <div id="sec-6-collapse" class="<?php appLibraryDisp::arrayCountString(appHttpTpAdminCrmAjaxDetail::$resultReportTel, '', 'collapse'); ?>">
                         <div class="d-flex flex-row-reverse p-1">
-                            <?php appLibraryDisp::globalModule('form/btn_add', ['add' => 'data-add data-hx-get="/tpadmin/crm/ajax/report_tel" data-hx-target="#sec-6-add" hx-swap="afterbegin"']); ?>
+                            <?php appLibraryDisp::globalModule('form/btn_add', ['add' => 'data-additem data-hx-get="/tpadmin/crm/ajax/report_tel" data-hx-target="#sec-6-add" hx-swap="afterbegin"']); ?>
                         </div>
                         <div id="sec-6-add" class="bg-llgray p-3 pb-4 border-top">
                             <?php if (count(appHttpTpAdminCrmAjaxDetail::$resultReportTel) > 0): ?>

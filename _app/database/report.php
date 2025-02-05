@@ -17,11 +17,11 @@ class appDatabaseReport extends appConfigDatabase
     'disp_flg' => [self::row => 'disp_flg', 'title' => '表示_非表示'],
     'title' => [self::row => 'title', 'title' => 'タイトル', 'placeholder' => 'タイトル'],
     'comment' => [self::row => 'comment', 'title' => 'コメント', 'placeholder' => '任意の文章を入力'],
-    'insert_date' => [self::row => 'insert_date', 'value' => 'datetime'],
-    'update_date' => [self::row => 'update_date', 'value' => 'datetime'],
-    'insert_by' => [self::row => 'insert_by', 'value' => 'int'],
-    'update_by' => [self::row => 'update_by', 'value' => 'int'],
-    'deleteFlg' => [self::row => 'deleteFlg', 'value' => false]
+    'insert_date' => [self::row => 'insert_date'],
+    'update_date' => [self::row => 'update_date'],
+    'insert_by' => [self::row => 'insert_by'],
+    'update_by' => [self::row => 'update_by'],
+    'deleteFlg' => [self::row => 'deleteFlg', 'value' => 0]
   ];
 
   /*report_categoryの値*/
