@@ -138,6 +138,7 @@ trait appLibraryCrmPost
             if ($post[$primaryKey] != '') {
                 /*分岐1：更新*/
                 $sql = appLibraryEditsql::updateSql($sqlConfig);
+                $sql .= ' WHERE ' . $primaryKey . '=' . $post[$primaryKey];
                 $param = appLibraryDataformat::bindParam($dbpost, $table);
                 $result = appFuncDatabase::updateData($sql, $param);
             } else {

@@ -4,7 +4,6 @@
 //======================================================================
 trait appLibraryCrmGet
 {
-
     //======================================================================
     // 葬儀情報
     //======================================================================
@@ -17,15 +16,30 @@ trait appLibraryCrmGet
         return $primaryKey;
     }
     //-----------------------------------------------------
+    // 葬儀情報を取得(総数取得)
+    //-----------------------------------------------------
+    public static function getFuneralCount(): string
+    {
+        $sql = appLibraryEditsql::getCount(appDatabaseFuneral::tableName, appDatabaseFuneral::primaryKey);
+        $sql .= self::getFuneralSqlWhere([]);
+        $dbresult = appFuncDatabase::getData($sql);
+        $result = $dbresult[0]['count'];
+        return $result;
+    }
+    //-----------------------------------------------------
     // 葬儀情報を取得(一覧表示)
     //-----------------------------------------------------
     public static function getFuneral(array $option = []): array
     {
         $sql = self::getFuneralSql();
         $sql .= self::getFuneralSqlWhere($option);
+        $sql .= self::getFuneralSqlOrder();
+        $sql .= appLibraryEditsql::limitPager();
         $dbresult = appFuncDatabase::getData($sql);
-        foreach ($dbresult as $index => $value) {
-            $result[$index] = appLibraryDataformat::dbResult($value, appDatabaseFuneral::table);
+        if (count($dbresult) > 0) {
+            foreach ($dbresult as $index => $value) {
+                $result[$index] = appLibraryDataformat::dbResult($value, appDatabaseFuneral::table);
+            }
         }
         return $result;
     }
@@ -41,7 +55,7 @@ trait appLibraryCrmGet
         }
         if (count($result) > 0) {
             $result = $result[0];
-        }else{
+        } else {
             $result = appLibraryDataformat::dbResult([], appDatabaseFuneral::table);
         }
         return $result;
@@ -59,12 +73,27 @@ trait appLibraryCrmGet
     //-----------------------------------------------------
     public static function getFuneralSqlWhere($option): string
     {
-        $sql = "";
+        $sql = ' WHERE ';
+        $sql .= appLibraryEditsql::deleteFlgFalse(appDatabaseFuneral::tableName);
         $funeralId = appFuncArray::issetKey($option, appDatabaseFuneral::primaryKey, '');
         if ($funeralId != '') {
-            $sql = ' WHERE ';
-            $sql .= appDatabaseFuneral::primaryKey . '="' .  $funeralId . '"';
+            /*葬儀ID指定*/
+            $sql .= ' AND ' . appDatabaseFuneral::primaryKey . '="' .  $funeralId . '"';
         }
+        $word = appFuncArray::issetKey($option, appRoutesWeb::getWords, '');
+        if ($word != '') {
+            /*キーワード指定*/
+            $words = appFuncArray::getWords($word);
+            $sql .= appLibraryEditsql::whereKeywords($words);
+        }
+        return $sql;
+    }
+    //-----------------------------------------------------
+    // 葬儀情報を取得＞SQL作成＞ORDER句追加
+    //-----------------------------------------------------
+    public static function getFuneralSqlOrder(): string
+    {
+        $sql = ' ORDER BY ' . appDatabaseFuneral::tableName . '.' . appDatabaseFuneral::primaryKey . ' DESC';
         return $sql;
     }
 
@@ -220,11 +249,11 @@ trait appLibraryCrmGet
     //-----------------------------------------------------
     public static function getCsReportSqlWhere(array $option): string
     {
-        $sql = '';
         $funeralId = appFuncArray::issetKey($option, appDatabaseFuneral::primaryKey, '');
+        $sql = ' WHERE ' . appDatabaseReport::tableName . '.' . appDatabaseReport::categoryRow . '="' .  appDatabaseReport::categoryCs . '" ';
         if ($funeralId != '') {
             /*分岐：葬儀ID指定あり*/
-            $sql = ' WHERE ' . appDatabaseContainerCs::tableName . '.' . appDatabaseFuneral::primaryKey . '="' .  $funeralId . '" ';
+            $sql .=  ' AND ' . appDatabaseContainerCs::tableName . '.' . appDatabaseFuneral::primaryKey . '="' .  $funeralId . '" ';
         }
         return $sql;
     }
@@ -233,7 +262,8 @@ trait appLibraryCrmGet
     //-----------------------------------------------------
     public static function getCsReportSqlOrder(): string
     {
-        $sql = ' ORDER BY ' . appDatabaseContainerCs::tableName . '.' . appDatabaseContainerCs::primaryKey . ' DESC ';
+        $sql = ' ORDER BY ' . appDatabaseContainerCs::tableName . '.' . appDatabaseContainerCs::primaryKey . ' DESC,';
+        $sql .= appDatabaseReport::tableName . '.' . appDatabaseReport::primaryKey . ' DESC';
         return $sql;
     }
 }

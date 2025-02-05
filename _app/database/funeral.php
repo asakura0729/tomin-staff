@@ -13,6 +13,7 @@ class appDatabaseFuneral extends appConfigDatabase
   public const table = [
     self::primaryKey => [self::row => self::primaryKey, self::auto_increment => true],
     'funeral_status' => [self::row => 'funeral_status', 'title' => '進捗状況'],
+    'funeral_category' => [self::row => 'funeral_category', 'title' => '問合せカテゴリ'],
     'decd_lname' => [self::row => 'decd_lname', 'title' => '苗字', 'placeholder' => '都民'],
     'decd_fname' => [self::row => 'decd_fname', 'title' => '名前', 'placeholder' => '太郎'],
     'decd_lname_kana' => [self::row => 'decd_lname_kana', 'title' => '苗字（カナ）', 'placeholder' => 'トミン'],
@@ -35,5 +36,18 @@ class appDatabaseFuneral extends appConfigDatabase
     'insert_by' => [self::row => 'insert_by'],
     'update_by' => [self::row => 'update_by'],
     'deleteFlg' => [self::row => 'deleteFlg', 'value' => 0]
+  ];
+
+  /*カテゴリ*/
+  public const category = [
+    'valid' => '有効電話',
+    'invalid' => '無効電話',
+    'office' => '運営事務局'
+  ];
+
+  /*進捗状況*/
+  public const status = [
+    'progress' => '対応中',
+    'completed' => '完了'
   ];
 }

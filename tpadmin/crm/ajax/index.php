@@ -1,15 +1,25 @@
 <?php require_once '../../../_app/http/tpadmin/crm/ajax/index.php'; ?>
 
-<article class="pb-3 animation-fadein">
-    <div class="bg-white p-3 border">
-        <?php appLibraryDisp::heading('h2', '検索'); ?>
+<section class="pb-3 animation-fadein">
+    <div class="bg-white p-2">
+        <div class="row align-items-center">
+            <div class="col-2 pb-1">
+                <h1 class="font-size-2 text-center m-0 p-0 line-height-0">顧客検索</h1>
+            </div>
+            <div class="col-4 d-flex">
+                <?php appLibraryDisp::form('radio_nav', 'str', '', 'cl_name', ['selectItem' => appHttpTpAdminCrmAjaxIndex::search]); ?>
+            </div>
+            <div class="col-6">
+                <?php appLibraryDisp::form('search', 'str', '検索', '', ['placeholder' => '検索したい文字列を入力']); ?>
+            </div>
+        </div>
     </div>
-</article>
+</section>
 
-<section class="pb-3 animation-fadein delay-0_5">
-    <div class="bg-white p-3 border">
-        <?php appLibraryDisp::heading('h2', '検索結果'); ?>
-        <table class="table table-bordered table-sm">
+<section class="pb-5 animation-fadein delay-0_5">
+    <?php appLibraryDisp::heading('h2', '検索結果'); ?>
+    <div class="bg-white border">
+        <table class="table table-bordered table-sm m-0">
             <thead class="bg-contrast-l text-center">
                 <tr>
                     <th class="w-50px" scope="col">#</th>
@@ -35,5 +45,8 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
+    </div>
+    <div class="pt-4">
+        <?php appLibraryDisp::pager('adminCrm', appHttpTpAdminCrmAjaxIndex::$count); ?>
     </div>
 </section>

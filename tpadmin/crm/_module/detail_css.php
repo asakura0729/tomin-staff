@@ -34,4 +34,9 @@
     .ql-container {
         height: 200px;
     }
+
+    .is-disabled {
+        pointer-events: none;
+        opacity: 0.75;
+    }
 </style>

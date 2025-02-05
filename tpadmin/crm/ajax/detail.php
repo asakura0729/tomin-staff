@@ -34,11 +34,14 @@
                 archiveArea: '#archive',
                 dbSubmitForms: ["#sec-1", "#sec-2", "#sec-4", "#sec-6"],
                 dataAddItem: '[data-additem]',
-                dataAddItemPush: '[data-additem-push]',
+                dataItem: '[data-item]',
+                dataItemPush: '[data-item-push]',
+                dataItemDel: '[data-item-del]',
                 dataEditor: '[data-editor]',
                 dataDisabled: '[data-disabled]',
                 dataDisabledToggle: '[data-disabled-toggle]',
                 dataSubmit: '[data-submit]',
+                dataSubmitCopy: '[data-submit-copy]',
                 dataSubmitAdd: '[data-submit-add]',
                 dataFuneralId: '[data-funeral_id]',
                 dataReportLog: '[data-report-log]',
@@ -53,7 +56,8 @@
 
             const cssClass = {
                 qlEditor: '.ql-editor',
-                dNone: 'd-none'
+                dNone: 'd-none',
+                isDisabled: 'is-disabled'
             }
 
             const formElem = document.querySelector(elem.form);
@@ -88,10 +92,15 @@
                 });
             }
 
-            const dataDisabledToggle = function(form, bool) {
-                form.querySelectorAll('input').forEach(inputElem => {
+            const dataDisabledToggle = function(targetForm, bool) {
+                targetForm.querySelectorAll('input,select').forEach(inputElem => {
                     inputElem.disabled = bool;
                 });
+                if (bool === true) {
+                    targetForm.classList.add(cssClass.isDisabled);
+                } else {
+                    targetForm.classList.remove(cssClass.isDisabled);
+                }
             }
 
             const pageRefresh = function() {
@@ -106,15 +115,27 @@
                 <?php endif; ?>
             }
 
+            const removeItemBtn = function() {
+                formElem.querySelectorAll(elem.dataItemDel).forEach(function(delBtn) {
+                    console.log(delBtn);
+                    delBtn.addEventListener('click', function(event) {
+                        const delItem = event.target.closest(elem.dataItem);
+                        if (delItem) {
+                            delItem.remove();
+                        }
+                    });
+                });
+            }
+
             const formSubmit_csReportlogValue = function() {
                 const innerHTMLContent = formElem.innerHTML;
                 formElem.querySelector(elem.dataReportLog).value = innerHTMLContent;
             }
 
             const formSubmit_addItemValueSet = function() {
-                document.querySelectorAll(elem.dataAddItemPush).forEach(function(parent) {
+                formElem.querySelectorAll(elem.dataItemPush).forEach(function(parent) {
                     const arr = [];
-                    const targetInput = parent.getAttribute(getAttributeData(elem.dataAddItemPush));
+                    const targetInput = parent.getAttribute(getAttributeData(elem.dataItemPush));
                     parent.querySelectorAll('input').forEach(function(input) {
                         arr.push(input.value);
                     });
@@ -144,9 +165,10 @@
                 });
             }
 
-            const formSubmit_postConfirm = function(elemFormFuneralId) {
-                const funeralId = elemFormFuneralId.querySelector('input').value;
-                const elements = document.querySelectorAll(elem.dataFuneralId);
+            const formSubmit_postConfirm = function() {
+                /*要改善*/
+                const funeralId = qs(elem.formFuneralId).querySelector('input').value;
+                const elements = formElem.querySelectorAll(elem.dataFuneralId);
                 elements.forEach(function(element) {
                     element.value = funeralId;
                 });
@@ -157,6 +179,21 @@
                         target: id,
                     });
                     console.log(ajax.confirm);
+                });
+            }
+
+            const formSubmit_postDB = function() {
+                htmx.ajax('POST', ajax.confirm, {
+                    source: elem.formFuneralId,
+                    target: elem.formFuneralId,
+                    swap: 'innerHTML'
+                }).then(() => {
+                    formSubmit_csReportlogValue();
+                    formSubmit_addItemValueSet();
+                    formSubmit_editorValueSet();
+                    formSubmit_formElemMove();
+                    formSubmit_postConfirm();
+                    pageRefresh();
                 });
             }
 
@@ -181,6 +218,10 @@
                 });
             })();
 
+            const removeItemBtnSet = (function() {
+                removeItemBtn();
+            })();
+
             const formDisabledSet = (function() {
                 formElem.querySelectorAll(elem.dataDisabled).forEach(form => {
                     dataDisabledToggle(form, true);
@@ -193,7 +234,7 @@
                 const elemArchive = archiveElem.style.top = headerHeight + "px";
             })();
 
-            const removeNodataText = (function() {
+            const event_dataAddItemClick = (function() {
                 formElem.querySelectorAll(elem.dataAddItem).forEach(button => {
                     button.addEventListener('click', function() {
                         const hxTarget = this.getAttribute(elem.hxTarget);
@@ -201,40 +242,37 @@
                         if (target.querySelectorAll('input').length <= 0) {
                             target.innerHTML = '';
                         }
+                        setTimeout(() => {
+                            return removeItemBtn();
+                        }, "500");
                     });
                 });
             })();
 
-            const selectMenu_disabledToggle = (function() {
+            const event_disabledToggle = (function() {
                 formElem.addEventListener('change', function(event) {
-                    if (event.target.closest(elem.dataDisabledToggle)) {
-                        data = getAttributeData(elem.dataDisabledToggle);
-                        target = qs(event.target.getAttribute(data));
-                        if (event.target.value != 'none') {
-                            dataDisabledToggle(target, false);
-                        } else {
+                    if (event.target.matches(elem.dataDisabledToggle)) {
+                        const data = getAttributeData(elem.dataDisabledToggle);
+                        const target = qs(event.target.getAttribute(data));
+                        if (event.target.checked != true) {
                             dataDisabledToggle(target, true);
+                        } else {
+                            dataDisabledToggle(target, false);
                         }
                     }
                 });
             })();
 
-            const formSubmit = (function() {
+            const event_formSubmit = (function() {
                 formElem.addEventListener('click', function(event) {
-                    if (event.target.closest(elem.dataSubmit)) {
-                        const elemFormFuneralId = qs(elem.formFuneralId);
-                        htmx.ajax('POST', ajax.confirm, {
-                            source: elemFormFuneralId,
-                            target: elemFormFuneralId,
-                            swap: 'innerHTML'
-                        }).then(() => {
-                            formSubmit_csReportlogValue();
-                            formSubmit_addItemValueSet();
-                            formSubmit_editorValueSet();
-                            formSubmit_formElemMove();
-                            formSubmit_postConfirm(elemFormFuneralId);
-                            pageRefresh();
-                        });
+                    if (event.target.matches(elem.dataSubmit)) {
+                        /*submit*/
+                        return formSubmit_postDB();
+                    }
+                    if (event.target.matches(elem.dataSubmitCopy)) {
+                        /*copy*/
+                        qs(elem.formFuneralId).querySelector(elem.dataFuneralId).value = "";
+                        return formSubmit_postDB();
                     }
                 });
             })();

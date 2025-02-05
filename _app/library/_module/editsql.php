@@ -11,7 +11,7 @@ class appLibraryEditsql
     private const auto_increment = appConfigDatabase::auto_increment;
 
     //-----------------------------------------------------
-    // SQL文作成：最新のIDを一件取得
+    // 最新のIDを一件取得
     //-----------------------------------------------------
     public static function getLatest($tableName, $table, $primaryKey): string
     {
@@ -21,7 +21,18 @@ class appLibraryEditsql
     }
 
     //-----------------------------------------------------
-    // SQL文作成：insertされたばかりのindex値を取得
+    // 総数を取得
+    //-----------------------------------------------------
+    public static function getCount(string $tableName, string $primaryKey): string
+    {
+        $sql = <<<EOF
+select count({$primaryKey}) as count FROM {$tableName}
+EOF;
+        return $sql;
+    }
+
+    //-----------------------------------------------------
+    // insertされたばかりのindex値を取得
     //-----------------------------------------------------
     public static function getInsertID(): string
     {
@@ -40,7 +51,7 @@ class appLibraryEditsql
     }
 
     //-----------------------------------------------------
-    // SQL文作成：データ取得用
+    // SELECT文作成
     //-----------------------------------------------------
     public static function requestSql(...$tableArr): string
     {
@@ -66,7 +77,7 @@ class appLibraryEditsql
     }
 
     //-----------------------------------------------------
-    // SQL文作成：SELECT文
+    // SELECT文作成
     //-----------------------------------------------------
     public static function select(string $tableName, array $table, array $filter = []): string
     {
@@ -83,6 +94,49 @@ class appLibraryEditsql
             }
         }
         return $results;
+    }
+
+    //-----------------------------------------------------
+    // WHERE句作成（削除フラグが無いデータを表示）
+    //-----------------------------------------------------
+    public static function deleteFlgFalse(string $tableName): string
+    {
+        return  $tableName . '.deleteFlg!=' . appConfigDatabase::deleteFlgTrue;
+    }
+
+    //-----------------------------------------------------
+    // WHERE句作成...絞り込み句
+    //-----------------------------------------------------
+    public static function whereKeywords(array $rows = [], array $word_array = []): string
+    {
+        $result = " and (";
+        foreach ($rows as $row) {
+            foreach ($word_array as $value) {
+                $result .= '(' . $row . ' LIKE "%' . $value . '%")';
+                if ($value != end($word_array)) {
+                    $result .= ' or ';
+                }
+            }
+        }
+        $result .= ')';
+        return $result;
+    }
+
+    //-----------------------------------------------------
+    // ページング用LIMIT句を作成
+    //-----------------------------------------------------
+    public static function limitPager(int $elemCount = appConfigDatabase::pageColCount): string
+    {
+        /*$elemCount...取り出したいデータの数を記入*/
+        $pageNum = appFuncArray::issetKey($_GET, appRoutesWeb::getPage, 1);
+        $result = ' limit ' . $elemCount;
+        if (is_numeric($pageNum) === true) {
+            if (intval($pageNum) > 1) {
+                $pageOffset = ($pageNum - 1) * $elemCount;
+                $result = $result . ' offset ' . $pageOffset;
+            }
+        }
+        return $result;
     }
 
     //-----------------------------------------------------

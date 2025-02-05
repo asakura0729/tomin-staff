@@ -33,7 +33,6 @@ class appDatabaseReport extends appConfigDatabase
   public const category = [
     self::categoryNone => '未設定',
     self::categoryCs => '顧客対応',
-    self::categoryCsArchive => '顧客対応ログ',
     self::categoryTel =>  '架電',
   ];
 
@@ -68,6 +67,17 @@ class appDatabaseReport extends appConfigDatabase
     'document'  => '資料請求',
     'cancel'  => 'キャンセル',
     'other'  => 'その他'
+  ];
+
+  public const funeralCategory = [
+    '間違い電話',
+    'いたずら電話',
+    '無言電話',
+    '放棄',
+    '営業電話',
+    '同業他社',
+    '不明',
+    'その他'
   ];
 
   /*tel_statusの値*/

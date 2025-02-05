@@ -9,5 +9,7 @@ class appHttpTpAdminCrmAjaxReportcs
 
 appHttpTpAdminCrmAjaxReportcs::$funeralId = appLibraryCrm::getFuneralId();
 if (appHttpTpAdminCrmAjaxReportcs::$funeralId != '') {
-    appHttpTpAdminCrmAjaxReportcs::$result = appLibraryCrm::getCsReport(['funeral_id' => appHttpTpAdminCrmAjaxReportcs::$funeralId]);
+    appHttpTpAdminCrmAjaxReportcs::$result = appLibraryCrm::getCsReport([
+        'funeral_id' => appHttpTpAdminCrmAjaxReportcs::$funeralId
+    ]);
 }

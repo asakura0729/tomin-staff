@@ -14,6 +14,7 @@ class appConfigFuneral
     ];
 
     const enshrined =  [
+        'none' => '未定',
         'home' => '自宅安置',
         'storage' => 'お預かり安置',
         'stay' => '付添い安置'

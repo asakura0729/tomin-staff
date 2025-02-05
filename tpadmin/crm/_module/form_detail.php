@@ -1,66 +1,102 @@
+<form id="form-funeral_id">
+    <?php
+    //======================================================================
+    // 葬儀ID
+    //======================================================================
+    ?>
+    <?php appLibraryDisp::dbform('hidden', ['funeral_id'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral, ['add' => 'data-funeral_id']); ?>
+    <?php appLibraryDisp::form('hidden', appLibraryCrm::postConfirm, 'データの種類', appLibraryCrm::confirmFuneralId); ?>
+</form>
+
 <div class="row no-gutters pb-5 animation-fadein">
-    <div class="col-12 col-lg-3">
-        <div class="pb-4">
+    <div class="col-12 pb-3">
+        <div id="sec-7" class="d-flex align-items-center justify-content-between bg-white border" data-submit-add="#sec-1">
             <?php
             //======================================================================
-            // 葬儀ID
+            // sec-7：ナビゲーション
             //======================================================================
             ?>
-            <div class="p-3 bg-white">
-                複製機能<br>有効電話、運営事務局、無効電話
+            <div class="d-flex align-items-center pl-3 pr-2 w-500px">
+                <?php appLibraryDisp::dbform(
+                    'radio_nav',
+                    ['funeral_category'],
+                    appDatabaseFuneral::table,
+                    appHttpTpAdminCrmAjaxDetail::$resultFuneral,
+                    ['selectItem' => appDatabaseFuneral::category]
+                ); ?>
+            </div>
+            <div class="d-flex justify-content-end align-items-center">
+                <div class="d-flex justify-content-end align-items-center pr-3">
+                    <?php appLibraryDisp::dbform(
+                        'radio_nav',
+                        ['funeral_status'],
+                        appDatabaseFuneral::table,
+                        appHttpTpAdminCrmAjaxDetail::$resultFuneral,
+                        ['selectItem' => appDatabaseFuneral::status]
+                    ); ?>
+                </div>
+                <button class="btn border-left rounded-0" type="button"><i class="fa fa-print pr-2 color-contrast" aria-hidden="true"></i></i>完了報告書を印刷</button>
+                <button class="btn border-left rounded-0" type="button" data-submit-copy><i class="fa fa-clone pr-2 color-contrast" aria-hidden="true"></i>複製して新規作成</button>
             </div>
         </div>
-        <form id="form-funeral_id" class="col-12">
-            <?php
-            //======================================================================
-            // 葬儀ID
-            //======================================================================
-            ?>
-            <?php appLibraryDisp::dbform('hidden', ['funeral_id'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral); ?>
-            <?php appLibraryDisp::form('hidden', appLibraryCrm::postConfirm, 'データの種類', appLibraryCrm::confirmFuneralId); ?>
-        </form>
-        <form id="sec-1" class="pb-4">
-            <?php
-            //======================================================================
-            // sec-1：故人情報
-            //======================================================================
-            ?>
-            <div class="p-3 bg-white">
-                <?php appLibraryDisp::heading('h2', '故人情報', ['class' => 'text-center', 'icon' => 'fa-user-circle']); ?>
-                <?php appLibraryDisp::globalModule('form/label', ['title' => '氏名']); ?>
-                <?php appLibraryDisp::dbform('text_row', ['decd_lname', 'decd_fname'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral); ?>
-                <?php appLibraryDisp::globalModule('form/label', ['title' => '氏名(カナ)']); ?>
-                <?php appLibraryDisp::dbform('text_row', ['decd_lname_kana', 'decd_fname_kana'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral); ?>
-                <?php appLibraryDisp::dbform('select_label', ['decd_gender'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral, ['selectItem' => appConfigStatus::gender]); ?>
-                <?php appLibraryDisp::dbform('text_label', ['decd_region'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral); ?>
-                <?php appLibraryDisp::dbform('hidden', ['funeral_id'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral, ['add' => 'data-funeral_id']); ?>
-                <?php appLibraryDisp::form('hidden', appLibraryCrm::postConfirm, 'データの種類', appLibraryCrm::confirmFuneralData); ?>
-            </div>
-        </form>
-        <form id="sec-2" class="pb-4 position-relative">
-            <?php
-            //======================================================================
-            // sec-2：依頼者情報
-            //======================================================================
-            ?>
-            <div class="pos-top-right p-2">
-                <?php appLibraryDisp::globalModule('form/btn_add', ['add' => 'data-additem data-hx-get="/tpadmin/crm/ajax/client" data-hx-target="#sec-2-1" hx-swap="afterbegin"']); ?>
-            </div>
-            <div class="bg-white">
-                <?php appLibraryDisp::heading('h2', '依頼者情報', ['class' => 'text-center m-0 p-3', 'icon' => 'fa-user-circle']); ?>
-                <div id="sec-2-1" class="bg-llgray p-2 pb-4 border-top">
-                    <?php if (count(appHttpTpAdminCrmAjaxDetail::$resultClient) > 0): ?>
-                        <?php foreach (appHttpTpAdminCrmAjaxDetail::$resultClient as $index => $client): ?>
-                            <?php appLibraryDisp::module('../_module/form_client.php', ['result' => $client, 'index' => $index]); ?>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <?php appLibraryDisp::globalModule('comp/nodata', ['title' => '依頼者情報未登録']); ?>
-                    <?php endif; ?>
-                </div>
-            </div>
-            <?php appLibraryDisp::form('hidden', appLibraryCrm::postConfirm, 'データの種類', appLibraryCrm::confirmFuneralClientData); ?>
-        </form>
     </div>
+
+
+
+    <div class="col-12 col-lg-3">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" href="#sec-2" data-toggle="tab">依頼者情報</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#sec-1" data-toggle="tab">故人情報</a>
+            </li>
+        </ul>
+        <div class="tab-content pt-3 bg-white border-left border-right border-bottom">
+            <form id="sec-1" class="tab-pane fade" role="tabpanel">
+                <?php
+                //======================================================================
+                // sec-1：故人情報
+                //======================================================================
+                ?>
+                <div class="p-3 pb-5 bg-white">
+                    <?php appLibraryDisp::heading('h2', '故人情報', ['class' => 'text-center', 'icon' => 'fa-user-circle']); ?>
+                    <?php appLibraryDisp::globalModule('form/label', ['title' => '氏名']); ?>
+                    <?php appLibraryDisp::dbform('text_row', ['decd_lname', 'decd_fname'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral); ?>
+                    <?php appLibraryDisp::globalModule('form/label', ['title' => '氏名(カナ)']); ?>
+                    <?php appLibraryDisp::dbform('text_row', ['decd_lname_kana', 'decd_fname_kana'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral); ?>
+                    <?php appLibraryDisp::dbform('select_label', ['decd_gender'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral, ['selectItem' => appConfigStatus::gender]); ?>
+                    <?php appLibraryDisp::dbform('text_label', ['decd_region'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral); ?>
+                    <?php appLibraryDisp::dbform('hidden', ['funeral_id'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral, ['add' => 'data-funeral_id']); ?>
+                    <?php appLibraryDisp::form('hidden', appLibraryCrm::postConfirm, 'データの種類', appLibraryCrm::confirmFuneralData); ?>
+                </div>
+            </form>
+            <form id="sec-2" class="tab-pane fade show active position-relative" role="tabpanel">
+                <?php
+                //======================================================================
+                // sec-2：依頼者情報
+                //======================================================================
+                ?>
+                <div class="pos-top-right p-2">
+                    <?php appLibraryDisp::globalModule('form/btn_add', ['add' => 'data-additem data-hx-get="/tpadmin/crm/ajax/client" data-hx-target="#sec-2-1" hx-swap="afterbegin"']); ?>
+                </div>
+                <div class="bg-white">
+                    <?php appLibraryDisp::heading('h2', '依頼者情報', ['class' => 'text-center m-0 p-3', 'icon' => 'fa-user-circle']); ?>
+                    <div id="sec-2-1" class="bg-llgray p-2 pb-5 border-top">
+                        <?php if (count(appHttpTpAdminCrmAjaxDetail::$resultClient) > 0): ?>
+                            <?php foreach (appHttpTpAdminCrmAjaxDetail::$resultClient as $index => $client): ?>
+                                <?php appLibraryDisp::module('../_module/form_client.php', ['result' => $client, 'index' => $index]); ?>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <?php appLibraryDisp::globalModule('comp/nodata', ['title' => '依頼者情報未登録']); ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <?php appLibraryDisp::form('hidden', appLibraryCrm::postConfirm, 'データの種類', appLibraryCrm::confirmFuneralClientData); ?>
+            </form>
+        </div>
+    </div>
+
 
 
     <div id="sec-3" class="col-12 col-lg-5 pl-lg-3 pr-lg-3">

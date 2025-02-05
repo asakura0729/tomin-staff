@@ -158,4 +158,59 @@ class appLibraryDisp
     {
         include $tmpl;
     }
+
+    /*ページングを描画*/
+    public static function pager($sitemapKey, $totalElementsCount, $limitCount = appConfigDatabase::pageColCount, $dispMaxPagerCount = appConfigDatabase::pagerCount)
+    {
+        /*
+        $totalElementsCount・・・データの総数
+        $limitCount・・・1ページに表示できる記事数
+        $dispMaxPagerCount・・・ページネーションの要素数（最大値）
+        */
+
+        $tmplFile = __DIR__ . '/../../../_module/pager.php';
+
+        //基本Uri
+        $query = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
+        $cleaned_query = preg_replace('/(\?|&)page=[^&]+&?/', '$1', $query);
+        $cleaned_query = preg_replace('/\?$|&$/', '', $cleaned_query);
+        $hxPush = appRoutesWeb::sitemap[$sitemapKey]['path'] . '?' . $cleaned_query . '&' . appRoutesWeb::getPage . '=';
+        $hxGet = appRoutesWeb::sitemap[$sitemapKey]['contents'] . '?' .  $cleaned_query . '&' . appRoutesWeb::getPage . '=';
+
+        //ページネーションの要素数
+        $pagerCount = $totalElementsCount / $limitCount;
+        if (is_float($pagerCount)) {
+            $pagerCount  = ceil($pagerCount);
+        }
+
+        //現在のページ番号
+        $currentPageNum = 1;
+        if (isset($_GET[appRoutesWeb::getPage])) {
+            $currentPageNum = preg_replace('/[^0-9]/', '', $_GET["page"]);
+        }
+
+        //ページネーションの開始数値
+        $pageNum = $currentPageNum - 2;
+        if ($pageNum <= 0 || $pagerCount < $dispMaxPagerCount) {
+            $pageNum = 1;
+        } else if ($pageNum >= $pagerCount - $dispMaxPagerCount && $pagerCount > $dispMaxPagerCount) {
+            $pageNum = $pagerCount - $dispMaxPagerCount + 1;
+        }
+
+        //ページネーションの数値格納
+        $pageNumArray = [];
+        for ($i = 0; $i < $pagerCount; $i++) {
+            $pageNumArray[] = $pageNum + $i;
+            if ($i >= $dispMaxPagerCount - 1) {
+                break;
+            }
+        }
+
+        //ページネーション:prev
+        $pageNumPrev = $currentPageNum - 1;
+        //ページネーション:next
+        $pageNumNext = $currentPageNum + 1;
+
+        include_once $tmplFile;
+    }
 }

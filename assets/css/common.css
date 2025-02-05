@@ -188,6 +188,10 @@ width-height
     min-height: 200px;
 }
 
+.minh-300px {
+    min-height: 300px;
+}
+
 .minh-400px {
     min-height: 420px;
 }

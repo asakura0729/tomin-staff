@@ -6,5 +6,9 @@ class appConfigDatabase
 {
   public const row = 'row';
   public const auto_increment = 'auto_increment';
-  public const deleteFlgTrue = '1';
+  public const deleteFlgTrue = 1;
+  public const deleteFlgFalse = 0;
+
+  public const pageColCount = 20;
+  public const pagerCount = 10;
 }
