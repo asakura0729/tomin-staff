@@ -6,29 +6,18 @@ trait appLibraryCrmGetFuneral
 {
 
     //======================================================================
-    // データ取得
-    //======================================================================
-    //-----------------------------------------------------
     // 葬儀IDを取得
-    //-----------------------------------------------------
+    //======================================================================
     public static function getFuneralId(): string
     {
         $primaryKey = appFuncArray::issetKey($_GET, appDatabaseFuneral::primaryKey, '');
         return $primaryKey;
     }
+    //======================================================================
+    // 葬儀情報取得
+    //======================================================================
     //-----------------------------------------------------
-    // 総数を取得
-    //-----------------------------------------------------
-    public static function getFuneralCount(): string
-    {
-        $sql = appLibraryEditsql::getCount(appDatabaseFuneral::tableName, appDatabaseFuneral::primaryKey);
-        $sql .= self::getFuneralSqlWhere();
-        $dbresult = appFuncDatabase::getData($sql);
-        $result = $dbresult[0]['count'];
-        return $result;
-    }
-    //-----------------------------------------------------
-    // 葬儀情報を取得(1件表示)
+    // データ取得（一件）
     //-----------------------------------------------------
     public static function getFuneralDetail(array $option = []): array
     {
@@ -45,14 +34,14 @@ trait appLibraryCrmGetFuneral
         return $result;
     }
     //-----------------------------------------------------
-    // 葬儀情報を取得(一覧表示)
+    // データ取得（一覧）
     //-----------------------------------------------------
     public static function getFuneral(array $option = []): array
     {
+        $result = [];
         $sql = self::getFuneralSqlSelect();
         $sql .= self::getFuneralSqlWhere($option);
         $sql .= self::getFuneralSqlOrder();
-        $sql .= appLibraryEditsql::limitPager();
         $dbresult = appFuncDatabase::getData($sql);
         if (count($dbresult) > 0) {
             foreach ($dbresult as $index => $value) {
@@ -61,16 +50,25 @@ trait appLibraryCrmGetFuneral
         }
         return $result;
     }
-
-    //======================================================================
-    // SQL作成
-    //======================================================================
+    //-----------------------------------------------------
+    // 総数を取得
+    //-----------------------------------------------------
+    public static function getFuneralCount(array $option = []): string
+    {
+        $sql = appLibraryEditsql::getCount(appDatabaseFuneral::tableName, appDatabaseFuneral::primaryKey);
+        $sql .= self::getFuneralSqlWhere($option);
+        $dbresult = appFuncDatabase::getData($sql);
+        $result = $dbresult[0]['count'];
+        return $result;
+    }
     //-----------------------------------------------------
     // SQL作成＞SELECT文作成
     //-----------------------------------------------------
     public static function getFuneralSqlSelect(): string
     {
-        $sql = appLibraryEditsql::requestSql(['tableName' => appDatabaseFuneral::tableName, 'table' => appDatabaseFuneral::table]);
+        $sql = appLibraryEditsql::requestSql(
+            ['tableName' => appDatabaseFuneral::tableName, 'table' => appDatabaseFuneral::table]
+        );
         return $sql;
     }
     //-----------------------------------------------------
@@ -82,16 +80,8 @@ trait appLibraryCrmGetFuneral
         $sql .= appLibraryEditsql::deleteFlgFalse(appDatabaseFuneral::tableName);
         $funeralId = appFuncArray::issetKey($option, appDatabaseFuneral::primaryKey, '');
         if ($funeralId != '') {
-            /*葬儀ID指定*/
+            /*分岐：葬儀ID指定あり*/
             $sql .= ' AND ' . appDatabaseFuneral::primaryKey . '="' .  $funeralId . '"';
-        }
-        $word = appFuncArray::issetKey($_GET, appRoutesWeb::getWords, '');
-        $row = appFuncArray::issetKey($_GET, appRoutesWeb::getRow, appLibraryCrm::searchClname);
-        if (isset(appLibraryCrm::searchRows[$row])) {
-            if ($word != '' && $row != '') {
-                /*キーワード指定*/
-                $sql .= appLibraryEditsql::whereKeywords($word, appLibraryCrm::searchRows[$row]['rows']);
-            }
         }
         return $sql;
     }

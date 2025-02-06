@@ -39,10 +39,13 @@ class appDatabaseFuneral extends appConfigDatabase
   ];
 
   /*カテゴリ*/
+  public const categoryValid = 'valid';
+  public const categoryInvalid = 'invalid';
+  public const categoryOffice = 'office';
   public const category = [
-    'valid' => '有効電話',
-    'invalid' => '無効電話',
-    'office' => '運営事務局'
+    self::categoryValid => '有効電話',
+    self::categoryInvalid  => '無効電話',
+    self::categoryOffice => '運営事務局'
   ];
 
   /*進捗状況*/

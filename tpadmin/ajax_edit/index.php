@@ -32,33 +32,35 @@
                 <?php if (appHttpTpAdminCrmAjaxDetail::$resultFuneral['funeral_status'] === appDatabaseFuneral::statusCompleted): ?>
                     <div class="bg-lgreen text-center p-2"><i class="fa fa-check-circle pr-2 text-success" aria-hidden="true"></i>対応完了しました</div>
                 <?php endif; ?>
-                <div class="d-flex align-items-center justify-content-between">
-                    <?php
-                    //======================================================================
-                    // sec-7：ナビゲーション
-                    //======================================================================
-                    ?>
-                    <div class="d-flex align-items-center pl-3 pr-2 w-500px">
-                        <?php appLibraryDisp::dbform(
-                            'radio_nav',
-                            ['funeral_category'],
-                            appDatabaseFuneral::table,
-                            appHttpTpAdminCrmAjaxDetail::$resultFuneral,
-                            ['selectItem' => appDatabaseFuneral::category]
-                        ); ?>
-                    </div>
-                    <div class="d-flex justify-content-end align-items-center">
-                        <div class="d-flex justify-content-end align-items-center pr-3">
+                <div class="table-responsive">
+                    <div class="d-flex align-items-center justify-content-between minw-1200px">
+                        <?php
+                        //======================================================================
+                        // sec-7：ナビゲーション
+                        //======================================================================
+                        ?>
+                        <div class="d-flex align-items-center pl-3 pr-2 w-500px">
                             <?php appLibraryDisp::dbform(
                                 'radio_nav',
-                                ['funeral_status'],
+                                ['funeral_category'],
                                 appDatabaseFuneral::table,
                                 appHttpTpAdminCrmAjaxDetail::$resultFuneral,
-                                ['selectItem' => appDatabaseFuneral::status]
+                                ['selectItem' => appDatabaseFuneral::category]
                             ); ?>
                         </div>
-                        <button class="btn border-left rounded-0" type="button"><i class="fa fa-print pr-2 color-contrast" aria-hidden="true"></i></i>完了報告書を印刷</button>
-                        <button class="btn border-left rounded-0" type="button" data-submit-copy><i class="fa fa-clone pr-2 color-contrast" aria-hidden="true"></i>複製して新規作成</button>
+                        <div class="d-flex justify-content-end align-items-center">
+                            <div class="d-flex justify-content-end align-items-center pr-3">
+                                <?php appLibraryDisp::dbform(
+                                    'radio_nav',
+                                    ['funeral_status'],
+                                    appDatabaseFuneral::table,
+                                    appHttpTpAdminCrmAjaxDetail::$resultFuneral,
+                                    ['selectItem' => appDatabaseFuneral::status]
+                                ); ?>
+                            </div>
+                            <button class="btn border-left rounded-0" type="button"><i class="fa fa-print pr-2 color-contrast" aria-hidden="true"></i></i>完了報告書を印刷</button>
+                            <button class="btn border-left rounded-0" type="button" data-submit-copy><i class="fa fa-clone pr-2 color-contrast" aria-hidden="true"></i>複製して新規作成</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -66,7 +68,7 @@
 
 
 
-        <div class="col-12 col-lg-3">
+        <div class="col-12 col-lg-3 pb-5">
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" href="#sec-2" data-toggle="tab">依頼者情報</a>
@@ -85,9 +87,9 @@
                     <div class="p-3 pb-5 bg-white">
                         <?php appLibraryDisp::heading('h2', '故人情報', ['class' => 'text-center', 'icon' => 'fa-user-circle']); ?>
                         <?php appLibraryDisp::globalModule('form/label', ['title' => '氏名']); ?>
-                        <?php appLibraryDisp::dbform('text_row', ['decd_lname', 'decd_fname'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral); ?>
+                        <?php appLibraryDisp::dbform('text_row', ['decd_fname', 'decd_lname'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral); ?>
                         <?php appLibraryDisp::globalModule('form/label', ['title' => '氏名(カナ)']); ?>
-                        <?php appLibraryDisp::dbform('text_row', ['decd_lname_kana', 'decd_fname_kana'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral); ?>
+                        <?php appLibraryDisp::dbform('text_row', ['decd_fname_kana', 'decd_lname_kana'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral); ?>
                         <?php appLibraryDisp::dbform('select_label', ['decd_gender'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral, ['selectItem' => appConfigStatus::gender]); ?>
                         <?php appLibraryDisp::dbform('text_label', ['decd_region'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral); ?>
                         <?php appLibraryDisp::dbform('hidden', ['funeral_id'], appDatabaseFuneral::table, appHttpTpAdminCrmAjaxDetail::$resultFuneral, ['add' => 'data-funeral_id']); ?>
@@ -122,7 +124,7 @@
 
 
 
-        <div id="sec-3" class="col-12 col-lg-5 pl-lg-3 pr-lg-3">
+        <div id="sec-3" class="col-12 col-lg-5 pl-lg-3 pr-lg-3 pb-5">
             <div class="p-3 bg-white">
                 <?php appLibraryDisp::heading('h2', '葬儀情報', ['class' => 'text-center', 'icon' => 'fa-car']); ?>
                 <div class="row pt-3" data-submit-add="#sec-1">

@@ -18,12 +18,16 @@ class appLibraryDataformat
         $result = [];
         foreach ($table as $tableRow) {
             $row = $tableRow[self::row];
-            $format = appFuncArray::issetKey($tableRow, 'format', '');
+            $dataFormat = appFuncArray::issetKey($tableRow, 'format', '');
             $result[$row] = appFuncArray::issetKey($dbResult, $row, '');
-            switch ($format) {
-                case 'json':
-                    $result[$row . '_jd'] = json_decode($result[$row], true);
-                    break;
+            if ($result[$row] != null) {
+                switch ($dataFormat) {
+                    case 'json':
+                        $result[$row . '_jd'] = json_decode($result[$row], true);
+                        break;
+                }
+            } else {
+                $result[$row] = "";
             }
         }
         return $result;

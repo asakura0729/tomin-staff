@@ -23,7 +23,7 @@
             <?php endforeach; ?>
         <?php else: ?>
             <tr>
-                <td colspan="5" class="text-center p-3">データが存在しません</td>
+                <td colspan="5" class="p-3 pb-4 text-center"><?php appLibraryDisp::globalModule('comp/nodata', ['title' => 'データが存在しません']); ?></td>
             </tr>
         <?php endif; ?>
     </tbody>

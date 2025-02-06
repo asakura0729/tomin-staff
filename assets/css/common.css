@@ -96,6 +96,10 @@ width-height
     width: 100px;
 }
 
+.w-150px {
+    width: 150px;
+}
+
 .w-200px {
     width: 200px;
 }
@@ -170,6 +174,14 @@ width-height
 
 .h-80vh {
     height: 80vh;
+}
+
+.minw-1000px {
+    min-width: 1000px;
+}
+
+.minw-1200px {
+    min-width: 1200px;
 }
 
 .maxw-1140px {

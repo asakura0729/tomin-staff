@@ -30,26 +30,26 @@ class appLibraryCrm
     public const clTel = 'cl_tel';
     public const search = [
         self::searchClname => self::searchRows[self::searchClname]['title'],
-        self::decdName => self::searchRows[self::searchClname]['title'],
-        self::clTel => self::searchRows[self::searchClname]['title'],
+        self::decdName => self::searchRows[self::decdName]['title'],
+        self::clTel => self::searchRows[self::clTel]['title'],
     ];
     public const searchRows = [
         self::searchClname => [
             'title' => '顧客名',
             'rows' => [
-                appDatabaseFuneral::table['decd_lname'][appConfigDatabase::row],
-                appDatabaseFuneral::table['decd_fname'][appConfigDatabase::row],
-                appDatabaseFuneral::table['decd_lname_kana'][appConfigDatabase::row],
-                appDatabaseFuneral::table['decd_fname_kana'][appConfigDatabase::row]
+                appDatabaseFuneralclient::table['fc_lname'][appConfigDatabase::row],
+                appDatabaseFuneralclient::table['fc_fname'][appConfigDatabase::row],
+                appDatabaseFuneralclient::table['fc_lname_kana'][appConfigDatabase::row],
+                appDatabaseFuneralclient::table['fc_fname_kana'][appConfigDatabase::row]
             ]
         ],
         self::decdName => [
             'title' => '故人名',
             'rows' => [
-                appDatabaseFuneralclient::table['fc_lname'][appConfigDatabase::row],
-                appDatabaseFuneralclient::table['fc_fname'][appConfigDatabase::row],
-                appDatabaseFuneralclient::table['fc_lname_kana'][appConfigDatabase::row],
-                appDatabaseFuneralclient::table['fc_fname_kana'][appConfigDatabase::row]
+                appDatabaseFuneral::table['decd_lname'][appConfigDatabase::row],
+                appDatabaseFuneral::table['decd_fname'][appConfigDatabase::row],
+                appDatabaseFuneral::table['decd_lname_kana'][appConfigDatabase::row],
+                appDatabaseFuneral::table['decd_fname_kana'][appConfigDatabase::row]
             ]
         ],
         self::clTel => [

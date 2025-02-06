@@ -22,6 +22,7 @@ include_once __DIR__ . '/database/funeral.php';
 include_once __DIR__ . '/database/funeral_client.php';
 include_once __DIR__ . '/database/container_cs.php';
 include_once __DIR__ . '/database/report.php';
+include_once __DIR__ . '/database/funeral_client_view.php';
 include_once __DIR__ . '/library/_module/editsql.php';
 include_once __DIR__ . '/library/_module/disp.php';
 include_once __DIR__ . '/library/_module/dataformat.php';

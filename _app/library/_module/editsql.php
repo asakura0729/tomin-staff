@@ -115,17 +115,20 @@ EOF;
         */
         $result = "";
         $explodeWords = explode(" ", $words);
-        foreach ($explodeWords as $explodeWordsKey => $explodeWordsValue) {
-            $result .= '(';
-            foreach ($rows as $sqlWhereKey => $sqlWhereValue) {
-                $result .= $sqlWhereValue . ' LIKE "%' . $explodeWordsValue . '%"';
-                if ($sqlWhereKey != array_key_last($rows)) {
-                    $result .= ' or ';
+        if (count($explodeWords) > 0) {
+            $result = " AND ";
+            foreach ($explodeWords as $explodeWordsKey => $explodeWordsValue) {
+                $result .= '(';
+                foreach ($rows as $sqlWhereKey => $sqlWhereValue) {
+                    $result .= $sqlWhereValue . ' LIKE "%' . $explodeWordsValue . '%"';
+                    if ($sqlWhereKey != array_key_last($rows)) {
+                        $result .= ' OR ';
+                    }
                 }
-            }
-            $result .= ')';
-            if ($explodeWordsKey != array_key_last($explodeWords)) {
-                $result .= ' and ';
+                $result .= ')';
+                if ($explodeWordsKey != array_key_last($explodeWords)) {
+                    $result .= ' AND ';
+                }
             }
         }
         return $result;

@@ -165,4 +165,11 @@ class appLibraryDisp
     {
         include $tmpl;
     }
+
+    public static function compColBg(string $str, string $matchStr)
+    {
+        if ($str === $matchStr) {
+            echo 'bg-lgray';
+        }
+    }
 }
