@@ -101,6 +101,18 @@ class appLibraryDisp
         echo $result;
     }
 
+    public static function contents($key)
+    {
+        $path = appRoutesWeb::sitemap[$key]['contents'];
+        echo $path;
+    }
+
+    public static function ajaxPath(string $key, string $query = "")
+    {
+        $path = appRoutesWeb::ajax[$key]['path'] . $query;
+        echo $path;
+    }
+
     public static function hxLink($sitemapKey, $option = [])
     {
         $setQueryParams = appFuncArray::issetKey($option, appRoutesWeb::sitemapGetParams, []);
@@ -118,7 +130,7 @@ class appLibraryDisp
         $hxPushUrl .= $addGetParam;
         $hxReplaceUrl .= $addGetParam;
         $result = <<<EOF
-            hx-push-url="{$hxPushUrl}" hx-replace-url="{$hxReplaceUrl}" data-hx-get="{$hxGet}" data-hx-target="{$target}"
+            data-hx-push-url="{$hxPushUrl}" data-hx-replace-url="{$hxReplaceUrl}" data-hx-get="{$hxGet}" data-hx-target="{$target}"
             EOF;
         echo $result;
     }
@@ -136,7 +148,7 @@ class appLibraryDisp
                     $includeFile .=  '?' . $getParam;
                 }
                 $result = <<<EOF
-                data-hx-get="{$includeFile}" hx-trigger="load once"
+                data-hx-get="{$includeFile}" data-hx-trigger="load once"
                 EOF;
                 break;
             }

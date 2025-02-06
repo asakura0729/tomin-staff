@@ -12,7 +12,7 @@
             <div id="archive-body"></div>
         </div>
     </div>
-    <?php appLibraryDisp::globalModule('btn/collapse_xl', ['target' => '#archive-collapse', 'title' => '過去対応ログ', 'icon' => 'fa-list', 'add' => 'data-hx-get="' . appRoutesWeb::ajax['adminCrmDetailAjaxReportCs']['path'] . appHttpTpAdminCrmAjaxDetail::$funeralId . '" data-hx-target="#archive-body"']); ?>
+    <?php appLibraryDisp::globalModule('btn/collapse_xl', ['target' => '#archive-collapse', 'title' => '過去対応ログ', 'icon' => 'fa-list', 'add' => 'data-hx-get="' . appRoutesWeb::ajax['editLogs']['path'] . appHttpTpAdminCrmAjaxDetail::$funeralId . '" data-hx-target="#archive-body"']); ?>
 </article>
 
 <div id="form-wrap" class="l-form-wrap">
@@ -101,7 +101,7 @@
                     //======================================================================
                     ?>
                     <div class="pos-top-right p-2">
-                        <?php appLibraryDisp::globalModule('form/btn_add', ['add' => 'data-additem data-hx-get="' . appRoutesWeb::ajax['adminCrmDetailAjaxAddClient']['path'] . '" data-hx-target="#sec-2-1" hx-swap="afterbegin"']); ?>
+                        <?php appLibraryDisp::globalModule('form/btn_add', ['add' => 'data-additem data-hx-get="' . appRoutesWeb::ajax['editAddClient']['path'] . '" data-hx-target="#sec-2-1" hx-swap="afterbegin"']); ?>
                     </div>
                     <div class="bg-white">
                         <?php appLibraryDisp::heading('h2', '依頼者情報', ['class' => 'text-center m-0 p-3', 'icon' => 'fa-user-circle']); ?>
@@ -227,7 +227,6 @@
             </div>
         </div>
     </div>
-
 </div>
 <div id="sec-confirm"></div>
 
@@ -259,7 +258,7 @@
             }
 
             const ajax = {
-                confirm: "<?php echo appRoutesWeb::ajax['adminCrmConfirm']['path']; ?>",
+                confirm: "<?php echo appRoutesWeb::ajax['editConfirm']['path']; ?>",
                 detailAjax: "<?php appLibraryDisp::link('adminCrmDetail', ['path' => 'contents']); ?>",
                 detailUrl: "<?php appLibraryDisp::link('adminCrmDetail', ['path' => 'path']); ?>"
             }

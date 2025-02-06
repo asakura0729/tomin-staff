@@ -23,4 +23,12 @@ class appFuncPath
         }
         return $result;
     }
+    //-----------------------------------------------------
+    // クエリパラメータ取得
+    //-----------------------------------------------------
+    public static function getQuery(): string
+    {
+        $query = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
+        return '?' . $query;
+    }
 }

@@ -83,7 +83,7 @@
                 //======================================================================
                 ?>
                 <div class="pos-top-right p-2">
-                    <?php appLibraryDisp::globalModule('form/btn_add', ['add' => 'data-additem data-hx-get="' . appRoutesWeb::ajax['adminCrmDetailAjaxAddClient'] . '" data-hx-target="#sec-2-1" hx-swap="afterbegin"']); ?>
+                    <?php appLibraryDisp::globalModule('form/btn_add', ['add' => 'data-additem data-hx-get="' . appRoutesWeb::ajax['editAddClient'] . '" data-hx-target="#sec-2-1" hx-swap="afterbegin"']); ?>
                 </div>
                 <div class="bg-white">
                     <?php appLibraryDisp::heading('h2', '依頼者情報', ['class' => 'text-center m-0 p-3', 'icon' => 'fa-user-circle']); ?>
