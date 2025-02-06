@@ -1,5 +1,5 @@
 <?php
-require_once '../../../_app/ssl_base.php';
+require_once '../../_app/ssl_base.php';
 
 class appHttpTpAdminCrmAjaxTel
 {

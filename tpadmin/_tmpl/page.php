@@ -1,8 +1,8 @@
-<?php require_once '../../_app/ssl_base.php'; ?>
+<?php require_once __DIR__ . '../../../_app/ssl_base.php'; ?>
 <?php appFuncMinify::minifySourceStart(); ?>
 <?php appConfigPage::$title = "管理画面"; ?>
-<?php require_once '../../_tmpl/header.php'; ?>
-<?php require_once '../../_tmpl/l-header.php'; ?>
+<?php require_once __DIR__ . '../../../_tmpl/header.php'; ?>
+<?php require_once __DIR__ . '../../../_tmpl/l-header.php'; ?>
 
 <main id="page-top" class="<?php if (appConfigPage::$tmpl != 'simple') : ?>l-wrap bg-lgray<?php endif; ?>">
     <?php if (appConfigSite::maintenance == true) : ?>
@@ -20,6 +20,6 @@
     <div id="page-main" class="l-main" <?php appLibraryDisp::hxGet(); ?>></div>
 </main>
 
-<?php require_once '../../_tmpl/l-footer.php'; ?>
-<?php require_once '../../_tmpl/footer.php'; ?>
+<?php require_once __DIR__ . '../../../_tmpl/l-footer.php'; ?>
+<?php require_once __DIR__ . '../../../_tmpl/footer.php'; ?>
 <?php appFuncMinify::minifySourceEnd(); ?>

@@ -26,7 +26,6 @@ trait appLibraryCrmPost
         }
         return $result;
     }
-
     //-----------------------------------------------------
     // 葬儀情報追加・更新＞葬儀情報を追加
     //-----------------------------------------------------
@@ -40,7 +39,6 @@ trait appLibraryCrmPost
         $result = appFuncDatabase::updateData($sql, $param);
         return $result;
     }
-
     //-----------------------------------------------------
     // 葬儀情報追加・更新＞葬儀情報を更新
     //-----------------------------------------------------
@@ -63,20 +61,7 @@ trait appLibraryCrmPost
     {
         return ['tableName' => appDatabaseFuneral::tableName, 'table' => appDatabaseFuneral::table, 'dbPost' => $post];
     }
-    //-----------------------------------------------------
-    // 葬儀情報追加・更新＞データ整形（葬儀情報更新）
-    //-----------------------------------------------------
-    public static function setfuneralFormat($post): array
-    {
-        if (isset($post['funeral_date'])) {
-            $funeral_date = new DateTime($post['funeral_date']);
-            $post['funeral_date'] =  $funeral_date->format('Y-m-d');
-        }
-        if (isset($post['totalpeople'])) {
-            $post['totalpeople'] = intval($post['totalpeople']);
-        }
-        return $post;
-    }
+
 
     //======================================================================
     // 顧客情報追加／更新
@@ -102,7 +87,6 @@ trait appLibraryCrmPost
         }
         return $result;
     }
-
     //-----------------------------------------------------
     // 顧客情報追加／更新＞SQLを作成
     //-----------------------------------------------------
@@ -174,7 +158,6 @@ trait appLibraryCrmPost
         }
         return $result;
     }
-
     //-----------------------------------------------------
     // レポートを追加／更新
     //-----------------------------------------------------
@@ -188,7 +171,6 @@ trait appLibraryCrmPost
         }
         return $childDbResult;
     }
-
     //-----------------------------------------------------
     // レポートを追加／更新＞親テーブル
     //-----------------------------------------------------
@@ -200,7 +182,6 @@ trait appLibraryCrmPost
         $result = appFuncDatabase::updateData($sql, $param);
         return $result;
     }
-
     //-----------------------------------------------------
     // レポートを追加／更新＞親テーブル＞SQL作成
     //-----------------------------------------------------
@@ -219,7 +200,6 @@ trait appLibraryCrmPost
         }
         return $sql;
     }
-
     //-----------------------------------------------------
     // レポートを追加／更新＞子テーブル
     //-----------------------------------------------------
@@ -239,7 +219,6 @@ trait appLibraryCrmPost
         $result = appFuncDatabase::updateData($sql, $param);
         return $result;
     }
-
     //-----------------------------------------------------
     // レポートを追加／更新＞子テーブル＞SQLを作成
     //-----------------------------------------------------
@@ -256,7 +235,6 @@ trait appLibraryCrmPost
         }
         return $sql;
     }
-
     //-----------------------------------------------------
     // レポートを追加／更新＞子テーブル＞データベース選択
     //-----------------------------------------------------

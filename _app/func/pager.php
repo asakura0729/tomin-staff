@@ -1,30 +1,37 @@
 <?php
-/*======================================================================
-
-ページング
-
-======================================================================*/
+//======================================================================
+// ページング
+//======================================================================
 class appFuncPager
 {
-    //ページングを描画
+
+    public const getPage = appRoutesWeb::getPage;
+    public const limitCount = appConfigDatabase::pageColCount;
+    public const maxPagerCount = appConfigDatabase::pagerCount;
+    public const tmplFile = __DIR__ . '/../../_module/pager.php';
+
     public static function disp(
+        $hxGet,
+        $hxPush,
         $totalElementsCount,
-        $limitCount,
-        $dispMaxPagerCount = 10,
-        $option = []
+        $limitCount = self::limitCount,
+        $dispMaxPagerCount = self::maxPagerCount
     ) {
         /*
-         $totalElementsCount・・・データの総数
-         $limitCount・・・1ページに表示できる記事数
-         $dispMaxPagerCount・・・ページネーションの要素数（最大値）
-         $option・・・拡張オプション
-         */
+        $sitemapKey・・・遷移先ページ
+        $totalElementsCount・・・データの総数
+        $limitCount・・・1ページに表示できる記事数
+        $dispMaxPagerCount・・・ページネーションの要素数（最大値）
+        */
+
+        $tmplFile = self::tmplFile;
 
         //基本Uri
-        $baseUri = preg_replace("/&page=[0-9]{1,}/", "", $_SERVER['REQUEST_URI']);
-        if (strpos($baseUri, '?') === false) {
-            $baseUri =  $baseUri . '?';
-        }
+        $query = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
+        $cleaned_query = preg_replace('/(\?|&)page=[^&]+&?/', '$1', $query);
+        $cleaned_query = preg_replace('/\?$|&$/', '', $cleaned_query);
+        $hxPush = $hxPush . '?' . $cleaned_query . '&' . self::getPage . '=';
+        $hxGet = $hxGet . '?' .  $cleaned_query . '&' . self::getPage . '=';
 
         //ページネーションの要素数
         $pagerCount = $totalElementsCount / $limitCount;
@@ -34,8 +41,8 @@ class appFuncPager
 
         //現在のページ番号
         $currentPageNum = 1;
-        if (isset($_GET["page"])) {
-            $currentPageNum = preg_replace('/[^0-9]/', '', $_GET["page"]);
+        if (isset($_GET[self::getPage])) {
+            $currentPageNum = preg_replace('/[^0-9]/', '', $_GET[self::getPage]);
         }
 
         //ページネーションの開始数値
@@ -59,19 +66,6 @@ class appFuncPager
         $pageNumPrev = $currentPageNum - 1;
         //ページネーション:next
         $pageNumNext = $currentPageNum + 1;
-
-        //拡張オプション
-        if (isset($option['baseUri'])) {
-            $baseUri = $option['baseUri'];
-        }
-        if (isset($option['appendTarget'])) {
-            $appentTarget = $option['appendTarget'];
-        }
-        if (isset($option['tmplFile'])) {
-            $tmplFile = $option['tmplFile'];
-        } else {
-            $tmplFile = __DIR__ . '/../../_module/pager.php';
-        }
 
         include_once $tmplFile;
     }

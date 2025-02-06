@@ -4,13 +4,9 @@
 //======================================================================
 class appLibraryDisp
 {
-    public static function h1($tmpl, $title, $addText = null)
-    {
-        include $tmpl;
-    }
 
     //-----------------------------------------------------
-    // 見出し要素の読み込み
+    // 見出し要素
     //-----------------------------------------------------
     public static function heading($tag, $title, $option = [])
     {
@@ -23,7 +19,7 @@ class appLibraryDisp
     }
 
     //-----------------------------------------------------
-    // フォーム要素の読み込み
+    // フォーム要素
     //-----------------------------------------------------
     public static function form(string $tmplName, string $inputName = "", string $title = "", string $value = "", array $option = [])
     {
@@ -35,9 +31,9 @@ class appLibraryDisp
     }
 
     //-----------------------------------------------------
-    // フォーム要素の読み込み（DB連携）
+    // フォーム要素（DB連携）
     //-----------------------------------------------------
-    public static function dbform(string $tmplName, array $inputNames, array $tableConfig, array $result = [], array $option = [])
+    public static function dbform(string $tmplName, array $inputNames, array $tableConfig, array $result, array $option = [])
     {
         $titles = appFuncArray::issetKey($option, 'title', []);
         $selectItem = appFuncArray::issetKey($option, 'selectItem', []);
@@ -80,8 +76,7 @@ class appLibraryDisp
         }
     }
 
-
-    public static function  strlenString(string $string, string $strTrue = "", string $strFalse = "")
+    public static function strlenString(string $string, string $strTrue = "", string $strFalse = "")
     {
         if (strlen($string) > 0) {
             echo $strTrue;
@@ -133,7 +128,7 @@ class appLibraryDisp
         $uriArr = explode('?', $_SERVER['REQUEST_URI']);
         $path = appFuncArray::issetKey($uriArr, 0, '');
         $getParam = appFuncArray::issetKey($uriArr, 1, '');
-        $result = "";
+        $result = "d";
         foreach (appRoutesWeb::sitemap as $page) {
             if ($page['path'] === $path) {
                 $includeFile = $page['contents'];
@@ -157,60 +152,5 @@ class appLibraryDisp
     public static function module(string $tmpl, array $option = [])
     {
         include $tmpl;
-    }
-
-    /*ページングを描画*/
-    public static function pager($sitemapKey, $totalElementsCount, $limitCount = appConfigDatabase::pageColCount, $dispMaxPagerCount = appConfigDatabase::pagerCount)
-    {
-        /*
-        $totalElementsCount・・・データの総数
-        $limitCount・・・1ページに表示できる記事数
-        $dispMaxPagerCount・・・ページネーションの要素数（最大値）
-        */
-
-        $tmplFile = __DIR__ . '/../../../_module/pager.php';
-
-        //基本Uri
-        $query = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
-        $cleaned_query = preg_replace('/(\?|&)page=[^&]+&?/', '$1', $query);
-        $cleaned_query = preg_replace('/\?$|&$/', '', $cleaned_query);
-        $hxPush = appRoutesWeb::sitemap[$sitemapKey]['path'] . '?' . $cleaned_query . '&' . appRoutesWeb::getPage . '=';
-        $hxGet = appRoutesWeb::sitemap[$sitemapKey]['contents'] . '?' .  $cleaned_query . '&' . appRoutesWeb::getPage . '=';
-
-        //ページネーションの要素数
-        $pagerCount = $totalElementsCount / $limitCount;
-        if (is_float($pagerCount)) {
-            $pagerCount  = ceil($pagerCount);
-        }
-
-        //現在のページ番号
-        $currentPageNum = 1;
-        if (isset($_GET[appRoutesWeb::getPage])) {
-            $currentPageNum = preg_replace('/[^0-9]/', '', $_GET["page"]);
-        }
-
-        //ページネーションの開始数値
-        $pageNum = $currentPageNum - 2;
-        if ($pageNum <= 0 || $pagerCount < $dispMaxPagerCount) {
-            $pageNum = 1;
-        } else if ($pageNum >= $pagerCount - $dispMaxPagerCount && $pagerCount > $dispMaxPagerCount) {
-            $pageNum = $pagerCount - $dispMaxPagerCount + 1;
-        }
-
-        //ページネーションの数値格納
-        $pageNumArray = [];
-        for ($i = 0; $i < $pagerCount; $i++) {
-            $pageNumArray[] = $pageNum + $i;
-            if ($i >= $dispMaxPagerCount - 1) {
-                break;
-            }
-        }
-
-        //ページネーション:prev
-        $pageNumPrev = $currentPageNum - 1;
-        //ページネーション:next
-        $pageNumNext = $currentPageNum + 1;
-
-        include_once $tmplFile;
     }
 }

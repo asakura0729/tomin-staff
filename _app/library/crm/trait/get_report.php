@@ -1,144 +1,11 @@
 <?php
 //======================================================================
-// CRM＞データ取得
+// CRM＞データ取得＞レポート
 //======================================================================
-trait appLibraryCrmGet
+trait appLibraryCrmGetReport
 {
     //======================================================================
-    // 葬儀情報
-    //======================================================================
-    //-----------------------------------------------------
-    // 葬儀IDを取得
-    //-----------------------------------------------------
-    public static function getFuneralId(): string
-    {
-        $primaryKey = appFuncArray::issetKey($_GET, appDatabaseFuneral::primaryKey, '');
-        return $primaryKey;
-    }
-    //-----------------------------------------------------
-    // 葬儀情報を取得(総数取得)
-    //-----------------------------------------------------
-    public static function getFuneralCount(): string
-    {
-        $sql = appLibraryEditsql::getCount(appDatabaseFuneral::tableName, appDatabaseFuneral::primaryKey);
-        $sql .= self::getFuneralSqlWhere([]);
-        $dbresult = appFuncDatabase::getData($sql);
-        $result = $dbresult[0]['count'];
-        return $result;
-    }
-    //-----------------------------------------------------
-    // 葬儀情報を取得(一覧表示)
-    //-----------------------------------------------------
-    public static function getFuneral(array $option = []): array
-    {
-        $sql = self::getFuneralSql();
-        $sql .= self::getFuneralSqlWhere($option);
-        $sql .= self::getFuneralSqlOrder();
-        $sql .= appLibraryEditsql::limitPager();
-        $dbresult = appFuncDatabase::getData($sql);
-        if (count($dbresult) > 0) {
-            foreach ($dbresult as $index => $value) {
-                $result[$index] = appLibraryDataformat::dbResult($value, appDatabaseFuneral::table);
-            }
-        }
-        return $result;
-    }
-    //-----------------------------------------------------
-    // 葬儀情報を取得(1件表示)
-    //-----------------------------------------------------
-    public static function getFuneralDetail(array $option = []): array
-    {
-        $result = [];
-        $funeralId = appFuncArray::issetKey($option, appDatabaseFuneral::primaryKey, '');
-        if ($funeralId != '') {
-            $result = self::getFuneral($option);
-        }
-        if (count($result) > 0) {
-            $result = $result[0];
-        } else {
-            $result = appLibraryDataformat::dbResult([], appDatabaseFuneral::table);
-        }
-        return $result;
-    }
-    //-----------------------------------------------------
-    // 葬儀情報を取得＞SQL作成
-    //-----------------------------------------------------
-    public static function getFuneralSql(): string
-    {
-        $sql = appLibraryEditsql::requestSql(['tableName' => appDatabaseFuneral::tableName, 'table' => appDatabaseFuneral::table]);
-        return $sql;
-    }
-    //-----------------------------------------------------
-    // 葬儀情報を取得＞SQL作成＞絞り込み句追加
-    //-----------------------------------------------------
-    public static function getFuneralSqlWhere($option): string
-    {
-        $sql = ' WHERE ';
-        $sql .= appLibraryEditsql::deleteFlgFalse(appDatabaseFuneral::tableName);
-        $funeralId = appFuncArray::issetKey($option, appDatabaseFuneral::primaryKey, '');
-        if ($funeralId != '') {
-            /*葬儀ID指定*/
-            $sql .= ' AND ' . appDatabaseFuneral::primaryKey . '="' .  $funeralId . '"';
-        }
-        $word = appFuncArray::issetKey($option, appRoutesWeb::getWords, '');
-        if ($word != '') {
-            /*キーワード指定*/
-            $words = appFuncArray::getWords($word);
-            $sql .= appLibraryEditsql::whereKeywords($words);
-        }
-        return $sql;
-    }
-    //-----------------------------------------------------
-    // 葬儀情報を取得＞SQL作成＞ORDER句追加
-    //-----------------------------------------------------
-    public static function getFuneralSqlOrder(): string
-    {
-        $sql = ' ORDER BY ' . appDatabaseFuneral::tableName . '.' . appDatabaseFuneral::primaryKey . ' DESC';
-        return $sql;
-    }
-
-
-    //======================================================================
-    // 顧客情報
-    //======================================================================
-    //-----------------------------------------------------
-    // 顧客情報を取得(一覧表示)
-    //-----------------------------------------------------
-    public static function getClientData(array $option = []): array
-    {
-        $sql = self::getClientDataSql();
-        $sql .= self::getClientDataSqlWhere($option);
-        $result = appFuncDatabase::getData($sql);
-        foreach ($result as $index => $value) {
-            $result[$index] = appLibraryDataformat::dbResult($value, appDatabaseFuneralclient::table);
-        }
-        return $result;
-    }
-    //-----------------------------------------------------
-    // 顧客情報を取得＞SQL作成
-    //-----------------------------------------------------
-    public static function getClientDataSql(): string
-    {
-        $sql = appLibraryEditsql::requestSql(['tableName' => appDatabaseFuneralclient::tableName, 'table' => appDatabaseFuneralclient::table]);
-        return $sql;
-    }
-    //-----------------------------------------------------
-    // 顧客情報を取得＞SQL作成＞Where句追加
-    //-----------------------------------------------------
-    public static function getClientDataSqlWhere($option): string
-    {
-        $sql = "";
-        $funeralId = appFuncArray::issetKey($option, appDatabaseFuneral::primaryKey, '');
-        if ($funeralId != '') {
-            /*分岐：葬儀ID指定あり*/
-            $sql = ' WHERE ';
-            $sql .= appDatabaseFuneral::primaryKey . '="' .  $funeralId . '"';
-        }
-        return $sql;
-    }
-
-    //======================================================================
-    // レポート
+    // 通常レポート
     //======================================================================
     //-----------------------------------------------------
     // レポートIDを取得
@@ -160,8 +27,11 @@ trait appLibraryCrmGet
         return $result;
     }
 
+    //======================================================================
+    // SQL作成
+    //======================================================================
     //-----------------------------------------------------
-    // レポートを取得＞SQL作成
+    // レポートを取得＞SQL作成＞SELECT文
     //-----------------------------------------------------
     public static function getReportSql(string $category, array $table = []): string
     {
@@ -193,7 +63,7 @@ trait appLibraryCrmGet
     }
 
     //======================================================================
-    // レポート＞顧客情報まとめ
+    // 顧客情報まとめ
     //======================================================================
     //-----------------------------------------------------
     // コンテナ（顧客対応まとめ）を取得(一覧表示)
@@ -232,8 +102,13 @@ trait appLibraryCrmGet
         $result = appFuncArray::arrayMerge([$resultContiner, $resultReportCs, $resultReport]);
         return $result;
     }
+
+
+    //======================================================================
+    // SQL作成
+    //======================================================================
     //-----------------------------------------------------
-    // コンテナ（顧客対応まとめ）を取得＞SQL作成
+    // コンテナ（顧客対応まとめ）を取得＞SQL作成＞SELECT文作成
     //-----------------------------------------------------
     public static function getCsReportSql(): string
     {

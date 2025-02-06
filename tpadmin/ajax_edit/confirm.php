@@ -1,4 +1,4 @@
-<?php require_once '../../../_app/http/tpadmin/crm/ajax/confirm.php'; ?>
+<?php require_once '../../_app/http/tpadmin/ajax_edit/confirm.php'; ?>
 
 <?php if (appHttpTpAdminCrmConfirm::$postConfirm === appLibraryCrm::confirmFuneralId): ?>
     <?php /*分岐：葬儀IDの取得*/ ?>

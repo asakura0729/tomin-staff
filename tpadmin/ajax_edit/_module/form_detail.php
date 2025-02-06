@@ -10,33 +10,38 @@
 
 <div class="row no-gutters pb-5 animation-fadein">
     <div class="col-12 pb-3">
-        <div id="sec-7" class="d-flex align-items-center justify-content-between bg-white border" data-submit-add="#sec-1">
-            <?php
-            //======================================================================
-            // sec-7：ナビゲーション
-            //======================================================================
-            ?>
-            <div class="d-flex align-items-center pl-3 pr-2 w-500px">
-                <?php appLibraryDisp::dbform(
-                    'radio_nav',
-                    ['funeral_category'],
-                    appDatabaseFuneral::table,
-                    appHttpTpAdminCrmAjaxDetail::$resultFuneral,
-                    ['selectItem' => appDatabaseFuneral::category]
-                ); ?>
-            </div>
-            <div class="d-flex justify-content-end align-items-center">
-                <div class="d-flex justify-content-end align-items-center pr-3">
+        <div id="sec-7" class="bg-white border" data-submit-add="#sec-1">
+            <?php if (appHttpTpAdminCrmAjaxDetail::$resultFuneral['funeral_status'] === appDatabaseFuneral::statusCompleted): ?>
+                <div class="bg-lgreen text-center p-2"><i class="fa fa-check-circle pr-2 text-success" aria-hidden="true"></i>対応完了しました</div>
+            <?php endif; ?>
+            <div class="d-flex align-items-center justify-content-between">
+                <?php
+                //======================================================================
+                // sec-7：ナビゲーション
+                //======================================================================
+                ?>
+                <div class="d-flex align-items-center pl-3 pr-2 w-500px">
                     <?php appLibraryDisp::dbform(
                         'radio_nav',
-                        ['funeral_status'],
+                        ['funeral_category'],
                         appDatabaseFuneral::table,
                         appHttpTpAdminCrmAjaxDetail::$resultFuneral,
-                        ['selectItem' => appDatabaseFuneral::status]
+                        ['selectItem' => appDatabaseFuneral::category]
                     ); ?>
                 </div>
-                <button class="btn border-left rounded-0" type="button"><i class="fa fa-print pr-2 color-contrast" aria-hidden="true"></i></i>完了報告書を印刷</button>
-                <button class="btn border-left rounded-0" type="button" data-submit-copy><i class="fa fa-clone pr-2 color-contrast" aria-hidden="true"></i>複製して新規作成</button>
+                <div class="d-flex justify-content-end align-items-center">
+                    <div class="d-flex justify-content-end align-items-center pr-3">
+                        <?php appLibraryDisp::dbform(
+                            'radio_nav',
+                            ['funeral_status'],
+                            appDatabaseFuneral::table,
+                            appHttpTpAdminCrmAjaxDetail::$resultFuneral,
+                            ['selectItem' => appDatabaseFuneral::status]
+                        ); ?>
+                    </div>
+                    <button class="btn border-left rounded-0" type="button"><i class="fa fa-print pr-2 color-contrast" aria-hidden="true"></i></i>完了報告書を印刷</button>
+                    <button class="btn border-left rounded-0" type="button" data-submit-copy><i class="fa fa-clone pr-2 color-contrast" aria-hidden="true"></i>複製して新規作成</button>
+                </div>
             </div>
         </div>
     </div>
@@ -78,7 +83,7 @@
                 //======================================================================
                 ?>
                 <div class="pos-top-right p-2">
-                    <?php appLibraryDisp::globalModule('form/btn_add', ['add' => 'data-additem data-hx-get="/tpadmin/crm/ajax/client" data-hx-target="#sec-2-1" hx-swap="afterbegin"']); ?>
+                    <?php appLibraryDisp::globalModule('form/btn_add', ['add' => 'data-additem data-hx-get="' . appRoutesWeb::ajax['adminCrmDetailAjaxAddClient'] . '" data-hx-target="#sec-2-1" hx-swap="afterbegin"']); ?>
                 </div>
                 <div class="bg-white">
                     <?php appLibraryDisp::heading('h2', '依頼者情報', ['class' => 'text-center m-0 p-3', 'icon' => 'fa-user-circle']); ?>

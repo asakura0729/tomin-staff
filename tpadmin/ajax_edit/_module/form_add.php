@@ -1,7 +1,7 @@
 <div class="pb-3">
     <header class="d-flex justify-content-between align-items-center w-100 pb-2">
         <?php appLibraryDisp::globalModule('form/label', ['title' => $option['table']['title']]); ?>
-        <?php appLibraryDisp::globalModule('form/btn_add', ['add' => 'data-additem data-hx-get="/tpadmin/crm/ajax/add_text" data-hx-target="#' . $option['id'] . '" hx-swap="afterbegin"']); ?>
+        <?php appLibraryDisp::globalModule('form/btn_add', ['add' => 'data-additem data-hx-get="' . appRoutesWeb::ajax['adminCrmDetailAjaxAddtext']['path'] . '" data-hx-target="#' . $option['id'] . '" hx-swap="afterbegin"']); ?>
     </header>
     <?php /*要改善*/ ?>
     <div id="<?php echo $option['id']; ?>" class="item-area bg-llgray p-2" data-item-push='[name="<?php echo $option['table'][appConfigDatabase::row]; ?>"]'>

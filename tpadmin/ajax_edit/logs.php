@@ -1,5 +1,4 @@
-<?php require_once '../../../_app/http/tpadmin/crm/ajax/report_cs.php'; ?>
-
+<?php require_once '../../_app/http/tpadmin/ajax_edit/logs.php'; ?>
 
 <table class="table table-bordered table-sm bg-white">
     <thead class="bg-contrast-l text-center">

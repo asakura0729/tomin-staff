@@ -1,6 +1,5 @@
-<?php require_once '../../../_app/http/tpadmin/crm/ajax/log.php'; ?>
-<?php require_once '../_module/detail_css.php'; ?>
-
+<?php require_once '../../_app/http/tpadmin/ajax_edit/log.php'; ?>
+<?php require_once './_module/detail_css.php'; ?>
 
 <div class="alert alert-danger text-center" role="alert">
     過去のデータを表示しています。登録・変更は行えません。

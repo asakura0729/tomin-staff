@@ -1,6 +1,6 @@
 <?php
 //======================================================================
-// SQL文の作成
+// SQL文作成
 //======================================================================
 class appLibraryEditsql
 {
@@ -107,18 +107,27 @@ EOF;
     //-----------------------------------------------------
     // WHERE句作成...絞り込み句
     //-----------------------------------------------------
-    public static function whereKeywords(array $rows = [], array $word_array = []): string
+    public static function whereKeywords(string $words, array $rows = []): string
     {
-        $result = " and (";
-        foreach ($rows as $row) {
-            foreach ($word_array as $value) {
-                $result .= '(' . $row . ' LIKE "%' . $value . '%")';
-                if ($value != end($word_array)) {
+        /*
+        $words...検索キーワード
+        $rows...検索を行う列
+        */
+        $result = "";
+        $explodeWords = explode(" ", $words);
+        foreach ($explodeWords as $explodeWordsKey => $explodeWordsValue) {
+            $result .= '(';
+            foreach ($rows as $sqlWhereKey => $sqlWhereValue) {
+                $result .= $sqlWhereValue . ' LIKE "%' . $explodeWordsValue . '%"';
+                if ($sqlWhereKey != array_key_last($rows)) {
                     $result .= ' or ';
                 }
             }
+            $result .= ')';
+            if ($explodeWordsKey != array_key_last($explodeWords)) {
+                $result .= ' and ';
+            }
         }
-        $result .= ')';
         return $result;
     }
 

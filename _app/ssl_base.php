@@ -8,6 +8,7 @@ include_once __DIR__ . '/config/status.php';
 include_once __DIR__ . '/config/session.php';
 include_once __DIR__ . '/config/database.php';
 include_once __DIR__ . '/config/funeral.php';
+include_once __DIR__ . '/routes/web.php';
 include_once __DIR__ . '/func/array.php';
 include_once __DIR__ . '/func/database.php';
 include_once __DIR__ . '/func/string.php';
@@ -25,7 +26,6 @@ include_once __DIR__ . '/library/_module/editsql.php';
 include_once __DIR__ . '/library/_module/disp.php';
 include_once __DIR__ . '/library/_module/dataformat.php';
 include_once __DIR__ . '/library/crm/class.php';
-include_once __DIR__ . '/routes/web.php';
 
 $_SESSION = appFuncSession::checkLogout($_SESSION, $_POST);
 appFuncSession::redirect(appRoutesWeb::sitemap['login']['path']);

@@ -46,8 +46,10 @@ class appDatabaseFuneral extends appConfigDatabase
   ];
 
   /*進捗状況*/
+  public const statusProgress = 'progress';
+  public const statusCompleted = 'completed';
   public const status = [
-    'progress' => '対応中',
-    'completed' => '完了'
+    self::statusProgress => '対応中',
+    self::statusCompleted => '完了'
   ];
 }

@@ -1,4 +1,4 @@
-<?php require_once '../../../_app/http/tpadmin/crm/ajax/tel.php'; ?>
+<?php require_once '../../_app/http/tpadmin/tel/ajax.php'; ?>
 
 <?php appLibraryDisp::heading('h1', '架電リスト'); ?>
 
