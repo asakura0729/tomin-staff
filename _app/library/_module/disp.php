@@ -137,16 +137,12 @@ class appLibraryDisp
 
     public static function hxGet()
     {
-        $uriArr = explode('?', $_SERVER['REQUEST_URI']);
-        $path = appFuncArray::issetKey($uriArr, 0, '');
-        $getParam = appFuncArray::issetKey($uriArr, 1, '');
-        $result = "d";
+        $path = appFuncPath::getPath();
+        $getParam = appFuncPath::getQuery();
         foreach (appRoutesWeb::sitemap as $page) {
             if ($page['path'] === $path) {
                 $includeFile = $page['contents'];
-                if ($getParam != '') {
-                    $includeFile .=  '?' . $getParam;
-                }
+                $includeFile .=  $getParam;
                 $result = <<<EOF
                 data-hx-get="{$includeFile}" data-hx-trigger="load once"
                 EOF;

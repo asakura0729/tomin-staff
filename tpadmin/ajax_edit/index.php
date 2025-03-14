@@ -315,9 +315,10 @@
             }
 
             const pageRefresh = function() {
+                const date = new Date();
                 const funeralId = qs(elem.formFuneralId).querySelector('[name="funeral_id"]').value;
-                const loadContents = ajax.detailAjax + funeralId;
-                const pushUrl = ajax.detailUrl + funeralId;
+                const loadContents = ajax.detailAjax + funeralId+ '&success=' + date.getTime();
+                const pushUrl = ajax.detailUrl + funeralId + '&success=' + date.getTime();
                 <?php if (appLibraryCrm::debug === false): ?>
                     htmx.ajax('GET', loadContents, {
                         target: elem.main,

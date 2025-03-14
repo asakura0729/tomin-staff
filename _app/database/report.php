@@ -38,7 +38,7 @@ class appDatabaseReport extends appConfigDatabase
 
   /*テーブル構成(顧客対応)*/
   public const tableCs = [
-    'report_id' => [self::row => 'report_id'],
+    'report_id' => [self::row => 'report_id', self::auto_increment => true],
     'container_cs_id' => [self::row => 'container_cs_id', 'title' => 'コンテナID'],
     'cs_category' => [self::row => 'cs_category', 'title' => 'カテゴリ'],
     'log' => [self::row => 'log', 'title' => '対応ログ']
@@ -46,7 +46,7 @@ class appDatabaseReport extends appConfigDatabase
 
   /*テーブル構成(架電)*/
   public const tableTel = [
-    'report_id' => [self::row => 'report_id'],
+    'report_id' => [self::row => 'report_id', self::auto_increment => true],
     'funeral_id' => [self::row => 'funeral_id', 'title' => '葬儀ID'],
     'tel_date' => [self::row => 'tel_date', 'title' => '架電日時'],
     'tel_status' => [self::row => 'tel_status', 'title' => '状況'],

@@ -5,9 +5,9 @@
 class appFuncArray
 {
     //-----------------------------------------------------
-    // 関数：配列にキーがあれば返す
+    // 関数：配列にキーがあれば返す($keyは何が入るかわからないため型未指定)
     //-----------------------------------------------------
-    public static function issetKey(array $array, string $key, $val = null)
+    public static function issetKey(array $array, $key, $val = null)
     {
         if (is_array($array) && isset($array[$key]) && $key != null) {
             /*分岐1：配列内に値がある*/

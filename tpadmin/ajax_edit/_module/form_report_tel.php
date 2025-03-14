@@ -6,6 +6,9 @@
         <?php appLibraryDisp::dbform('datetime_label',  ['tel_date'], appDatabaseReport::tableTel, $option['result'], ['multiple' => true]); ?>
         <?php appLibraryDisp::dbform('text_label',  ['comment'], appDatabaseReport::table, $option['result'], ['multiple' => true]); ?>
         <?php appLibraryDisp::dbform('select_label',  ['tel_status'], appDatabaseReport::tableTel, $option['result'], ['css' => 'pt-2', 'multiple' => true, 'selectItem' => appDatabaseReport::telStatus]); ?>
+        <?php if (!isset($option['result']['report_id'])): ?>
+            <?php appLibraryDisp::dbform('hidden', ['tel_by'], appDatabaseReport::tableTel, $option['result'], ['multiple' => true, 'value' => $_SESSION[appConfigSession::userId]]); ?>
+        <?php endif; ?>
         <?php appLibraryDisp::dbform('hidden', ['report_id'], appDatabaseReport::table, $option['result'], ['multiple' => true]); ?>
     </div>
 </div>

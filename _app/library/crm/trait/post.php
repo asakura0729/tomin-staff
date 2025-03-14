@@ -209,12 +209,13 @@ trait appLibraryCrmPost
         $reportCategory = $post[appDatabaseReport::categoryRow];
         list($tableName, $table) = self::selectReportTable($reportCategory);
         $dbpost = appLibraryDataformat::dbPostParam($table, appDatabaseReport::primaryKey, $post);
-        $insertReportId = $parentDbResult[appFuncDatabase::updateDataLastInsertId];
-        if ($insertReportId != '') {
+        $reportId = $dbpost[appDatabaseReport::primaryKey];
+        if ($reportId === '') {
             /*分岐：新規*/
-            $dbpost[appDatabaseReport::primaryKey] = $insertReportId;
+            $table[appDatabaseReport::primaryKey][appConfigDatabase::auto_increment] = false;
+            $dbpost[appDatabaseReport::primaryKey] = $parentDbResult[appFuncDatabase::updateDataLastInsertId];
         }
-        $sql = self::updateChildReportSql($dbpost, $tableName, $table, $insertReportId);
+        $sql = self::updateChildReportSql($dbpost, $tableName, $table, $reportId);
         $param = appLibraryDataformat::bindParam($dbpost, $table);
         $result = appFuncDatabase::updateData($sql, $param);
         return $result;
@@ -227,11 +228,12 @@ trait appLibraryCrmPost
         $sql = "";
         $sqlConfig = ['tableName' => $tableName, 'table' => $table, 'dbPost' => $dbpost];
         if ($insertReportId != '') {
-            /*分岐1：新規*/
-            $sql = appLibraryEditsql::insertSql($sqlConfig);
-        } else {
-            /*分岐2：既存*/
+            /*分岐1：既存*/
             $sql = appLibraryEditsql::updateSql($sqlConfig);
+            $sql .= ' WHERE ' . appDatabaseReport::primaryKey . '=' . $insertReportId;
+        } else {
+            /*分岐2：新規*/
+            $sql = appLibraryEditsql::insertSql($sqlConfig);
         }
         return $sql;
     }

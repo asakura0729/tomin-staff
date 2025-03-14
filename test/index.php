@@ -6,6 +6,7 @@ require_once '../_app/ssl_base.php'; ?>
 <?php echo appLibraryCrm::getCsReportSql('10'); ?>
 
 <section id="form" class="pb-3 animation-fadein">
+    <?php echo $_SERVER['REQUEST_URI']; ?>
     <form class="bg-white p-3" data-hx-get="test" data-hx-target="#test">
         <div class="row align-items-center no-gutters">
             <div class="col-2 pb-1">
@@ -22,7 +23,7 @@ require_once '../_app/ssl_base.php'; ?>
 </section>
 
 <div id="test" class="pb-5 animation-fadein delay-0_5">
-    
+
 </div>
 
 <?php require_once '../_tmpl/l-footer.php'; ?>

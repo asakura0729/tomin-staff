@@ -62,6 +62,7 @@ trait appLibraryCrmGetClient
     {
         $sql = self::getClientDataJoinFuneralSqlSelect();
         $sql .= self::getClientDataJoinFuneralSqlWhere($option);
+        $sql .= self::getClientDataJoinFuneralSqlOrder();
         $result = appFuncDatabase::getData($sql);
         foreach ($result as $index => $value) {
             $result[$index] = appLibraryDataformat::dbResult($value, appDatabaseFuneralclientView::table);
@@ -112,7 +113,7 @@ trait appLibraryCrmGetClient
     //-----------------------------------------------------
     public static function getClientDataJoinFuneralSqlOrder(): string
     {
-        $sql = ' ORDER BY ' . appDatabaseFuneralclientView::table . '.' . appDatabaseFuneralclientView::primaryKey . ' DESC';
+        $sql = ' ORDER BY ' . appDatabaseFuneralclientView::tableName . '.' . appDatabaseFuneral::primaryKey . ' DESC';
         return $sql;
     }
 }

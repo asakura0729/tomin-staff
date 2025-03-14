@@ -24,6 +24,14 @@ class appFuncPath
         return $result;
     }
     //-----------------------------------------------------
+    // パス取得
+    //-----------------------------------------------------
+    public static function getPath(): string
+    {
+        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        return  $path;
+    }
+    //-----------------------------------------------------
     // クエリパラメータ取得
     //-----------------------------------------------------
     public static function getQuery(): string
@@ -32,3 +40,4 @@ class appFuncPath
         return '?' . $query;
     }
 }
+ 

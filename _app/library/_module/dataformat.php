@@ -75,12 +75,22 @@ class appLibraryDataformat
         $dbpost = [];
         foreach ($table as $tableRow) {
             $inputName = $tableRow[appConfigDatabase::row];
+            $dataFormat = appFuncArray::issetKey($tableRow, 'format', '');
             if (isset($post[$inputName])) {
                 /*判断：テーブルに定義された値がPOSTに存在*/
                 $dbpost[$inputName] = $post[$inputName];
             } elseif (isset($tableRow['value'])) {
                 /*判断：テーブルにデフォルト値が存在*/
                 $dbpost[$inputName] = $tableRow['value'];
+            }
+            switch ($dataFormat) {
+                case 'date':
+                    $date = new DateTime($dbpost[$inputName]);
+                    $dbpost[$inputName] = $date->format('Y-m-d');
+                    break;
+                case 'int':
+                    $dbpost[$inputName] = intval($dbpost[$inputName]);
+                    break;
             }
         }
         $date = date('Y-m-d H:i:s');
