@@ -8,4 +8,4 @@
 //======================================================================
 ?>
 <?php echo $option['fname']; ?>&nbsp;<?php echo $option['lname']; ?>
-<?php appLibraryDisp::strlenString($option['fname_kana'], '<span class="d-block font-size-0_8">（' . $option['fname_kana'] . '&nbsp;' . $option['lname_kana'] . '）</span>', '');
+<?php appFuncDisp::strlenString($option['fname_kana'], '<span class="d-block font-size-0_8">（' . $option['fname_kana'] . '&nbsp;' . $option['lname_kana'] . '）</span>', '');

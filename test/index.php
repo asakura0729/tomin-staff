@@ -13,10 +13,10 @@ require_once '../_app/ssl_base.php'; ?>
                 <h1 class="font-size-2 text-center m-0 p-0 line-height-0">顧客検索</h1>
             </div>
             <div class="col-4 d-flex">
-                <?php appLibraryDisp::form('radio_nav', 'str', '', 'cl_name', ['selectItem' => appLibraryCrm::search]); ?>
+                <?php appFuncDisp::form('radio_nav', 'str', '', 'cl_name', ['selectItem' => appLibraryCrm::search]); ?>
             </div>
             <div class="col-6">
-                <?php appLibraryDisp::form('search', 'search', '検索', '', ['placeholder' => '検索したい文字列を入力']); ?>
+                <?php appFuncDisp::form('search', 'search', '検索', '', ['placeholder' => '検索したい文字列を入力']); ?>
             </div>
         </div>
     </form>

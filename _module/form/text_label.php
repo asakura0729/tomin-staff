@@ -4,6 +4,6 @@
 //======================================================================
 ?>
 <div class="pb-2">
-    <?php appLibraryDisp::globalModule('form/label', ['title' => $title]); ?>
+    <?php appFuncDisp::globalModule('form/label', ['title' => $title]); ?>
     <?php include __DIR__ . '/_module/input_text.php'; ?>
 </div>

@@ -5,7 +5,7 @@
 class appConfigDatabase
 {
   public const row = 'row';
-  public const auto_increment = 'auto_increment';
+  public const auto_increment = 'AUTO_INCREMENT';
   public const deleteFlgTrue = 1;
   public const deleteFlgFalse = 0;
 

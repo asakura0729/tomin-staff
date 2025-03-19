@@ -7,7 +7,6 @@ class appConfigPage
     const pageMain = '#page-main';
     const pageHeader = '#page-header';
     const pageIndicator = '#page-indicator';
-    
     public static $uri = null;
     public static $id = null;
     public static $title = null;
@@ -20,5 +19,5 @@ class appConfigPage
     public static $userName = null;
     public static $breadcrumb = [];
     public static $date = null;
+    public static $path = "";
 }
-appConfigPage::$date = date('ymdhis');

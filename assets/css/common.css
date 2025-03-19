@@ -1,5 +1,6 @@
 :root {
     --contrast: #1e4164;
+    --l-contrast: #deedfa;
 }
 
 /*  
@@ -104,16 +105,24 @@ width-height
     width: 200px;
 }
 
-.w-200px {
-    width: 200px;
+.w-250px {
+    width: 250px;
 }
 
 .w-300px {
     width: 300px;
 }
 
+.w-350px {
+    width: 350px;
+}
+
 .w-400px {
     width: 400px;
+}
+
+.w-450px {
+    width: 450px;
 }
 
 .w-500px {
@@ -146,10 +155,6 @@ width-height
 
 .h-300px {
     height: 300px;
-}
-
-.h-300px-important {
-    height: 300px !important;
 }
 
 .h-400px {
@@ -219,8 +224,16 @@ width-height
         width: 25%;
     }
 
+    .w-lg-50per {
+        width: 50%;
+    }
+
     .w-lg-75per {
         width: 75%;
+    }
+
+    .w-lg-100per {
+        width: 100%;
     }
 
     .w-lg-100px {
@@ -231,12 +244,12 @@ width-height
         width: 150px;
     }
 
-    .w-lg-160px {
-        width: 160px;
+    .w-lg-200px {
+        width: 200px;
     }
 
-    .w-lg-240px {
-        width: 240px;
+    .w-lg-300px {
+        width: 300px;
     }
 
     .w-lg-400px {
@@ -279,33 +292,6 @@ width-height
 /*  
 typography
 ---------------------------------*/
-.htmx-request.htmx-spinner {
-    opacity: 1;
-}
-
-.htmx-spinner {
-    opacity: 0;
-    transition: opacity 1.0s ease-in;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-    padding: 10rem;
-    z-index: 1000;
-    pointer-events: none;
-}
-
-@keyframes fadeInOpacity {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-
 .font-notosans {
     font-family: 'Noto Sans JP', sans-serif;
 }
@@ -584,29 +570,21 @@ border
 /*  
 htmx-spinner
 ---------------------------------*/
-
-.list-square {
-    margin: 0;
-    padding: 0 0 0 1.6rem;
+.htmx-request.htmx-spinner {
+    opacity: 1;
 }
 
-.list-square li {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    padding-bottom: .25rem;
-    position: relative;
-}
-
-.list-square li::before {
-    border: 1px solid #999;
-    content: "";
-    width: 1rem;
-    height: 1rem;
-    display: block;
+.htmx-spinner {
+    opacity: 0;
+    transition: opacity 1.0s ease-in;
+    width: 100%;
     position: absolute;
-    top: .25rem;
-    left: -1.6rem;
+    top: 0;
+    left: 0;
+    text-align: center;
+    padding: 10rem;
+    z-index: 1000;
+    pointer-events: none;
 }
 
 /*  
@@ -693,6 +671,14 @@ utilities
 components
 ---------------------------------*/
 
+.gnav-link {
+    background-color: #fff;
+}
+
+.gnav-link.is-current {
+    background-color: var(--l-contrast);
+}
+
 /*btn-totop*/
 .btn-totop {
     color: #fff;
@@ -736,6 +722,31 @@ components
     transform: translateY(-50%) translateX(-50%);
 }
 
+/*list*/
+.list-square {
+    margin: 0;
+    padding: 0 0 0 1.6rem;
+}
+
+.list-square li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    padding-bottom: .25rem;
+    position: relative;
+}
+
+.list-square li::before {
+    border: 1px solid #999;
+    content: "";
+    width: 1rem;
+    height: 1rem;
+    display: block;
+    position: absolute;
+    top: .25rem;
+    left: -1.6rem;
+}
+
 /*htmx-spinner*/
 .htmx-request.htmx-spinner {
     opacity: 1;
@@ -767,33 +778,6 @@ Animation
     animation-fill-mode: forwards;
 }
 
-@keyframes kf-fadein {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes kf-down {
-    from {
-        margin-top: -100px;
-    }
-
-    to {
-        margin-top: 0px;
-    }
-}
-
-.animation-fadein {
-    opacity: 1;
-    animation-name: fadeInOpacity;
-    animation-timing-function: ease-in;
-    animation-duration: 0.25s;
-}
-
 @keyframes fadeInOpacity {
     0% {
         opacity: 0;
@@ -804,22 +788,14 @@ Animation
     }
 }
 
+.animation-fadein {
+    opacity: 1;
+    animation-name: fadeInOpacity;
+    animation-timing-function: ease-in;
+    animation-duration: 0.25s;
+}
 
 /*print*/
-
-.size_a4_v {
-    width: 210mm;
-    height: 297mm;
-    page-break-after: always;
-    padding: 10mm;
-    box-sizing: content-box;
-}
-
-.size_a4_b {
-    width: 297mm;
-    height: 210mm;
-}
-
 @media print {
     .print-none {
         display: none;

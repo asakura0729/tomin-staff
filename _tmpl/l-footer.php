@@ -6,6 +6,7 @@
     </aside>
 <?php endif; ?>
 
-<script src="/assets/js/common.js?20220318"></script>
-<?php echo appConfigPage::$js; ?>
 <script src="/assets/js/echo.js"></script>
+<script src="/assets/js/htmx.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>

@@ -4,7 +4,7 @@
 //======================================================================
 ?>
 <div class="pb-2">
-    <?php appLibraryDisp::globalModule('form/label', ['title' => $title]); ?>
+    <?php appFuncDisp::globalModule('form/label', ['title' => $title]); ?>
     <select class="form-control" name="<?php echo $inputName; ?>" <?php echo $add; ?>>
         <?php foreach ($selectItem as $key => $selectItemValue) : ?>
             <?php if ($value == $key) : ?>

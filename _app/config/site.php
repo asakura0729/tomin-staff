@@ -14,4 +14,5 @@ class appConfigSite
   public const siteName = '都民のお葬式';
   public const website = "https://tomin-osohshiki.jp/";
   public const tel = "03-6419-2012";
+  public const update = "202503171654";
 }

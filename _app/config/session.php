@@ -9,4 +9,5 @@ class appConfigSession
     public const loginId = "loginId";
     public const userName = "userName";
     public const authority = "authority";
+    public const logoutValue = "logout";
 }

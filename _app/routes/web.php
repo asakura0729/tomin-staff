@@ -15,33 +15,21 @@ class appRoutesWeb
     //======================================================================
     public const sitemap = [
         'login' => ['path' => '/login/', 'contents' => null, 'title' => 'ログイン'],
-        'admin' => ['path' => '/tpadmin/', 'contents' => '/tpadmin/top/ajax/top', 'title' => '管理画面'],
-        'adminPrint' => ['path' => '/tpadmin/print/', 'contents' => '/tpadmin/print/ajax', 'title' => '宛名印刷'],
-        'adminFuneral' => ['path' => '/tpadmin/funeral/', 'contents' => '/tpadmin/funeral/ajax', 'title' => '顧客検索'],
-        'adminCrmInsert' => ['path' => '/tpadmin/insert/', 'contents' => '/tpadmin/ajax_edit/index', 'title' => '顧客情報登録'],
-        'adminCrmDetail' => ['path' => '/tpadmin/detail/', 'contents' => '/tpadmin/ajax_edit/index', 'title' => '顧客情報詳細', self::sitemapGetParams => ['funeral_id']],
-        'adminCrmLog' => ['path' => '/tpadmin/detail/log', 'contents' => '/tpadmin/ajax_edit/log', 'title' => '過去ログ', self::sitemapGetParams => ['report_id']],
-        'adminCrmTel' => ['path' => '/tpadmin/tel/', 'contents' => '/tpadmin/tel/ajax', 'title' => '架電リスト'],
-    ];
-    public const sitemapGetParams = 'getParams';
-    //======================================================================
-    // AJAXコンテンツ一覧
-    //======================================================================
-    public const ajax = [
-        'funeralResult' => ['path' => '/tpadmin/funeral/ajax_results', 'title' => '顧客検索結果'],
-        'editConfirm' => ['path' => '/tpadmin/ajax_edit/confirm', 'title' => 'データ送信'],
-        'editAddtext' => ['path' => '/tpadmin/ajax_edit/add_text', 'title' => 'テキスト入力フォーム追加'],
-        'editAddClient' => ['path' => '/tpadmin/ajax_edit/add_client', 'title' => '顧客情報入力フォーム追加'],
-        'editAddTel' => ['path' => '/tpadmin/ajax_edit/add_tel', 'title' => '架電日時登録フォーム追加'],
-        'editLogs' => ['path' => '/tpadmin/ajax_edit/logs?funeral_id=', 'title' => '過去対応ログ一覧'],
+        'admin' => ['path' => '/tpadmin/', 'contents' => '/tpadmin/top/ajax/top', 'title' => '管理画面', 'icon' => 'fa-home'],
+        'adminCs' => ['path' => '/tpadmin/cs/', 'contents' => '/tpadmin/cs/ajax/index', 'title' => '対応ログ一覧', 'icon' => 'fa-list-ol'],
+        'adminCsEdit' => ['path' => '/tpadmin/cs/edit', 'contents' => '/tpadmin/cs/ajax/edit', 'title' => '対応ログ作成', 'icon' => 'fa-pencil'],
+        'adminCsSeet' => ['path' => '/tpadmin/cs_sheet/', 'contents' => '/tpadmin/cs_sheet/ajax/index', 'title' => '送客シート一覧', 'icon' => 'fa-file-text'],
+        'adminCsSeetEdit' => ['path' => '/tpadmin/cs_sheet/edit', 'contents' => '/tpadmin/cs_sheet/ajax/edit', 'title' => '送客シート編集', 'icon' => 'fa-file-text'],
+        'adminCsSeetDetail' => ['path' => '/tpadmin/cs_sheet/detail', 'contents' => '/tpadmin/cs_sheet/ajax/detail', 'title' => '送客シート閲覧', 'icon' => 'fa-file-text'],
+        'adminPrint' => ['path' => '/tpadmin/print/', 'contents' => '/tpadmin/print/ajax/index', 'title' => '宛名印刷', 'icon' => 'fa-envelope'],
     ];
     //======================================================================
     // グローバルナビゲーション一覧
     //======================================================================
-    public const headerNav = [
-        'adminFuneral' => self::sitemap['adminFuneral'],
-        'adminCrmInsert' => self::sitemap['adminCrmInsert'],
-        'adminCrmTel' => self::sitemap['adminCrmTel'],
+    public const gNav = [
+        'adminCs' => self::sitemap['adminCs'],
+        'adminCsEdit' => self::sitemap['adminCsEdit'],
+        'adminCsSeet' => self::sitemap['adminCsSeet'],
         'adminPrint' => self::sitemap['adminPrint'],
     ];
 }
