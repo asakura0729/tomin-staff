@@ -1,5 +1,6 @@
+<title><?php echo $title; ?></title>
 <header class="pb-4">
-    <<?php echo $tag; ?> class="font-size-2 text-center <?php echo $cssClass; ?>">
+    <<?php echo $tag; ?> class="font-size-2 text-center pb-2 <?php echo $addClass; ?>">
         <?php if ($icon != ''): ?><i class="pr-2 fa <?php echo $icon; ?>" aria-hidden="true"></i><?php endif; ?><?php echo $title; ?>
     </<?php echo $tag; ?>>
 </header>

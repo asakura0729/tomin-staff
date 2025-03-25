@@ -7,6 +7,7 @@ include_once __DIR__ . '/config/page.php';
 include_once __DIR__ . '/config/status.php';
 include_once __DIR__ . '/config/session.php';
 include_once __DIR__ . '/config/database.php';
+include_once __DIR__ . '/config/plan.php';
 include_once __DIR__ . '/config/funeral.php';
 include_once __DIR__ . '/database/cs.php';
 include_once __DIR__ . '/routes/web.php';
@@ -22,7 +23,8 @@ include_once __DIR__ . '/func/_module/minify.php';
 include_once __DIR__ . '/func/sql.php';
 include_once __DIR__ . '/func/disp.php';
 include_once __DIR__ . '/func/dataformat.php';
-
+include_once __DIR__ . '/func/crm/post.php';
+include_once __DIR__ . '/func/crm/get.php';
 $_SESSION = appFuncSession::checkLogout($_SESSION, $_POST);
 appFuncSession::redirect(appRoutesWeb::sitemap['login']['path']);
 appConfigPage::$date = date('ymdhis');

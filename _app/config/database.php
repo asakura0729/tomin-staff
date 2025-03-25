@@ -4,8 +4,11 @@
 //======================================================================
 class appConfigDatabase
 {
-  public const row = 'row';
-  public const auto_increment = 'AUTO_INCREMENT';
+  public const row = 'name';
+  public const rowType = 'type';
+  public const rowConstraints = 'constraints';
+  public const primaryKey = 'PRIMARY KEY';
+  
   public const deleteFlgTrue = 1;
   public const deleteFlgFalse = 0;
 

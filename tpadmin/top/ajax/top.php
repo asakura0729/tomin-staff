@@ -1,6 +1,6 @@
 <?php require_once __DIR__ . '../../../../_app/ssl_base.php'; ?>
 
-<div class="d-flex">
+<div class="d-flex container">
     <?php foreach (appRoutesWeb::gNav as $key => $value): ?>
         <div class="p-2">
             <div class="w-200px bg-white border rounded-lg">

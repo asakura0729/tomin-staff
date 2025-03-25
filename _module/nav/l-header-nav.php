@@ -1,1 +1,0 @@
-<a href="<?php echo appRoutesWeb::sitemap[$id]['path']; ?>"><?php echo appRoutesWeb::sitemap[$id]['name']; ?></a>
