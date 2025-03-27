@@ -23,6 +23,7 @@ include_once __DIR__ . '/func/_module/minify.php';
 include_once __DIR__ . '/func/sql.php';
 include_once __DIR__ . '/func/disp.php';
 include_once __DIR__ . '/func/dataformat.php';
+include_once __DIR__ . '/func/module.php';
 include_once __DIR__ . '/func/crm/post.php';
 include_once __DIR__ . '/func/crm/get.php';
 $_SESSION = appFuncSession::checkLogout($_SESSION, $_POST);

@@ -4,7 +4,7 @@
 <?php require_once __DIR__ . '../../../_tmpl/header.php'; ?>
 <?php require_once __DIR__ . '../../../_tmpl/l-header.php'; ?>
 
-<main id="page-top" class="<?php if (appConfigPage::$tmpl != 'simple') : ?>l-wrap bg-lgray<?php endif; ?>" hx-history-elt>
+<main id="page-top" class="l-wrap" hx-history-elt>
     <?php if (appConfigSite::maintenance == true) : ?>
         <div class="container print-none">
             <div class="alert alert-danger p-2 text-center" role="alert">

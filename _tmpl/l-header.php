@@ -1,7 +1,7 @@
 <header id="page-header" class="l-header w-100 color-contrast position-fixed bg-white border-bottom">
     <div class="d-flex align-items-center justify-content-between bg-contrast">
         <div class="pl-2 font-notoserif">
-            <a class="btn color-white font-weight-bold p-0" <?php if (appFuncSession::loginCheck() == true) : ?><?php echo appFuncDisp::hxLink("admin"); ?><?php endif; ?>>
+            <a class="btn color-white font-weight-bold p-0" <?php if (appFuncSession::loginCheck() == true) : ?><?php echo appFuncDisp::hxLink(appRoutesWeb::sitemap["admin"]); ?><?php endif; ?>>
                 <span class="pl-1"><?php echo appConfigSite::siteName; ?></span>
             </a>
         </div>
@@ -22,8 +22,8 @@
     <?php if (appFuncSession::loginCheck() === true) : ?>
         <nav id="page-header-gnav" class="nav">
             <?php foreach (appRoutesWeb::gNav as $key => $value): ?>
-                <a id="page-header-gnav-<?php echo strtolower($key); ?>" class="btn rounded-0 gnav-link<?php if (appConfigPage::$path === appRoutesWeb::sitemap[$key]['path']): ?> is-current<?php endif; ?>" <?php echo appFuncDisp::hxLink($key); ?>>
-                    <span class="color-dgray"><?php echo appRoutesWeb::sitemap[$key]['title']; ?></span>
+                <a id="page-header-gnav-<?php echo strtolower($key); ?>" class="btn rounded-0 gnav-link<?php if (appConfigPage::$path === appRoutesWeb::sitemap[$key]['path']): ?> is-current<?php endif; ?>" <?php echo appFuncDisp::hxLink(appRoutesWeb::sitemap[$key]); ?>>
+                    <span class="color-dgray"><?php echo appRoutesWeb::sitemap[$key][appRoutesWeb::pageTitle]; ?></span>
                 </a>
             <?php endforeach; ?>
         </nav>
