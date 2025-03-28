@@ -1,6 +1,6 @@
 :root {
     --contrast: #1e4164;
-    --l-contrast: #deedfa;
+    --l-contrast: #e5f3fd;
     --l-gray: #eeeeee;
     --ll-gray: #f6f6f6;
 }
@@ -93,6 +93,18 @@ width-height
     width: 70%;
 }
 
+.w-80per {
+    width: 80%;
+}
+
+.w-90per {
+    width: 90%;
+}
+
+.w-100per {
+    width: 100%;
+}
+
 .w-100vw {
     width: 100vw;
 }
@@ -135,18 +147,6 @@ width-height
 
 .w-500px {
     width: 500px;
-}
-
-.w-800px {
-    width: 800px;
-}
-
-.w-900px {
-    width: 900px;
-}
-
-.w-1000px {
-    width: 1000px;
 }
 
 .w-list {
@@ -560,20 +560,12 @@ background
 border
 ---------------------------------*/
 
-.border-base {
-    border: 1px solid #f2ede1;
+.border-contrast {
+    border: 1px solid var(--contrast);
 }
 
 .border-gray {
     border: 1px solid #ccc;
-}
-
-.rounded-1 {
-    border-radius: 1rem;
-}
-
-.rounded-2 {
-    border-radius: 2rem;
 }
 
 .box-shadow-l {

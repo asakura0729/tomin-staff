@@ -1,1 +1,0 @@
-<input type="number" name="<?php echo $name; ?>" class="form-control text-right" placeholder="例：<?php echo $placeholder; ?>" value="<?php echo $value; ?>" <?php echo $add; ?>>

@@ -4,11 +4,10 @@
 //======================================================================
 class appConfigStatus
 {
-    /*カテゴリ*/
-    public const cs_category = [
-        'log' => '対応ログ',
-        'sheet' => '送客シート'
-    ];
+    /*対応ログ_カテゴリ*/
+    public const csCategoryLog = 'log'; //対応ログ
+    public const csCategorySheet = 'sheet'; //送客シート
+
     /*承認ステータス*/
     public const approval_status = [
         'progress' => '未完了',

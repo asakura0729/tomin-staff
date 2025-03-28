@@ -13,7 +13,7 @@ class appConfigUser
 
     public const list = [
         '1' => ['userid' => '1', 'loginid' => 'tpf', 'password' => 'tp0135', 'username' => 'スタッフ', 'authority' => self::staff],
-        '0' => ['userid' => '0', 'loginid' => 'master', 'password' => 'master', 'username' => '管理者', 'authority' => self::manager],
+        '2' => ['userid' => '2', 'loginid' => 'master', 'password' => 'master', 'username' => '管理者', 'authority' => self::manager],
     ];
 
     public const selectmenu = [
