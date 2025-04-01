@@ -55,6 +55,9 @@
     htmxSetting(elem.header);
     htmx.onLoad(function(ajaxContents) {
         htmxSetting(ajaxContents);
+        $(function() {
+            $('[data-toggle="popover"]').popover();
+        });
     });
     document.body.addEventListener("htmx:afterSettle", function() {
         gNavColorChange();

@@ -21,6 +21,12 @@ body {
     z-index: 1000;
 }
 
+.l-breadcrumb {
+    position: absolute;
+    top: 80px;
+    left: 0;
+}
+
 .l-wrap {
     padding-top: 100px;
     min-height: 100vh;
@@ -481,6 +487,9 @@ a.color-contrast {
 /*  
 background
 ---------------------------------*/
+.bg-none {
+    background-color: none;
+}
 
 .bg-white-05 {
     background: rgba(255, 255, 255, 0.50);
@@ -578,6 +587,10 @@ utilities
 
 .opacity-0 {
     opacity: 0;
+}
+
+.opacity-025 {
+    opacity: 0.25;
 }
 
 .opacity-050 {
@@ -702,6 +715,17 @@ components
 .container-table {
     width: 100vw;
     margin-inline: calc(50% - 50cqi);
+}
+
+/*breadcrumb*/
+.breadcrumb-item+.breadcrumb-item {
+    padding: 0;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+    padding: 0 0.6rem;
+    content: ">";
+    color: #999;
 }
 
 /*btn-totop*/

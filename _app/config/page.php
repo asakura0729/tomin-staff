@@ -10,6 +10,7 @@ class appConfigPage
     public static $uri = null;
     public static $id = null;
     public static $title = null;
+    public static $titleAdd = null;
     public static $description = null;
     public static $ogimage = null;
     public static $css = null;
