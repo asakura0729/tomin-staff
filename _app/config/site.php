@@ -11,7 +11,7 @@ class appConfigSite
   //======================================================================
   // サイト基本情報
   //======================================================================
-  public const siteName = '都民のお葬式';
+  public const siteName = 'TP_スタッフ管理画面';
   public const website = "https://tomin-osohshiki.jp/";
   public const tel = "03-6419-2012";
   public const update = "202503171654";

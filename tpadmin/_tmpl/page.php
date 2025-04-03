@@ -1,6 +1,6 @@
 <?php require_once __DIR__ . '../../../_app/ssl_base.php'; ?>
 <?php appFuncMinify::minifySourceStart(); ?>
-<?php appConfigPage::$title = appConfigSite::siteName . "_スタッフ管理画面"; ?>
+<?php appConfigPage::$title = appConfigSite::siteName; ?>
 <?php require_once __DIR__ . '../../../_tmpl/header.php'; ?>
 <?php require_once __DIR__ . '../../../_tmpl/l-header.php'; ?>
 

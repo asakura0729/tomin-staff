@@ -1,6 +1,7 @@
 <?php require_once __DIR__ . '../../../../_app/ssl_base.php'; ?>
+<?php require_once '../../_tmpl/ajax.php'; ?>
 
-<div class="d-flex container">
+<div class="d-flex container animation-fadein-topslide">
     <?php foreach (appRoutesWeb::gNav as $key => $value): ?>
         <div class="p-2">
             <div class="w-200px bg-white border rounded-lg">

@@ -13,7 +13,7 @@
                     </span>
                 </button>
                 <div class="dropdown-menu w-100 p-2" aria-labelledby="page-header-dropdown">
-                    <button type="submit" class="btn dropdown-item">ログアウト</button>
+                    <button type="submit" class="btn dropdown-item"><i class="fa fa-sign-out pr-2 color-contrast" aria-hidden="true"></i>ログアウト</button>
                 </div>
                 <input type="hidden" name="logout" value="<?php echo appConfigSession::logoutValue; ?>">
             </form>

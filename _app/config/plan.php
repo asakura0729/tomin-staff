@@ -14,6 +14,10 @@ class appConfigPlan
     // 葬儀プラン：基本
     //-----------------------------------------------------
     const plan = [
+        'plan0' => [
+           'id' => 'plan0',
+           'name' => '未定',
+        ],
         'plan1' => [
             'id' => 'plan1',
             'name' => '都民のお別れ葬',
@@ -28,8 +32,10 @@ class appConfigPlan
             'option' => [
                 'car_shindai',
                 'enshrined',
-                'dryice', 'procedure',
-                'coffin', 'clothes',
+                'dryice',
+                'procedure',
+                'coffin',
+                'clothes',
                 'ceremony_staff',
                 'pot'
             ],

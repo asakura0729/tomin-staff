@@ -61,8 +61,10 @@ class appConfigStatus
         'complete' => '完了'
     ];
     /*印刷状況*/
+    public const printStatusProgress = 'progress';
+    public const printStatusComplete = 'complete';
     public const print_status = [
-        'progress' => '未完了',
-        'complete' => '完了'
+        self::printStatusProgress => '未完了',
+        self::printStatusComplete => '完了'
     ];
 }

@@ -25,7 +25,7 @@ class appRoutesWeb
         'adminCsEdit' => [self::pagePath => '/tpadmin/cs/edit', self::pageContents => '/tpadmin/cs/ajax/edit', self::pageTitle => '対応ログ編集', self::pageRoute => ['adminCsIndex'], self::pageIcon => 'fa-pencil'],
         'adminCsSeet' => [self::pagePath => '/tpadmin/cs_sheet/', self::pageContents => '/tpadmin/cs_sheet/ajax/index', self::pageTitle => '送客シート一覧', self::pageRoute => [], self::pageIcon => 'fa-file-text'],
         'adminCsSeetDetail' => [self::pagePath => '/tpadmin/cs_sheet/detail', self::pageContents => '/tpadmin/cs_sheet/ajax/detail', self::pageTitle => '送客シート閲覧', self::pageRoute => ['adminCsSeet'], self::pageIcon => 'fa-file-text'],
-        'adminCsSeetEdit' => [self::pagePath => '/tpadmin/cs_sheet/edit', self::pageContents => '/tpadmin/cs_sheet/ajax/edit', self::pageTitle => '送客シート編集', self::pageRoute => ['adminCsSeet', 'adminCsSeetDetail'], self::pageIcon => 'fa-file-text'],
+        'adminCsSeetEdit' => [self::pagePath => '/tpadmin/cs_sheet/edit', self::pageContents => '/tpadmin/cs_sheet/ajax/edit', self::pageTitle => '送客シート編集', self::pageRoute => ['adminCsSeet'], self::pageIcon => 'fa-file-text'],
         'adminPrint' => [self::pagePath => '/tpadmin/print/', self::pageContents => '/tpadmin/print/ajax/index', self::pageTitle => '宛名印刷', self::pageRoute => [], self::pageIcon => 'fa-envelope'],
     ];
     //======================================================================
