@@ -29,6 +29,7 @@ body {
 
 .l-wrap {
     padding-top: 120px;
+    padding-bottom: 120px;
     min-height: 100vh;
 }
 
@@ -49,6 +50,11 @@ body {
 
 .l-bottom.is-firstview {
     bottom: -200px;
+}
+
+.l-form-cs {
+    min-width: 5500px;
+    padding-bottom: 20px;
 }
 
 /*  
@@ -155,8 +161,8 @@ width-height
     width: 500px;
 }
 
-.w-list {
-    width: 6000px;
+.h-15px {
+    height: 15px;
 }
 
 .h-100per {
@@ -600,6 +606,7 @@ utilities
 .opacity-050 {
     opacity: 0.5;
 }
+
 .opacity-090 {
     opacity: 0.9;
 }
@@ -614,6 +621,11 @@ utilities
 
 .overflow-scroll {
     overflow: scroll;
+}
+
+.overflow-x {
+    overflow-y: hidden;
+    overflow-x: scroll;
 }
 
 .overflow-y {
@@ -689,6 +701,12 @@ Animation
 ---------------------------------*/
 @media screen {
 
+    .animation-item {
+        transition-duration: 0.25s;
+        transition-timing-function: ease;
+        transition-delay: 0;
+    }
+
     .animation-fadein {
         opacity: 1;
         animation-name: fadeInOpacity;
@@ -708,6 +726,11 @@ Animation
         100% {
             opacity: 1;
         }
+    }
+
+    .animation-fadeout {
+        transition: opacity 0.25s ease;
+        opacity: 0;
     }
 
     .animation-fadein-topslide {
@@ -900,6 +923,8 @@ components
 
 /*form*/
 .form-sheets {
+    margin: 0;
+    padding: 0;
     width: 100%;
     min-height: 80px;
     display: block;

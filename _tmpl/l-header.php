@@ -22,7 +22,7 @@
     <?php if (appFuncSession::loginCheck() === true) : ?>
         <nav id="page-header-gnav" class="nav">
             <?php foreach (appRoutesWeb::gNav as $key => $value): ?>
-                <a id="page-header-gnav-<?php echo strtolower($key); ?>" class="btn rounded-0 gnav-link<?php if (appConfigPage::$path === appRoutesWeb::sitemap[$key]['path']): ?> is-current<?php endif; ?>" <?php echo appFuncDisp::hxLink(appRoutesWeb::sitemap[$key]); ?>>
+                <a id="page-header-gnav-<?php echo strtolower($key); ?>" class="mr-1 btn rounded-0 gnav-link<?php if (appConfigPage::$path === appRoutesWeb::sitemap[$key]['path']): ?> is-current<?php endif; ?>" <?php echo appFuncDisp::hxLink(appRoutesWeb::sitemap[$key]); ?>>
                     <span class="color-dgray"><?php echo appRoutesWeb::sitemap[$key][appRoutesWeb::pageTitle]; ?></span>
                 </a>
             <?php endforeach; ?>

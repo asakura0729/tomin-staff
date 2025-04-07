@@ -32,7 +32,6 @@
         selector.querySelectorAll("[data-hx-push-url]").forEach(button => {
             const pushUrl = button.getAttribute("data-hx-push-url");
             button.setAttribute("data-hx-replace-url", pushUrl);
-            button.setAttribute("data-hx-target", elem.main.id ? `#${elem.main.id}` : "body");
         });
     }
     const gNavColorChange = function() {

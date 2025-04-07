@@ -7,6 +7,9 @@ class appConfigPage
     const pageMain = '#page-main';
     const pageHeader = '#page-header';
     const pageIndicator = '#page-indicator';
+
+    const secCsIndex = 'cs-index'; //対応ログ一覧
+    const secCsEdit = 'form-edit'; //対応ログ入力フォーム
     public static $uri = null;
     public static $id = null;
     public static $title = null;

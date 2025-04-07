@@ -26,6 +26,7 @@ include_once __DIR__ . '/func/dataformat.php';
 include_once __DIR__ . '/func/module.php';
 include_once __DIR__ . '/func/crm/post.php';
 include_once __DIR__ . '/func/crm/get.php';
+include_once __DIR__ . '/func/crm/form.php';
 $_SESSION = appFuncSession::checkLogout($_SESSION, $_POST);
 appFuncSession::redirect(appRoutesWeb::sitemap['login']['path']);
 appConfigPage::$date = date('ymdhis');

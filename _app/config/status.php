@@ -21,8 +21,7 @@ class appConfigStatus
     /*発送状況*/
     public const delivery_status = [
         'unnecessary' => '発送不要',
-        'required' => '要発送',
-        'complete' => '発送済'
+        'required' => '要発送'
     ];
     /*架電ステータス*/
     public const cs_tel_status = [
@@ -30,30 +29,29 @@ class appConfigStatus
         'required' => '要架電',
         'complete' => '架電完了'
     ];
-    /*顧客ステータス（有効）*/
-    public const clientCategoryEnabled = [
-        'contact' => '問い合わせ(初回)',
-        'contact_re' => '問い合わせ(再)',
-        'order' => 'ご依頼(初回)',
-        'order_re' => 'ご依頼(再)',
-        'reservation' => '事前予約(初回)',
-        'reservation_re' => '事前予約(再)',
-        'consultation' => '対面相談(初回)',
-        'consultation_re' => '対面相談(再)',
-        'document_request' => '資料請求(web)',
-        'cancel' => 'キャンセル',
-        'other_enabled' => 'その他（有効電話）'
-    ];
-    /*顧客ステータス（無効）*/
-    public const clientCategoryInvalid = [
-        'wrong' => '間違い電話',
-        'prank' => 'いたずら電話',
-        'silent' => '無言電話',
-        'interruption' => '放棄',
-        'sales' => '営業電話',
-        'competitors' => '同業他社',
-        'unknown' => '不明',
-        'other_invalid' => 'その他（無効電話）',
+    /*顧客カテゴリ*/
+    public const clientCategoryValid = 'valid'; //有効顧客
+    public const clientCategoryInvalid = 'invalid'; //無効顧客
+    public const clientCategory = [
+        'contact' => ['name' => '問い合わせ(初回)', 'type' => self::clientCategoryValid],
+        'contact_re' => ['name' => '問い合わせ(再)', 'type' => self::clientCategoryValid],
+        'order' => ['name' => 'ご依頼(初回)', 'type' => self::clientCategoryValid],
+        'order_re' => ['name' => 'ご依頼(再)', 'type' => self::clientCategoryValid],
+        'reservation' => ['name' => '事前予約(初回)', 'type' => self::clientCategoryValid],
+        'reservation_re' => ['name' => '事前予約(再)', 'type' => self::clientCategoryValid],
+        'consultation' => ['name' => '対面相談(初回)', 'type' => self::clientCategoryValid],
+        'consultation_re' => ['name' => '対面相談(再)', 'type' => self::clientCategoryValid],
+        'document_request' => ['name' => '資料請求(web)', 'type' => self::clientCategoryValid],
+        'cancel' => ['name' => 'キャンセル', 'type' => self::clientCategoryValid],
+        'other_enabled' => ['name' => 'その他（有効電話）', 'type' => self::clientCategoryValid],
+        'wrong' => ['name' => '間違い電話', 'type' => self::clientCategoryInvalid],
+        'prank' => ['name' => 'いたずら電話', 'type' => self::clientCategoryInvalid],
+        'silent' => ['name' => '無言電話', 'type' => self::clientCategoryInvalid],
+        'interruption' => ['name' => '放棄', 'type' => self::clientCategoryInvalid],
+        'sales' => ['name' => '営業電話', 'type' => self::clientCategoryInvalid],
+        'competitors' => ['name' => '同業他社', 'type' => self::clientCategoryInvalid],
+        'unknown' => ['name' => '不明', 'type' => self::clientCategoryInvalid],
+        'other_invalid' => ['name' => 'その他（無効電話）', 'type' => self::clientCategoryInvalid],
     ];
     /*報告状況*/
     public const funeral_status = [
