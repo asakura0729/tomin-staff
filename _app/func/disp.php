@@ -4,7 +4,9 @@
 //======================================================================
 class appFuncDisp
 {
-
+    //-----------------------------------------------------
+    // 配列が空か否かで異なる文字列を描画
+    //-----------------------------------------------------
     public static function arrayCountString(array $array, string $strTrue = "", string $strFalse = "")
     {
         if (count($array) > 0) {
@@ -13,6 +15,9 @@ class appFuncDisp
             echo $strFalse;
         }
     }
+    //-----------------------------------------------------
+    // bool値のtrue、falseで異なる文字列を描画
+    //-----------------------------------------------------
     public static function boolString($bool, string $strTrue = "", string $strFalse = "")
     {
         if ($bool === true) {
@@ -55,24 +60,6 @@ class appFuncDisp
         echo $result;
         /*data-hx-get="{$hxGet}" data-hx-push-url="{$hxPushUrl}" data-hx-replace-url="{$hxReplaceUrl}" data-hx-target="{$target}"*/
     }
-    //-----------------------------------------------------
-    // hx-get描画
-    //-----------------------------------------------------
-    public static function hxGet(): string
-    {
-        $result = "";
-        $path = appFuncPath::getPath();
-        $getParam = appFuncPath::getQuery();
-        foreach (appRoutesWeb::sitemap as $page) {
-            if ($page['path'] === $path) {
-                $result = $page[appRoutesWeb::pageContents];
-                $result .=  $getParam;
-                break;
-            }
-        }
-        return $result;
-    }
-
     public static function compColBg(string $str, string $matchStr)
     {
         if ($str === $matchStr) {

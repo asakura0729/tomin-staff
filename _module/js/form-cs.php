@@ -28,7 +28,7 @@
                     this.closest('label').classList.add(css.bgSelect);
                     setTimeout(() => {
                         $(target).find('.modal').modal('hide');
-                    }, "500");
+                    }, "250");
                     setTimeout(() => {
                         targetForm.querySelector('button[data-target="#' + modalId + '"]').textContent = radioBtnText;
                         targetForm.querySelectorAll(toggleRow.target).forEach(function(col) {
@@ -43,7 +43,7 @@
                                 }
                             }
                         });
-                    }, "1000");
+                    }, "500");
                 }
             });
         });

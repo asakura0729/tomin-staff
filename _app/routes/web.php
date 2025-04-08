@@ -20,8 +20,8 @@ class appRoutesWeb
     public const sitemap = [
         'login' => [self::pagePath => '/login/', self::pageContents => null, self::pageTitle => 'ログイン'],
         'admin' => [self::pagePath => '/tpadmin/', self::pageContents => '/ajax/top/index', self::pageTitle => '管理画面', self::pageIcon => 'fa-home'],
-        'adminAjaxCstable' => [self::pagePath => null, self::pageContents => '/ajax/cs-table', self::pageTitle => '対応ログ一覧', self::pageRoute => [], self::pageIcon => ''],
-        'adminAjaxCsedit' => [self::pagePath => null, self::pageContents => '/ajax/cs-edit', self::pageTitle => '編集', self::pageRoute => [], self::pageIcon => ''],
+        'adminAjaxCstable' => [self::pagePath => null, self::pageContents => '/ajax/cs_table', self::pageTitle => '対応ログ一覧', self::pageRoute => [], self::pageIcon => ''],
+        'adminAjaxCsedit' => [self::pagePath => null, self::pageContents => '/ajax/form_edit_cs', self::pageTitle => '編集', self::pageRoute => [], self::pageIcon => ''],
         'adminCsIndex' => [self::pagePath => '/tpadmin/cs/', self::pageContents => '/ajax/cs/index', self::pageTitle => '対応ログ一覧', self::pageRoute => [], self::pageIcon => 'fa-list-ol'],
         'adminCsEdit' => [self::pagePath => '/tpadmin/cs/edit', self::pageContents => '/ajax/cs/edit', self::pageTitle => '対応ログ編集', self::pageRoute => ['adminCsIndex'], self::pageIcon => 'fa-pencil'],
         'adminCsList_invalid' => [self::pagePath => '/tpadmin/cs/list_invalid', self::pageContents => '/ajax/cs/list_invalid', self::pageTitle => '無効電話一覧', self::pageRoute => ['adminCsIndex'], self::pageIcon => 'fa-list-ol'],

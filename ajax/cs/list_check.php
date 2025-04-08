@@ -6,14 +6,23 @@
 <?php require_once '../../_app/ssl_base.php'; ?>
 <?php require_once '../_tmpl/ajax.php'; ?>
 <?php appFuncModule::heading('h1', 'h1', appConfigPage::$title); ?>
-<article class="animation-fadein p-3">
+<style>
+    <?php
+    /*
+    検索フォームの「報告」列は操作できないように制御
+    */
+    ?>[data-wrap-inputname="approval_status"] {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+</style>
+<article class="p-3">
     <?php appFuncModule::localModule('../_module/form-search', [
-        'config' => [
-            'dbTable' => appDatabaseCs::formSearch,
-            'dbResult' => [
-                'cs_category' => appConfigStatus::csCategoryLog,
-            ],
-            'dropdown' => appRoutesWeb::sitemap['adminCsIndex']['path']
+        'path' => appConfigPage::$path,
+        'dbTable' => appDatabaseCs::form,
+        'dbResult' => [
+            'cs_category' => appConfigStatus::csCategoryLog,
+            'approval_status' => appConfigStatus::approval_status['progress']['key'],
         ]
     ]); ?>
 </article>

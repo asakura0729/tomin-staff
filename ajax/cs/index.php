@@ -6,14 +6,12 @@
 <?php require_once '../../_app/ssl_base.php'; ?>
 <?php require_once '../_tmpl/ajax.php'; ?>
 <?php appFuncModule::heading('h1', 'h1', appConfigPage::$title); ?>
-<article class="animation-fadein p-3">
+<article class="p-3">
     <?php appFuncModule::localModule('../_module/form-search', [
-        'config' => [
-            'dbTable' => appDatabaseCs::formSearch,
-            'dbResult' => [
-                'cs_category' => appConfigStatus::csCategoryLog,
-            ],
-            'dropdown' => appRoutesWeb::sitemap['adminCsIndex']['path']
+        'path' => appConfigPage::$path,
+        'dbTable' => appDatabaseCs::form,
+        'dbResult' => [
+            'cs_category' => appConfigStatus::csCategoryLog,
         ]
     ]); ?>
 </article>

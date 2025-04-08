@@ -82,7 +82,7 @@ class appFuncDataformat
         foreach ($selectItem['item'] as $itemKey => $item) {
             if ($value === (string) $itemKey) {
                 if (isset($selectItem['string'])) {
-                    $result = $selectItem['string'];
+                    $result = $item[$selectItem['string']];
                 } else {
                     $result = $item;
                 }

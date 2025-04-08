@@ -4,7 +4,7 @@
 <?php require_once __DIR__ . '../../../_tmpl/header.php'; ?>
 <?php require_once __DIR__ . '../../../_tmpl/l-header.php'; ?>
 
-<main id="page-top" class="l-wrap" hx-history-elt>
+<main id="page-top" class="l-wrap" data-hx-history-elt>
     <?php if (appConfigSite::maintenance == true) : ?>
         <div class="container print-none">
             <div class="alert alert-danger p-2 text-center" role="alert">
@@ -12,7 +12,7 @@
             </div>
         </div>
     <?php endif; ?>
-    <?php $includeFile = appFuncDisp::hxGet(); ?>
+    <?php $includeFile = appFuncPath::hxGet(); ?>
     <?php if ($includeFile != ''): ?>
         <div id="page-main" class="l-main" data-hx-get="<?php echo $includeFile; ?>" data-hx-trigger="load once"></div>
     <?php else: ?>

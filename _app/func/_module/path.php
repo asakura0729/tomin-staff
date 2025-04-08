@@ -4,6 +4,8 @@
 //======================================================================
 class appFuncPath
 {
+    public const sitemap = appRoutesWeb::sitemap;
+    public const pageContents = appRoutesWeb::pageContents;
     //-----------------------------------------------------
     // GETパラメータ作成
     //-----------------------------------------------------
@@ -39,5 +41,21 @@ class appFuncPath
         $query = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
         return '?' . $query;
     }
+    //-----------------------------------------------------
+    // hx-get描画
+    //-----------------------------------------------------
+    public static function hxGet(): string
+    {
+        $result = "";
+        $path = self::getPath();
+        $getParam = self::getQuery();
+        foreach (self::sitemap as $page) {
+            if ($page['path'] === $path) {
+                $result = $page[self::pageContents];
+                $result .=  $getParam;
+                break;
+            }
+        }
+        return $result;
+    }
 }
- 

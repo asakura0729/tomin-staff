@@ -9,17 +9,6 @@ class appFuncCrmGet
     public const primaryKey = appDatabaseCs::primaryKey;
     public const db = appDatabaseCs::table;
     //-----------------------------------------------------
-    // データ取得
-    //-----------------------------------------------------
-    public static function getData(array $get = [], array $table = []): array
-    {
-        $sql = self::sql($get, $table);
-        $sql .= appFuncSql::orderBy(self::tableName, self::primaryKey);
-        $sql .= appFuncSql::limit();
-        $result = appFuncDatabase::getData($sql);
-        return $result;
-    }
-    //-----------------------------------------------------
     // SQL作成
     //-----------------------------------------------------
     public static function sql(array $get = []): string
@@ -33,10 +22,34 @@ class appFuncCrmGet
             'child' => self::tableName,
             'childAlias' => $alias,
             'parentKey' => self::primaryKey,
-            'childKey' => 'cs_id',
+            'childKey' => 'parent_cs_id'
         ], $sql);
         $sql .= appFuncSql::where(self::tableName, appDatabaseCs::csList, $get);
+        $sql .= self::whereClienCategory($get, self::tableName);
         return $sql;
+    }
+    //-----------------------------------------------------
+    // SQL作成＞無効電話のフィルタリング
+    //-----------------------------------------------------
+    public static function whereClienCategory($get, $tableName): string
+    {
+        $result = "";
+        if (isset($get['client_category_filter'])) {
+            $filterparam = $get['client_category_filter'];
+            $array = appConfigStatus::clientCategory;
+            $result = "AND(";
+            foreach ($array as $key => $value) {
+                if ($value['type'] == $filterparam) {
+                    /*分岐：無効電話*/
+                    $result .= $tableName . '.client_category="' . $key . '" ';
+                    if ($value != end($array)) {
+                        $result .= 'OR ';
+                    }
+                }
+            }
+            $result .= ")";
+        }
+        return $result;
     }
     //-----------------------------------------------------
     // マージしたテーブルを取得
@@ -45,6 +58,17 @@ class appFuncCrmGet
     {
         $table = array_merge(appDatabaseCs::csList, appDatabaseCs::csListJoin);
         return $table;
+    }
+    //-----------------------------------------------------
+    // データ取得
+    //-----------------------------------------------------
+    public static function getData(array $get = [], array $table = []): array
+    {
+        $sql = self::sql($get, $table);
+        $sql .= appFuncSql::orderBy(self::tableName, self::primaryKey);
+        $sql .= appFuncSql::limit();
+        $result = appFuncDatabase::getData($sql);
+        return $result;
     }
     //-----------------------------------------------------
     // データ取得(個別)
@@ -135,14 +159,14 @@ class appFuncCrmGet
     //-----------------------------------------------------
     // /tpadmin/cs/sheet 読込時の挙動
     //-----------------------------------------------------
-    public static function tpadminCsSheetAjax($get, $postPrimaryKey, $dataformat = false, $categoryFilter = true): array
+    public static function tpadminCsSheetAjax(array $get, string $postPrimaryKey = '', bool $dataformat = false, $categoryFilter = true): array
     {
-        $getPrimaryKey = appFuncArray::issetKey($get, appDatabaseCs::primaryKey, '');
         $csCategory = "";
         if ($categoryFilter === true) {
-            /*判断：カテゴリ絞込みの制限あり*/
+            /*判断：カテゴリは「送客シート」以外許可しない*/
             $csCategory = appConfigStatus::csCategorySheet;
         }
+        $getPrimaryKey = appFuncArray::issetKey($get, appDatabaseCs::primaryKey, '');
         if ($postPrimaryKey != '') {
             /*分岐1：既存データ参照...データ送信処理が実行された*/
             $result = self::getDataSingle($postPrimaryKey, $csCategory, $dataformat);
@@ -188,7 +212,7 @@ class appFuncCrmGet
                 }
                 if (self::db[$rowName]['input'] === 'select') {
                     /*分岐1-2：セレクトメニュー*/
-                    $value = appFuncDataformat::selectmenu($value, self::dbClass, $rowName);
+                    $value = appFuncDataformat::selectmenu(self::db, $rowName, $value);
                 }
                 $result .= self::db[$rowName]['comment'];
                 $result .= '「' . $value . '」、';

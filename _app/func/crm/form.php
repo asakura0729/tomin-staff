@@ -4,12 +4,14 @@
 //======================================================================
 class appFuncCrmForm
 {
-    /*入力フォームの横幅調整*/
+    //-----------------------------------------------------
+    // 入力フォームの横幅調整
+    //-----------------------------------------------------
     public static function setRowWidth($inputName, $inputType): string
     {
         switch ($inputType) {
             case 'checkbox':
-                $colClass = 'w-120px';
+                $colClass = 'w-100px';
                 break;
             case 'select':
             case 'date':
@@ -29,21 +31,29 @@ class appFuncCrmForm
             case appDatabaseCs::table['client_category']['name']:
                 $colClass = 'w-200px';
                 break;
+            case appDatabaseCs::table['delivery_status']['name']:
+            case appDatabaseCs::table['approval_status']['name']:
+                $colClass = 'w-100px';
+                break;
         }
         return $colClass;
     }
 
-    /*入力フォームの表示・非表示要素*/
+    //-----------------------------------------------------
+    // 入力フォームの表示・非表示要素
+    //-----------------------------------------------------
     public static function setDataDisp($key): string
     {
-        if (isset(appDatabaseCs::formInvalid[$key])) {
+        if (isset(appDatabaseCs::tableInvalid[$key])) {
             return appConfigStatus::clientCategoryInvalid;
         } else {
             return appConfigStatus::clientCategoryValid;
         }
     }
 
-    /*入力フォームの見出し変更*/
+    //-----------------------------------------------------
+    // 入力フォームの見出し変更
+    //-----------------------------------------------------
     public static function title($inputName, $title): string
     {
         switch ($inputName) {
@@ -66,7 +76,9 @@ class appFuncCrmForm
         return $result;
     }
 
-    /*モーダル用ボタン*/
+    //-----------------------------------------------------
+    // モーダル起動ボタン
+    //-----------------------------------------------------
     public static function modalBtnStr($inputValue, $selectItem, $selectItemString): string
     {
         $result = "---";
@@ -86,7 +98,27 @@ class appFuncCrmForm
         return $result;
     }
 
-    /*セレクトメニュー*/
+    //-----------------------------------------------------
+    // チェックボックス
+    //-----------------------------------------------------
+    public static function checkbox($inputValue, $selectItem): string
+    {
+        $result = "";
+        foreach ($selectItem as $itemKey => $item) {
+            $checked = "";
+            if ($inputValue === (string)$itemKey) {
+                $checked = 'checked';
+            }
+        }
+        $result .= <<<EOF
+        value="{$itemKey}" {$checked}
+        EOF;
+        return $result;
+    }
+
+    //-----------------------------------------------------
+    // セレクトメニュー
+    //-----------------------------------------------------
     public static function selectMenu($inputValue, $selectItem, $selectItemString): string
     {
         $result = "";

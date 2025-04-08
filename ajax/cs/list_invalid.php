@@ -6,14 +6,23 @@
 <?php require_once '../../_app/ssl_base.php'; ?>
 <?php require_once '../_tmpl/ajax.php'; ?>
 <?php appFuncModule::heading('h1', 'h1', appConfigPage::$title); ?>
-<article class="animation-fadein p-3">
+<style>
+    /*
+    検索フォームの「ステータス」列のモーダル「有効注文」は操作できないように制御
+    */
+    [data-label-client_category="<?php echo appConfigStatus::clientCategoryValid; ?>"] {
+        background: #eee;
+        pointer-events: none;
+        opacity: 0.5;
+    }
+</style>
+<article class="p-3">
     <?php appFuncModule::localModule('../_module/form-search', [
-        'config' => [
-            'dbTable' => appDatabaseCs::formSearch,
-            'dbResult' => [
-                'cs_category' => appConfigStatus::csCategoryLog,
-            ],
-            'dropdown' => appRoutesWeb::sitemap['adminCsIndex']['path']
+        'path' => appConfigPage::$path,
+        'dbTable' => appDatabaseCs::tableInvalid,
+        'client_category_filter' => appConfigStatus::clientCategoryInvalid,
+        'dbResult' => [
+            'cs_category' => appConfigStatus::csCategoryLog,
         ]
     ]); ?>
 </article>

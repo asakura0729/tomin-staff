@@ -704,7 +704,7 @@ Animation
     .animation-item {
         transition-duration: 0.25s;
         transition-timing-function: ease;
-        transition-delay: 0;
+        transition-delay: 1.0;
     }
 
     .animation-fadein {

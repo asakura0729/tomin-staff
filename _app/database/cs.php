@@ -39,7 +39,7 @@ class appDatabaseCs extends appConfigDatabase
     ],
     'cs_category' => [
       'name' => 'cs_category',
-      'type' => 'INT(4)',
+      'type' => 'VARCHAR(20)',
       'constraints' => 'NOT NULL',
       'comment' => 'カテゴリ',
       'input' => 'hidden',
@@ -48,9 +48,9 @@ class appDatabaseCs extends appConfigDatabase
       'name' => 'approval_status',
       'type' => 'VARCHAR(20)',
       'constraints' => 'NOT NULL',
-      'comment' => '確認状況',
-      'input' => 'checkbox',
-      'value' => ['item' => appConfigStatus::approval_status]
+      'comment' => '報告',
+      'input' => 'select',
+      'value' => ['item' => appConfigStatus::approval_status, 'string' => 'name']
     ],
     'approval_by' => [
       'name' => 'approval_by',
@@ -88,8 +88,8 @@ class appDatabaseCs extends appConfigDatabase
       'type' => 'VARCHAR(20)',
       'constraints' => 'NULL',
       'comment' => '資料発送',
-      'input' => 'checkbox',
-      'value' => ['item' => appConfigStatus::delivery_status]
+      'input' => 'select',
+      'value' => ['item' => appConfigStatus::delivery_status, 'string' => 'name']
     ],
     'client_name' => [
       'name' => 'client_name',
@@ -126,12 +126,12 @@ class appDatabaseCs extends appConfigDatabase
       'comment' => '故人住民票',
       'input' => 'textarea'
     ],
-    'dec_tel' => [
-      'name' => 'dec_tel',
-      'type' => 'longtext',
+    'dec_relation' => [
+      'name' => 'dec_relation',
+      'type' => 'VARCHAR(20)',
       'constraints' => 'NULL',
       'comment' => '故人続柄',
-      'input' => 'textarea'
+      'input' => 'text'
     ],
     'plan_category' => [
       'name' => 'plan_category',
@@ -324,7 +324,7 @@ class appDatabaseCs extends appConfigDatabase
     'client_tel' => self::table['client_tel'],
     'dec_name' => self::table['dec_name'],
     'dec_region' => self::table['dec_region'],
-    'dec_tel' => self::table['dec_tel'],
+    'dec_relation' => self::table['dec_relation'],
     'plan_category' => self::table['plan_category'],
     'ensconce_category' => self::table['ensconce_category'],
     'dest_address' => self::table['dest_address'],
@@ -403,7 +403,7 @@ class appDatabaseCs extends appConfigDatabase
     'client_tel' => self::table['client_tel'],
     'dec_name' => self::table['dec_name'],
     'dec_region' => self::table['dec_region'],
-    'dec_tel' => self::table['dec_tel'],
+    'dec_relation' => self::table['dec_relation'],
     'plan_category' => self::table['plan_category'],
     'ensconce_category' => self::table['ensconce_category'],
     'dest_address' => self::table['dest_address'],
@@ -437,7 +437,7 @@ class appDatabaseCs extends appConfigDatabase
     'client_tel' => self::table['client_tel'],
     'dec_name' => self::table['dec_name'],
     'dec_region' => self::table['dec_region'],
-    'dec_tel' => self::table['dec_tel'],
+    'dec_relation' => self::table['dec_relation'],
     'plan_category' => self::table['plan_category'],
     'ensconce_category' => self::table['ensconce_category'],
     'dest_address' => self::table['dest_address'],
@@ -446,20 +446,14 @@ class appDatabaseCs extends appConfigDatabase
     'hall_name' => self::table['hall_name'],
     'crematory_name' => self::table['crematory_name'],
     'option_name' => self::table['option_name'],
-    'total_price' => self::table['total_price'],
-    'hall_price' => self::table['hall_price'],
-    'funeral_status' => self::table['funeral_status'],
-    'estimate_date' => self::table['estimate_date'],
-    'invoice_date' => self::table['invoice_date'],
-    'funeral_name' => self::table['funeral_name'],
-    'option_flower' => self::table['option_flower'],
+    'comment' => self::table['dec_relation'],
     'cs_tel_status' => self::table['cs_tel_status'],
     'cs_tel_date' => self::table['cs_tel_date'],
   ];
   //-----------------------------------------------------
   // 検索フォームで表示する内容＞無効顧客
   //-----------------------------------------------------
-  public const formInvalid = [
+  public const tableInvalid = [
     'cs_id' => self::table['cs_id'],
     'cs_category' => self::table['cs_category'],
     'approval_status' => self::table['approval_status'],

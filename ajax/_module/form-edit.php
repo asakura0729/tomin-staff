@@ -5,7 +5,7 @@
 //$option['postPrimaryKey']...DBに送信したデータの主キー
 //======================================================================
 ?>
-<form data-hx-post="<?php echo appRoutesWeb::sitemap['adminAjaxCsedit']['contents']; ?>" data-hx-target="#form-edit" class="animation-fadein">
+<form class="animation-fadein" data-hx-post="<?php echo appRoutesWeb::sitemap['adminAjaxCsedit']['contents']; ?>" data-hx-target="#form-edit">
     <div class="overflow-x bg-lgray">
         <div class="d-flex flex-nowrap border l-form-cs">
             <?php foreach (appDatabaseCs::form as $key => $tableRow): ?>

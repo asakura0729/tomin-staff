@@ -10,25 +10,24 @@ class appConfigStatus
 
     /*承認ステータス*/
     public const approval_status = [
-        'progress' => '未完了',
-        'complete' => '完了'
+        'started' => ['key' => 'started', 'name' => '未申請'],
+        'progress' => ['key' => 'progress', 'name' => '未承認'],
+        'complete' => ['key' => 'complete', 'name' => '承認完了'],
     ];
-    /*作業ステータス*/
-    public const edit_status = [
-        'progress' => '作業中',
-        'complete' => '作業完了'
-    ];
+
     /*発送状況*/
     public const delivery_status = [
-        'unnecessary' => '発送不要',
-        'required' => '要発送'
+        'unnecessary' => ['key' => 'unnecessary', 'name' => '発送不要'],
+        'required' => ['key' => 'required', 'name' => '要発送'],
     ];
+
     /*架電ステータス*/
     public const cs_tel_status = [
         'unnecessary' => '架電不要',
         'required' => '要架電',
         'complete' => '架電完了'
     ];
+
     /*顧客カテゴリ*/
     public const clientCategoryValid = 'valid'; //有効顧客
     public const clientCategoryInvalid = 'invalid'; //無効顧客
@@ -53,16 +52,11 @@ class appConfigStatus
         'unknown' => ['name' => '不明', 'type' => self::clientCategoryInvalid],
         'other_invalid' => ['name' => 'その他（無効電話）', 'type' => self::clientCategoryInvalid],
     ];
+
     /*報告状況*/
     public const funeral_status = [
         'progress' => '未完了',
         'complete' => '完了'
     ];
-    /*印刷状況*/
-    public const printStatusProgress = 'progress';
-    public const printStatusComplete = 'complete';
-    public const print_status = [
-        self::printStatusProgress => '未完了',
-        self::printStatusComplete => '完了'
-    ];
+
 }

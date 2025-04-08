@@ -4,7 +4,7 @@
 //======================================================================
 ?>
 <?php require_once '../../_app/ssl_base.php'; ?>
-<?php require_once '../../_app/http/tpadmin/cs_sheet/ajax/detail.php'; ?>
+<?php require_once '../../_app/http/ajax/cs_sheet/detail.php'; ?>
 <?php require_once '../_tmpl/ajax.php'; ?>
 
 <?php appFuncModule::css('print'); ?>
@@ -68,10 +68,10 @@
             </div>
         </div>
         <div class="container pt-3">
-            <?php if (appHttpCssheetAjaxDetail::$dbResult['print_status'] != appConfigStatus::printStatusComplete): ?>
+            <?php if (appHttpCssheetAjaxDetail::$dbResult['approval_status'] != appConfigStatus::approval_status['complete']['key']): ?>
                 <form data-hx-post="<?php echo appRoutesWeb::sitemap['adminCsSeetDetail']['contents'] . appFuncPath::setGetParam(['cs_id'], [appHttpCssheetAjaxDetail::$dbResult['cs_id']]); ?>" data-hx-target="<?php echo appConfigPage::pageMain; ?>">
                     <?php appFuncModule::form('form-control', appHttpCssheetAjaxDetail::$dbResult['cs_id'], ['inputName' => 'cs_id', 'inputType' => 'hidden']); ?>
-                    <?php appFuncModule::form('form-control', appConfigStatus::printStatusComplete, ['inputName' => appDatabaseCs::table['print_status']['name'], 'inputType' => 'hidden']); ?>
+                    <?php appFuncModule::form('form-control', appConfigStatus::approval_status['complete']['key'], ['inputName' => appDatabaseCs::table['approval_status']['name'], 'inputType' => 'hidden']); ?>
                     <?php appFuncModule::btn('print', ['css' => 'w-100', 'add' => 'data-submit']); ?>
                     <?php appFuncModule::js('form-submit'); ?>
                 </form>
@@ -84,12 +84,10 @@
 </div>
 
 <div class="l-prev animation-fadein-leftslide">
-    <?php appFuncModule::localModule('../_module/print', [
-        'formConfig' => [
-            'moduleName' => 'form-control',
-            'dbClass' => 'appDatabaseCs',
-            'dbResult' => appHttpCssheetAjaxDetail::$dbResult,
-            'editFlg' => false
-        ]
+    <?php appFuncModule::localModule('../_module/print-sheet', [
+        'moduleName' => 'form-control',
+        'dbTable' => appDatabaseCs::table,
+        'dbResult' => appHttpCssheetAjaxDetail::$dbResult,
+        'editFlg' => false
     ]); ?>
 </div>

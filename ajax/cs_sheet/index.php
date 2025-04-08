@@ -8,12 +8,10 @@
 <?php appFuncModule::heading('h1', 'h1', appConfigPage::$title); ?>
 <article class="animation-fadein p-3">
     <?php appFuncModule::localModule('../_module/form-search', [
-        'config' => [
-            'dbTable' => appDatabaseCs::csListSheet,
-            'dbResult' => [
-                'cs_category' => appConfigStatus::csCategorySheet
-            ],
-            'dropdown' => appRoutesWeb::sitemap['adminCsSeet']['path']
+        'path' => appConfigPage::$path,
+        'dbTable' => appDatabaseCs::form,
+        'dbResult' => [
+            'cs_category' => appConfigStatus::csCategorySheet
         ]
     ]); ?>
 </article>
