@@ -6,6 +6,6 @@
 <?php require_once '../../_app/ssl_base.php'; ?>
 <?php require_once '../../_app/http/tpadmin/ajax/cs-edit.php'; ?>
 <?php appFuncModule::localModule('../_module/form-edit', [
-    'dbResult' => appHttpTpadminAjaxCsedit::$dbResult,
-    'postPrimaryKey' => appHttpTpadminAjaxCsedit::$postPrimaryKey
+    'dbResult' => appHttpAjaxCsedit::$dbResult,
+    'postPrimaryKey' => appHttpAjaxCsedit::$postPrimaryKey
 ]); ?>

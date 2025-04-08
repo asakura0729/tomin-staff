@@ -1,5 +1,5 @@
-<?php require_once __DIR__ . '../../../../_app/ssl_base.php'; ?>
-<?php require_once '../../_tmpl/ajax.php'; ?>
+<?php require_once '../../_app/ssl_base.php'; ?>
+<?php require_once '../_tmpl/ajax.php'; ?>
 
 <div class="container animation-fadein-topslide">
     <div class="row">

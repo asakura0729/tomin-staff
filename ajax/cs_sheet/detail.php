@@ -3,9 +3,9 @@
 // ページ：送客シート詳細
 //======================================================================
 ?>
-<?php require_once '../../../_app/ssl_base.php'; ?>
-<?php require_once '../../../_app/http/tpadmin/cs_sheet/ajax/detail.php'; ?>
-<?php require_once '../../_tmpl/ajax.php'; ?>
+<?php require_once '../../_app/ssl_base.php'; ?>
+<?php require_once '../../_app/http/tpadmin/cs_sheet/ajax/detail.php'; ?>
+<?php require_once '../_tmpl/ajax.php'; ?>
 
 <?php appFuncModule::css('print'); ?>
 <style>
@@ -45,7 +45,7 @@
                         'css' => 'w-100 text-center',
                         'queryParam' => appFuncPath::setGetParam(
                             ['cs_id'],
-                            [appHttpTpadminCssheetAjaxDetail::$dbResult['cs_id']]
+                            [appHttpCssheetAjaxDetail::$dbResult['cs_id']]
                         )
                     ]
                 );
@@ -60,7 +60,7 @@
                         'css' => 'w-100 text-center',
                         'queryParam' => appFuncPath::setGetParam(
                             ['cs_id'],
-                            [appHttpTpadminCssheetAjaxDetail::$dbResult['parent_cs_id']]
+                            [appHttpCssheetAjaxDetail::$dbResult['parent_cs_id']]
                         )
                     ]
                 );
@@ -68,9 +68,9 @@
             </div>
         </div>
         <div class="container pt-3">
-            <?php if (appHttpTpadminCssheetAjaxDetail::$dbResult['print_status'] != appConfigStatus::printStatusComplete): ?>
-                <form data-hx-post="<?php echo appRoutesWeb::sitemap['adminCsSeetDetail']['contents'] . appFuncPath::setGetParam(['cs_id'], [appHttpTpadminCssheetAjaxDetail::$dbResult['cs_id']]); ?>" data-hx-target="<?php echo appConfigPage::pageMain; ?>">
-                    <?php appFuncModule::form('form-control', appHttpTpadminCssheetAjaxDetail::$dbResult['cs_id'], ['inputName' => 'cs_id', 'inputType' => 'hidden']); ?>
+            <?php if (appHttpCssheetAjaxDetail::$dbResult['print_status'] != appConfigStatus::printStatusComplete): ?>
+                <form data-hx-post="<?php echo appRoutesWeb::sitemap['adminCsSeetDetail']['contents'] . appFuncPath::setGetParam(['cs_id'], [appHttpCssheetAjaxDetail::$dbResult['cs_id']]); ?>" data-hx-target="<?php echo appConfigPage::pageMain; ?>">
+                    <?php appFuncModule::form('form-control', appHttpCssheetAjaxDetail::$dbResult['cs_id'], ['inputName' => 'cs_id', 'inputType' => 'hidden']); ?>
                     <?php appFuncModule::form('form-control', appConfigStatus::printStatusComplete, ['inputName' => appDatabaseCs::table['print_status']['name'], 'inputType' => 'hidden']); ?>
                     <?php appFuncModule::btn('print', ['css' => 'w-100', 'add' => 'data-submit']); ?>
                     <?php appFuncModule::js('form-submit'); ?>
@@ -88,7 +88,7 @@
         'formConfig' => [
             'moduleName' => 'form-control',
             'dbClass' => 'appDatabaseCs',
-            'dbResult' => appHttpTpadminCssheetAjaxDetail::$dbResult,
+            'dbResult' => appHttpCssheetAjaxDetail::$dbResult,
             'editFlg' => false
         ]
     ]); ?>

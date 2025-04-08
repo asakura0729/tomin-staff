@@ -12,15 +12,15 @@
     <section id="sec-edit" class="p-3 pb-4">
         <?php appFuncModule::heading('h2', 'h2', '受電内容メモ', ['addCss' => 'pl-2 pb-2']); ?>
         <div id="<?php echo appConfigPage::secCsEdit; ?>" class="minh-200px">
-            <?php appFuncModule::localModule('../../_module/form-edit', [
-                'dbResult' => appHttpTpadminAjaxCsEdit::$dbResult,
+            <?php appFuncModule::localModule('../_module/form-edit', [
+                'dbResult' => appHttpAjaxCsEdit::$dbResult,
                 'postPrimaryKey' => ''
             ]); ?>
         </div>
     </section>
     <section id="sec-search" class="p-3">
         <?php appFuncModule::heading('h2', 'h2', '対応ログ検索', ['addCss' => 'pl-2']); ?>
-        <?php appFuncModule::localModule('../../_module/form-search', [
+        <?php appFuncModule::localModule('../_module/form-search', [
             'config' => [
                 'dbTable' => appDatabaseCs::formSearch,
                 'dbResult' => [

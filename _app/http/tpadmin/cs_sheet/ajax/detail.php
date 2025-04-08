@@ -2,11 +2,11 @@
 //======================================================================
 // 送客シート詳細ページ
 //======================================================================
-class appHttpTpadminCssheetAjaxDetail
+class appHttpCssheetAjaxDetail
 {
     public static $postPrimaryKey = ''; //DBに送信されたprimaryKeyの値
     public static $dbResult = []; //DBから取得した値
 }
 
-appHttpTpadminCssheetAjaxDetail::$postPrimaryKey = appFuncCrmPost::csData($_POST);
-appHttpTpadminCssheetAjaxDetail::$dbResult = appFuncCrmGet::tpadminCsSheetAjax($_GET, appHttpTpadminCssheetAjaxDetail::$postPrimaryKey, true);
+appHttpCssheetAjaxDetail::$postPrimaryKey = appFuncCrmPost::csData($_POST);
+appHttpCssheetAjaxDetail::$dbResult = appFuncCrmGet::tpadminCsSheetAjax($_GET, appHttpCssheetAjaxDetail::$postPrimaryKey, true);

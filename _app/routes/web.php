@@ -26,10 +26,10 @@ class appRoutesWeb
         'adminCsEdit' => [self::pagePath => '/tpadmin/cs/edit', self::pageContents => '/ajax/cs/edit', self::pageTitle => '対応ログ編集', self::pageRoute => ['adminCsIndex'], self::pageIcon => 'fa-pencil'],
         'adminCsList_invalid' => [self::pagePath => '/tpadmin/cs/list_invalid', self::pageContents => '/ajax/cs/list_invalid', self::pageTitle => '無効電話一覧', self::pageRoute => ['adminCsIndex'], self::pageIcon => 'fa-list-ol'],
         'adminCsList_check' => [self::pagePath => '/tpadmin/cs/list_check', self::pageContents => '/ajax/cs/list_check', self::pageTitle => 'ログチェック一覧', self::pageRoute => ['adminCsIndex'], self::pageIcon => 'fa-list-ol'],
-        'adminCsSeet' => [self::pagePath => '/tpadmin/cs_sheet/', self::pageContents => '/cs_sheet/ajax/index', self::pageTitle => '送客シート一覧', self::pageRoute => [], self::pageIcon => 'fa-file-text'],
-        'adminCsSeetDetail' => [self::pagePath => '/tpadmin/cs_sheet/detail', self::pageContents => '/cs_sheet/ajax/detail', self::pageTitle => '送客シート閲覧', self::pageRoute => ['adminCsSeet'], self::pageIcon => 'fa-file-text'],
-        'adminCsSeetEdit' => [self::pagePath => '/tpadmin/cs_sheet/edit', self::pageContents => '/cs_sheet/ajax/edit', self::pageTitle => '送客シート編集', self::pageRoute => ['adminCsSeet'], self::pageIcon => 'fa-file-text'],
-        'adminPrint' => [self::pagePath => '/tpadmin/print/', self::pageContents => '/print/ajax/index', self::pageTitle => '宛名印刷', self::pageRoute => [], self::pageIcon => 'fa-envelope'],
+        'adminCsSeet' => [self::pagePath => '/tpadmin/cs_sheet/', self::pageContents => '/ajax/cs_sheet/index', self::pageTitle => '送客シート一覧', self::pageRoute => [], self::pageIcon => 'fa-file-text'],
+        'adminCsSeetDetail' => [self::pagePath => '/tpadmin/cs_sheet/detail', self::pageContents => '/ajax/cs_sheet/detail', self::pageTitle => '送客シート閲覧', self::pageRoute => ['adminCsSeet'], self::pageIcon => 'fa-file-text'],
+        'adminCsSeetEdit' => [self::pagePath => '/tpadmin/cs_sheet/edit', self::pageContents => '/ajax/cs_sheet/edit', self::pageTitle => '送客シート編集', self::pageRoute => ['adminCsSeet'], self::pageIcon => 'fa-file-text'],
+        'adminPrint' => [self::pagePath => '/tpadmin/print/', self::pageContents => '/ajax/print/index', self::pageTitle => '宛名印刷', self::pageRoute => [], self::pageIcon => 'fa-envelope'],
     ];
     //======================================================================
     // グローバルナビゲーション

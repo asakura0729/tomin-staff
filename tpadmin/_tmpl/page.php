@@ -12,14 +12,13 @@
             </div>
         </div>
     <?php endif; ?>
-    <div id="page-indicator" class="htmx-spinner">
-        <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-    </div>
-    <div id="page-main" class="l-main" <?php appFuncDisp::hxGet(); ?>></div>
+    <?php $includeFile = appFuncDisp::hxGet(); ?>
+    <?php if ($includeFile != ''): ?>
+        <div id="page-main" class="l-main" data-hx-get="<?php echo $includeFile; ?>" data-hx-trigger="load once"></div>
+    <?php else: ?>
+        <div id="page-main" class="l-main"><?php appFuncModule::component('404'); ?></div>
+    <?php endif; ?>
 </main>
-
 <?php require_once __DIR__ . '../../../_tmpl/l-footer.php'; ?>
 <?php appFuncMinify::minifySourceEnd(); ?>
 
@@ -43,7 +42,7 @@
             const gnavId = gnavLink.getAttribute("id");
             const gnavLinkUrl = gnavLink.getAttribute("data-hx-push-url");
             gnavLink.classList.remove(cssCurrent);
-            if (gnavLinkUrl === path || path.indexOf(gnavLinkUrl) >= 0) {
+            if (path === gnavLinkUrl) {
                 currentGnavId = gnavId;
             }
         });
