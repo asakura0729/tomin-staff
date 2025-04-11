@@ -14,8 +14,8 @@ class appFuncCrmGet
     public static function sql(array $get = []): string
     {
         $alias = 'cs_sheet';
-        $sql = appFuncSql::select(self::tableName, appDatabaseCs::csList);
-        $sql = appFuncSql::select($alias, appDatabaseCs::csListJoin, $sql);
+        $sql = appFuncSql::select(self::tableName, appDatabaseCs::tableCsList);
+        $sql = appFuncSql::select($alias, appDatabaseCs::tableCsListJoin, $sql);
         $sql = appFuncSql::from(self::tableName, $sql);
         $sql = appFuncSql::join([
             'parent' => self::tableName,
@@ -24,7 +24,7 @@ class appFuncCrmGet
             'parentKey' => self::primaryKey,
             'childKey' => 'parent_cs_id'
         ], $sql);
-        $sql .= appFuncSql::where(self::tableName, appDatabaseCs::csList, $get);
+        $sql .= appFuncSql::where(self::tableName, appDatabaseCs::tableCsList, $get);
         $sql .= self::whereClienCategory($get, self::tableName);
         return $sql;
     }
@@ -56,7 +56,7 @@ class appFuncCrmGet
     //-----------------------------------------------------
     public static function mergeTable(): array
     {
-        $table = array_merge(appDatabaseCs::csList, appDatabaseCs::csListJoin);
+        $table = array_merge(appDatabaseCs::tableCsList, appDatabaseCs::tableCsListJoin);
         return $table;
     }
     //-----------------------------------------------------
@@ -75,7 +75,7 @@ class appFuncCrmGet
     //-----------------------------------------------------
     public static function getDataSingle(string $primaryKey = '', string $cs_category = '', bool $dataFormat = false): array
     {
-        $table = array_merge(appDatabaseCs::csList, appDatabaseCs::csListJoin);
+        $table = array_merge(appDatabaseCs::tableCsList, appDatabaseCs::tableCsListJoin);
         if ($primaryKey != '') {
             /*分岐1：cs_id指定あり*/
             $dbresult = self::getData([self::primaryKey => $primaryKey, 'cs_category' => $cs_category], $table);
@@ -103,7 +103,7 @@ class appFuncCrmGet
     {
         $result = [];
         $dbresult = self::getData($get);
-        $table = array_merge(appDatabaseCs::csList, appDatabaseCs::csListJoin);
+        $table = array_merge(appDatabaseCs::tableCsList, appDatabaseCs::tableCsListJoin);
         if (count($dbresult) > 0) {
             foreach ($dbresult as $index => $value) {
                 $result[$index] = appFuncDataformat::dbResultStr($value, $table);
@@ -119,7 +119,7 @@ class appFuncCrmGet
     {
         $result = '0';
         $sql = appFuncSql::getCount(self::tableName, self::primaryKey);
-        $sql .= appFuncSql::where(self::tableName, appDatabaseCs::csList, $get);
+        $sql .= appFuncSql::where(self::tableName, appDatabaseCs::tableCsList, $get);
         $sql .= self::whereClienCategory($get, self::tableName);
         $dbresult = appFuncDatabase::getData($sql);
         if (isset($dbresult[0]['count'])) {

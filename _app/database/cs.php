@@ -17,6 +17,7 @@ class appDatabaseCs extends appConfigDatabase
   type：データベースのデータ型,
   constraints：データベースの制約,
   comment：データベースのコメント,
+  category：列のカテゴリ
   input：フォームの入力要素,
   value：値（任意）
     item：セレクトメニュー等で使用する配列,
@@ -33,7 +34,7 @@ class appDatabaseCs extends appConfigDatabase
     'parent_cs_id' => [
       'name' => 'parent_cs_id',
       'type' => 'INT(4)',
-      'constraints' => 'NOT NULL',
+      'constraints' => 'NULL',
       'comment' => '親ログID',
       'input' => 'hidden'
     ],
@@ -47,7 +48,7 @@ class appDatabaseCs extends appConfigDatabase
     'approval_status' => [
       'name' => 'approval_status',
       'type' => 'VARCHAR(20)',
-      'constraints' => 'NOT NULL',
+      'constraints' => 'NULL',
       'comment' => '承認',
       'input' => 'select',
       'value' => ['item' => appConfigStatus::approval_status, 'string' => 'name']
@@ -79,7 +80,7 @@ class appDatabaseCs extends appConfigDatabase
       'name' => 'client_category',
       'type' => 'VARCHAR(20)',
       'constraints' => 'NULL',
-      'comment' => 'ステータス',
+      'comment' => '顧客ステータス',
       'input' => 'select',
       'value' => ['item' => appConfigStatus::clientCategory, 'string' => 'name'],
     ],
@@ -308,89 +309,12 @@ class appDatabaseCs extends appConfigDatabase
   ];
 
   //-----------------------------------------------------
-  // 対応ログ一覧で表示する内容
+  // 対応ログ一覧で取得する内容
   //-----------------------------------------------------
-  public const csList = [
+  public const tableCsList = [
     'cs_id' => self::table['cs_id'],
     'cs_category' => self::table['cs_category'],
     'parent_cs_id' => self::table['parent_cs_id'],
-    'approval_status' => self::table['approval_status'],
-    'approval_by' => self::table['approval_by'],
-    'post_date' => self::table['post_date'],
-    'post_by' => self::table['post_by'],
-    'client_category' => self::table['client_category'],
-    'delivery_status' => self::table['delivery_status'],
-    'client_name' => self::table['client_name'],
-    'client_region' => self::table['client_region'],
-    'client_tel' => self::table['client_tel'],
-    'dec_name' => self::table['dec_name'],
-    'dec_region' => self::table['dec_region'],
-    'dec_relation' => self::table['dec_relation'],
-    'plan_category' => self::table['plan_category'],
-    'ensconce_category' => self::table['ensconce_category'],
-    'dest_address' => self::table['dest_address'],
-    'ensconce_address' => self::table['ensconce_address'],
-    'funeral_date' => self::table['funeral_date'],
-    'hall_name' => self::table['hall_name'],
-    'crematory_name' => self::table['crematory_name'],
-    'option_name' => self::table['option_name'],
-    'total_price' => self::table['total_price'],
-    'hall_price' => self::table['hall_price'],
-    'funeral_status' => self::table['funeral_status'],
-    'estimate_date' => self::table['estimate_date'],
-    'invoice_date' => self::table['invoice_date'],
-    'comment' => self::table['comment'],
-    'cs_tel_status' => self::table['cs_tel_status'],
-    'cs_tel_date' => self::table['cs_tel_date'],
-    'insert_date' => self::table['insert_date'],
-    'insert_by' => self::table['insert_by'],
-    'update_date' => self::table['update_date'],
-    'update_by' => self::table['update_by']
-  ];
-  //-----------------------------------------------------
-  // 対応ログ一覧で表示する内容（送客シート）
-  //-----------------------------------------------------
-  public const csListJoin = [
-    'sheet_cs_id' => self::table['cs_id'],
-    'sheet_parent_cs_id' => self::table['parent_cs_id'],
-    'sheet_cs_category' => self::table['cs_category'],
-    'sheet_approval_status' => self::table['approval_status'],
-    'sheet_plan_category' => self::table['plan_category'],
-    'sheet_ensconce_category' => self::table['ensconce_category'],
-    'sheet_funeral_date' => self::table['funeral_date'],
-    'sheet_hall_name' => self::table['hall_name'],
-    'sheet_crematory_name' => self::table['crematory_name'],
-    'sheet_option_name' => self::table['option_name'],
-    'sheet_comment' => self::table['comment'],
-    'sheet_title' => self::table['title'],
-    'sheet_funeral_name' => self::table['funeral_name'],
-    'sheet_option_flower' => self::table['option_flower']
-  ];
-  //-----------------------------------------------------
-  // 送客シート一覧で表示する内容
-  //-----------------------------------------------------
-  public const csListSheet = [
-    'cs_id' => self::table['cs_id'],
-    'cs_category' => self::table['cs_category'],
-    'parent_cs_id' => self::table['parent_cs_id'],
-    'approval_status' => self::table['approval_status'],
-    'plan_category' => self::table['plan_category'],
-    'ensconce_category' => self::table['ensconce_category'],
-    'funeral_date' => self::table['funeral_date'],
-    'hall_name' => self::table['hall_name'],
-    'crematory_name' => self::table['crematory_name'],
-    'option_name' => self::table['option_name'],
-    'comment' => self::table['comment'],
-    'title' => self::table['title'],
-    'funeral_name' => self::table['funeral_name'],
-    'option_flower' => self::table['option_flower']
-  ];
-  //-----------------------------------------------------
-  // 編集フォームで表示する内容
-  //-----------------------------------------------------
-  public const form = [
-    'cs_id' => self::table['cs_id'],
-    'cs_category' => self::table['cs_category'],
     'approval_status' => self::table['approval_status'],
     'approval_by' => self::table['approval_by'],
     'post_date' => self::table['post_date'],
@@ -421,9 +345,145 @@ class appDatabaseCs extends appConfigDatabase
     'cs_tel_date' => self::table['cs_tel_date']
   ];
   //-----------------------------------------------------
+  // 対応ログ一覧で取得する内容（左外部結合）
+  //-----------------------------------------------------
+  public const tableCsListJoin = [
+    'sheet_cs_id' => self::table['cs_id'],
+    'sheet_parent_cs_id' => self::table['parent_cs_id'],
+    'sheet_cs_category' => self::table['cs_category'],
+    'sheet_approval_status' => self::table['approval_status'],
+    'sheet_plan_category' => self::table['plan_category'],
+    'sheet_ensconce_category' => self::table['ensconce_category'],
+    'sheet_funeral_date' => self::table['funeral_date'],
+    'sheet_hall_name' => self::table['hall_name'],
+    'sheet_crematory_name' => self::table['crematory_name'],
+    'sheet_option_name' => self::table['option_name'],
+    'sheet_comment' => self::table['comment'],
+    'sheet_title' => self::table['title'],
+    'sheet_funeral_name' => self::table['funeral_name'],
+    'sheet_option_flower' => self::table['option_flower']
+  ];
+  //-----------------------------------------------------
+  // 対応ログ一覧で表示する内容
+  //-----------------------------------------------------
+  public const tableCsListMerge = [
+    'cs_id' => self::table['cs_id'],
+    'sheet_cs_id' => self::table['cs_id'],
+    'cs_category' => self::table['cs_category'],
+    'parent_cs_id' => self::table['parent_cs_id'],
+    'approval_status' => self::table['approval_status'],
+    'approval_by' => self::table['approval_by'],
+    'post_date' => self::table['post_date'],
+    'post_by' => self::table['post_by'],
+    'client_category' => self::table['client_category'],
+    'delivery_status' => self::table['delivery_status'],
+    'client_name' => self::table['client_name'],
+    'client_region' => self::table['client_region'],
+    'client_tel' => self::table['client_tel'],
+    'dec_name' => self::table['dec_name'],
+    'dec_region' => self::table['dec_region'],
+    'dec_relation' => self::table['dec_relation'],
+    'plan_category' => self::table['plan_category'],
+    'ensconce_category' => self::table['ensconce_category'],
+    'dest_address' => self::table['dest_address'],
+    'ensconce_address' => self::table['ensconce_address'],
+    'funeral_date' => self::table['funeral_date'],
+    'hall_name' => self::table['hall_name'],
+    'crematory_name' => self::table['crematory_name'],
+    'option_name' => self::table['option_name'],
+    'funeral_status' => self::table['funeral_status'],
+    'estimate_date' => self::table['estimate_date'],
+    'invoice_date' => self::table['invoice_date'],
+    'sheet_comment' => self::table['comment'],
+    'comment' => self::table['comment'],
+    'sheet_funeral_name' => self::table['funeral_name'],
+    'sheet_approval_status' => self::table['approval_status'],
+    'sheet_plan_category' => self::table['plan_category'],
+    'sheet_ensconce_category' => self::table['ensconce_category'],
+    'sheet_funeral_date' => self::table['funeral_date'],
+    'sheet_hall_name' => self::table['hall_name'],
+    'sheet_crematory_name' => self::table['crematory_name'],
+    'sheet_option_name' => self::table['option_name'],
+    'total_price' => self::table['total_price'],
+    'hall_price' => self::table['hall_price'],
+    'cs_tel_status' => self::table['cs_tel_status'],
+    'cs_tel_date' => self::table['cs_tel_date'],
+  ];
+  //-----------------------------------------------------
+  // 対応ログ一覧で表示する内容＞無効顧客一覧
+  //-----------------------------------------------------
+  public const tableInvalid = [
+    'cs_id' => self::table['cs_id'],
+    'cs_category' => self::table['cs_category'],
+    'approval_status' => self::table['approval_status'],
+    'approval_by' => self::table['approval_by'],
+    'post_date' => self::table['post_date'],
+    'post_by' => self::table['post_by'],
+    'client_category' => self::table['client_category'],
+    'client_name' => self::table['client_name'],
+    'client_tel' => self::table['client_tel'],
+    'comment' => self::table['comment'],
+    'cs_tel_status' => self::table['cs_tel_status'],
+    'cs_tel_date' => self::table['cs_tel_date']
+  ];
+  //-----------------------------------------------------
+  // 送客シート一覧で表示する内容
+  //-----------------------------------------------------
+  public const tableSheetList = [
+    'cs_id' => self::table['cs_id'],
+    'cs_category' => self::table['cs_category'],
+    'parent_cs_id' => self::table['parent_cs_id'],
+    'approval_status' => self::table['approval_status'],
+    'plan_category' => self::table['plan_category'],
+    'ensconce_category' => self::table['ensconce_category'],
+    'funeral_date' => self::table['funeral_date'],
+    'hall_name' => self::table['hall_name'],
+    'crematory_name' => self::table['crematory_name'],
+    'option_name' => self::table['option_name'],
+    'comment' => self::table['comment'],
+    'title' => self::table['title'],
+    'funeral_name' => self::table['funeral_name'],
+    'option_flower' => self::table['option_flower']
+  ];
+  //-----------------------------------------------------
+  // 対応ログ編集フォームで表示する内容
+  //-----------------------------------------------------
+  public const tableForm = [
+    'cs_id' => self::table['cs_id'],
+    'cs_category' => self::table['cs_category'],
+    'approval_status' => self::table['approval_status'],
+    'approval_by' => self::table['approval_by'],
+    'post_date' => self::table['post_date'],
+    'post_by' => self::table['post_by'],
+    'client_category' => self::table['client_category'],
+    'delivery_status' => self::table['delivery_status'],
+    'client_name' => self::table['client_name'],
+    'client_region' => self::table['client_region'],
+    'client_tel' => self::table['client_tel'],
+    'dec_name' => self::table['dec_name'],
+    'dec_region' => self::table['dec_region'],
+    'dec_relation' => self::table['dec_relation'],
+    'plan_category' => self::table['plan_category'],
+    'ensconce_category' => self::table['ensconce_category'],
+    'dest_address' => self::table['dest_address'],
+    'ensconce_address' => self::table['ensconce_address'],
+    'funeral_date' => self::table['funeral_date'],
+    'hall_name' => self::table['hall_name'],
+    'crematory_name' => self::table['crematory_name'],
+    'option_name' => self::table['option_name'],
+    'comment' => self::table['comment'],
+    'total_price' => self::table['total_price'],
+    'hall_price' => self::table['hall_price'],
+    'funeral_status' => self::table['funeral_status'],
+    'estimate_date' => self::table['estimate_date'],
+    'invoice_date' => self::table['invoice_date'],
+    'cs_tel_status' => self::table['cs_tel_status'],
+    'cs_tel_date' => self::table['cs_tel_date']
+  ];
+  //-----------------------------------------------------
   // 検索フォームで表示する内容
   //-----------------------------------------------------
-  public const formSearch = [
+  public const tableFormSearch = [
     'cs_category' => self::table['cs_category'],
     'approval_status' => self::table['approval_status'],
     'approval_by' => self::table['approval_by'],
@@ -450,20 +510,33 @@ class appDatabaseCs extends appConfigDatabase
     'cs_tel_date' => self::table['cs_tel_date'],
   ];
   //-----------------------------------------------------
-  // 検索フォームで表示する内容＞無効顧客
+  // 名称変更を行う列
   //-----------------------------------------------------
-  public const tableInvalid = [
-    'cs_id' => self::table['cs_id'],
-    'cs_category' => self::table['cs_category'],
-    'approval_status' => self::table['approval_status'],
-    'approval_by' => self::table['approval_by'],
-    'post_date' => self::table['post_date'],
-    'post_by' => self::table['post_by'],
-    'client_category' => self::table['client_category'],
-    'client_name' => self::table['client_name'],
-    'client_tel' => self::table['client_tel'],
-    'comment' => self::table['comment'],
-    'cs_tel_status' => self::table['cs_tel_status'],
-    'cs_tel_date' => self::table['cs_tel_date']
+  public const rename = [
+    'post_date' => '日付',
+    'post_by' => '受電者',
+    'client_category' => 'ステータス',
+    'client_name' => '氏名',
+    'client_tel' => '連絡先',
+    'client_region' => '住民票',
+    'funeral_date' => '葬儀希望日',
+    'hall_name' => '案内式場',
+    'crematory_name' => '案内火葬場',
+    'option_name' => '案内オプション',
+    'sheet_comment' => '送客シート特記事項',
+    'comment' => '対応ログ'
+  ];
+  //-----------------------------------------------------
+  // 列をカテゴリ別に分類
+  //-----------------------------------------------------
+  public const rowCategory = [
+    'cs_id' => ['title' => '　', 'css' => 'bg-row-base'],
+    'client_name' => ['title' => '入電者様情報', 'css' => 'bg-row-client'],
+    'dec_name' => ['title' => '故人様情報', 'css' => 'bg-row-dec'],
+    'plan_category' => ['title' => '案内情報', 'css' => 'bg-row-cs'],
+    'sheet_comment' => ['title' => '本文', 'css' => 'bg-row-base'],
+    'sheet_funeral_name' => ['title' => '実施内容', 'css' => 'bg-row-sheet'],
+    'funeral_status' => ['title' => '報告', 'css' => 'bg-row-status'],
+    'cs_tel_status' => ['title' => '架電', 'css' => 'bg-row-base'],
   ];
 }

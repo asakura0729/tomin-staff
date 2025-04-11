@@ -6,7 +6,7 @@
 <?php require_once '../../../_app/ssl_base.php'; ?>
 <?php require_once '../../../_app/http/ajax/cs/ajax/list.php'; ?>
 
-<article class="minw-1000px animation-fadein">
+<article class="animation-fadein">
 
     <?php if (adminCsAjaxList::$searchString != ''): ?>
         <?php appFuncModule::heading('h2', 'h2', '検索結果', ['addCss' => 'pl-2']); ?>
@@ -18,20 +18,23 @@
         <?php exit; ?>
     <?php endif; ?>
 
-    <div class="d-table flex-nowrap border-top border-left">
-        <header class="d-table-row bg-base">
-            <div data-width="50" class="d-table-cell m-0 p-2 text-center font-size-0_9 border-right border-bottom"></div>
+    <div class="border-top border-left">
+
+        <header class="d-flex">
             <?php foreach (adminCsAjaxList::$tableRow as $key => $row): ?>
-                <?php if ($row['input'] != '' && $row['input'] != 'hidden'): ?>
-                    <div data-width="<?php echo appFuncCrmDisp::setListWidth($row['name'], $row['input']); ?>" class="d-table-cell m-0 p-2 text-center font-size-0_9 border-right border-bottom">
-                        <?php echo $row['comment']; ?>
-                    </div>
-                <?php endif; ?>
+                <?php appFuncModule::component('header-cslist', [
+                    'key' => $key,
+                    'input' => $row['input'],
+                    'dbTable' => adminCsAjaxList::$tableRow,
+                    'title' => appFuncCrmDisp::renameTitle($key, $row['comment']),
+                    'dataWidth' => appFuncCrmDisp::setListWidth($row['name'], $row['input'])
+                ]); ?>
             <?php endforeach; ?>
         </header>
-        <?php foreach (adminCsAjaxList::$dbResultCs as $key => $value): ?>
-            <div class="d-table-row bg-hover-lgray <?php echo appFuncCrmDisp::setBgcolor($value); ?>">
-                <div class="d-table-cell font-size-0_9 m-0 text-center border-right border-bottom">
+
+        <?php foreach (adminCsAjaxList::$dbResultCs as $value): ?>
+            <div data-col class="d-flex bg-hover-lgray <?php echo appFuncCrmDisp::setBgcolor($value); ?>">
+                <div data-row class="font-size-0_9 m-0 text-center border-right border-bottom">
                     <button id="cs_table-<?php echo $value['cs_id']; ?>" class="btn h-100 dropdown-toggle dropdown-after-none position-relative p-3 w-100" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="pos-middle-center d-block color-lgray text-center">
                             <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
@@ -63,19 +66,19 @@
                         <?php endif; ?>
                     </nav>
                 </div>
-                <?php foreach (adminCsAjaxList::$tableRow as $row): ?>
+                <?php foreach (adminCsAjaxList::$tableRow as $key => $row): ?>
                     <?php if (
                         adminCsAjaxList::$path === appRoutesWeb::sitemap['adminCsList_check']['contents'] &&
                         $row['name'] === appDatabaseCs::table['approval_status']['name']
                     ): ?>
                         <?php /*分岐1：対応ログ一覧＞ログチェック一覧*/ ?>
-                        <div class="d-table-cell font-size-0_9 m-0 p-1 text-center border-right border-bottom">
+                        <div data-row class="font-size-0_9 m-0 p-1 text-center border-right border-bottom">
                             <?php appFuncModule::btn('check', appFuncCrmDisp::btnApproval($value)); ?>
                         </div>
                     <?php elseif ($row['input'] != '' && $row['input'] != 'hidden'): ?>
                         <?php /*分岐2：コンテンツ*/ ?>
-                        <div class="d-table-cell align-middle p-1 font-size-0_8 border-right border-bottom <?php if ($row['input'] === 'textarea'): ?>text-left<?php else: ?>text-center<?php endif; ?>">
-                            <?php echo appFuncArray::issetKey($value, $row['name'], ''); ?>
+                        <div data-row class="align-middle p-1 font-size-0_8 border-right border-bottom <?php if ($row['input'] === 'textarea'): ?>text-left<?php else: ?>text-center<?php endif; ?>">
+                            <?php echo appFuncArray::issetKey($value, $key, ''); ?>
                         </div>
                     <?php endif; ?>
                 <?php endforeach; ?>

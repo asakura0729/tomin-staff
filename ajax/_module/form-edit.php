@@ -14,10 +14,11 @@
     <div class="pos-sticky">
         <div class="overflow-x bg-lgray">
             <div class="d-flex flex-nowrap border l-form-cs">
-                <?php foreach (appDatabaseCs::form as $key => $tableRow): ?>
+                <?php $formContents = appFuncCrmDisp::renameTitles(appDatabaseCs::tableForm); ?>
+                <?php foreach ($formContents as $key => $tableRow): ?>
                     <?php appFuncModule::dbForm($key, [
                         'moduleName' => 'form-cs',
-                        'dbTable' => appDatabaseCs::form,
+                        'dbTable' => $formContents,
                         'dbResult' => $option['dbResult']
                     ]); ?>
                 <?php endforeach; ?>

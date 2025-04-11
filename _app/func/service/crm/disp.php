@@ -1,9 +1,32 @@
 <?php
 //======================================================================
-// CRM＞文字列作成
+// CRM＞表示や見た目の制御
 //======================================================================
 class appFuncCrmDisp
 {
+    //-----------------------------------------------------
+    // 見出しの名称変更
+    //-----------------------------------------------------
+    public static function renameTitle($key, $title): string
+    {
+        if (isset(appDatabaseCs::rename[$key])) {
+            return appDatabaseCs::rename[$key];
+        } else {
+            return $title;
+        }
+    }
+    //-----------------------------------------------------
+    // 見出しの名称変更(複数)
+    //-----------------------------------------------------
+    public static function renameTitles($array): array
+    {
+        $result = [];
+        foreach ($array as $key => $row) {
+            $row['comment'] = self::renameTitle($key, $row['comment']);
+            $result[$key] = $row;
+        }
+        return $result;
+    }
     //-----------------------------------------------------
     // 対応ログ一覧＞背景色
     //-----------------------------------------------------
@@ -26,7 +49,6 @@ class appFuncCrmDisp
         }
         return $result;
     }
-
     //-----------------------------------------------------
     // 入力フォーム＞横幅調整
     //-----------------------------------------------------
@@ -60,7 +82,6 @@ class appFuncCrmDisp
         }
         return $result;
     }
-
     //-----------------------------------------------------
     // 対応ログ一覧＞承認ボタン
     //-----------------------------------------------------
@@ -97,7 +118,6 @@ class appFuncCrmDisp
         }
         return $result;
     }
-
     //-----------------------------------------------------
     // 入力フォーム＞横幅調整
     //-----------------------------------------------------
@@ -134,9 +154,8 @@ class appFuncCrmDisp
         }
         return $colClass;
     }
-
     //-----------------------------------------------------
-    // 入力フォーム＞表示・非表示要素
+    // 入力フォーム＞各列に表示・非表示要素を設定
     //-----------------------------------------------------
     public static function setDataDisp($key): string
     {
@@ -146,34 +165,8 @@ class appFuncCrmDisp
             return appConfigStatus::clientCategoryValid;
         }
     }
-
     //-----------------------------------------------------
-    // 入力フォーム＞見出し
-    //-----------------------------------------------------
-    public static function title($inputName, $title): string
-    {
-        switch ($inputName) {
-            case appDatabaseCs::table['funeral_date']['name']:
-                $result = "葬儀希望日";
-                break;
-            case appDatabaseCs::table['hall_name']['name']:
-                $result = "希望式場";
-                break;
-            case appDatabaseCs::table['crematory_name']['name']:
-                $result = "希望火葬場";
-                break;
-            case appDatabaseCs::table['option_name']['name']:
-                $result = "希望オプション";
-                break;
-            default:
-                $result = $title;
-                break;
-        }
-        return $result;
-    }
-
-    //-----------------------------------------------------
-    // 入力フォーム＞モーダル起動ボタン
+    // 入力フォーム＞モーダル起動ボタンのテキスト
     //-----------------------------------------------------
     public static function modalBtnStr($inputValue, $selectItem, $selectItemString): string
     {
@@ -193,7 +186,6 @@ class appFuncCrmDisp
         }
         return $result;
     }
-
     //-----------------------------------------------------
     // 入力フォーム＞チェックボックス
     //-----------------------------------------------------
@@ -208,7 +200,6 @@ class appFuncCrmDisp
         EOF;
         return $result;
     }
-
     //-----------------------------------------------------
     // 入力フォーム＞セレクトメニュー
     //-----------------------------------------------------

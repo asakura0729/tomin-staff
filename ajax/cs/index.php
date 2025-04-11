@@ -9,7 +9,7 @@
 <article class="p-3">
     <?php appFuncModule::include('../_module/form-search.php', [
         'path' => appConfigPage::$path,
-        'dbTable' => appDatabaseCs::form,
+        'dbTable' => appDatabaseCs::tableForm,
         'dbResult' => [
             'cs_category' => appConfigStatus::csCategoryLog,
         ]

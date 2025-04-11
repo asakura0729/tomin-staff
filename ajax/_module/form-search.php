@@ -8,12 +8,14 @@
 ?>
 <form id="<?php echo appFuncString::exclusionHash(appConfigSite::secSearch); ?>" class="animation-fadein position-relative pb-4" data-hx-get="<?php echo appRoutesWeb::async['adminCsAjaxList']['contents']; ?>" data-hx-target="<?php echo appConfigSite::secCsIndex; ?>">
     <div class="pos-sticky">
+        <p>検索ワードを入力※複数項目に入力した場合、AND検索されます。　（依頼者様氏名に「ヤマダ」、故人様氏名に「スズキ」を入力）</p>
         <div class="overflow-x bg-lgray">
             <div class="d-flex flex-nowrap border l-form-cs">
-                <?php foreach ($option['dbTable'] as $key => $tableRow): ?>
+                <?php $formContents = appFuncCrmDisp::renameTitles($option['dbTable']); ?>
+                <?php foreach ($formContents as $key => $tableRow): ?>
                     <?php appFuncModule::dbForm($key, [
                         'moduleName' => 'form-cs',
-                        'dbTable' => $option['dbTable'],
+                        'dbTable' => appFuncCrmDisp::renameTitles($formContents),
                         'dbResult' =>  $option['dbResult'],
                         'selectItemNoValue' => true
                     ]); ?>

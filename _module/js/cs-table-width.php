@@ -8,7 +8,9 @@
         const mainContents = document.querySelector("<?php echo appConfigSite::pageMain; ?>");
         const targetTable = "<?php echo appConfigSite::secCsIndex; ?>";
         const dataElem = "data-width";
-        const tableWidth = function() {
+        const dataCol = "[data-col]";
+        const dataRow = "[data-row]";
+        const setTableLayout = function() {
             if (!!mainContents.querySelector(targetTable) != true) {
                 return;
             }
@@ -17,10 +19,12 @@
             table.querySelectorAll("[" + dataElem + "]").forEach(function(theadTh, count) {
                 const tableColWidth = theadTh.getAttribute(dataElem);
                 const nth = count + 1;
-                table.querySelectorAll(".d-table-row .d-table-cell:nth-child(" + nth + ")").forEach(function(tBodyTd) {
-                    tBodyTd.style.width = tableColWidth + "px";
-                });
+                const cells = table.querySelectorAll(dataCol + " " + dataRow + ":nth-child(" + nth + ")");
+                theadTh.style.width = tableColWidth + "px";
                 tableWidth += Number(tableColWidth);
+                cells.forEach(cell => {
+                    cell.style.width = tableColWidth + "px";
+                });
             });
             table.style.width = tableWidth + "px";
             const windowWidth = window.innerWidth - 25;
@@ -31,9 +35,9 @@
                 formInner.style.width = windowWidth + "px";
             });
         }
-        tableWidth();
+        setTableLayout();
         window.addEventListener('resize', () => {
-            tableWidth();
+            setTableLayout();
         });
     });
 </script>

@@ -4,6 +4,7 @@
 //======================================================================
 ?>
 <?php $colClass = "p-1 cursor-pointer h-100 position-relative"; ?>
+
 <?php if ($inputType === ''): ?>
     <?php /*分岐：入力要素なし*/ ?>
     <!--<?php echo $inputName; ?>／<?php echo $inputValue; ?>-->
@@ -11,10 +12,10 @@
     <?php /*分岐：非表示*/ ?>
     <input type="hidden" name="<?php echo $inputName; ?>" value="<?php echo $inputValue; ?>">
 <?php else: ?>
-    <section class="<?php echo appFuncCrmDisp::setRowWidth($inputName, $inputType); ?> border bg-llgray font-size-0_9" data-disp="<?php echo appFuncCrmDisp::setDataDisp($inputName); ?>" data-wrap-inputname="<?php echo $inputName; ?>">
-        <h3 class="m-0 p-2 text-center font-size-0_9 bg-base border-bottom">
-            <?php echo appFuncCrmDisp::title($inputName, $title); ?>
-        </h3>
+    <div class="<?php echo appFuncCrmDisp::setRowWidth($inputName, $inputType); ?> border bg-llgray font-size-0_9" data-disp="<?php echo appFuncCrmDisp::setDataDisp($inputName); ?>" data-wrap-inputname="<?php echo $inputName; ?>">
+        <h4 class="m-0 p-2 text-center font-size-0_9 bg-base border-bottom">
+            <?php echo $title; ?>
+        </h4>
         <?php if ($inputName === appDatabaseCs::table['client_category']['name']): ?>
             <?php /*分岐：ステータス選択*/ ?>
             <div class="form-sheets p-1">
@@ -32,9 +33,11 @@
             <div class="form-sheets position-relative text-center">
                 <label class="pos-middle-center w-80per">
                     <?php if ($inputValue != appConfigStatus::approval_status['complete']['key']): ?>
+                        <?php /*分岐1：申請中*/ ?>
                         <input type="checkbox" class="form-control" <?php echo appFuncCrmDisp::checkbox($inputName, $inputValue, appConfigStatus::approval_status['progress']['key'], appConfigStatus::approval_status['started']['key']); ?>>
                         <input name="<?php echo $inputName; ?>" type="hidden" value="<?php echo $inputValue; ?>">
                     <?php else: ?>
+                        <?php /*分岐2：未申請*/ ?>
                         <input type="checkbox" class="form-control" checked disabled>
                         <span class="pt-1 d-block"><?php echo appConfigStatus::approval_status['complete']['name']; ?></span>
                     <?php endif; ?>
@@ -67,5 +70,6 @@
                 <input name="<?php echo $inputName; ?>" type="<?php echo $inputType; ?>" value="<?php echo $inputValue; ?>" class="form-sheets">
             </div>
         <?php endif; ?>
-    </section>
+    </div>
 <?php endif; ?>
+

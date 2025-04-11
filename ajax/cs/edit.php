@@ -21,7 +21,7 @@
         <?php appFuncModule::heading('h2', 'h2', '対応ログ検索', ['addCss' => 'pl-2']); ?>
         <?php appFuncModule::include('../_module/form-search.php', [
             'path' => appConfigPage::$path,
-            'dbTable' => appDatabaseCs::formSearch,
+            'dbTable' => appDatabaseCs::tableFormSearch,
             'dbResult' => [
                 'cs_category' => appConfigStatus::csCategoryLog,
             ]

@@ -569,9 +569,30 @@ body .bg-white {
     background: #ddffcc;
 }
 
-.bg-green {
-    background: #1cd966;
+.bg-row-base {
+    background: #eee;
 }
+
+.bg-row-client {
+    background: #cddff0;
+}
+
+.bg-row-dec {
+    background: #d6e7d0;
+}
+
+.bg-row-cs {
+    background: #f0cac9;
+}
+
+.bg-row-sheet {
+    background: #fcefca;
+}
+
+.bg-row-status {
+    background: #d7d0e7;
+}
+
 
 .bg-grid {
     background-image: url('/assets/img/bg-grid.svg');
