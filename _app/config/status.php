@@ -12,7 +12,7 @@ class appConfigStatus
     public const approval_status = [
         'started' => ['key' => 'started', 'name' => '未申請'],
         'progress' => ['key' => 'progress', 'name' => '未承認'],
-        'complete' => ['key' => 'complete', 'name' => '承認完了'],
+        'complete' => ['key' => 'complete', 'name' => '承認済'],
     ];
 
     /*発送状況*/
@@ -32,31 +32,30 @@ class appConfigStatus
     public const clientCategoryValid = 'valid'; //有効顧客
     public const clientCategoryInvalid = 'invalid'; //無効顧客
     public const clientCategory = [
-        'contact' => ['name' => '問い合わせ(初回)', 'type' => self::clientCategoryValid],
-        'contact_re' => ['name' => '問い合わせ(再)', 'type' => self::clientCategoryValid],
-        'order' => ['name' => 'ご依頼(初回)', 'type' => self::clientCategoryValid],
-        'order_re' => ['name' => 'ご依頼(再)', 'type' => self::clientCategoryValid],
-        'reservation' => ['name' => '事前予約(初回)', 'type' => self::clientCategoryValid],
-        'reservation_re' => ['name' => '事前予約(再)', 'type' => self::clientCategoryValid],
-        'consultation' => ['name' => '対面相談(初回)', 'type' => self::clientCategoryValid],
-        'consultation_re' => ['name' => '対面相談(再)', 'type' => self::clientCategoryValid],
-        'document_request' => ['name' => '資料請求(web)', 'type' => self::clientCategoryValid],
-        'cancel' => ['name' => 'キャンセル', 'type' => self::clientCategoryValid],
-        'other_enabled' => ['name' => 'その他（有効電話）', 'type' => self::clientCategoryValid],
-        'wrong' => ['name' => '間違い電話', 'type' => self::clientCategoryInvalid],
-        'prank' => ['name' => 'いたずら電話', 'type' => self::clientCategoryInvalid],
-        'silent' => ['name' => '無言電話', 'type' => self::clientCategoryInvalid],
-        'interruption' => ['name' => '放棄', 'type' => self::clientCategoryInvalid],
-        'sales' => ['name' => '営業電話', 'type' => self::clientCategoryInvalid],
-        'competitors' => ['name' => '同業他社', 'type' => self::clientCategoryInvalid],
-        'unknown' => ['name' => '不明', 'type' => self::clientCategoryInvalid],
-        'other_invalid' => ['name' => 'その他（無効電話）', 'type' => self::clientCategoryInvalid],
+        'contact' => ['key' => 'contact', 'name' => '問い合わせ(初回)', 'type' => self::clientCategoryValid],
+        'contact_re' => ['key' => 'contact_re', 'name' => '問い合わせ(再)', 'type' => self::clientCategoryValid],
+        'order' => ['key' => 'order', 'name' => 'ご依頼(初回)', 'type' => self::clientCategoryValid],
+        'order_re' => ['key' => 'order_re', 'name' => 'ご依頼(再)', 'type' => self::clientCategoryValid],
+        'reservation' => ['key' => 'reservation', 'name' => '事前予約(初回)', 'type' => self::clientCategoryValid],
+        'reservation_re' => ['key' => 'reservation_re', 'name' => '事前予約(再)', 'type' => self::clientCategoryValid],
+        'consultation' => ['key' => 'consultation', 'name' => '対面相談(初回)', 'type' => self::clientCategoryValid],
+        'consultation_re' => ['key' => 'consultation_re', 'name' => '対面相談(再)', 'type' => self::clientCategoryValid],
+        'document_request' => ['key' => 'document_request', 'name' => '資料請求(web)', 'type' => self::clientCategoryValid],
+        'cancel' => ['key' => 'cancel', 'name' => 'キャンセル', 'type' => self::clientCategoryValid],
+        'other_enabled' => ['key' => 'other_enabled', 'name' => 'その他（有効電話）', 'type' => self::clientCategoryValid],
+        'wrong' => ['key' => 'wrong', 'name' => '間違い電話', 'type' => self::clientCategoryInvalid],
+        'prank' => ['key' => 'prank', 'name' => 'いたずら電話', 'type' => self::clientCategoryInvalid],
+        'silent' => ['key' => 'silent', 'name' => '無言電話', 'type' => self::clientCategoryInvalid],
+        'interruption' => ['key' => 'interruption', 'name' => '放棄', 'type' => self::clientCategoryInvalid],
+        'sales' => ['key' => 'sales', 'name' => '営業電話', 'type' => self::clientCategoryInvalid],
+        'competitors' => ['key' => 'competitors', 'name' => '同業他社', 'type' => self::clientCategoryInvalid],
+        'unknown' => ['key' => 'unknown', 'name' => '不明', 'type' => self::clientCategoryInvalid],
+        'other_invalid' => ['key' => 'other_invalid', 'name' => 'その他（無効電話）', 'type' => self::clientCategoryInvalid],
     ];
 
     /*報告状況*/
     public const funeral_status = [
-        'progress' => '未完了',
-        'complete' => '完了'
+        'progress' => ['key' => 'progress', 'name' => '未完了'],
+        'complete' => ['key' => 'complete', 'name' => '完了'],
     ];
-
 }

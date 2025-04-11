@@ -1,11 +1,27 @@
 <?php
 //======================================================================
-// ファイルパス取得・作成
+// ファイルパスの取得・作成
 //======================================================================
 class appFuncPath
 {
     public const sitemap = appRoutesWeb::sitemap;
     public const pageContents = appRoutesWeb::pageContents;
+    //-----------------------------------------------------
+    // パス取得
+    //-----------------------------------------------------
+    public static function getPath(): string
+    {
+        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        return  $path;
+    }
+    //-----------------------------------------------------
+    // クエリパラメータ取得
+    //-----------------------------------------------------
+    public static function getQuery(): string
+    {
+        $query = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
+        return '?' . $query;
+    }
     //-----------------------------------------------------
     // GETパラメータ作成
     //-----------------------------------------------------
@@ -26,23 +42,7 @@ class appFuncPath
         return $result;
     }
     //-----------------------------------------------------
-    // パス取得
-    //-----------------------------------------------------
-    public static function getPath(): string
-    {
-        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        return  $path;
-    }
-    //-----------------------------------------------------
-    // クエリパラメータ取得
-    //-----------------------------------------------------
-    public static function getQuery(): string
-    {
-        $query = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
-        return '?' . $query;
-    }
-    //-----------------------------------------------------
-    // hx-get描画
+    // hx-get作成
     //-----------------------------------------------------
     public static function hxGet(): string
     {

@@ -8,11 +8,9 @@ class appFuncSql
     //-----------------------------------------------------
     // 総数を取得
     //-----------------------------------------------------
-    public static function getCount($database): string
+    public static function getCount(string $tableName, string $primaryKey): string
     {
-        $tableName = $database::tableName;
-        $primaryKey = $database::primaryKey;
-        $sql = 'select count(' . $tableName . '.' . $primaryKey . ') as count FROM ' . $tableName;
+        $sql = 'SELECT COUNT(' . $tableName . '.' . $primaryKey . ') as count FROM ' . $tableName . ' ';
         return $sql;
     }
 
@@ -83,7 +81,7 @@ class appFuncSql
         foreach ($table as $tableRow) {
             $rowName = $tableRow[appConfigDatabase::row];
             if (isset($get[$rowName]) && $get[$rowName] != '') {
-                $result .= ' AND ' . $tableName . '.' . $rowName . '="' . $get[$rowName] . '"';
+                $result .= ' AND ' . $tableName . '.' . $rowName . ' LIKE "%' . $get[$rowName] . '%"';
             }
         }
         return $result;
@@ -142,7 +140,10 @@ class appFuncSql
     public static function limit(int $elemCount = appConfigDatabase::pageColCount): string
     {
         /*$elemCount...取り出したいデータの数を記入*/
-        $pageNum = appFuncArray::issetKey($_GET, appRoutesWeb::getPage, 1);
+        $pageNum = 1;
+        if (isset($_GET[appRoutesWeb::getPage])) {
+            $pageNum = intval($_GET[appRoutesWeb::getPage]);
+        }
         $result = ' limit ' . $elemCount;
         if (is_numeric($pageNum) === true) {
             if (intval($pageNum) > 1) {

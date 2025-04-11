@@ -20,11 +20,18 @@
         <?php endif; ?>
     </div>
     <?php if (appFuncSession::loginCheck() === true) : ?>
-        <nav id="page-header-gnav" class="nav">
+        <nav id="page-header-gnav" class="nav minw-1000px">
             <?php foreach (appRoutesWeb::gNav as $key => $value): ?>
-                <a id="page-header-gnav-<?php echo strtolower($key); ?>" class="mr-1 btn rounded-0 gnav-link<?php if (appConfigPage::$path === appRoutesWeb::sitemap[$key]['path']): ?> is-current<?php endif; ?>" <?php echo appFuncDisp::hxLink(appRoutesWeb::sitemap[$key]); ?>>
-                    <span class="color-dgray"><?php echo appRoutesWeb::sitemap[$key][appRoutesWeb::pageTitle]; ?></span>
-                </a>
+                <div class="position-relative pr-2">
+                    <a id="page-header-gnav-<?php echo strtolower($key); ?>" class="btn rounded-0 gnav-link<?php if (appConfigPage::$path === $value[appRoutesWeb::pagePath]): ?> is-current<?php endif; ?>" <?php echo appFuncDisp::hxLink(appRoutesWeb::sitemap[$key]); ?>>
+                        <span class="color-dgray">
+                            <?php echo $value[appRoutesWeb::pageTitle]; ?>
+                        </span>
+                    </a>
+                    <?php if ($value[appRoutesWeb::pagePath] === appRoutesWeb::gNav['adminCsList_check'][appRoutesWeb::pagePath]): ?>
+                        <div class="pos-top-right font-size-0_9" hx-get="<?php echo appRoutesWeb::async['adminCount_approval']['contents']; ?>" hx-trigger="load, every 15s" hx-swap="innerHTML"></div>
+                    <?php endif; ?>
+                </div>
             <?php endforeach; ?>
         </nav>
     <?php endif; ?>

@@ -1,20 +1,9 @@
 <?php
 //======================================================================
-// 表示・描画関係（関数を実行するとechoが行われる）
+// 表示・描画関係（関数を実行すると直接描画が行われる）
 //======================================================================
 class appFuncDisp
 {
-    //-----------------------------------------------------
-    // 配列が空か否かで異なる文字列を描画
-    //-----------------------------------------------------
-    public static function arrayCountString(array $array, string $strTrue = "", string $strFalse = "")
-    {
-        if (count($array) > 0) {
-            echo $strTrue;
-        } else {
-            echo $strFalse;
-        }
-    }
     //-----------------------------------------------------
     // bool値のtrue、falseで異なる文字列を描画
     //-----------------------------------------------------
@@ -31,7 +20,12 @@ class appFuncDisp
     //-----------------------------------------------------
     public static function img(string $imgName, array $option = [])
     {
-        echo '<img src="/assets/img/' . $imgName . '" alt="イメージ" class="w-100">';
+        $alt = appFuncArray::issetKey($option, 'alt', 'イメージ');
+        $cssClass = appFuncArray::issetKey($option, 'css', 'w-100');
+        $add = appFuncArray::issetKey($option, 'add', '');
+        echo <<<EOF
+        <img src="/assets/img/{$imgName}" alt="{$alt}" class="{$cssClass}" {$add}/>
+        EOF;
     }
     //-----------------------------------------------------
     // ハイパーリンク描画（HTMX）
@@ -44,7 +38,7 @@ class appFuncDisp
         $hxGet .= $queryParam;
         $hxPushUrl .= $queryParam;
         $hxReplaceUrl .= $queryParam;
-        $hxTarget = appFuncArray::issetKey($option, 'hxTarget', appConfigPage::pageMain);
+        $hxTarget = appFuncArray::issetKey($option, 'hxTarget', appConfigSite::pageMain);
         $hxGetFlg = appFuncArray::issetKey($option, 'hxGetFlg', true);
         $hxPushFlg = appFuncArray::issetKey($option, 'hxPushFlg', true);
         $result = "";
@@ -59,11 +53,5 @@ class appFuncDisp
         }
         echo $result;
         /*data-hx-get="{$hxGet}" data-hx-push-url="{$hxPushUrl}" data-hx-replace-url="{$hxReplaceUrl}" data-hx-target="{$target}"*/
-    }
-    public static function compColBg(string $str, string $matchStr)
-    {
-        if ($str === $matchStr) {
-            echo 'bg-lgray';
-        }
     }
 }

@@ -1,23 +1,19 @@
 <?php
 //======================================================================
-// ページ：対応ログ一覧
+// ページ：対応ログ一覧＞ログチェック一覧
 //======================================================================
 ?>
 <?php require_once '../../_app/ssl_base.php'; ?>
-<?php require_once '../_tmpl/ajax.php'; ?>
+<?php require_once '../_tmpl/page.php'; ?>
 <?php appFuncModule::heading('h1', 'h1', appConfigPage::$title); ?>
-<style>
-    <?php
-    /*
-    検索フォームの「報告」列は操作できないように制御
-    */
-    ?>[data-wrap-inputname="approval_status"] {
-        pointer-events: none;
-        opacity: 0.5;
-    }
-</style>
+
 <article class="p-3">
-    <?php appFuncModule::localModule('../_module/form-search', [
+    <form id="<?php echo appFuncString::exclusionHash(appConfigSite::secCsEdit); ?>" data-hx-post="<?php echo appRoutesWeb::async['adminCsAjaxPost_approval']['contents']; ?>" data-hx-target="#sec-alert">
+        <?php appFuncModule::form('form-control', "", ['inputName' => appDatabaseCs::table['cs_id']['name'], 'inputType' => 'hidden']); ?>
+        <?php appFuncModule::form('form-control', appConfigStatus::approval_status['complete']['key'], ['inputName' => appDatabaseCs::table['approval_status']['name'], 'inputType' => 'hidden']); ?>
+        <div id="sec-alert"></div>
+    </form>
+    <?php appFuncModule::include('../_module/form-search.php', [
         'path' => appConfigPage::$path,
         'dbTable' => appDatabaseCs::form,
         'dbResult' => [
@@ -26,5 +22,3 @@
         ]
     ]); ?>
 </article>
-<?php appFuncModule::js('form-cs', ['target' => '#form-search']); ?>
-<?php appFuncModule::js('pageload-submit-search', ['target' => '#form-search']); ?>

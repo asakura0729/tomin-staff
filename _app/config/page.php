@@ -4,24 +4,15 @@
 //======================================================================
 class appConfigPage
 {
-    const pageMain = '#page-main';
-    const pageHeader = '#page-header';
-    const pageIndicator = '#page-indicator';
-
-    const secCsIndex = 'cs-index'; //対応ログ一覧
-    const secCsEdit = 'form-edit'; //対応ログ入力フォーム
-    public static $uri = null;
-    public static $id = null;
-    public static $title = null;
-    public static $titleAdd = null;
-    public static $description = null;
-    public static $ogimage = null;
-    public static $css = null;
-    public static $js = null;
-    public static $tmpl = 'default';
-    public static $pageCategory = null;
-    public static $userName = null;
-    public static $breadcrumb = [];
-    public static $date = null;
-    public static $path = "";
+    /*各ページで使用する値*/
+    public static $title = null; //ページのタイトル
+    public static $titleAdd = null; //ページのタイトル（追加要素）
+    public static $description = null; //meta description
+    public static $ogimage = null; //ogp image
+    public static $uri = null; //ogp url
+    public static $css = null; //<head>内に記載するCSS
+    public static $js = null; //<head>内に記載するJS
+    public static $tmpl = ""; //ページの見た目を切り替える際に使用する変数
+    public static $pageCategory = null; //ページのカテゴリ
+    public static $path = ""; //ファイルパス
 }

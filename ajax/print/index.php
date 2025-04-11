@@ -1,5 +1,5 @@
 <?php require_once '../../_app/ssl_base.php'; ?>
-<?php require_once '../_tmpl/ajax.php'; ?>
+<?php require_once '../_tmpl/page.php'; ?>
 <?php require_once '../../_module/css/print.php'; ?>
 <style>
     @media screen {

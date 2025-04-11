@@ -11,8 +11,6 @@
         const searchBtn = "data-submit-search";
         const form = document.querySelector(formId);
         const hxTarget = form.getAttribute(dataHxTarget);
-        if (document.querySelector(hxTarget).hasChildNodes() === false) {
-            form.querySelector("[" + searchBtn + "]").click();
-        }
+        form.querySelector("[" + searchBtn + "]").click();
     }, "500");
 </script>

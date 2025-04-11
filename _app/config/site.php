@@ -14,5 +14,19 @@ class appConfigSite
   public const siteName = 'TP_スタッフ管理画面';
   public const website = "https://tomin-osohshiki.jp/";
   public const tel = "03-6419-2012";
-  public const update = "202503171654";
+  public const update = "20250410";
+  //======================================================================
+  // サイト内で使用するID
+  //======================================================================
+  const pageHeader = '#page-header'; //ヘッダーのID
+  const pageMain = '#page-main'; //メインコンテンツのID
+  const pageIndicator = '#page-indicator';
+  const secCsIndex = '#cs-index'; //対応ログ一覧
+  const secCsEdit = '#form-edit'; //対応ログ入力フォーム
+  const secSearch = '#form-search'; //対応ログ検索フォーム
+  //======================================================================
+  // サイト内で使用するdata属性（除：bootStrap）
+  //======================================================================
+  const data = '[data-disp="count_approval]';
+  
 }

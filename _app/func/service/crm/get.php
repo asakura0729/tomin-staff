@@ -107,6 +107,7 @@ class appFuncCrmGet
         if (count($dbresult) > 0) {
             foreach ($dbresult as $index => $value) {
                 $result[$index] = appFuncDataformat::dbResultStr($value, $table);
+                $result[$index]['dbresult'] = $value;
             }
         }
         return $result;
@@ -117,7 +118,9 @@ class appFuncCrmGet
     public static function count(array $get = []): string
     {
         $result = '0';
-        $sql = self::sql($get);
+        $sql = appFuncSql::getCount(self::tableName, self::primaryKey);
+        $sql .= appFuncSql::where(self::tableName, appDatabaseCs::csList, $get);
+        $sql .= self::whereClienCategory($get, self::tableName);
         $dbresult = appFuncDatabase::getData($sql);
         if (isset($dbresult[0]['count'])) {
             $result = $dbresult[0]['count'];
@@ -129,6 +132,7 @@ class appFuncCrmGet
     //-----------------------------------------------------
     public static function tpadminCsAjax(array $get, string $postPrimaryKey = '', bool $dataformat = false): array
     {
+        $result = [];
         $getPrimaryKey = appFuncArray::issetKey($get, appDatabaseCs::primaryKey, '');
         $getCloneFlg = appFuncArray::issetKey($get, 'clone', '') == 'true'  ? true : false;
         $csCategory = appConfigStatus::csCategoryLog;
@@ -148,6 +152,8 @@ class appFuncCrmGet
             $result['post_date'] = date('Y-m-d H:i');
             $result['post_by'] = $_SESSION[appConfigSession::userId];
             $result['cs_category'] = appConfigStatus::csCategoryLog;
+            $result['client_category'] = appConfigStatus::clientCategory['other_invalid']['key'];
+            $result['approval_status'] = appConfigStatus::approval_status['started']['key'];
         }
         if ($result === []) {
             /*分岐4：データが存在しない*/
@@ -181,8 +187,9 @@ class appFuncCrmGet
             /*判断：カテゴリは対応ログ */
             $sheet_cs_id = appFuncArray::issetKey($result, 'sheet_cs_id', '');
             if ($sheet_cs_id === '') {
-                /*分岐1：送客シート未作成の場合、cs_idの値を初期化*/
+                /*分岐1：送客シート未作成*/
                 $result[self::primaryKey] = '';
+                $result['comment'] = '';
             } else if ($sheet_cs_id != '') {
                 /*分岐2：送客シート作成済*/
                 appFuncModule::component('nodata', ['css' => 'text-center', 'title' => '送客シートは作成済です']);

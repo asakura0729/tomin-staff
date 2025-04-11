@@ -5,12 +5,32 @@
 class appConfigFuneral
 {
     public const plan = [
-        'unknown' => '未定',
-        'plan1' => '直葬',
-        'plan2' => '火葬',
-        'plan3' => '一日葬',
-        'plan4' => '家族葬',
-        'plan5' => '一般葬'
+        'none' => '未定',
+        'plan1_bu' => 'お別れ葬(仏式)',
+        'plan2_bu' => '火葬式(仏式)',
+        'plan3_bu' => '一日葬(仏式)',
+        'plan4_bu' => '家族葬(仏式)',
+        'plan5_bu' => '一般葬(仏式)',
+        'plan_bu' => '未定(仏式)',
+        'plan1_si' => 'お別れ葬(神道)',
+        'plan2_si' => '火葬式(神道)',
+        'plan3_si' => '一日葬(神道)',
+        'plan4_si' => '家族葬(神道)',
+        'plan5_si' => '一般葬(神道)',
+        'plan_si' => '未定(神道)',
+        'plan1_ch' => 'お別れ葬(キリスト教)',
+        'plan2_ch' => '火葬式(キリスト教)',
+        'plan3_ch' => '一日葬(キリスト教)',
+        'plan4_ch' => '家族葬(キリスト教)',
+        'plan5_ch' => '一般葬(キリスト教)',
+        'plan_ch' => '未定(キリスト教)',
+        'plan1_so' => 'お別れ葬(友人葬)',
+        'plan2_so' => '火葬式(友人葬)',
+        'plan3_so' => '一日葬(友人葬)',
+        'plan4_so' => '家族葬(友人葬)',
+        'plan5_so' => '一般葬(友人葬)',
+        'plan_so' => '未定(友人葬)',
+        'plan_fu' => '福祉葬'
     ];
 
     const enshrined =  [

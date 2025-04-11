@@ -29,7 +29,7 @@ body {
 
 .l-wrap {
     padding-top: 120px;
-    padding-bottom: 120px;
+    padding-bottom: 50px;
     min-height: 100vh;
 }
 
@@ -133,6 +133,10 @@ width-height
     width: 150px;
 }
 
+.w-180px {
+    width: 180px;
+}
+
 .w-200px {
     width: 200px;
 }
@@ -159,6 +163,10 @@ width-height
 
 .w-500px {
     width: 500px;
+}
+
+.w-600px {
+    width: 600px;
 }
 
 .h-15px {
@@ -676,6 +684,12 @@ utilities
     right: 0;
 }
 
+.pos-sticky {
+    position: sticky;
+    top: 0;
+    left: 0;
+}
+
 .z-index-100 {
     z-index: 100;
 }
@@ -929,6 +943,9 @@ components
     min-height: 80px;
     display: block;
     border: none;
+}
+
+select.form-sheets {
     cursor: pointer;
 }
 

@@ -48,7 +48,7 @@ class appDatabaseCs extends appConfigDatabase
       'name' => 'approval_status',
       'type' => 'VARCHAR(20)',
       'constraints' => 'NOT NULL',
-      'comment' => '報告',
+      'comment' => '承認',
       'input' => 'select',
       'value' => ['item' => appConfigStatus::approval_status, 'string' => 'name']
     ],
@@ -139,7 +139,7 @@ class appDatabaseCs extends appConfigDatabase
       'constraints' => 'NULL',
       'comment' => 'プラン名',
       'input' => 'select',
-      'value' => ['item' => appConfigPlan::plan, 'string' => 'name']
+      'value' => ['item' => appConfigFuneral::plan]
     ],
     'ensconce_category' => [
       'name' => 'ensconce_category',
@@ -147,7 +147,7 @@ class appDatabaseCs extends appConfigDatabase
       'constraints' => 'NULL',
       'comment' => '安置方法',
       'input' => 'select',
-      'value' => ['item' => appConfigPlan::enshrined, 'string' => 'name']
+      'value' => ['item' => appConfigFuneral::enshrined]
     ],
     'dest_address' => [
       'name' => 'dest_address',
@@ -211,7 +211,7 @@ class appDatabaseCs extends appConfigDatabase
       'constraints' => 'NULL',
       'comment' => '報告状況',
       'input' => 'select',
-      'value' => ['item' => appConfigStatus::funeral_status]
+      'value' => ['item' => appConfigStatus::funeral_status, 'string' => 'name']
     ],
     'estimate_date' => [
       'name' => 'estimate_date',
@@ -313,6 +313,7 @@ class appDatabaseCs extends appConfigDatabase
   public const csList = [
     'cs_id' => self::table['cs_id'],
     'cs_category' => self::table['cs_category'],
+    'parent_cs_id' => self::table['parent_cs_id'],
     'approval_status' => self::table['approval_status'],
     'approval_by' => self::table['approval_by'],
     'post_date' => self::table['post_date'],
@@ -339,9 +340,6 @@ class appDatabaseCs extends appConfigDatabase
     'estimate_date' => self::table['estimate_date'],
     'invoice_date' => self::table['invoice_date'],
     'comment' => self::table['comment'],
-    'title' => self::table['title'],
-    'funeral_name' => self::table['funeral_name'],
-    'option_flower' => self::table['option_flower'],
     'cs_tel_status' => self::table['cs_tel_status'],
     'cs_tel_date' => self::table['cs_tel_date'],
     'insert_date' => self::table['insert_date'],
@@ -374,6 +372,7 @@ class appDatabaseCs extends appConfigDatabase
   public const csListSheet = [
     'cs_id' => self::table['cs_id'],
     'cs_category' => self::table['cs_category'],
+    'parent_cs_id' => self::table['parent_cs_id'],
     'approval_status' => self::table['approval_status'],
     'plan_category' => self::table['plan_category'],
     'ensconce_category' => self::table['ensconce_category'],
@@ -461,9 +460,10 @@ class appDatabaseCs extends appConfigDatabase
     'post_date' => self::table['post_date'],
     'post_by' => self::table['post_by'],
     'client_category' => self::table['client_category'],
-    'delivery_status' => self::table['delivery_status'],
     'client_name' => self::table['client_name'],
     'client_tel' => self::table['client_tel'],
-    'comment' => self::table['comment']
+    'comment' => self::table['comment'],
+    'cs_tel_status' => self::table['cs_tel_status'],
+    'cs_tel_date' => self::table['cs_tel_date']
   ];
 }

@@ -107,7 +107,6 @@ class appFuncDataformat
         }
         return $result;
     }
-
     //-----------------------------------------------------
     // データベースに追加するValue値を設定
     //-----------------------------------------------------
@@ -159,6 +158,7 @@ class appFuncDataformat
             /*分岐：新規*/
             $dbpost['insert_date'] = $date;
             $dbpost['insert_by'] = $_SESSION[appConfigSession::userId];
+            $dbpost['delete_flg'] = appConfigDatabase::deleteFlgFalse;
         }
         return $dbpost;
     }

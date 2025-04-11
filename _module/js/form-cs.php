@@ -6,33 +6,47 @@
 ?>
 <script>
     (function() {
-        const target = "<?php echo $option['target']; ?>";
-        const targetForm = document.querySelector("<?php echo $option['target']; ?>");
-        const input = {
-            clientCategory: "input[name=<?php echo appDatabaseCs::table['client_category']['name']; ?>]"
+        const targetId = "<?php echo $option['target']; ?>";
+        const targetForm = document.querySelector(targetId);
+        const elem = {
+            dataModal: '[data-modal]',
+            dataToggleRow: '[data-toggle-row]',
+            dataInputCheck: '[data-input-check]',
+            inputClientCategory: "input[name=<?php echo appDatabaseCs::table['client_category']['name']; ?>]"
         }
         const css = {
             dNone: 'd-none',
             bgSelect: 'bg-lgreen'
         }
-        targetForm.querySelectorAll(input.clientCategory).forEach(function(radioBtn) {
+        const modalOpen = function(btn) {
+            btn.addEventListener("click", function() {
+                $(targetId).find('.modal').modal('show');
+            });
+        }
+        const labelBgColorChange = function(event) {
+            const modalId = event.closest('.modal').id;
+            targetForm.querySelectorAll('#' + modalId + ' label').forEach(function(label) {
+                label.classList.remove(css.bgSelect);
+            });
+            event.closest('label').classList.add(css.bgSelect);
+        }
+        const toggleRow = function(radioBtn) {
             radioBtn.addEventListener("click", function() {
                 if (this.checked) {
-                    const modalId = this.closest('.modal').id;
-                    const dataToggleRow = this.getAttribute('data-toggle-row');
                     const radioBtnText = this.closest('label').textContent.trim();
-                    const toggleRow = JSON.parse(dataToggleRow);
-                    targetForm.querySelectorAll('#' + modalId + ' label').forEach(function(elem) {
-                        elem.classList.remove(css.bgSelect);
-                    });
-                    this.closest('label').classList.add(css.bgSelect);
+                    const dataToggleRow = elem.dataToggleRow.replace(/^\[|\]$/g, '');
+                    const toggleRowJSON = this.getAttribute(dataToggleRow);
+                    const toggleRow = JSON.parse(toggleRowJSON);
+                    const toggleTarget = toggleRow.target;
+                    const toggleDisp = toggleRow.disp;
+                    labelBgColorChange(this);
                     setTimeout(() => {
-                        $(target).find('.modal').modal('hide');
+                        $(targetId).find('.modal').modal('hide');
                     }, "250");
                     setTimeout(() => {
-                        targetForm.querySelector('button[data-target="#' + modalId + '"]').textContent = radioBtnText;
-                        targetForm.querySelectorAll(toggleRow.target).forEach(function(col) {
-                            if (toggleRow.disp === true) {
+                        targetForm.querySelector(elem.dataModal).textContent = radioBtnText;
+                        targetForm.querySelectorAll(toggleTarget).forEach(function(col) {
+                            if (toggleDisp === true) {
                                 col.classList.remove(css.dNone);
                             } else {
                                 col.classList.add(css.dNone);
@@ -46,6 +60,35 @@
                     }, "500");
                 }
             });
+        }
+        const inputCheck = function(checkBox) {
+            checkBox.addEventListener("click", function() {
+                const dataInputCheck = elem.dataInputCheck.replace(/^\[|\]$/g, '');
+                const inputCheckJSON = this.getAttribute(dataInputCheck);
+                const inputCheck = JSON.parse(inputCheckJSON);
+                const target = inputCheck.target;
+                const checkValue = inputCheck.checkValue;
+                const noCheckValue = inputCheck.noCheckValue;
+                let setValue = noCheckValue;
+                if (this.checked) {
+                    setValue = checkValue;
+                }
+                targetForm.querySelectorAll(target).forEach(function(input) {
+                    input.value = setValue;
+                });
+            });
+        }
+        targetForm.querySelectorAll(elem.dataModal).forEach(function(btn) {
+            return modalOpen(btn);
         });
+        targetForm.querySelectorAll(elem.inputClientCategory).forEach(function(radioBtn) {
+            return toggleRow(radioBtn);
+        });
+        targetForm.querySelectorAll(elem.dataInputCheck).forEach(function(checkBox) {
+            return inputCheck(checkBox);
+        });
+        if (!!targetForm.querySelector(elem.inputClientCategory + ':checked') === true) {
+            targetForm.querySelector(elem.inputClientCategory + ':checked').click();
+        }
     }());
 </script>

@@ -11,7 +11,7 @@
     (function() {
         window.scrollTo(0, 0);
         setTimeout(() => {
-            htmx.ajax("GET", "<?php echo $option['path']; ?>", "<?php echo appConfigPage::pageMain; ?>");
+            htmx.ajax("GET", "<?php echo $option['path']; ?>", "<?php echo appConfigSite::pageMain; ?>");
         }, "800");
     }());
 </script>

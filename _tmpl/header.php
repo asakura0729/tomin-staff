@@ -17,6 +17,7 @@
     <link href="/assets/css/common.css?<?php echo appConfigSite::update; ?>" rel="stylesheet">
     <link href="/assets/css/font-awesome.min.css" rel="stylesheet" onload="this.media='all'">
     <?php echo appConfigPage::$css; ?>
+    <?php echo appConfigPage::$js; ?>
 </head>
 
 <body class="font-notosans">

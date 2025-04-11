@@ -5,7 +5,7 @@
 ?>
 <?php require_once '../../_app/ssl_base.php'; ?>
 <?php require_once '../../_app/http/ajax/cs_sheet/detail.php'; ?>
-<?php require_once '../_tmpl/ajax.php'; ?>
+<?php require_once '../_tmpl/page.php'; ?>
 
 <?php appFuncModule::css('print'); ?>
 <style>
@@ -69,7 +69,7 @@
         </div>
         <div class="container pt-3">
             <?php if (appHttpCssheetAjaxDetail::$dbResult['approval_status'] != appConfigStatus::approval_status['complete']['key']): ?>
-                <form data-hx-post="<?php echo appRoutesWeb::sitemap['adminCsSeetDetail']['contents'] . appFuncPath::setGetParam(['cs_id'], [appHttpCssheetAjaxDetail::$dbResult['cs_id']]); ?>" data-hx-target="<?php echo appConfigPage::pageMain; ?>">
+                <form data-hx-post="<?php echo appRoutesWeb::sitemap['adminCsSeetDetail']['contents'] . appFuncPath::setGetParam(['cs_id'], [appHttpCssheetAjaxDetail::$dbResult['cs_id']]); ?>" data-hx-target="<?php echo appConfigSite::pageMain; ?>">
                     <?php appFuncModule::form('form-control', appHttpCssheetAjaxDetail::$dbResult['cs_id'], ['inputName' => 'cs_id', 'inputType' => 'hidden']); ?>
                     <?php appFuncModule::form('form-control', appConfigStatus::approval_status['complete']['key'], ['inputName' => appDatabaseCs::table['approval_status']['name'], 'inputType' => 'hidden']); ?>
                     <?php appFuncModule::btn('print', ['css' => 'w-100', 'add' => 'data-submit']); ?>
@@ -84,7 +84,7 @@
 </div>
 
 <div class="l-prev animation-fadein-leftslide">
-    <?php appFuncModule::localModule('../_module/print-sheet', [
+    <?php appFuncModule::include('../_module/print-sheet.php', [
         'moduleName' => 'form-control',
         'dbTable' => appDatabaseCs::table,
         'dbResult' => appHttpCssheetAjaxDetail::$dbResult,

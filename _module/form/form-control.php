@@ -13,7 +13,7 @@
             <option value="">指定なし</option>
         <?php endif; ?>
         <?php foreach ($selectItem as $itemKey => $item): ?>
-            <?php echo appFuncCrmForm::selectMenu($inputValue, $selectItem, $selectItemString); ?>
+            <?php echo appFuncCrmDisp::selectMenu($inputValue, $selectItem, $selectItemString); ?>
         <?php endforeach; ?>
     </select>
 <?php else: ?>

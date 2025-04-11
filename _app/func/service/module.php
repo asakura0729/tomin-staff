@@ -4,12 +4,13 @@
 //======================================================================
 class appFuncModule
 {
+    public const modulePath = __DIR__ . '/../../../_module'; //モジュールのパス
     //-----------------------------------------------------
     // 汎用
     //-----------------------------------------------------
-    public static function localModule(string $moduleName, array $option = [])
+    public static function include(string $path, array $option = [])
     {
-        include './' . $moduleName . '.php';
+        include $path;
     }
     //-----------------------------------------------------
     // POPOVER
@@ -18,7 +19,7 @@ class appFuncModule
     {
         $result = "";
         if ($popover != '') {
-            $result = 'data-container="' . appConfigPage::pageMain . '" data-toggle="popover" data-placement="bottom" data-content="' . $popover . '"';
+            $result = 'data-container="' . appConfigSite::pageMain . '" data-toggle="popover" data-placement="bottom" data-content="' . $popover . '"';
         }
         return $result;
     }
@@ -32,7 +33,7 @@ class appFuncModule
         $addParam = appFuncArray::issetKey($option, 'add', ''); //カスタム要素
         $disabled = appFuncArray::issetKey($option, 'disabled', false); //ボタン有効・無効（true...ボタン無効）
         $popover =  self::popover(appFuncArray::issetKey($option, 'popover', '')); //リンク無効時に表示するテキスト
-        include __DIR__ . '/../../_module/btn/' . $moduleName . '.php';
+        include self::modulePath . '/btn/' . $moduleName . '.php';
     }
     //-----------------------------------------------------
     // コンポーネント
@@ -42,14 +43,14 @@ class appFuncModule
         $addClass = appFuncArray::issetKey($option, 'css', ''); //追加したいCSS
         $title = appFuncArray::issetKey($option, 'title', ''); //表題
         $addParam = appFuncArray::issetKey($option, 'add', ''); //カスタム要素
-        include __DIR__ . '/../../_module/component/' . $moduleName . '.php';
+        include self::modulePath . '/component/' . $moduleName . '.php';
     }
     //-----------------------------------------------------
     // CSS
     //-----------------------------------------------------
     public static function css(string $moduleName, array $option = [])
     {
-        include __DIR__ . '/../../_module/css/' . $moduleName . '.php';
+        include self::modulePath . '/css/' . $moduleName . '.php';
     }
     //-----------------------------------------------------
     // 入力フォーム
@@ -64,7 +65,7 @@ class appFuncModule
         $selectItemNoValue = appFuncArray::issetKey($option, 'selectItemNoValue', false); //セレクトメニュー：「値未指定」の表記
         $editFlg = appFuncArray::issetKey($option, 'editFlg', true); //編集可・不可
         $addParam = appFuncArray::issetKey($option, 'add', ''); //追加要素(ID、data属性、onClick属性など)
-        include __DIR__ . '/../../_module/form/' . $moduleName . '.php';
+        include self::modulePath . '/form/' . $moduleName . '.php';
     }
     //-----------------------------------------------------
     // 入力フォーム(DB)
@@ -110,7 +111,7 @@ class appFuncModule
     {
         $addClass = appFuncArray::issetKey($option, 'css', ''); //追加したいCSS
         $icon = appFuncArray::issetKey($option, 'icon', ''); //追加したいアイコン
-        include __DIR__ . '/../../_module/heading/' . $moduleName . '.php';
+        include self::modulePath . '/heading/' . $moduleName . '.php';
     }
     //-----------------------------------------------------
     // リンク
@@ -123,24 +124,24 @@ class appFuncModule
         $popover =  self::popover(appFuncArray::issetKey($option, 'popover', '')); //リンク無効時に表示するテキスト
         $addClass = appFuncArray::issetKey($option, 'css', ''); //追加したいCSS
         $addParam = appFuncArray::issetKey($option, 'add', ''); //カスタム要素
-        $hxTarget = appFuncArray::issetKey($option, 'hxTarget', appConfigPage::pageMain); //データを読み込む対象
+        $hxTarget = appFuncArray::issetKey($option, 'hxTarget', appConfigSite::pageMain); //データを読み込む対象
         $hxGetFlg = appFuncArray::issetKey($option, 'hxGetFlg', true); //AJAX送信の有無
         $hxPushFlg = appFuncArray::issetKey($option, 'hxPushFlg', true); //URL変更の有無
         $hxLinkOption = ['hxTarget' => $hxTarget, 'hxGetFlg' => $hxGetFlg, 'hxPushFlg' => $hxPushFlg];
-        include __DIR__ . '/../../_module/link/' . $moduleName . '.php';
+        include self::modulePath . '/link/' . $moduleName . '.php';
     }
     //-----------------------------------------------------
     // モーダル
     //-----------------------------------------------------
     public static function modal(string $moduleName, string $id, array $option = [])
     {
-        include __DIR__ . '/../../_module/modal/' . $moduleName . '.php';
+        include self::modulePath . '/modal/' . $moduleName . '.php';
     }
     //-----------------------------------------------------
     // javascript
     //-----------------------------------------------------
     public static function js(string $moduleName, array $option = [])
     {
-        include __DIR__ . '/../../_module/js/' . $moduleName . '.php';
+        include self::modulePath . '/js/' . $moduleName . '.php';
     }
 }

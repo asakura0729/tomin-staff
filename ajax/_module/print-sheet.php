@@ -11,7 +11,7 @@
     </div>
 
     <div class="d-flex justify-content-end pb-2 font-size-0_9">
-        <div class="<?php if ($option['editFlg'] === true): ?>w-75<?php else: ?>w-200px<?php endif; ?>">
+        <div class="<?php if ($option['editFlg'] === true): ?>w-75<?php else: ?>w-300px<?php endif; ?>">
             <div class="row no-gutters align-items-center">
                 <div class="col-5 text-right">日時：</div>
                 <div class="col-7"><?php appFuncModule::dbForm('post_date', $option); ?></div>
