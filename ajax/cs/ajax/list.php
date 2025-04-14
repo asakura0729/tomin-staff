@@ -22,12 +22,12 @@
 
         <header class="d-flex">
             <?php foreach (adminCsAjaxList::$tableRow as $key => $row): ?>
-                <?php appFuncModule::component('header-cslist', [
+                <?php appFuncModule::component('header-cs-list', [
                     'key' => $key,
                     'input' => $row['input'],
                     'dbTable' => adminCsAjaxList::$tableRow,
                     'title' => appFuncCrmDisp::renameTitle($key, $row['comment']),
-                    'dataWidth' => appFuncCrmDisp::setListWidth($row['name'], $row['input'])
+                    'dataWidth' => appFuncCrmDisp::setListRowWidth($row['name'], $row['input'])
                 ]); ?>
             <?php endforeach; ?>
         </header>
@@ -77,7 +77,7 @@
                         </div>
                     <?php elseif ($row['input'] != '' && $row['input'] != 'hidden'): ?>
                         <?php /*分岐2：コンテンツ*/ ?>
-                        <div data-row class="align-middle p-1 font-size-0_8 border-right border-bottom <?php if ($row['input'] === 'textarea'): ?>text-left<?php else: ?>text-center<?php endif; ?>">
+                        <div data-row class="p-1 pt-2 font-size-0_8 border-right border-bottom <?php if ($row['input'] === 'textarea'): ?>text-left<?php else: ?>text-center<?php endif; ?>">
                             <?php echo appFuncArray::issetKey($value, $key, ''); ?>
                         </div>
                     <?php endif; ?>

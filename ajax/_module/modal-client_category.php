@@ -22,7 +22,7 @@
                     <?php foreach (appConfigStatus::clientCategory as $itemKey => $item): ?>
                         <?php if ($item['type'] === appConfigStatus::clientCategoryValid): ?>
                             <label class="d-block m-0 p-2 border cursor-pointer <?php if ($option['inputValue'] === $item['key']): ?>bg-lgreen<?php endif; ?>" data-label-client_category="<?php echo appConfigStatus::clientCategoryValid; ?>">
-                                <input type="radio" name="client_category" value="<?php echo $itemKey; ?>" data-toggle-row='{"target":"[data-disp=<?php echo appConfigStatus::clientCategoryValid; ?>]","disp":true}' <?php if ($option['inputValue'] === (string)$itemKey): ?>checked<?php endif; ?>>
+                                <input type="radio" name="client_category" value="<?php echo $itemKey; ?>" data-toggle-row='{"target":"[data-wrap-disp=<?php echo appConfigStatus::clientCategoryValid; ?>]","disp":true}' <?php if ($option['inputValue'] === (string)$itemKey): ?>checked<?php endif; ?>>
                                 <?php echo $item['name']; ?>
                             </label>
                         <?php endif; ?>
@@ -33,7 +33,7 @@
                     <?php foreach (appConfigStatus::clientCategory as $itemKey => $item): ?>
                         <?php if ($item['type'] === appConfigStatus::clientCategoryInvalid): ?>
                             <label class="d-block m-0 p-2 border cursor-pointer <?php if ($option['inputValue'] === $item['key']): ?>bg-lgreen<?php endif; ?>" data-label-client_category="<?php echo appConfigStatus::clientCategoryInvalid; ?>">
-                                <input type="radio" name="client_category" value="<?php echo $itemKey; ?>" data-toggle-row='{"target":"[data-disp=<?php echo appConfigStatus::clientCategoryValid; ?>]","disp":false}' <?php if ($option['inputValue'] === (string)$itemKey): ?>checked<?php endif; ?>>
+                                <input type="radio" name="client_category" value="<?php echo $itemKey; ?>" data-toggle-row='{"target":"[data-wrap-disp=<?php echo appConfigStatus::clientCategoryValid; ?>]","disp":false}' <?php if ($option['inputValue'] === (string)$itemKey): ?>checked<?php endif; ?>>
                                 <?php echo $item['name']; ?>
                             </label>
                         <?php endif; ?>

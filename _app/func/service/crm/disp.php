@@ -52,32 +52,45 @@ class appFuncCrmDisp
     //-----------------------------------------------------
     // 入力フォーム＞横幅調整
     //-----------------------------------------------------
-    public static function setListWidth($inputName, $inputType): string
+    public static function setListRowWidth($inputName, $inputType): string
     {
         $result = "";
-        switch ($inputType) {
-            case 'checkbox':
-                $result = "100";
-                break;
-            case 'select':
-            case 'date':
-                $result = "150";
-                break;
-            case 'textarea':
-            case 'datetime-local':
-                $result = '200';
-                break;
-            default:
-                $result = '100';
-                break;
-        }
         switch ($inputName) {
+            case appDatabaseCs::table['ensconce_address']['name']:
+                $result = '250';
+                break;
             case appDatabaseCs::table['comment']['name']:
                 $result = '400';
                 break;
             case appDatabaseCs::table['total_price']['name']:
             case appDatabaseCs::table['hall_price']['name']:
                 $result = '150';
+                break;
+            case appDatabaseCs::table['post_by']['name']:
+            case appDatabaseCs::table['delivery_status']['name']:
+            case appDatabaseCs::table['approval_status']['name']:
+            case appDatabaseCs::table['funeral_status']['name']:
+            case appDatabaseCs::table['client_region']['name']:
+            case appDatabaseCs::table['dec_region']['name']:
+                $result = '100';
+                break;
+            default:
+                switch ($inputType) {
+                    case 'checkbox':
+                        $result = "100";
+                        break;
+                    case 'select':
+                    case 'date':
+                    case 'textarea':
+                        $result = "150";
+                        break;
+                    case 'datetime-local':
+                        $result = '180';
+                        break;
+                    default:
+                        $result = '100';
+                        break;
+                }
                 break;
         }
         return $result;
@@ -121,7 +134,7 @@ class appFuncCrmDisp
     //-----------------------------------------------------
     // 入力フォーム＞横幅調整
     //-----------------------------------------------------
-    public static function setRowWidth($inputName, $inputType): string
+    public static function setFormRowWidth($inputName, $inputType): string
     {
         switch ($inputType) {
             case 'checkbox':

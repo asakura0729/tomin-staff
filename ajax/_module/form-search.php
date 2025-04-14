@@ -12,12 +12,24 @@
         <div class="overflow-x bg-lgray">
             <div class="d-flex flex-nowrap border l-form-cs">
                 <?php $formContents = appFuncCrmDisp::renameTitles($option['dbTable']); ?>
-                <?php foreach ($formContents as $key => $tableRow): ?>
+                <?php foreach ($formContents as $key => $row): ?>
+                    <?php appFuncModule::component('header-form-cs', [
+                        'key' => $key,
+                        'inputName' => $row['name'],
+                        'inputType' => $row['input'],
+                        'dbTable' => $formContents,
+                        'title' => appFuncCrmDisp::renameTitle($key, $row['comment']),
+                    ]); ?>
                     <?php appFuncModule::dbForm($key, [
                         'moduleName' => 'form-cs',
                         'dbTable' => appFuncCrmDisp::renameTitles($formContents),
                         'dbResult' =>  $option['dbResult'],
                         'selectItemNoValue' => true
+                    ]); ?>
+                    <?php appFuncModule::component('footer-form-cs', [
+                        'key' => $key,
+                        'inputType' => $row['input'],
+                        'dbTable' => $formContents,
                     ]); ?>
                 <?php endforeach; ?>
                 <?php if ($option['path'] === appRoutesWeb::sitemap['adminCsList_invalid']['contents']): ?>

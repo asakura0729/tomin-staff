@@ -12,7 +12,7 @@
                     </a>
                     <?php if ($value[appRoutesWeb::pagePath] === appRoutesWeb::gNav['adminCsList_check'][appRoutesWeb::pagePath]): ?>
                         <div class="pos-top-left">
-                            <div class="pl-2 font-size-1_4" hx-get="<?php echo appRoutesWeb::async['adminCount_approval']['contents']; ?>" hx-trigger="load, every 15s" hx-swap="innerHTML"></div>
+                            <div class="pl-2 font-size-1_4" hx-get="<?php echo appRoutesWeb::async['adminCount_approval']['contents']; ?>" hx-trigger="load, every 30s" hx-swap="innerHTML"></div>
                         </div>
                     <?php endif; ?>
                 </div>

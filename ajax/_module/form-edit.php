@@ -12,14 +12,26 @@
 
 <form class="animation-fadein" data-hx-post="<?php echo appRoutesWeb::async['adminCsAjaxPost']['contents']; ?>" data-hx-target="<?php echo appConfigSite::secCsEdit; ?>">
     <div class="pos-sticky">
-        <div class="overflow-x bg-lgray">
+        <div class="overflow-x bg-lgray" data-scroll>
             <div class="d-flex flex-nowrap border l-form-cs">
                 <?php $formContents = appFuncCrmDisp::renameTitles(appDatabaseCs::tableForm); ?>
-                <?php foreach ($formContents as $key => $tableRow): ?>
+                <?php foreach ($formContents as $key => $row): ?>
+                    <?php appFuncModule::component('header-form-cs', [
+                        'key' => $key,
+                        'inputName' => $row['name'],
+                        'inputType' => $row['input'],
+                        'dbTable' => $formContents,
+                        'title' => appFuncCrmDisp::renameTitle($key, $row['comment']),
+                    ]); ?>
                     <?php appFuncModule::dbForm($key, [
                         'moduleName' => 'form-cs',
                         'dbTable' => $formContents,
                         'dbResult' => $option['dbResult']
+                    ]); ?>
+                    <?php appFuncModule::component('footer-form-cs', [
+                        'key' => $key,
+                        'inputType' => $row['input'],
+                        'dbTable' => $formContents,
                     ]); ?>
                 <?php endforeach; ?>
                 <?php appFuncModule::form('form-control', "true", ['inputName' => 'redirect', 'inputType' => 'hidden', 'add' => 'disabled']); ?>
