@@ -53,6 +53,9 @@
             <?php endif; ?>
             <?php echo appFuncCrmDisp::selectMenu($inputValue, $selectItem, $selectItemString); ?>
         </select>
+    <?php elseif ($inputType === 'number'): ?>
+        <?php /*分岐：数値*/ ?>
+        <input name="<?php echo $inputName; ?>" type="text" value="<?php echo $inputValue; ?>" class="form-sheets text-right p-1" data-input-number>
     <?php else: ?>
         <?php /*分岐：その他*/ ?>
         <input name="<?php echo $inputName; ?>" type="<?php echo $inputType; ?>" value="<?php echo $inputValue; ?>" class="form-sheets">

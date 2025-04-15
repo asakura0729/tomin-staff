@@ -23,6 +23,17 @@ class appFuncString
         }
     }
     //-----------------------------------------------------
+    // bool値のtrue、falseで異なる文字列を描画
+    //-----------------------------------------------------
+    public static function boolString($bool, string $strTrue = "", string $strFalse = ""): string
+    {
+        if ($bool === true) {
+            return $strTrue;
+        } else {
+            return $strFalse;
+        }
+    }
+    //-----------------------------------------------------
     // 値に応じたテキストを返す
     //-----------------------------------------------------
     public static function switchString(string $string, array $key, array $results, string $defaultResult = ""): string

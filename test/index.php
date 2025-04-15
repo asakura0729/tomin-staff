@@ -3,7 +3,7 @@ require_once '../_app/ssl_base.php'; ?>
 <?php appConfigPage::$title = "TEST"; ?>
 <?php require_once '../_tmpl/header.php'; ?>
 
-<?php echo appLibraryCrm::getCsReportSql('10'); ?>
+<?php echo intval('1,20'); ?>
 
 <section id="form" class="pb-3 animation-fadein">
     <?php echo $_SERVER['REQUEST_URI']; ?>

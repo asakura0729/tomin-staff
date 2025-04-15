@@ -72,12 +72,17 @@
                         $row['name'] === appDatabaseCs::table['approval_status']['name']
                     ): ?>
                         <?php /*分岐1：対応ログ一覧＞ログチェック一覧*/ ?>
-                        <div data-row class="font-size-0_9 m-0 p-1 text-center border-right border-bottom">
+                        <div data-row class=" m-0 p-1 border-right border-bottom font-size-0_9 text-center">
                             <?php appFuncModule::btn('check', appFuncCrmDisp::btnApproval($value)); ?>
                         </div>
+                    <?php elseif ($row['input'] === 'number'): ?>
+                        <?php /*分岐2：価格*/ ?>
+                        <div data-row class="p-1 pt-2 border-right border-bottom font-size-0_8  text-right">
+                            <span class="pr-1"><?php echo appFuncArray::issetKey($value, $key, ''); ?></span>円
+                        </div>
                     <?php elseif ($row['input'] != '' && $row['input'] != 'hidden'): ?>
-                        <?php /*分岐2：コンテンツ*/ ?>
-                        <div data-row class="p-1 pt-2 font-size-0_8 border-right border-bottom <?php if ($row['input'] === 'textarea'): ?>text-left<?php else: ?>text-center<?php endif; ?>">
+                        <?php /*分岐3：その他*/ ?>
+                        <div data-row class="p-1 pt-2 border-right border-bottom font-size-0_8 <?php if ($row['input'] === 'textarea'): ?>text-left<?php else: ?>text-center<?php endif; ?>">
                             <?php echo appFuncArray::issetKey($value, $key, ''); ?>
                         </div>
                     <?php endif; ?>

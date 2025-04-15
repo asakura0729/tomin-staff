@@ -30,7 +30,7 @@
             }
         }
         getScrollX();
-        document.body.addEventListener('htmx:afterSwap', function(event) {
+        document.querySelector(targetId).addEventListener('htmx:afterSwap', function(event) {
             return setScrollX(event);
         });
     }());

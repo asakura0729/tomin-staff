@@ -10,9 +10,9 @@ class adminCsAjaxList
     public static $searchString = ""; //検索結果
     public static $tableRow = []; //表示するDBの列
 }
+adminCsAjaxList::$path = appFuncArray::issetKey($_GET, 'path', '');
 adminCsAjaxList::$dbResultCs = appFuncCrmGet::getDataIndex($_GET);
 adminCsAjaxList::$dbResultCsCount = appFuncCrmGet::count($_GET);
-adminCsAjaxList::$path = appFuncArray::issetKey($_GET, 'path', '');
 adminCsAjaxList::$searchString = appFuncCrmGet::searchString($_GET);
 
 switch (adminCsAjaxList::$path) {

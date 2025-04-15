@@ -229,6 +229,10 @@ width-height
     max-width: 1200px;
 }
 
+.minh-40vh {
+    min-height: 40vh;
+}
+
 .minh-100vh {
     min-height: 100vh;
 }
@@ -242,7 +246,7 @@ width-height
 }
 
 .minh-400px {
-    min-height: 420px;
+    min-height: 400px;
 }
 
 

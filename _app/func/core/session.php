@@ -9,7 +9,7 @@ class appFuncSession
     public const loginId = appConfigSession::loginId;
     public const userName = appConfigSession::userName;
     public const authority = appConfigSession::authority;
-    public const authorityList = appConfigUser::authority;
+    public const authorityLevel = appConfigUser::authorityLevel;
 
     //-----------------------------------------------------
     // ログインセッションを付与
@@ -85,7 +85,7 @@ class appFuncSession
     public static function checkAuth($key): bool
     {
         $authorityKey = $_SESSION[self::authority];
-        if (self::authorityList[$authorityKey] >= self::authorityList[$key]) {
+        if (self::authorityLevel[$authorityKey] >= self::authorityLevel[$key]) {
             return true;
         } else {
             return false;

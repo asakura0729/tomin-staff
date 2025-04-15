@@ -142,6 +142,9 @@ class appFuncDataformat
                             $dbpost[$inputName] = null;
                         }
                         break;
+                    case 'DECIMAL(10,2)':
+                        $dbpost[$inputName] = preg_replace('/[^\d-]/', '', $dbpost[$inputName]);
+                        break;
                     case 'INT(4)':
                         $dbpost[$inputName] = intval($dbpost[$inputName]);
                         break;

@@ -50,7 +50,7 @@
     ]); ?>
 </form>
 
-<div class="minh-200px pb-4">
+<div class="minh-40vh pb-4">
     <div id="<?php echo appFuncString::exclusionHash(appConfigSite::secCsIndex); ?>"></div>
 </div>
 

@@ -5,17 +5,6 @@
 class appFuncDisp
 {
     //-----------------------------------------------------
-    // bool値のtrue、falseで異なる文字列を描画
-    //-----------------------------------------------------
-    public static function boolString($bool, string $strTrue = "", string $strFalse = "")
-    {
-        if ($bool === true) {
-            echo $strTrue;
-        } else {
-            echo $strFalse;
-        }
-    }
-    //-----------------------------------------------------
     // 画像描画
     //-----------------------------------------------------
     public static function img(string $imgName, array $option = [])

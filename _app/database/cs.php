@@ -194,17 +194,17 @@ class appDatabaseCs extends appConfigDatabase
     ],
     'total_price' => [
       'name' => 'total_price',
-      'type' => 'VARCHAR(20)',
+      'type' => 'DECIMAL(10,2)',
       'constraints' => 'NULL',
       'comment' => '総計（税込）',
-      'input' => 'text'
+      'input' => 'number'
     ],
     'hall_price' => [
       'name' => 'hall_price',
-      'type' => 'VARCHAR(20)',
+      'type' => 'DECIMAL(10,2)',
       'constraints' => 'NULL',
       'comment' => '式場利用料（税込）',
-      'input' => 'text'
+      'input' => 'number'
     ],
     'funeral_status' => [
       'name' => 'funeral_status',
@@ -519,10 +519,13 @@ class appDatabaseCs extends appConfigDatabase
     'client_name' => '氏名',
     'client_tel' => '連絡先',
     'client_region' => '住民票',
+    'dec_name' =>  '氏名',
+    'dec_region' => '続柄',
+    'dec_relation' =>  '住民票',
     'funeral_date' => '葬儀希望日',
-    'hall_name' => '案内式場',
-    'crematory_name' => '案内火葬場',
-    'option_name' => '案内オプション',
+    'hall_name' => '希望式場',
+    'crematory_name' => '希望火葬場',
+    'option_name' => '希望オプション',
     'sheet_comment' => '送客シート特記事項',
     'comment' => '対応ログ'
   ];

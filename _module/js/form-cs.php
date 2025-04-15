@@ -12,13 +12,14 @@
             dataModal: '[data-modal]',
             dataToggleRow: '[data-toggle-row]',
             dataInputCheck: '[data-input-check]',
+            dataInputNumber: '[data-input-number]',
             inputClientCategory: "input[name=<?php echo appDatabaseCs::table['client_category']['name']; ?>]"
         }
         const css = {
             dNone: 'd-none',
             bgSelect: 'bg-lgreen'
         }
-        const modalOpen = function(btn) {
+        const setModalBtn = function(btn) {
             btn.addEventListener("click", function() {
                 $(targetId).find('.modal').modal('show');
             });
@@ -30,7 +31,7 @@
             });
             event.closest('label').classList.add(css.bgSelect);
         }
-        const toggleRow = function(radioBtn) {
+        const setToggleRowBtn = function(radioBtn) {
             radioBtn.addEventListener("click", function() {
                 if (this.checked) {
                     const radioBtnText = this.closest('label').textContent.trim();
@@ -78,14 +79,31 @@
                 });
             });
         }
+        const inputNumber = function(input) {
+            input.addEventListener("change", function() {
+                return inputNumberFormat(input);
+            });
+        }
+        const inputNumberFormat = function(input) {
+            let num = input.value;
+            if (num != '') {
+                num = num.replace(/[^\d-]/g, '');
+                num = Number(num).toLocaleString()
+            }
+            input.value = num;
+        }
         targetForm.querySelectorAll(elem.dataModal).forEach(function(btn) {
-            return modalOpen(btn);
+            setModalBtn(btn);
         });
         targetForm.querySelectorAll(elem.inputClientCategory).forEach(function(radioBtn) {
-            return toggleRow(radioBtn);
+            setToggleRowBtn(radioBtn);
         });
         targetForm.querySelectorAll(elem.dataInputCheck).forEach(function(checkBox) {
-            return inputCheck(checkBox);
+            inputCheck(checkBox);
+        });
+        targetForm.querySelectorAll(elem.dataInputNumber).forEach(function(input) {
+            inputNumber(input);
+            inputNumberFormat(input);
         });
         if (!!targetForm.querySelector(elem.inputClientCategory + ':checked') === true) {
             targetForm.querySelector(elem.inputClientCategory + ':checked').click();

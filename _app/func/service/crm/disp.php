@@ -160,6 +160,14 @@ class appFuncCrmDisp
             case appDatabaseCs::table['client_category']['name']:
                 $colClass = 'w-200px';
                 break;
+            case appDatabaseCs::table['client_name']['name']:
+            case appDatabaseCs::table['client_tel']['name']:
+            case appDatabaseCs::table['client_region']['name']:
+            case appDatabaseCs::table['dec_name']['name']:
+            case appDatabaseCs::table['dec_region']['name']:
+            case appDatabaseCs::table['dec_relation']['name']:
+                $colClass = 'w-150px';
+                break;
             case appDatabaseCs::table['delivery_status']['name']:
             case appDatabaseCs::table['approval_status']['name']:
                 $colClass = 'w-100px';
