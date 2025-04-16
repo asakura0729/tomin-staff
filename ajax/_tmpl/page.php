@@ -1,5 +1,10 @@
 <?php foreach (appRoutesWeb::sitemap as $key => $value): ?>
-    <?php if ($value['contents'] === appConfigPage::$path && isset($value['route'])): ?>
+    <?php if ($value['contents'] != appConfigPage::$path): ?>
+        <?php continue; ?>
+    <?php elseif (appFuncSession::checkAuth($value['authority']) === false): ?>
+        <?php appFuncModule::component('401'); ?>
+        <?php exit; ?>
+    <?php elseif (isset($value['route'])): ?>
         <?php appConfigPage::$title = $value['title'] . appConfigPage::$titleAdd; ?>
         <title><?php echo appConfigPage::$title . '｜' . appConfigSite::siteName; ?></title>
         <nav class="l-breadcrumb print-none" aria-label="breadcrumb">

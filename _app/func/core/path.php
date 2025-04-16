@@ -46,13 +46,13 @@ class appFuncPath
     //-----------------------------------------------------
     public static function hxGet(): string
     {
-        $result = "";
+        $result = '';
         $path = self::getPath();
         $getParam = self::getQuery();
         foreach (self::sitemap as $page) {
-            if ($page['path'] === $path) {
+            if ($page[appRoutesWeb::pagePath] === $path) {
                 $result = $page[self::pageContents];
-                $result .=  $getParam;
+                $result .= $getParam;
                 break;
             }
         }

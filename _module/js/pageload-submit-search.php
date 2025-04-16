@@ -8,9 +8,11 @@
     setTimeout(() => {
         const formId = "<?php echo $option['target']; ?>";
         const dataHxTarget = 'data-hx-target';
-        const searchBtn = "data-submit-search";
+        const searchBtn = "[data-submit-search]";
         const form = document.querySelector(formId);
         const hxTarget = form.getAttribute(dataHxTarget);
-        form.querySelector("[" + searchBtn + "]").click();
+        if (!!form.querySelector(searchBtn) === true) {
+            form.querySelector(searchBtn).click();
+        }
     }, "500");
 </script>

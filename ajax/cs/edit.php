@@ -7,6 +7,7 @@
 <?php require_once '../../_app/http/ajax/cs/edit.php'; ?>
 <?php require_once '../_tmpl/page.php'; ?>
 <?php appFuncModule::heading('h1', 'h1', appConfigPage::$title); ?>
+<?php appFuncModule::css('form-post_by', ['target' => appConfigSite::secCsEdit]); ?>
 <article>
     <section class="p-3 pb-5">
         <?php appFuncModule::heading('h2', 'h2', '受電内容メモ', ['addCss' => 'pl-2 pb-2']); ?>

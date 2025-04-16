@@ -7,7 +7,7 @@
 <script>
     (function() {
         const targetId = "<?php echo $option['target']; ?>";
-        const targetForm = document.querySelector(targetId);
+        const targetForm = document.querySelector(targetId);;
         const elem = {
             dataModal: '[data-modal]',
             dataToggleRow: '[data-toggle-row]',
