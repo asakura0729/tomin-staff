@@ -43,6 +43,11 @@
         htmxSetting(ajaxContents);
         $(function() {
             $('[data-toggle="popover"]').popover();
+            $('[data-toggle="popover"]').click(function() {
+                setTimeout(function() {
+                    $('.popover').fadeOut('slow');
+                }, 3000);
+            });
         });
     });
     document.body.addEventListener("htmx:afterSettle", function() {

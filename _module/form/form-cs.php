@@ -22,7 +22,7 @@
     ): ?>
         <?php /*分岐：申請*/ ?>
         <div class="bg-white position-relative p-1 form-sheets">
-            <label class="pos-middle-center w-80per text-center">
+            <div class="pos-middle-center w-80per text-center">
                 <?php if ($inputValue != appConfigStatus::approval_status['complete']['key']): ?>
                     <?php /*分岐1：申請中*/ ?>
                     <input type="checkbox" class="form-control" <?php echo appFuncCrmDisp::checkbox($inputName, $inputValue, appConfigStatus::approval_status['progress']['key'], appConfigStatus::approval_status['started']['key']); ?>>
@@ -32,15 +32,15 @@
                     <input type="checkbox" class="form-control" checked disabled>
                     <span class="pt-1 d-block"><?php echo appConfigStatus::approval_status['complete']['name']; ?></span>
                 <?php endif; ?>
-            </label>
+            </div>
         </div>
     <?php elseif ($inputName === appDatabaseCs::table['delivery_status']['name']): ?>
         <?php /*分岐：資料請求*/ ?>
         <div class="bg-white position-relative p-1 form-sheets">
-            <label class="pos-middle-center w-80per text-center">
+            <div class="pos-middle-center w-80per text-center">
                 <input type="checkbox" class="form-control" <?php echo appFuncCrmDisp::checkbox($inputName, $inputValue, appConfigStatus::delivery_status['required']['key'], appConfigStatus::delivery_status['unnecessary']['key']); ?>>
                 <input name="<?php echo $inputName; ?>" type="hidden" value="<?php echo $inputValue; ?>">
-            </label>
+            </div>
         </div>
     <?php elseif ($inputType === 'textarea'): ?>
         <?php /*分岐：テキストエリア*/ ?>

@@ -115,20 +115,18 @@ class appFuncCrmDisp
             case appConfigStatus::approval_status['progress']['key']:
                 /*分岐2：未承認*/
                 $insertApprovalStatus = appConfigStatus::approval_status['complete']['key'];
+                $result['add'] = <<<EOF
+                data-edit-approval='{"cs_id":"{$csId}","approval_status":"{$insertApprovalStatus}"}'
+                EOF;
                 break;
             case appConfigStatus::approval_status['complete']['key']:
                 /*分岐3：承認済*/
-                $btnTitle = "承認取消";
-                $insertApprovalStatus = appConfigStatus::approval_status['progress']['key'];
+                $btnTitle = "承認済";
+                $result['disabled'] = true;
+                $result['popover'] = '承認済です';
                 break;
         }
         $result['title'] = $btnTitle;
-        if ($approvalStatus != appConfigStatus::approval_status['started']['key']) {
-            $result['add'] = <<<EOF
-            data-edit-approval='{"cs_id":"{$csId}","approval_status":"{$insertApprovalStatus}"}'
-            EOF;
-        } else {
-        }
         return $result;
     }
     //-----------------------------------------------------
