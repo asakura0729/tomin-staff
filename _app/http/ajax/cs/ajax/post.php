@@ -8,4 +8,4 @@ class appHttpAjaxCsAjaxPost
     public static $dbResult = []; //DBから取得した値
 }
 appHttpAjaxCsAjaxPost::$postPrimaryKey = appFuncCrmPost::csData($_POST);
-appHttpAjaxCsAjaxPost::$dbResult = appFuncCrmGet::tpadminCsAjax($_GET, appHttpAjaxCsAjaxPost::$postPrimaryKey);
+appHttpAjaxCsAjaxPost::$dbResult = appFuncCrmGet::csEdit($_GET, appHttpAjaxCsAjaxPost::$postPrimaryKey);

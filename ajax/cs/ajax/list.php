@@ -55,14 +55,14 @@
                             <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsEdit'], ['title' => '転記', 'queryParam' => appFuncPath::setGetParam(['cs_id', 'clone'], [$value['cs_id'], 'true'])]); ?>
                             <?php if (isset($value['sheet_cs_id']) && $value['sheet_cs_id'] != ''): ?>
                                 <?php /*分岐2-1：送客シートあり*/ ?>
-                                <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsSeetDetail'], ['queryParam' => appFuncPath::setGetParam(['cs_id'], [$value['sheet_cs_id']])]); ?>
+                                <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsSheetDetail'], ['queryParam' => appFuncPath::setGetParam(['cs_id'], [$value['sheet_cs_id']])]); ?>
                             <?php else: ?>
                                 <?php /*分岐2-2：送客シートなし*/ ?>
-                                <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsSeetDetail'], ['disabled' => true]); ?>
+                                <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsSheetDetail'], ['disabled' => true]); ?>
                             <?php endif; ?>
-                        <?php elseif (adminCsAjaxList::$path  === appRoutesWeb::sitemap['adminCsSeet']['contents']): ?>
+                        <?php elseif (adminCsAjaxList::$path  === appRoutesWeb::sitemap['adminCsSheet']['contents']): ?>
                             <?php /*分岐3：送客シート一覧*/ ?>
-                            <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsSeetDetail'], ['queryParam' => appFuncPath::setGetParam(['cs_id'], [$value['cs_id']])]); ?>
+                            <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsSheetDetail'], ['queryParam' => appFuncPath::setGetParam(['cs_id'], [$value['sheet_cs_id']])]); ?>
                         <?php endif; ?>
                     </nav>
                 </div>

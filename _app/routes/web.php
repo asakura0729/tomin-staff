@@ -65,7 +65,7 @@ class appRoutesWeb
             self::pageAuthority => appConfigUser::authorityManager,
             self::pageIcon => 'fa-list-ol',
         ],
-        'adminCsSeet' => [
+        'adminCsSheet' => [
             self::pagePath => '/tpadmin/cs_sheet/',
             self::pageContents => '/ajax/cs_sheet/index',
             self::pageTitle => '送客シート一覧',
@@ -73,19 +73,19 @@ class appRoutesWeb
             self::pageAuthority => appConfigUser::authorityStaff,
             self::pageIcon => 'fa-file-text',
         ],
-        'adminCsSeetDetail' => [
+        'adminCsSheetDetail' => [
             self::pagePath => '/tpadmin/cs_sheet/detail',
             self::pageContents => '/ajax/cs_sheet/detail',
             self::pageTitle => '送客シート閲覧',
-            self::pageRoute => ['adminCsSeet'],
+            self::pageRoute => ['adminCsSheet'],
             self::pageAuthority => appConfigUser::authorityStaff,
             self::pageIcon => 'fa-file-text',
         ],
-        'adminCsSeetEdit' => [
+        'adminCsSheetEdit' => [
             self::pagePath => '/tpadmin/cs_sheet/edit',
             self::pageContents => '/ajax/cs_sheet/edit',
             self::pageTitle => '送客シート編集',
-            self::pageRoute => ['adminCsSeet'],
+            self::pageRoute => ['adminCsSheet'],
             self::pageAuthority => appConfigUser::authorityStaff,
             self::pageIcon => 'fa-file-text',
         ],
@@ -112,7 +112,7 @@ class appRoutesWeb
         'adminCsIndex' => self::sitemap['adminCsIndex'],
         'adminCsList_invalid' => self::sitemap['adminCsList_invalid'],
         'adminCsList_check' => self::sitemap['adminCsList_check'],
-        'adminCsSeet' => self::sitemap['adminCsSeet'],
+        'adminCsSheet' => self::sitemap['adminCsSheet'],
         'adminPrint' => self::sitemap['adminPrint'],
     ];
 }

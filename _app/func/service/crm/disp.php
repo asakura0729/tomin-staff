@@ -4,6 +4,7 @@
 //======================================================================
 class appFuncCrmDisp
 {
+    public const db = appDatabaseCs::table;
     //-----------------------------------------------------
     // 見出しの名称変更
     //-----------------------------------------------------
@@ -33,8 +34,8 @@ class appFuncCrmDisp
     public static function setBgcolor($value): string
     {
         $result = "bg-white";
-        $funeralStatus = $value['dbresult'][appDatabaseCs::table['funeral_status']['name']];
-        $clientCategory = $value['dbresult'][appDatabaseCs::table['client_category']['name']];
+        $funeralStatus = $value['dbresult'][self::db['funeral_status']['name']];
+        $clientCategory = $value['dbresult'][self::db['client_category']['name']];
         if ($funeralStatus === appConfigStatus::funeral_status['complete']['key']) {
             /*分岐1：報告完了*/
             $result = "bg-gray";
@@ -56,22 +57,22 @@ class appFuncCrmDisp
     {
         $result = "";
         switch ($inputName) {
-            case appDatabaseCs::table['ensconce_address']['name']:
+            case self::db['ensconce_address']['name']:
                 $result = '250';
                 break;
-            case appDatabaseCs::table['comment']['name']:
+            case self::db['comment']['name']:
                 $result = '400';
                 break;
-            case appDatabaseCs::table['total_price']['name']:
-            case appDatabaseCs::table['hall_price']['name']:
+            case self::db['total_price']['name']:
+            case self::db['hall_price']['name']:
                 $result = '150';
                 break;
-            case appDatabaseCs::table['post_by']['name']:
-            case appDatabaseCs::table['delivery_status']['name']:
-            case appDatabaseCs::table['approval_status']['name']:
-            case appDatabaseCs::table['funeral_status']['name']:
-            case appDatabaseCs::table['client_region']['name']:
-            case appDatabaseCs::table['dec_region']['name']:
+            case self::db['post_by']['name']:
+            case self::db['delivery_status']['name']:
+            case self::db['approval_status']['name']:
+            case self::db['funeral_status']['name']:
+            case self::db['client_region']['name']:
+            case self::db['dec_region']['name']:
                 $result = '100';
                 break;
             default:
@@ -103,7 +104,7 @@ class appFuncCrmDisp
         $result = [];
         $btnTitle = "承認";
         $csId = $value[appDatabaseCs::primaryKey];
-        $approvalStatusKey = appDatabaseCs::table['approval_status']['name'];
+        $approvalStatusKey = self::db['approval_status']['name'];
         $approvalStatus = $value['dbresult'][$approvalStatusKey];
         $insertApprovalStatus = "";
         switch ($approvalStatus) {
@@ -152,22 +153,22 @@ class appFuncCrmDisp
                 $colClass = 'w-200px';
         }
         switch ($inputName) {
-            case appDatabaseCs::table['comment']['name']:
+            case self::db['comment']['name']:
                 $colClass = 'w-600px';
                 break;
-            case appDatabaseCs::table['client_category']['name']:
+            case self::db['client_category']['name']:
                 $colClass = 'w-200px';
                 break;
-            case appDatabaseCs::table['client_name']['name']:
-            case appDatabaseCs::table['client_tel']['name']:
-            case appDatabaseCs::table['client_region']['name']:
-            case appDatabaseCs::table['dec_name']['name']:
-            case appDatabaseCs::table['dec_region']['name']:
-            case appDatabaseCs::table['dec_relation']['name']:
+            case self::db['client_name']['name']:
+            case self::db['client_tel']['name']:
+            case self::db['client_region']['name']:
+            case self::db['dec_name']['name']:
+            case self::db['dec_region']['name']:
+            case self::db['dec_relation']['name']:
                 $colClass = 'w-150px';
                 break;
-            case appDatabaseCs::table['delivery_status']['name']:
-            case appDatabaseCs::table['approval_status']['name']:
+            case self::db['delivery_status']['name']:
+            case self::db['approval_status']['name']:
                 $colClass = 'w-100px';
                 break;
         }
@@ -235,8 +236,36 @@ class appFuncCrmDisp
                 $title = $item[$selectItemString];
             }
             $result .= <<<EOF
-            <option value="{$itemKey}" {$selected}>{$title}</option>;
+            <option value="{$itemKey}" {$selected}>{$title}</option>
             EOF;
+        }
+        return $result;
+    }
+    //-----------------------------------------------------
+    // テキスト作成：検索結果
+    //-----------------------------------------------------
+    public static function searchString(array $get = []): string
+    {
+        $result = "";
+        foreach ($get as $rowName => $value) {
+            /*getパラメータ走査*/
+            if (isset(self::db[$rowName]) && $value != '') {
+                /*分岐1：DBに値が存在するパラメータ*/
+                if (self::db[$rowName]['input'] === 'hidden') {
+                    /*分岐1-1：非表示フォーム*/
+                    continue;
+                }
+                if (self::db[$rowName]['input'] === 'select') {
+                    /*分岐1-2：セレクトメニュー*/
+                    $value = appFuncDataformat::selectmenu(self::db, $rowName, $value);
+                }
+                $result .= self::db[$rowName]['comment'];
+                $result .= '「' . $value . '」、';
+            }
+        }
+        if ($result != '') {
+            /*判断：文字が存在*/
+            $result = mb_substr($result, 0, -1);
         }
         return $result;
     }

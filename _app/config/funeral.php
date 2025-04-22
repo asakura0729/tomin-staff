@@ -4,36 +4,38 @@
 //======================================================================
 class appConfigFuneral
 {
+    public const planCategoryKasou = 'kasou';
+    public const planCategorySougi = 'sougi';
     public const plan = [
-        'none' => '未定',
-        'plan1_bu' => 'お別れ葬(仏式)',
-        'plan2_bu' => '火葬式(仏式)',
-        'plan3_bu' => '一日葬(仏式)',
-        'plan4_bu' => '家族葬(仏式)',
-        'plan5_bu' => '一般葬(仏式)',
-        'plan_bu' => '未定(仏式)',
-        'plan1_si' => 'お別れ葬(神道)',
-        'plan2_si' => '火葬式(神道)',
-        'plan3_si' => '一日葬(神道)',
-        'plan4_si' => '家族葬(神道)',
-        'plan5_si' => '一般葬(神道)',
-        'plan_si' => '未定(神道)',
-        'plan1_ch' => 'お別れ葬(キリスト教)',
-        'plan2_ch' => '火葬式(キリスト教)',
-        'plan3_ch' => '一日葬(キリスト教)',
-        'plan4_ch' => '家族葬(キリスト教)',
-        'plan5_ch' => '一般葬(キリスト教)',
-        'plan_ch' => '未定(キリスト教)',
-        'plan1_so' => 'お別れ葬(友人葬)',
-        'plan2_so' => '火葬式(友人葬)',
-        'plan3_so' => '一日葬(友人葬)',
-        'plan4_so' => '家族葬(友人葬)',
-        'plan5_so' => '一般葬(友人葬)',
-        'plan_so' => '未定(友人葬)',
-        'plan_fu' => '福祉葬'
+        'none' => ['name' => '未定', 'category' => 'none'],
+        'plan1_bu' => ['name' => 'お別れ葬(仏式)', 'category' => self::planCategoryKasou],
+        'plan2_bu' => ['name' => '火葬式(仏式)', 'category' => self::planCategoryKasou],
+        'plan3_bu' => ['name' => '一日葬(仏式)', 'category' => self::planCategorySougi],
+        'plan4_bu' => ['name' => '家族葬(仏式)', 'category' => self::planCategorySougi],
+        'plan5_bu' => ['name' => '一般葬(仏式)', 'category' => self::planCategorySougi],
+        'plan_bu' => ['name' => '未定(仏式)', 'category' => 'none'],
+        'plan1_si' => ['name' => 'お別れ葬(神道)', 'category' => self::planCategoryKasou],
+        'plan2_si' => ['name' => '火葬式(神道)', 'category' => self::planCategoryKasou],
+        'plan3_si' => ['name' => '一日葬(神道)', 'category' => self::planCategorySougi],
+        'plan4_si' => ['name' => '家族葬(神道)', 'category' => self::planCategorySougi],
+        'plan5_si' => ['name' => '一般葬(神道)', 'category' => self::planCategorySougi],
+        'plan_si' => ['name' => '未定(神道)', 'category' => 'none'],
+        'plan1_ch' => ['name' => 'お別れ葬(キリスト教)', 'category' => self::planCategoryKasou],
+        'plan2_ch' => ['name' => '火葬式(キリスト教)', 'category' => self::planCategoryKasou],
+        'plan3_ch' => ['name' => '一日葬(キリスト教)', 'category' => self::planCategorySougi],
+        'plan4_ch' => ['name' => '家族葬(キリスト教)', 'category' => self::planCategorySougi],
+        'plan5_ch' => ['name' => '一般葬(キリスト教)', 'category' => self::planCategorySougi],
+        'plan_ch' => ['name' => '未定(キリスト教)', 'category' => 'none'],
+        'plan1_so' => ['name' => 'お別れ葬(友人葬)', 'category' => self::planCategoryKasou],
+        'plan2_so' => ['name' => '火葬式(友人葬)', 'category' => self::planCategoryKasou],
+        'plan3_so' => ['name' => '一日葬(友人葬)', 'category' => self::planCategorySougi],
+        'plan4_so' => ['name' => '家族葬(友人葬)', 'category' => self::planCategorySougi],
+        'plan5_so' => ['name' => '一般葬(友人葬)', 'category' => self::planCategorySougi],
+        'plan_so' => ['name' => '未定(友人葬)', 'category' => self::planCategorySougi],
+        'plan_fu' => ['name' => '福祉葬', 'category' => 'none']
     ];
 
-    const enshrined =  [
+    public const enshrined =  [
         'none' => '未定',
         'home' => '自宅安置',
         'storage' => 'お預かり安置',

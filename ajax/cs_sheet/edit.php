@@ -8,7 +8,7 @@
 <?php require_once '../_tmpl/page.php'; ?>
 <?php appFuncModule::heading('h1', 'h1', appConfigPage::$title); ?>
 
-<form data-hx-post="<?php echo appRoutesWeb::sitemap['adminCsSeetEdit']['contents']; ?>" data-hx-target="<?php echo appConfigSite::pageMain; ?>" class="animation-fadein container pb-5">
+<form id="<?php echo appFuncString::exclusionHash(appConfigSite::secCsEdit); ?>" data-hx-post="<?php echo appRoutesWeb::sitemap['adminCsSheetEdit']['contents']; ?>" data-hx-target="<?php echo appConfigSite::pageMain; ?>" class="animation-fadein container pb-5">
     <div class="p-4 bg-white animation-fadein">
         <?php appFuncModule::include('../_module/print-sheet.php', [
             'moduleName' => 'form-control',
@@ -23,9 +23,11 @@
 </form>
 
 <?php appFuncModule::js('form-submit'); ?>
+<?php appFuncModule::js('form-readonly', ['target' => appConfigSite::secCsEdit, 'child' => 'textarea[name=option_flower]']); ?>
+<?php appFuncModule::js('form-sheet', ['target' => appConfigSite::secCsEdit]); ?>
 <?php if (appHttpCssheetAjaxEdit::$postPrimaryKey != ''): ?>
     <?php /*分岐：データ更新*/ ?>
     <?php appFuncModule::component('alert-success'); ?>
-    <?php appFuncModule::js('redirect', ['path' => appRoutesWeb::sitemap['adminCsSeetDetail']['contents'] . appFuncPath::setGetParam(['cs_id'], [appHttpCssheetAjaxEdit::$postPrimaryKey])]); ?>
-    <?php appFuncModule::js('url-push', ['path' => appRoutesWeb::sitemap['adminCsSeetDetail']['path'] . appFuncPath::setGetParam(['cs_id'], [appHttpCssheetAjaxEdit::$postPrimaryKey])]); ?>
+    <?php appFuncModule::js('redirect', ['path' => appRoutesWeb::sitemap['adminCsSheetDetail']['contents'] . appFuncPath::setGetParam(['cs_id'], [appHttpCssheetAjaxEdit::$postPrimaryKey])]); ?>
+    <?php appFuncModule::js('url-push', ['path' => appRoutesWeb::sitemap['adminCsSheetDetail']['path'] . appFuncPath::setGetParam(['cs_id'], [appHttpCssheetAjaxEdit::$postPrimaryKey])]); ?>
 <?php endif; ?>

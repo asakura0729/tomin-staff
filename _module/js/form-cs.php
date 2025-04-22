@@ -19,11 +19,6 @@
             dNone: 'd-none',
             bgSelect: 'bg-lgreen'
         }
-        const setModalBtn = function(btn) {
-            btn.addEventListener("click", function() {
-                $(targetId).find('.modal').modal('show');
-            });
-        }
         const labelBgColorChange = function(event) {
             const modalId = event.closest('.modal').id;
             targetForm.querySelectorAll('#' + modalId + ' label').forEach(function(label) {
@@ -31,80 +26,89 @@
             });
             event.closest('label').classList.add(css.bgSelect);
         }
-        const setToggleRowBtn = function(radioBtn) {
-            radioBtn.addEventListener("click", function() {
-                if (this.checked) {
-                    const radioBtnText = this.closest('label').textContent.trim();
-                    const dataToggleRow = elem.dataToggleRow.replace(/^\[|\]$/g, '');
-                    const toggleRowJSON = this.getAttribute(dataToggleRow);
-                    const toggleRow = JSON.parse(toggleRowJSON);
-                    const toggleTarget = toggleRow.target;
-                    const toggleDisp = toggleRow.disp;
-                    labelBgColorChange(this);
-                    setTimeout(() => {
-                        $(targetId).find('.modal').modal('hide');
-                    }, "250");
-                    setTimeout(() => {
-                        targetForm.querySelector(elem.dataModal).textContent = radioBtnText;
-                        targetForm.querySelectorAll(toggleTarget).forEach(function(col) {
-                            if (toggleDisp === true) {
-                                col.classList.remove(css.dNone);
-                            } else {
-                                col.classList.add(css.dNone);
-                                if (col.querySelector('input')) {
-                                    col.querySelector('input').value = '';
-                                } else if (col.querySelector('textarea')) {
-                                    col.querySelector('textarea').value = '';
-                                }
-                            }
-                        });
-                    }, "500");
-                }
-            });
-        }
-        const inputCheck = function(checkBox) {
-            checkBox.addEventListener("click", function() {
-                const dataInputCheck = elem.dataInputCheck.replace(/^\[|\]$/g, '');
-                const inputCheckJSON = this.getAttribute(dataInputCheck);
-                const inputCheck = JSON.parse(inputCheckJSON);
-                const target = inputCheck.target;
-                const checkValue = inputCheck.checkValue;
-                const noCheckValue = inputCheck.noCheckValue;
-                let setValue = noCheckValue;
-                if (this.checked) {
-                    setValue = checkValue;
-                }
-                targetForm.querySelectorAll(target).forEach(function(input) {
-                    input.value = setValue;
+        const setModalBtn = function(selecter) {
+            targetForm.querySelectorAll(selecter).forEach(function(btn) {
+                console.log(btn);
+                btn.addEventListener("click", function() {
+                    $(targetId).find('.modal').modal('show');
                 });
             });
         }
-        const inputNumber = function(input) {
-            input.addEventListener("change", function() {
-                return inputNumberFormat(input);
+        const setToggleRowBtn = function(selecter) {
+            targetForm.querySelectorAll(selecter).forEach(function(radioBtn) {
+                radioBtn.addEventListener("click", function() {
+                    if (this.checked) {
+                        const radioBtnText = this.closest('label').textContent.trim();
+                        const dataToggleRow = elem.dataToggleRow.replace(/^\[|\]$/g, '');
+                        const toggleRowJSON = this.getAttribute(dataToggleRow);
+                        const toggleRow = JSON.parse(toggleRowJSON);
+                        const toggleTarget = toggleRow.target;
+                        const toggleDisp = toggleRow.disp;
+                        labelBgColorChange(this);
+                        setTimeout(() => {
+                            $(targetId).find('.modal').modal('hide');
+                        }, "250");
+                        setTimeout(() => {
+                            targetForm.querySelector(elem.dataModal).textContent = radioBtnText;
+                            targetForm.querySelectorAll(toggleTarget).forEach(function(col) {
+                                if (toggleDisp === true) {
+                                    col.classList.remove(css.dNone);
+                                } else {
+                                    col.classList.add(css.dNone);
+                                    if (col.querySelector('input')) {
+                                        col.querySelector('input').value = '';
+                                    } else if (col.querySelector('textarea')) {
+                                        col.querySelector('textarea').value = '';
+                                    }
+                                }
+                            });
+                        }, "500");
+                    }
+                });
             });
         }
-        const inputNumberFormat = function(input) {
-            let num = input.value;
+        const setDataInputCheck = function(selecter) {
+            targetForm.querySelectorAll(selecter).forEach(function(checkBox) {
+                checkBox.addEventListener("click", function() {
+                    const dataInputCheck = elem.dataInputCheck.replace(/^\[|\]$/g, '');
+                    const inputCheckJSON = this.getAttribute(dataInputCheck);
+                    const inputCheck = JSON.parse(inputCheckJSON);
+                    const target = inputCheck.target;
+                    const checkValue = inputCheck.checkValue;
+                    const noCheckValue = inputCheck.noCheckValue;
+                    let setValue = noCheckValue;
+                    if (this.checked) {
+                        setValue = checkValue;
+                    }
+                    targetForm.querySelectorAll(target).forEach(function(input) {
+                        input.value = setValue;
+                    });
+                });
+            });
+        }
+        const setInputNumberFormat = function(selecter) {
+            targetForm.querySelectorAll(selecter).forEach(function(input) {
+                inputNumberFormat(input);
+                changeInputNumberFormat(input);
+            });
+        }
+        const changeInputNumberFormat = function(selecter) {
+            selecter.addEventListener("change", function() {
+                inputNumberFormat(this);
+            });
+        }
+        const inputNumberFormat = function(selecter) {
+            let num = selecter.value;
             if (num != '') {
                 num = num.replace(/[^\d-]/g, '');
                 num = Number(num).toLocaleString()
             }
-            input.value = num;
+            selecter.value = num;
         }
-        targetForm.querySelectorAll(elem.dataModal).forEach(function(btn) {
-            setModalBtn(btn);
-        });
-        targetForm.querySelectorAll(elem.inputClientCategory).forEach(function(radioBtn) {
-            setToggleRowBtn(radioBtn);
-        });
-        targetForm.querySelectorAll(elem.dataInputCheck).forEach(function(checkBox) {
-            inputCheck(checkBox);
-        });
-        targetForm.querySelectorAll(elem.dataInputNumber).forEach(function(input) {
-            inputNumber(input);
-            inputNumberFormat(input);
-        });
+        setModalBtn(elem.dataModal);
+        setToggleRowBtn(elem.inputClientCategory);
+        setDataInputCheck(elem.dataInputCheck);
+        setInputNumberFormat(elem.dataInputNumber);
         if (!!targetForm.querySelector(elem.inputClientCategory + ':checked') === true) {
             targetForm.querySelector(elem.inputClientCategory + ':checked').click();
         }

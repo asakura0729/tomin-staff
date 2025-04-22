@@ -71,7 +71,7 @@
 <?php if ($option['postPrimaryKey'] != '' && isset($_POST['redirect'])): ?>
     <?php /*分岐1：データ更新 + リダイレクト指定あり*/ ?>
     <?php appFuncModule::component('alert-success'); ?>
-    <?php appFuncModule::js('redirect', ['path' => appRoutesWeb::sitemap['adminCsSeetEdit']['contents'] . appFuncPath::setGetParam(['cs_id', 'clone'], [$option['postPrimaryKey'], 'true'])]); ?>
+    <?php appFuncModule::js('redirect', ['path' => appRoutesWeb::sitemap['adminCsSheetEdit']['contents'] . appFuncPath::setGetParam(['cs_id', 'clone'], [$option['postPrimaryKey'], 'true'])]); ?>
 <?php elseif ($option['postPrimaryKey'] != ''): ?>
     <?php /*分岐2：データ更新*/ ?>
     <?php appFuncModule::component('alert-success'); ?>

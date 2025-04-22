@@ -8,13 +8,11 @@
 <?php elseif ($inputType === 'textarea'): ?>
     <textarea name="<?php echo $inputName; ?>" class="h-100 form-control" <?php echo $addParam; ?>><?php echo $inputValue; ?></textarea>
 <?php elseif ($inputType === 'select'): ?>
-    <select name="<?php echo $inputName; ?>" class="form-control" <?php echo $addParam; ?>>
+    <select name="<?php echo $inputName; ?>" class="form-control">
         <?php if ($selectItemNoValue === true): ?>
             <option value="">指定なし</option>
         <?php endif; ?>
-        <?php foreach ($selectItem as $itemKey => $item): ?>
-            <?php echo appFuncCrmDisp::selectMenu($inputValue, $selectItem, $selectItemString); ?>
-        <?php endforeach; ?>
+        <?php echo appFuncCrmDisp::selectMenu($inputValue, $selectItem, $selectItemString); ?>
     </select>
 <?php else: ?>
     <input name="<?php echo $inputName; ?>" type="<?php echo $inputType; ?>" class="form-control" value="<?php echo $inputValue; ?>" <?php echo $addParam; ?>>

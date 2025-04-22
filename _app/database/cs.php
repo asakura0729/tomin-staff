@@ -140,7 +140,7 @@ class appDatabaseCs extends appConfigDatabase
       'constraints' => 'NULL',
       'comment' => 'プラン名',
       'input' => 'select',
-      'value' => ['item' => appConfigFuneral::plan]
+      'value' => ['item' => appConfigFuneral::plan, 'string' => 'name']
     ],
     'ensconce_category' => [
       'name' => 'ensconce_category',
@@ -341,6 +341,11 @@ class appDatabaseCs extends appConfigDatabase
     'estimate_date' => self::table['estimate_date'],
     'invoice_date' => self::table['invoice_date'],
     'comment' => self::table['comment'],
+    'title' => self::table['title'],
+    'option_flower' => self::table['option_flower'],
+    'funeral_name' => self::table['funeral_name'],
+    'cs_tel_status' => self::table['cs_tel_status'],
+    'hall_price' => self::table['hall_price'],
     'cs_tel_status' => self::table['cs_tel_status'],
     'cs_tel_date' => self::table['cs_tel_date']
   ];
@@ -393,8 +398,8 @@ class appDatabaseCs extends appConfigDatabase
     'option_name' => self::table['option_name'],
     'sheet_comment' => self::table['comment'],
     'comment' => self::table['comment'],
+    'sheet_cs_category' => self::table['cs_category'],
     'sheet_funeral_name' => self::table['funeral_name'],
-    'sheet_approval_status' => self::table['approval_status'],
     'sheet_plan_category' => self::table['plan_category'],
     'sheet_ensconce_category' => self::table['ensconce_category'],
     'sheet_funeral_date' => self::table['funeral_date'],

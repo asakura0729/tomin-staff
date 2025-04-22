@@ -47,4 +47,19 @@ class appFuncArray
         }
         return $result;
     }
+    //-----------------------------------------------------
+    // 関数：配列を走査し、文字列を作成
+    //-----------------------------------------------------
+    public static function arrayToString(array $arrays, string $filterParam = "", string $filterValue = ""): string
+    {
+        $result = "";
+        echo $keyValue;
+        foreach ($arrays as $key => $value) {
+            echo $value[$key];
+            if ($key === '' || isset($value[$filterParam]) && $value[$filterParam] === $filterValue) {
+                $result .= $value;
+            }
+        }
+        return $result;
+    }
 }

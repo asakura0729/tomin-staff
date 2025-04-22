@@ -79,6 +79,7 @@ class appFuncModule
         $dbTable = appFuncArray::issetKey($dbConfig, 'dbTable', []);
         $dbResult = appFuncArray::issetKey($dbConfig, 'dbResult', []);
         $editFlg = appFuncArray::issetKey($dbConfig, 'editFlg', false);
+        $inputType = appFuncArray::issetKey($dbConfig, 'inputType', $dbTable[$tableRow]['input']);
         $addParam = appFuncArray::issetKey($dbConfig, 'add', '');
         $selectItem = [];
         $selectItemString = "";
@@ -95,7 +96,7 @@ class appFuncModule
             [
                 'title' => $dbTable[$tableRow]['comment'],
                 'inputName' => $tableRow,
-                'inputType' => $dbTable[$tableRow]['input'],
+                'inputType' => $inputType,
                 'selectItem' => $selectItem,
                 'selectItemString' => $selectItemString,
                 'selectItemNoValue' => $selectItemNoValue,

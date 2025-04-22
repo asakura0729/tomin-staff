@@ -1,6 +1,6 @@
 <?php
 //======================================================================
-// 文字列の作成・加工
+// 文字列を作成・加工して新しい文字列を返します
 //======================================================================
 class appFuncString
 {
@@ -87,20 +87,15 @@ class appFuncString
         return $result;
     }
     //-----------------------------------------------------
-    // 時刻のフォーマット
+    // 電話番号のフォーマット
     //-----------------------------------------------------
-    public static function datetime($datetime, $type = "datetime"): string
+    public static function formatPhoneNumber($number): string
     {
-        if ($type === "datetime") {
-            $result = date('Y年m月d日 H:i', strtotime($datetime));
-        } else  if ($type === "date") {
-            $result = date('Y 年 m 月 d 日', strtotime($datetime));
-        } else  if ($type === "date_s") {
-            $result = date('Y年m月d日', strtotime($datetime));
-        } else {
-            $result = $datetime;
+        $digits = preg_replace('/\D/', '', $number);
+        if (preg_match('/^0[789]0\d{8}$/', $digits)) {
+            return preg_replace('/^(0[789]0)(\d{4})(\d{4})$/', '$1-$2-$3', $digits);
         }
-        return $result;
+        return $number;
     }
     //-----------------------------------------------------
     // 文字列を切り出し

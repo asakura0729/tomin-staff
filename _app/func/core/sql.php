@@ -78,10 +78,10 @@ class appFuncSql
             $result = 'WHERE ';
             $result .= self::deleteFlgFalse($tableName);
         }
-        foreach ($table as $tableRow) {
-            $rowName = $tableRow[appConfigDatabase::row];
-            if (isset($get[$rowName]) && $get[$rowName] != '') {
-                $result .= ' AND ' . $tableName . '.' . $rowName . ' LIKE "%' . $get[$rowName] . '%"';
+        foreach ($table as $key => $tableRow) {
+            if (isset($get[$key]) && $get[$key] != '') {
+                $rowName = $tableRow[appConfigDatabase::row];
+                $result .= ' AND ' . $tableName . '.' . $rowName . ' LIKE "%' . $get[$key] . '%"';
             }
         }
         return $result;

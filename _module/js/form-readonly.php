@@ -10,6 +10,7 @@
         const targetId = "<?php echo $option['target']; ?>";
         const targetForm = document.querySelector(targetId);
         const childInput = "<?php echo appFuncArray::issetKey($option, 'child', ''); ?>";
+
         if (childInput != '') {
             targetForm.querySelectorAll(childInput).forEach(elem => {
                 elem.classList.add('is-readonly');
@@ -21,5 +22,6 @@
                 elem.readOnly = true;
             });
         }
+
     }());
 </script>

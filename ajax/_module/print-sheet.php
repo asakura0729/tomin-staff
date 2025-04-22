@@ -8,6 +8,7 @@
         <?php appFuncModule::dbForm('parent_cs_id', $option); ?>
         <?php appFuncModule::dbForm('cs_category', $option); ?>
         <?php appFuncModule::dbForm('approval_status', $option); ?>
+        <?php appFuncModule::dbForm('delivery_status', $option); ?>
     </div>
 
     <div class="d-flex justify-content-end pb-2 font-size-0_9">

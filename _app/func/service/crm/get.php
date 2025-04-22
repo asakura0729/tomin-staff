@@ -8,36 +8,45 @@ class appFuncCrmGet
     public const tableName = appDatabaseCs::tableName;
     public const primaryKey = appDatabaseCs::primaryKey;
     public const db = appDatabaseCs::table;
+    public const alias = 'cs_sheet';
     //-----------------------------------------------------
     // SQL作成
     //-----------------------------------------------------
-    public static function sql(array $get = []): string
+    public static function sqlSelectFrom(array $get = []): string
     {
-        $alias = 'cs_sheet';
-        $sql = appFuncSql::select(self::tableName, appDatabaseCs::tableCsList);
-        $sql = appFuncSql::select($alias, appDatabaseCs::tableCsListJoin, $sql);
-        $sql = appFuncSql::from(self::tableName, $sql);
-        $sql = appFuncSql::join([
+        $select = appFuncSql::select(self::tableName, appDatabaseCs::tableCsList);
+        $select = appFuncSql::select(self::alias, appDatabaseCs::tableCsListJoin, $select);
+        $select = appFuncSql::from(self::tableName, $select);
+        $select = self::sqlJoin($select, self::alias);
+        $where = appFuncSql::where(self::tableName, appDatabaseCs::tableCsList, $get);
+        $where = appFuncSql::where(self::alias, appDatabaseCs::tableCsListJoin, $get, $where);
+        $where = self::whereClienCategory($get, self::tableName, $where);
+        $sql = $select . $where;
+        return $sql;
+    }
+    //-----------------------------------------------------
+    // SQL作成＞JOIN
+    //-----------------------------------------------------
+    public static function sqlJoin($select, $alias): string
+    {
+        $select = appFuncSql::join([
             'parent' => self::tableName,
             'child' => self::tableName,
             'childAlias' => $alias,
             'parentKey' => self::primaryKey,
             'childKey' => 'parent_cs_id'
-        ], $sql);
-        $sql .= appFuncSql::where(self::tableName, appDatabaseCs::tableCsList, $get);
-        $sql .= self::whereClienCategory($get, self::tableName);
-        return $sql;
+        ], $select);
+        return $select;
     }
     //-----------------------------------------------------
     // SQL作成＞無効電話のフィルタリング
     //-----------------------------------------------------
-    public static function whereClienCategory($get, $tableName): string
+    public static function whereClienCategory($get, $tableName, $result = ""): string
     {
-        $result = "";
         if (isset($get['client_category_filter'])) {
             $filterparam = $get['client_category_filter'];
             $array = appConfigStatus::clientCategory;
-            $result = "AND(";
+            $result .= "AND(";
             foreach ($array as $key => $value) {
                 if ($value['type'] == $filterparam) {
                     /*分岐：無効電話*/
@@ -52,19 +61,11 @@ class appFuncCrmGet
         return $result;
     }
     //-----------------------------------------------------
-    // マージしたテーブルを取得
-    //-----------------------------------------------------
-    public static function mergeTable(): array
-    {
-        $table = array_merge(appDatabaseCs::tableCsList, appDatabaseCs::tableCsListJoin);
-        return $table;
-    }
-    //-----------------------------------------------------
     // データ取得
     //-----------------------------------------------------
     public static function getData(array $get = [], array $table = []): array
     {
-        $sql = self::sql($get, $table);
+        $sql = self::sqlSelectFrom($get, $table);
         $sql .= appFuncSql::orderBy(self::tableName, self::primaryKey);
         $sql .= appFuncSql::limit();
         $result = appFuncDatabase::getData($sql);
@@ -73,9 +74,8 @@ class appFuncCrmGet
     //-----------------------------------------------------
     // データ取得(個別)
     //-----------------------------------------------------
-    public static function getDataSingle(string $primaryKey = '', string $cs_category = '', bool $dataFormat = false): array
+    public static function getDataSingle(array $table, string $primaryKey = '', string $cs_category = ''): array
     {
-        $table = array_merge(appDatabaseCs::tableCsList, appDatabaseCs::tableCsListJoin);
         if ($primaryKey != '') {
             /*分岐1：cs_id指定あり*/
             $dbresult = self::getData([self::primaryKey => $primaryKey, 'cs_category' => $cs_category], $table);
@@ -89,10 +89,6 @@ class appFuncCrmGet
         } else {
             /*分岐2：新規*/
             $result = appFuncDataformat::dbResult([], $table);
-        }
-        if ($dataFormat === true) {
-            /*判断：取得したデータのフォーマット指定あり*/
-            $result = appFuncDataformat::dbResultStr($result, $table);
         }
         return $result;
     }
@@ -113,15 +109,17 @@ class appFuncCrmGet
         return $result;
     }
     //-----------------------------------------------------
-    // データ総数
+    // データ総数取得
     //-----------------------------------------------------
     public static function count(array $get = []): string
     {
         $result = '0';
-        $sql = appFuncSql::getCount(self::tableName, self::primaryKey);
-        $sql .= appFuncSql::where(self::tableName, appDatabaseCs::tableCsList, $get);
-        $sql .= self::whereClienCategory($get, self::tableName);
-        $dbresult = appFuncDatabase::getData($sql);
+        $select = appFuncSql::getCount(self::tableName, self::primaryKey);
+        $select = self::sqlJoin($select, self::alias);
+        $where = appFuncSql::where(self::tableName, appDatabaseCs::tableCsList, $get);
+        $where = appFuncSql::where(self::alias, appDatabaseCs::tableCsListJoin, $get, $where);
+        $where = self::whereClienCategory($get, self::tableName, $where);
+        $dbresult = appFuncDatabase::getData($select . $where);
         if (isset($dbresult[0]['count'])) {
             $result = $dbresult[0]['count'];
         }
@@ -130,55 +128,72 @@ class appFuncCrmGet
     //-----------------------------------------------------
     // /tpadmin/cs/edit 読込時の挙動
     //-----------------------------------------------------
-    public static function tpadminCsAjax(array $get, string $postPrimaryKey = '', bool $dataformat = false): array
+    public static function csEdit(array $get, string $postPrimaryKey = '', bool $dataformat = false): array
     {
         $result = [];
+        $table = array_merge(appDatabaseCs::tableCsList, appDatabaseCs::tableCsListJoin);
         $getPrimaryKey = appFuncArray::issetKey($get, appDatabaseCs::primaryKey, '');
         $getCloneFlg = appFuncArray::issetKey($get, 'clone', '') == 'true'  ? true : false;
         $csCategory = appConfigStatus::csCategoryLog;
         if ($postPrimaryKey != '') {
             /*分岐1：既存データ参照...データ送信処理が実行された*/
-            $result = self::getDataSingle($postPrimaryKey, $csCategory, $dataformat);
+            $result = self::getDataSingle($table, $postPrimaryKey, $csCategory);
         } else if ($getPrimaryKey != '') {
             /*分岐2：既存データ参照...クエリパラメータにcs_idあり*/
-            $result = appFuncCrmGet::getDataSingle($getPrimaryKey, $csCategory, $dataformat);
+            $result = self::getDataSingle($table, $getPrimaryKey, $csCategory);
             if ($getCloneFlg === true) {
                 /*分岐2-1：複製フラグが立っている場合、cs_idの値を初期化*/
                 $result[self::primaryKey] = '';
             }
         } else {
             /*分岐3：新規データ：クエリパラメータにcs_idなし*/
-            $result = appFuncCrmGet::getDataSingle();
-            $result['post_date'] = date('Y-m-d H:i');
-            $result['post_by'] = $_SESSION[appConfigSession::userId];
-            $result['cs_category'] = appConfigStatus::csCategoryLog;
-            $result['client_category'] = appConfigStatus::clientCategory['other_invalid']['key'];
-            $result['approval_status'] = appConfigStatus::approval_status['started']['key'];
+            $result = self::getDataSingle($table);
         }
         if ($result === []) {
             /*分岐4：データが存在しない*/
             appFuncModule::component('nodata', ['css' => 'text-center']);
             exit;
         }
+        $result = self::csEditDataformat($table, $result, $dataformat);
+        return $result;
+    }
+    //-----------------------------------------------------
+    // /tpadmin/cs/edit 読込時の挙動＞データフォーマット
+    //-----------------------------------------------------
+    public static function csEditDataformat(array $table, array $result, bool $dataFormat = false): array
+    {
+        if ($dataFormat === true) {
+            /*判断：取得したデータのフォーマット指定あり*/
+            $result = appFuncDataformat::dbResultStr($result, $table);
+        }
+        if ($result[appDatabaseCs::primaryKey] === '') {
+            /*分岐：新規*/
+            $result['post_date'] = date('Y-m-d H:i');
+            $result['post_by'] = $_SESSION[appConfigSession::userId];
+            $result['cs_category'] = appConfigStatus::csCategoryLog;
+            $result['client_category'] = appConfigStatus::clientCategory['other_invalid']['key'];
+            $result['approval_status'] = appConfigStatus::approval_status['started']['key'];
+        }
         return $result;
     }
     //-----------------------------------------------------
     // /tpadmin/cs/sheet 読込時の挙動
     //-----------------------------------------------------
-    public static function tpadminCsSheetAjax(array $get, string $postPrimaryKey = '', bool $dataformat = false, $categoryFilter = true): array
+    public static function csSheet(array $get, string $postPrimaryKey = '', bool $dataformat = false, $categoryFilter = true): array
     {
         $csCategory = "";
         if ($categoryFilter === true) {
             /*判断：カテゴリは「送客シート」以外許可しない*/
             $csCategory = appConfigStatus::csCategorySheet;
         }
+        $table = array_merge(appDatabaseCs::tableCsList, appDatabaseCs::tableCsListJoin);
         $getPrimaryKey = appFuncArray::issetKey($get, appDatabaseCs::primaryKey, '');
         if ($postPrimaryKey != '') {
             /*分岐1：既存データ参照...データ送信処理が実行された*/
-            $result = self::getDataSingle($postPrimaryKey, $csCategory, $dataformat);
+            $result = self::getDataSingle($table, $postPrimaryKey, $csCategory);
         } else if ($getPrimaryKey != '') {
             /*分岐2：既存データ参照...クエリパラメータにcs_idあり*/
-            $result = self::getDataSingle($getPrimaryKey, $csCategory, $dataformat);
+            $result = self::getDataSingle($table, $getPrimaryKey, $csCategory);
         } else {
             /*分岐3：新規データ*/
             $result = [];
@@ -186,12 +201,8 @@ class appFuncCrmGet
         if (isset($result['cs_category']) && $result['cs_category'] === appConfigStatus::csCategoryLog) {
             /*判断：カテゴリは対応ログ */
             $sheet_cs_id = appFuncArray::issetKey($result, 'sheet_cs_id', '');
-            if ($sheet_cs_id === '') {
-                /*分岐1：送客シート未作成*/
-                $result[self::primaryKey] = '';
-                $result['comment'] = '';
-            } else if ($sheet_cs_id != '') {
-                /*分岐2：送客シート作成済*/
+            if ($sheet_cs_id != '') {
+                /*分岐：送客シート作成済*/
                 appFuncModule::component('nodata', ['css' => 'text-center', 'title' => '送客シートは作成済です']);
                 exit;
             }
@@ -201,33 +212,32 @@ class appFuncCrmGet
             appFuncModule::component('nodata', ['css' => 'text-center']);
             exit;
         }
+        $result = self::csSheetDataformat($result, $dataformat);
         return $result;
     }
     //-----------------------------------------------------
-    // テキスト作成：検索結果
+    // /tpadmin/cs/sheet 読込時の挙動＞データフォーマット
     //-----------------------------------------------------
-    public static function searchString(array $get = []): string
+    public static function csSheetDataformat(array $result, bool $dataformat = false): array
     {
-        $result = "";
-        foreach ($get as $rowName => $value) {
-            /*getパラメータ走査*/
-            if (isset(self::db[$rowName]) && $value != '') {
-                /*分岐1：DBに値が存在するパラメータ*/
-                if (self::db[$rowName]['input'] === 'hidden') {
-                    /*分岐1-1：非表示フォーム*/
-                    continue;
-                }
-                if (self::db[$rowName]['input'] === 'select') {
-                    /*分岐1-2：セレクトメニュー*/
-                    $value = appFuncDataformat::selectmenu(self::db, $rowName, $value);
-                }
-                $result .= self::db[$rowName]['comment'];
-                $result .= '「' . $value . '」、';
-            }
+        $result['client_tel'] = str_replace("①", "", $result['client_tel']);
+        $result['client_tel'] = appFuncString::formatPhoneNumber($result['client_tel']);
+        if (strpos($result['client_name'], "②") === false) {
+            /*分岐：依頼者名が一行*/
+            $result['client_name'] = str_replace("①", "", $result['client_name']);
         }
-        if ($result != '') {
-            /*判断：文字が存在*/
-            $result = mb_substr($result, 0, -1);
+        if ($dataformat === true) {
+            /*分岐：取得したデータのフォーマット指定あり*/
+            $result['post_date']  = substr($result['post_date'], 0, -6);
+        }
+        if ($result['cs_category'] === appConfigStatus::csCategoryLog) {
+            /*分岐：送客シート未作成*/
+            $result[self::primaryKey] = '';
+            $result['comment'] = '';
+            $result['title'] = '送客シート';
+            $result['cs_date'] = date('Y-m-d');
+            $result['parent_cs_id'] = $_GET[appDatabaseCs::primaryKey];
+            $result['cs_category'] = appConfigStatus::csCategorySheet;
         }
         return $result;
     }

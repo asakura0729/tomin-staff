@@ -51,7 +51,12 @@
 </form>
 
 <div class="minh-40vh pb-4">
-    <div id="<?php echo appFuncString::exclusionHash(appConfigSite::secCsIndex); ?>"></div>
+    <div id="<?php echo appFuncString::exclusionHash(appConfigSite::secCsIndex); ?>">
+        <?php if ($option['path'] != appRoutesWeb::sitemap['adminCsEdit']['contents']): ?>
+            <?php /*分岐：対応ログ編集画面以外*/ ?>
+            <?php appFuncModule::component('spinners-left'); ?>
+        <?php endif; ?>
+    </div>
 </div>
 
 <?php appFuncModule::js('form-cs', ['target' => appConfigSite::secSearch]); ?>

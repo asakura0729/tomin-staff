@@ -805,7 +805,7 @@ Animation
         opacity: 1;
         animation-name: fadeInLeftslide;
         animation-timing-function: ease-out;
-        animation-duration: 0.7s;
+        animation-duration: 1s;
     }
 
     @keyframes fadeInLeftslide {
