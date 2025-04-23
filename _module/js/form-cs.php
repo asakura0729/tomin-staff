@@ -28,7 +28,6 @@
         }
         const setModalBtn = function(selecter) {
             targetForm.querySelectorAll(selecter).forEach(function(btn) {
-                console.log(btn);
                 btn.addEventListener("click", function() {
                     $(targetId).find('.modal').modal('show');
                 });

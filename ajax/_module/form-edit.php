@@ -6,18 +6,20 @@
 //======================================================================
 ?>
 
-<?php if (isset($_GET['clone']) && $_GET['clone'] === 'true'): ?>
-    <p class="text-danger"><i class="fa fa-exclamation-triangle pr-2" aria-hidden="true"></i>既存の対応ログを転記しました。「登録」を押すと、対応ログが新しく追加されます。</p>
-<?php elseif (appFuncSession::checkAuth(appConfigUser::authorityManager) === false): ?>
-    <?php if ($option['dbResult']['approval_status'] === appConfigStatus::approval_status['complete']['key']): ?>
-        <p class="text-danger"><i class="fa fa-exclamation-triangle pr-2" aria-hidden="true"></i>承認済みの対応ログは編集できません</p>
-    <?php elseif ($option['dbResult']['post_by'] != $_SESSION[appConfigSession::userId]): ?>
-        <p class="text-danger"><i class="fa fa-exclamation-triangle pr-2" aria-hidden="true"></i>他のユーザーが作成した対応ログは編集できません</p>
-    <?php endif; ?>
-<?php endif; ?>
-
-<form class="animation-fadein" data-hx-post="<?php echo appRoutesWeb::async['adminCsAjaxPost']['contents']; ?>" data-hx-target="<?php echo appConfigSite::secCsEdit; ?>">
+<form data-hx-post="<?php echo appRoutesWeb::async['adminCsAjaxPost']['contents']; ?>" data-hx-target="<?php echo appConfigSite::secCsEdit; ?>" data-layout-wide>
     <div class="pos-sticky">
+        <?php appFuncModule::heading('h2', 'h2', '受電内容メモ', ['addCss' => 'pl-2 pb-2']); ?>
+
+        <?php if (isset($_GET['clone']) && $_GET['clone'] === 'true'): ?>
+            <p class="text-danger"><i class="fa fa-exclamation-triangle pr-2" aria-hidden="true"></i>既存の対応ログを転記しました。「登録」を押すと、対応ログが新しく追加されます。</p>
+        <?php elseif (appFuncSession::checkAuth(appConfigUser::authorityManager) === false): ?>
+            <?php if ($option['dbResult']['approval_status'] === appConfigStatus::approval_status['complete']['key']): ?>
+                <p class="text-danger"><i class="fa fa-exclamation-triangle pr-2" aria-hidden="true"></i>承認済みの対応ログは編集できません</p>
+            <?php elseif ($option['dbResult']['post_by'] != $_SESSION[appConfigSession::userId]): ?>
+                <p class="text-danger"><i class="fa fa-exclamation-triangle pr-2" aria-hidden="true"></i>他のユーザーが作成した対応ログは編集できません</p>
+            <?php endif; ?>
+        <?php endif; ?>
+
         <div class="overflow-x bg-lgray" data-scroll>
             <div class="d-flex flex-nowrap border l-form-cs">
                 <?php $formContents = appFuncCrmDisp::renameTitles(appDatabaseCs::tableForm); ?>
@@ -98,4 +100,3 @@
 
 <?php appFuncModule::js('form-cs', ['target' => appConfigSite::secCsEdit]); ?>
 <?php appFuncModule::js('link-confirm'); ?>
-

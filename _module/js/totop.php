@@ -6,6 +6,6 @@
 <script>
     window.scroll({
         top: 0,
-        behavior: "smooth",
+        behavior: "auto",
     });
 </script>

@@ -30,27 +30,21 @@ class appFuncDataformat
             $rowInput = "";
             if (isset($table[$rowName])) {
                 $rowInput = $table[$rowName][appConfigDatabase::rowInput];
+                if ($value === null || $value === '') {
+                    $result[$rowName] = '---';
+                    continue;
+                }
                 switch ($rowInput) {
                     case 'datetime-local':
-                        if ($value != null) {
-                            $date = new DateTime($value);
-                            $value = $date->format('Y年m月d日 H:i');
-                        } else {
-                            $value = '---';
-                        }
+                        $date = new DateTime($value);
+                        $value = $date->format('Y年m月d日 H:i');
                         break;
                     case 'date':
-                        if ($value != null) {
-                            $date = new DateTime($value);
-                            $value = $date->format('Y年m月d日');
-                        } else {
-                            $value = '---';
-                        }
+                        $date = new DateTime($value);
+                        $value = $date->format('Y年m月d日');
                         break;
                     case 'number':
-                        if ($value != '') {
-                            $value = number_format($value);
-                        }
+                        $value = number_format($value);
                         break;
                     case 'time':
                         $date = new DateTime($value);
@@ -121,34 +115,41 @@ class appFuncDataformat
                 /*判断：値がPRIMARY KEY*/
                 continue;
             }
-            if (isset($post[$inputName])) {
+            if (array_key_exists($inputName, $_POST)) {
                 /*判断：テーブルに定義された値がPOSTに存在*/
-                $dbpost[$inputName] = $post[$inputName];
+                if ($post[$inputName] === null) {
+                    $dbpost[$inputName] = null;
+                    continue;
+                }
                 switch ($type) {
                     case 'date':
-                        if ($dbpost[$inputName] != '') {
-                            $date = new DateTime($dbpost[$inputName]);
+                        if ($post[$inputName] != '') {
+                            $date = new DateTime($post[$inputName]);
                             $dbpost[$inputName] = $date->format('Y-m-d');
                         } else {
                             $dbpost[$inputName] = null;
                         }
                         break;
                     case 'datetime':
-                        if ($dbpost[$inputName] != '') {
-                            $date = new DateTime($dbpost[$inputName]);
+                        if ($post[$inputName] != '') {
+                            $date = new DateTime($post[$inputName]);
                             $dbpost[$inputName] = $date->format('Y-m-d H:i:s');
                         } else {
                             $dbpost[$inputName] = null;
                         }
                         break;
                     case 'DECIMAL(10,2)':
-                        $dbpost[$inputName] = preg_replace('/[^\d-]/', '', $dbpost[$inputName]);
+                        if ($post[$inputName] != '') {
+                            $dbpost[$inputName] = preg_replace('/[^\d-]/', '', $post[$inputName]);
+                        } else {
+                            $dbpost[$inputName] = null;
+                        }
                         break;
                     case 'INT(4)':
-                        $dbpost[$inputName] = intval($dbpost[$inputName]);
+                        $dbpost[$inputName] = intval($post[$inputName]);
                         break;
                     default:
-                        $dbpost[$inputName] = $dbpost[$inputName];
+                        $dbpost[$inputName] = $post[$inputName];
                         break;
                 }
             }
@@ -168,21 +169,16 @@ class appFuncDataformat
     //-----------------------------------------------------
     // バインドパラメータ作成
     //-----------------------------------------------------
-    public static function bindParam($database, array $post): array
+    public static function bindParam(array $post): array
     {
         $result = [];
-        $table = $database::table;
-        foreach ($table as $tableRow) {
-            $rowName = $tableRow[appConfigDatabase::row];
-            if ($tableRow[appConfigDatabase::rowConstraints] === appConfigDatabase::primaryKey) {
+        foreach ($post as $key => $value) {
+            if ($key === appConfigDatabase::primaryKey) {
                 /*判断：値がPRIMARY KEY*/
                 continue;
             }
-            if (isset($post[$rowName])) {
-                /*判断：テーブルに定義された値がPOSTに存在*/
-                $paramKey = ':' . $rowName;
-                $result[$paramKey] = $post[$rowName];
-            }
+            $paramKey = ':' . $key;
+            $result[$paramKey] = $value;
         }
         return $result;
     }

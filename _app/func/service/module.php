@@ -112,6 +112,7 @@ class appFuncModule
     {
         $addClass = appFuncArray::issetKey($option, 'css', ''); //追加したいCSS
         $icon = appFuncArray::issetKey($option, 'icon', ''); //追加したいアイコン
+        $addParam = appFuncArray::issetKey($option, 'add', ''); //カスタム要素
         include self::modulePath . '/heading/' . $moduleName . '.php';
     }
     //-----------------------------------------------------

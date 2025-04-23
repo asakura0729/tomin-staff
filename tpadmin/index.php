@@ -5,6 +5,9 @@
 <?php require_once __DIR__ . '../../_tmpl/l-header.php'; ?>
 
 <main id="page-top" class="l-wrap" data-hx-history-elt>
+    <div id="spinners" class="l-spinners">
+        <?php appFuncModule::component('spinners-left'); ?>
+    </div>
     <?php if (appConfigSite::maintenance == true) : ?>
         <div class="container print-none">
             <div class="alert alert-danger p-2 text-center" role="alert">

@@ -12,7 +12,7 @@
     <?php endif; ?>
 
     <?php $bgCss = appDatabaseCs::rowCategory[$option['key']]['css']; ?>
-    <div class="<?php echo $bgCss; ?> border-bottom animation-item">
+    <div class="<?php echo $bgCss; ?> border-bottom">
         <h3 class="position-relative m-0 pt-3 pb-3 border-bottom border-right font-size-0_9 text-center overflow-hidden">
             <span class="pos-middle-center d-block w-300px"><?php echo appDatabaseCs::rowCategory[$option['key']]['title']; ?></span>
         </h3>

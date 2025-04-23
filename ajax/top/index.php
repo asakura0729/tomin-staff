@@ -1,7 +1,7 @@
 <?php require_once '../../_app/ssl_base.php'; ?>
 <?php require_once '../_tmpl/page.php'; ?>
 
-<div class="container animation-fadein-topslide">
+<div class="container" data-animation="animation-fadein-topslide">
     <div class="row">
         <?php foreach (appRoutesWeb::gNav as $key => $value): ?>
             <?php if (appFuncSession::checkAuth($value[appRoutesWeb::pageAuthority]) === true): ?>

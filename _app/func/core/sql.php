@@ -186,14 +186,9 @@ class appFuncSql
         $tableName = $database::tableName;
         $sqlkey = '';
         $sqlParam = '';
-        foreach ($table as $tableRow) {
-            $rowName = $tableRow[appConfigDatabase::row];
-            if (isset($dbPost[$rowName])) {
-                if ($tableRow[appConfigDatabase::rowConstraints] != appConfigDatabase::primaryKey) {
-                    $sqlkey .=  '`' . $rowName . '`,';
-                    $sqlParam .= ':' . $rowName . ',';
-                }
-            }
+        foreach ($dbPost as $key => $value) {
+            $sqlkey .=  '`' . $key . '`,';
+            $sqlParam .= ':' . $key . ',';
         }
         $sqlkey = substr($sqlkey, 0, -1);
         $sqlParam = substr($sqlParam, 0, -1);
@@ -205,14 +200,10 @@ class appFuncSql
     //-----------------------------------------------------
     public static function updateSql($database, array $dbPost): string
     {
-        $table = $database::table;
         $tableName = $database::tableName;
         $sqlParam = '';
-        foreach ($table as $tableRow) {
-            $rowName = $tableRow[appConfigDatabase::row];
-            if (isset($dbPost[$rowName])) {
-                $sqlParam .= '`' . $rowName . '`=:' . $rowName . ',';
-            }
+        foreach ($dbPost as $key => $value) {
+            $sqlParam .= '`' . $key . '`=:' . $key . ',';
         }
         $sqlParam = substr($sqlParam, 0, -1);
         return 'UPDATE `' . $tableName . '` SET ' . $sqlParam;

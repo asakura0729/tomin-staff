@@ -6,6 +6,7 @@
 <?php require_once '../../_app/ssl_base.php'; ?>
 <?php require_once '../_tmpl/page.php'; ?>
 <?php appFuncModule::heading('h1', 'h1', appConfigPage::$title); ?>
+<p class="text-danger text-center"><i class="fa fa-exclamation-triangle pr-2" aria-hidden="true"></i>管理者のみが閲覧・編集できるページです</p>
 
 <article class="p-3">
     <form id="<?php echo appFuncString::exclusionHash(appConfigSite::secCsEdit); ?>" data-hx-post="<?php echo appRoutesWeb::async['adminCsAjaxPost_approval']['contents']; ?>" data-hx-target="#sec-alert">

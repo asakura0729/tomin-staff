@@ -36,7 +36,7 @@ class appFuncCrmPost
         $result = [];
         $dbPost = appFuncDataformat::dbPostParam(appDatabaseCs::className, $post);
         $sql = appFuncSql::insertSql(appDatabaseCs::className, $dbPost);
-        $param = appFuncDataformat::bindParam(appDatabaseCs::className, $dbPost);
+        $param = appFuncDataformat::bindParam($dbPost);
         $result = appFuncDatabase::updateData($sql, $param);
         return $result;
     }
@@ -50,7 +50,7 @@ class appFuncCrmPost
         $sql = appFuncSql::updateSql(appDatabaseCs::className, $dbPost);
         $sql .= ' WHERE ';
         $sql .= appDatabaseCs::primaryKey . '="' .  $primaryKey . '"';
-        $param = appFuncDataformat::bindParam(appDatabaseCs::className, $dbPost);
+        $param = appFuncDataformat::bindParam($dbPost);
         $result = appFuncDatabase::updateData($sql, $param);
         return $result;
     }

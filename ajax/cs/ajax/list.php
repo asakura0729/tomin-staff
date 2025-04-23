@@ -6,7 +6,7 @@
 <?php require_once '../../../_app/ssl_base.php'; ?>
 <?php require_once '../../../_app/http/ajax/cs/ajax/list.php'; ?>
 
-<article class="animation-fadein">
+<article data-animation="animation-fadein">
 
     <?php if (adminCsAjaxList::$searchString != ''): ?>
         <?php appFuncModule::heading('h2', 'h2', '検索結果', ['addCss' => 'pl-2']); ?>
@@ -43,26 +43,28 @@
                     <nav class="dropdown-menu w-200px p-2" aria-labelledby="cs_table-<?php echo $value['cs_id']; ?>">
                         <?php if (adminCsAjaxList::$path === appRoutesWeb::sitemap['adminCsEdit']['contents']): ?>
                             <?php /*分岐1：対応ログ編集*/ ?>
-                            <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsEdit'], ['title' => '対応ログ編集', 'queryParam' => appFuncPath::setGetParam(['cs_id'], [$value['cs_id']])]); ?>
-                            <?php appFuncModule::link('chevron', appRoutesWeb::async['adminCsAjaxPost'], ['title' => '転記', 'queryParam' => appFuncPath::setGetParam(['cs_id', 'clone'], [$value['cs_id'], 'true']), 'hxPush' => false, 'hxTarget' => appConfigSite::secCsEdit]); ?>
+                            <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsEdit'], ['css' => 'w-100', 'title' => '対応ログ編集', 'queryParam' => appFuncPath::setGetParam(['cs_id'], [$value['cs_id']])]); ?>
+                            <div class="dropdown-divider"></div>
+                            <?php appFuncModule::link('chevron', appRoutesWeb::async['adminCsAjaxPost'], ['css' => 'w-100', 'title' => '転記', 'queryParam' => appFuncPath::setGetParam(['cs_id', 'clone'], [$value['cs_id'], 'true']), 'hxPush' => false, 'hxTarget' => appConfigSite::secCsEdit]); ?>
                         <?php elseif (
                             adminCsAjaxList::$path === appRoutesWeb::sitemap['adminCsIndex']['contents'] ||
                             adminCsAjaxList::$path === appRoutesWeb::sitemap['adminCsList_invalid']['contents'] ||
                             adminCsAjaxList::$path === appRoutesWeb::sitemap['adminCsList_check']['contents']
                         ): ?>
                             <?php /*分岐2：対応ログ一覧*/ ?>
-                            <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsEdit'], ['title' => '対応ログ編集', 'queryParam' => appFuncPath::setGetParam(['cs_id'], [$value['cs_id']])]); ?>
-                            <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsEdit'], ['title' => '転記', 'queryParam' => appFuncPath::setGetParam(['cs_id', 'clone'], [$value['cs_id'], 'true'])]); ?>
+                            <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsEdit'], ['css' => 'w-100', 'title' => '対応ログ編集', 'queryParam' => appFuncPath::setGetParam(['cs_id'], [$value['cs_id']])]); ?>
+                            <div class="dropdown-divider"></div>
+                            <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsEdit'], ['css' => 'w-100', 'title' => '転記', 'queryParam' => appFuncPath::setGetParam(['cs_id', 'clone'], [$value['cs_id'], 'true'])]); ?>
                             <?php if (isset($value['sheet_cs_id']) && $value['sheet_cs_id'] != ''): ?>
                                 <?php /*分岐2-1：送客シートあり*/ ?>
-                                <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsSheetDetail'], ['queryParam' => appFuncPath::setGetParam(['cs_id'], [$value['sheet_cs_id']])]); ?>
+                                <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsSheetDetail'], ['css' => 'w-100', 'queryParam' => appFuncPath::setGetParam(['cs_id'], [$value['sheet_cs_id']])]); ?>
                             <?php else: ?>
                                 <?php /*分岐2-2：送客シートなし*/ ?>
-                                <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsSheetDetail'], ['disabled' => true]); ?>
+                                <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsSheetDetail'], ['css' => 'w-100', 'disabled' => true]); ?>
                             <?php endif; ?>
                         <?php elseif (adminCsAjaxList::$path  === appRoutesWeb::sitemap['adminCsSheet']['contents']): ?>
                             <?php /*分岐3：送客シート一覧*/ ?>
-                            <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsSheetDetail'], ['queryParam' => appFuncPath::setGetParam(['cs_id'], [$value['sheet_cs_id']])]); ?>
+                            <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsSheetDetail'], ['css' => 'w-100', 'queryParam' => appFuncPath::setGetParam(['cs_id'], [$value['sheet_cs_id']])]); ?>
                         <?php endif; ?>
                     </nav>
                 </div>
@@ -93,5 +95,5 @@
     <?php appFuncPager::disp(appRoutesWeb::async['adminCsAjaxList']['contents'], appConfigSite::secCsIndex, adminCsAjaxList::$dbResultCsCount); ?>
 </article>
 
-<?php appFuncModule::js('cs-table-width'); ?>
+<?php appFuncModule::js('layout-wide'); ?>
 <?php appFuncModule::js('form-approval'); ?>

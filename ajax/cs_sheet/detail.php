@@ -83,7 +83,7 @@
     </div>
 </div>
 
-<div class="l-prev animation-fadein-leftslide">
+<div class="l-prev" data-animation="animation-fadein-leftslide">
     <?php appFuncModule::include('../_module/print-sheet.php', [
         'moduleName' => 'form-control',
         'dbTable' => appDatabaseCs::table,
