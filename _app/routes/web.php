@@ -18,6 +18,7 @@ class appRoutesWeb
     public const pageRoute = 'route';
     public const pageIcon = 'icon';
     public const pageAuthority = 'authority';
+    public const getParam = 'getParam';
     public const sitemap = [
         'login' => [
             self::pagePath => '/login/',

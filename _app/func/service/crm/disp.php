@@ -6,7 +6,23 @@ class appFuncCrmDisp
 {
     public const db = appDatabaseCs::table;
     //-----------------------------------------------------
-    // 見出しの名称変更
+    // 対応ログ編集画面タイトル
+    //-----------------------------------------------------
+    public static function pageTitleAdd(array $dbResult = []): string
+    {
+        if ($dbResult[appDatabaseCs::primaryKey] != '') {
+            /*分岐1：既存データ*/
+            $result = '（依頼者：';
+            $result .= appFuncString::strlenString($dbResult['client_name'], $dbResult['client_name'], '---');
+            $result .= ' 様）';
+        } else {
+            /*分岐2：新規作成*/
+            $result = '（新規作成）';
+        }
+        return  $result;
+    }
+    //-----------------------------------------------------
+    // 入力フォーム見出しの名称変更
     //-----------------------------------------------------
     public static function renameTitle($key, $title): string
     {
@@ -17,7 +33,7 @@ class appFuncCrmDisp
         }
     }
     //-----------------------------------------------------
-    // 見出しの名称変更(複数)
+    // 入力フォーム見出しの名称変更(複数)
     //-----------------------------------------------------
     public static function renameTitles($array): array
     {
@@ -179,7 +195,8 @@ class appFuncCrmDisp
     //-----------------------------------------------------
     public static function setDataDisp($key): string
     {
-        if (isset(appDatabaseCs::tableInvalid[$key])) {
+        $array = appFuncCrmArray::invalidList();
+        if (isset($array[$key])) {
             return appConfigStatus::clientCategoryInvalid;
         } else {
             return appConfigStatus::clientCategoryValid;
@@ -202,6 +219,23 @@ class appFuncCrmDisp
                     $result = $item[$selectItemString];
                     break;
                 }
+            }
+        }
+        return $result;
+    }
+    //-----------------------------------------------------
+    // 入力フォーム＞特定のカテゴリのinputTypeを変更
+    //-----------------------------------------------------
+    public static function changeInputType($row): string
+    {
+        $result = "hidden";
+        if (isset($row['input']) && isset($row['name'])) {
+            $result = $row['input'];
+            switch ($row['name']) {
+                case self::db['delivery_status']['name']:
+                case self::db['approval_status']['name']:
+                    $result = 'checkbox';
+                    break;
             }
         }
         return $result;
@@ -244,22 +278,22 @@ class appFuncCrmDisp
     //-----------------------------------------------------
     // テキスト作成：検索結果
     //-----------------------------------------------------
-    public static function searchString(array $get = []): string
+    public static function searchString(array $table, array $get = []): string
     {
         $result = "";
-        foreach ($get as $rowName => $value) {
+        foreach ($get as $key => $value) {
             /*getパラメータ走査*/
-            if (isset(self::db[$rowName]) && $value != '') {
+            if (isset($table[$key]) && $value != '') {
                 /*分岐1：DBに値が存在するパラメータ*/
-                if (self::db[$rowName]['input'] === 'hidden') {
+                if ($table[$key]['input'] === 'hidden') {
                     /*分岐1-1：非表示フォーム*/
                     continue;
                 }
-                if (self::db[$rowName]['input'] === 'select') {
+                if ($table[$key]['input'] === 'select') {
                     /*分岐1-2：セレクトメニュー*/
-                    $value = appFuncDataformat::selectmenu(self::db, $rowName, $value);
+                    $value = appFuncDataformat::selectmenu($table, $key, $value);
                 }
-                $result .= self::db[$rowName]['comment'];
+                $result .= $table[$key]['comment'];
                 $result .= '「' . $value . '」、';
             }
         }

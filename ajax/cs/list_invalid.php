@@ -19,7 +19,7 @@
 <article class="p-3">
     <?php appFuncModule::include('../_module/form-search.php', [
         'path' => appConfigPage::$path,
-        'dbTable' => appDatabaseCs::tableInvalid,
+        'dbTable' => appFuncCrmArray::invalidList(),
         'dbResult' => [
             'post_by' => appFuncString::boolString(appFuncSession::checkAuth(appConfigUser::authorityManager), '',  $_SESSION[appConfigSession::userId]),
             'cs_category' => appConfigStatus::csCategoryLog,

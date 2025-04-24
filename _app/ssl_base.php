@@ -13,6 +13,7 @@ include_once __DIR__ . '/database/cs.php';
 include_once __DIR__ . '/routes/web.php';
 include_once __DIR__ . '/func/core/array.php';
 include_once __DIR__ . '/func/core/database.php';
+include_once __DIR__ . '/func/core/date.php';
 include_once __DIR__ . '/func/core/string.php';
 include_once __DIR__ . '/func/core/calc.php';
 include_once __DIR__ . '/func/core/editfile.php';
@@ -25,8 +26,19 @@ include_once __DIR__ . '/func/core/sql.php';
 include_once __DIR__ . '/func/service/disp.php';
 include_once __DIR__ . '/func/service/module.php';
 include_once __DIR__ . '/func/service/crm/post.php';
+include_once __DIR__ . '/func/service/crm/array.php';
 include_once __DIR__ . '/func/service/crm/get.php';
 include_once __DIR__ . '/func/service/crm/disp.php';
-$_SESSION = appFuncSession::checkLogout($_SESSION, $_POST);
-appFuncSession::redirect(appRoutesWeb::sitemap['login']['path']);
+$_SESSION = appFuncSession::formatSession($_SESSION, $_POST);
+appFuncSession::redirectNotLogin(appFuncPath::redirectUri());
 appConfigPage::$path = appFuncPath::getPath();
+
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+set_error_handler(function ($severity, $message, $file, $line) {
+    throw new ErrorException($message, 0, $severity, $file, $line);
+});
+set_exception_handler(function ($exception) {
+    echo "Exception: ", $exception->getMessage(), "\n";
+    exit(1);
+});

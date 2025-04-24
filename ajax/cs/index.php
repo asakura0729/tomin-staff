@@ -9,7 +9,7 @@
 <article class="p-3">
     <?php appFuncModule::include('../_module/form-search.php', [
         'path' => appConfigPage::$path,
-        'dbTable' => appDatabaseCs::tableCsListMerge,
+        'dbTable' => appFuncCrmArray::list(),
         'dbResult' => [
             'post_by' => appFuncString::boolString(appFuncSession::checkAuth(appConfigUser::authorityManager), '',  $_SESSION[appConfigSession::userId]),
             'cs_category' => appConfigStatus::csCategoryLog,

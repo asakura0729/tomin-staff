@@ -14,7 +14,7 @@ class appFuncSession
     //-----------------------------------------------------
     // ログインセッションを付与
     //-----------------------------------------------------
-    public static function sessionLogin(): array
+    public static function addSession(): array
     {
         $session = [];
         if (isset($_POST['id']) && isset($_POST['password'])) {
@@ -35,7 +35,7 @@ class appFuncSession
     //-----------------------------------------------------
     // ログイン状況確認
     //-----------------------------------------------------
-    public static function loginCheck(): bool
+    public static function checkLogin(): bool
     {
         if (isset($_SESSION[self::loginStatus])) {
             if ($_SESSION[self::loginStatus] === true) {
@@ -48,7 +48,7 @@ class appFuncSession
     //-----------------------------------------------------
     // ログアウト状態であれば指定されたページに移動
     //-----------------------------------------------------
-    public static function redirect($path)
+    public static function redirectNotLogin($path)
     {
         if (!isset($_SESSION[self::loginStatus])) {
             header('location:' . $path);
@@ -59,7 +59,7 @@ class appFuncSession
     //-----------------------------------------------------
     // ログイン状態であれば指定されたページに移動
     //-----------------------------------------------------
-    public static function loginRedirect($path)
+    public static function redirectLogin($path)
     {
         if (isset($_SESSION[self::loginStatus]) && $_SESSION[self::loginStatus] == true) {
             header('location:' . $path);
@@ -70,7 +70,7 @@ class appFuncSession
     //-----------------------------------------------------
     // ログアウト状態であればセッション削除
     //-----------------------------------------------------
-    public static function checkLogout($session, $post): array
+    public static function formatSession($session, $post): array
     {
         if (isset($post['logout']) && $post['logout'] === appConfigSession::logoutValue) {
             return [];

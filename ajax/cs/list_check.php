@@ -17,7 +17,7 @@
     </form>
     <?php appFuncModule::include('../_module/form-search.php', [
         'path' => appConfigPage::$path,
-        'dbTable' => appDatabaseCs::tableForm,
+        'dbTable' => appFuncCrmArray::form(),
         'dbResult' => [
             'cs_category' => appConfigStatus::csCategoryLog,
             'approval_status' => appConfigStatus::approval_status['progress']['key'],

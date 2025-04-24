@@ -24,10 +24,11 @@
             <?php foreach (adminCsAjaxList::$tableRow as $key => $row): ?>
                 <?php appFuncModule::component('header-cs-list', [
                     'key' => $key,
-                    'input' => $row['input'],
+                    'inputType' => $row['input'],
                     'dbTable' => adminCsAjaxList::$tableRow,
                     'title' => appFuncCrmDisp::renameTitle($key, $row['comment']),
-                    'dataWidth' => appFuncCrmDisp::setListRowWidth($row['name'], $row['input'])
+                    'dataWidth' => appFuncCrmDisp::setListRowWidth($row['name'], $row['input']),
+                    'rowCategory' => appFuncArray::issetKey($row, appFuncCrmArray::rowCategory, null)
                 ]); ?>
             <?php endforeach; ?>
         </header>
@@ -95,5 +96,8 @@
     <?php appFuncPager::disp(appRoutesWeb::async['adminCsAjaxList']['contents'], appConfigSite::secCsIndex, adminCsAjaxList::$dbResultCsCount); ?>
 </article>
 
+<?php if (count(adminCsAjaxList::$dbResultCs) > 0): ?>
+    <?php appFuncModule::js('message', ['target' => '#message', 'msg' => '過去の対応ログが存在する電話番号です']); ?>
+<?php endif; ?>
 <?php appFuncModule::js('layout-wide'); ?>
 <?php appFuncModule::js('form-approval'); ?>

@@ -133,7 +133,6 @@ class appFuncCrmGet
         $result = [];
         $table = array_merge(appDatabaseCs::tableCsList, appDatabaseCs::tableCsListJoin);
         $getPrimaryKey = appFuncArray::issetKey($get, appDatabaseCs::primaryKey, '');
-        $getCloneFlg = appFuncArray::issetKey($get, 'clone', '') == 'true'  ? true : false;
         $csCategory = appConfigStatus::csCategoryLog;
         if ($postPrimaryKey != '') {
             /*分岐1：既存データ参照...データ送信処理が実行された*/
@@ -141,10 +140,6 @@ class appFuncCrmGet
         } else if ($getPrimaryKey != '') {
             /*分岐2：既存データ参照...クエリパラメータにcs_idあり*/
             $result = self::getDataSingle($table, $getPrimaryKey, $csCategory);
-            if ($getCloneFlg === true) {
-                /*分岐2-1：複製フラグが立っている場合、cs_idの値を初期化*/
-                $result[self::primaryKey] = '';
-            }
         } else {
             /*分岐3：新規データ：クエリパラメータにcs_idなし*/
             $result = self::getDataSingle($table);
@@ -154,25 +149,35 @@ class appFuncCrmGet
             appFuncModule::component('nodata', ['css' => 'text-center']);
             exit;
         }
-        $result = self::csEditDataformat($table, $result, $dataformat);
+        $result = self::csEditDataformat($get, $result, $table, $dataformat);
         return $result;
     }
     //-----------------------------------------------------
     // /tpadmin/cs/edit 読込時の挙動＞データフォーマット
     //-----------------------------------------------------
-    public static function csEditDataformat(array $table, array $result, bool $dataFormat = false): array
+    public static function csEditDataformat(array $get, array $result, array $table, bool $dataFormat = false): array
     {
         if ($dataFormat === true) {
-            /*判断：取得したデータのフォーマット指定あり*/
+            /*分岐：取得したデータのフォーマット指定あり*/
             $result = appFuncDataformat::dbResultStr($result, $table);
         }
-        if ($result[appDatabaseCs::primaryKey] === '') {
-            /*分岐：新規*/
-            $result['post_date'] = date('Y-m-d H:i');
+        if ($result[self::primaryKey] === '') {
+            /*分岐1：新規*/
+            $result['post_date'] = appFuncDate::dateFormat(appFuncArray::issetKey($get, 'date'));
+            $result['client_tel'] = appFuncArray::issetKey($get, 'tel');
             $result['post_by'] = $_SESSION[appConfigSession::userId];
             $result['cs_category'] = appConfigStatus::csCategoryLog;
+            $result['delivery_status'] = appConfigStatus::delivery_status['unnecessary']['key'];
             $result['client_category'] = appConfigStatus::clientCategory['other_invalid']['key'];
             $result['approval_status'] = appConfigStatus::approval_status['started']['key'];
+        } else {
+            /*分岐2：既存*/
+            $getCloneFlg = appFuncArray::issetKey($get, 'clone', '') == 'true'  ? true : false;
+            if ($getCloneFlg === true) {
+                /*分岐2-1：複製フラグあり*/
+                $result[self::primaryKey] = '';
+                $result['post_by'] = $_SESSION[appConfigSession::userId];
+            }
         }
         return $result;
     }
@@ -212,13 +217,13 @@ class appFuncCrmGet
             appFuncModule::component('nodata', ['css' => 'text-center']);
             exit;
         }
-        $result = self::csSheetDataformat($result, $dataformat);
+        $result = self::csSheetDataformat($result, $table, $dataformat);
         return $result;
     }
     //-----------------------------------------------------
     // /tpadmin/cs/sheet 読込時の挙動＞データフォーマット
     //-----------------------------------------------------
-    public static function csSheetDataformat(array $result, bool $dataformat = false): array
+    public static function csSheetDataformat(array $result, array $table, bool $dataformat = false): array
     {
         $result['client_tel'] = str_replace("①", "", $result['client_tel']);
         $result['client_tel'] = appFuncString::formatPhoneNumber($result['client_tel']);
@@ -228,6 +233,7 @@ class appFuncCrmGet
         }
         if ($dataformat === true) {
             /*分岐：取得したデータのフォーマット指定あり*/
+            $result = appFuncDataformat::dbResultStr($result, $table);
             $result['post_date']  = substr($result['post_date'], 0, -6);
         }
         if ($result['cs_category'] === appConfigStatus::csCategoryLog) {

@@ -12,11 +12,9 @@
         const cssClass = {
             dNone: "d-none",
             pointerEventsNone: "pointer-events-none",
-            opacity50: "opacity-050"
         };
         const formDisabled = function(elem) {
             elem.closest("form").classList.add(cssClass.pointerEventsNone);
-            elem.closest("form").classList.add(cssClass.opacity50);
         }
         const formRedirectSet = function(elem) {
             if (elem.getAttribute(submitRedirectBtn) != null) {

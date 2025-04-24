@@ -30,6 +30,10 @@ class appFuncDataformat
             $rowInput = "";
             if (isset($table[$rowName])) {
                 $rowInput = $table[$rowName][appConfigDatabase::rowInput];
+                if ($table[$rowName][appConfigDatabase::rowConstraints] === appConfigDatabase::primaryKey) {
+                    $result[$rowName] = $value;
+                    continue;
+                }
                 if ($value === null || $value === '') {
                     $result[$rowName] = '---';
                     continue;

@@ -23,12 +23,18 @@
         </div>
         <?php appFuncModule::include('../_module/form-search.php', [
             'path' => appConfigPage::$path,
-            'dbTable' => appDatabaseCs::tableCsListMerge,
+            'dbTable' => appFuncCrmArray::list(),
             'dbResult' => [
                 'cs_category' => appConfigStatus::csCategoryLog,
+                'client_tel' => appHttpAjaxCsEdit::$dbResult['client_tel']
             ]
         ]); ?>
     </section>
 </article>
 
+<?php if (appHttpAjaxCsEdit::$dbResult['client_tel'] != ''): ?>
+    <?php /*分岐：電話番号指定あり*/ ?>
+    <?php appFuncModule::js('pageload-submit-search', ['target' => appConfigSite::secSearch]); ?>
+<?php endif; ?>
 <?php appFuncModule::js('form-scroll', ['target' => appConfigSite::secCsEdit]); ?>
+<?php appFuncModule::js('link-confirm'); ?>

@@ -9,14 +9,13 @@ class appFuncArray
     //-----------------------------------------------------
     public static function issetKey(array $array, $key, $val = null)
     {
-        if (is_array($array) && isset($array[$key]) && $key != null) {
+        if (isset($array[$key]) && $key != null) {
             /*分岐1：配列内に値がある*/
-            $result = $array[$key];
+            return $array[$key];
         } else {
             /*分岐2：配列内に値がない*/
-            $result = $val;
+            return $val;
         }
-        return $result;
     }
     //-----------------------------------------------------
     // 関数：配列を結合
@@ -53,7 +52,6 @@ class appFuncArray
     public static function arrayToString(array $arrays, string $filterParam = "", string $filterValue = ""): string
     {
         $result = "";
-        echo $keyValue;
         foreach ($arrays as $key => $value) {
             echo $value[$key];
             if ($key === '' || isset($value[$filterParam]) && $value[$filterParam] === $filterValue) {

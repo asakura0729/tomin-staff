@@ -12,6 +12,7 @@ include_once __DIR__ . '/database/cs.php';
 include_once __DIR__ . '/routes/web.php';
 include_once __DIR__ . '/func/core/array.php';
 include_once __DIR__ . '/func/core/database.php';
+include_once __DIR__ . '/func/core/date.php';
 include_once __DIR__ . '/func/core/string.php';
 include_once __DIR__ . '/func/core/calc.php';
 include_once __DIR__ . '/func/core/editfile.php';

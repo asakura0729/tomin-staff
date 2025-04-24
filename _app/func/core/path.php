@@ -58,4 +58,16 @@ class appFuncPath
         }
         return $result;
     }
+    //-----------------------------------------------------
+    // リダイレクト用URL作成
+    //-----------------------------------------------------
+    public static function redirectUri(): string
+    {
+        $path = appRoutesWeb::sitemap['login']['path'];
+        $queryParamkey = 'uri';
+        $queryParamValue = self::getPath() . self::getQuery();
+        $queryParam = self::setGetParam([$queryParamkey], [$queryParamValue]);
+        $result = $path . $queryParam;
+        return $result;
+    }
 }

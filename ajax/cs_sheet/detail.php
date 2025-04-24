@@ -68,7 +68,7 @@
             </div>
         </div>
         <div class="container pt-3">
-            <?php if (appHttpCssheetAjaxDetail::$dbResult['approval_status'] != appConfigStatus::approval_status['complete']['key']): ?>
+            <?php if (appFuncSession::checkAuth(appConfigUser::authorityManager) === true): ?>
                 <form data-hx-post="<?php echo appRoutesWeb::sitemap['adminCsSheetDetail']['contents'] . appFuncPath::setGetParam(['cs_id'], [appHttpCssheetAjaxDetail::$dbResult['cs_id']]); ?>" data-hx-target="<?php echo appConfigSite::pageMain; ?>">
                     <?php appFuncModule::form('form-control', appHttpCssheetAjaxDetail::$dbResult['cs_id'], ['inputName' => 'cs_id', 'inputType' => 'hidden']); ?>
                     <?php appFuncModule::form('form-control', appConfigStatus::approval_status['complete']['key'], ['inputName' => appDatabaseCs::table['approval_status']['name'], 'inputType' => 'hidden']); ?>

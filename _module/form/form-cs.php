@@ -16,10 +16,7 @@
                 <?php echo appFuncCrmDisp::modalBtnStr($inputValue, $selectItem, $selectItemString); ?>
             </button>
         </div>
-    <?php elseif (
-        appConfigPage::$path === appRoutesWeb::sitemap['adminCsEdit']['contents'] && $inputName === appDatabaseCs::table['approval_status']['name'] ||
-        appConfigPage::$path === appRoutesWeb::async['adminCsAjaxPost']['contents'] && $inputName === appDatabaseCs::table['approval_status']['name']
-    ): ?>
+    <?php elseif ($inputType === 'checkbox' && $inputName === appDatabaseCs::table['approval_status']['name']): ?>
         <?php /*分岐：申請*/ ?>
         <div class="bg-white position-relative p-1 form-sheets">
             <div class="pos-middle-center w-80per text-center">
@@ -34,7 +31,7 @@
                 <?php endif; ?>
             </div>
         </div>
-    <?php elseif ($inputName === appDatabaseCs::table['delivery_status']['name']): ?>
+    <?php elseif ($inputType === 'checkbox' && $inputName === appDatabaseCs::table['delivery_status']['name']): ?>
         <?php /*分岐：資料請求*/ ?>
         <div class="bg-white position-relative p-1 form-sheets">
             <div class="pos-middle-center w-80per text-center">
