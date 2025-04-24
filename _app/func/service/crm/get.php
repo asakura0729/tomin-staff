@@ -231,19 +231,21 @@ class appFuncCrmGet
             /*分岐：依頼者名が一行*/
             $result['client_name'] = str_replace("①", "", $result['client_name']);
         }
-        if ($dataformat === true) {
-            /*分岐：取得したデータのフォーマット指定あり*/
-            $result = appFuncDataformat::dbResultStr($result, $table);
-            $result['post_date']  = substr($result['post_date'], 0, -6);
-        }
         if ($result['cs_category'] === appConfigStatus::csCategoryLog) {
             /*分岐：送客シート未作成*/
             $result[self::primaryKey] = '';
-            $result['comment'] = '';
             $result['title'] = '送客シート';
-            $result['cs_date'] = date('Y-m-d');
             $result['parent_cs_id'] = $_GET[appDatabaseCs::primaryKey];
             $result['cs_category'] = appConfigStatus::csCategorySheet;
+            $result['approval_status'] = appConfigStatus::approval_status['started']['key'];
+            $result['comment'] = '';
+        }
+        if ($dataformat === true) {
+            /*分岐：取得したデータのフォーマット指定あり*/
+            $formatResult = appFuncDataformat::dbResultStr($result, $table);
+            $formatResult['post_date']  = substr($formatResult['post_date'], 0, -6);
+            $formatResult['approval_status'] =  $result['approval_status']; //【!】承認ステータスは生データを使用
+            $result = $formatResult;
         }
         return $result;
     }

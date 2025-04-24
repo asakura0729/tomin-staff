@@ -81,12 +81,12 @@
                     <?php elseif ($row['input'] === 'number'): ?>
                         <?php /*分岐2：価格*/ ?>
                         <div data-row class="p-1 pt-2 border-right border-bottom font-size-0_8  text-right">
-                            <span class="pr-1"><?php echo appFuncArray::issetKey($value, $key, ''); ?></span>円
+                            <span class="pr-1"><?php echo appFuncString::strlenString(appFuncArray::issetKey($value, $key, ''), appFuncString::textNone); ?></span>円
                         </div>
                     <?php elseif ($row['input'] != '' && $row['input'] != 'hidden'): ?>
                         <?php /*分岐3：その他*/ ?>
-                        <div data-row class="p-1 pt-2 border-right border-bottom font-size-0_8 <?php if ($row['input'] === 'textarea'): ?>text-left<?php else: ?>text-center<?php endif; ?>">
-                            <?php echo appFuncArray::issetKey($value, $key, ''); ?>
+                        <div data-row class="p-1 pt-2 border-right border-bottom font-size-0_8">
+                            <?php echo appFuncCrmDisp::dbResultValue($value, $key, $row['input']); ?>
                         </div>
                     <?php endif; ?>
                 <?php endforeach; ?>

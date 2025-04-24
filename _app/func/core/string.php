@@ -4,6 +4,7 @@
 //======================================================================
 class appFuncString
 {
+    public const textNone = '---';
     //-----------------------------------------------------
     // #を除去して描画
     //-----------------------------------------------------
@@ -14,10 +15,10 @@ class appFuncString
     //-----------------------------------------------------
     // 文字列が0文字以下の場合、代替テキストを返す
     //-----------------------------------------------------
-    public static function strlenString(string $string, string $strTrue = "", string $strFalse = ""): string
+    public static function strlenString(string $string, string $strFalse = ""): string
     {
         if (strlen($string) > 0) {
-            return $strTrue;
+            return $string;
         } else {
             return $strFalse;
         }

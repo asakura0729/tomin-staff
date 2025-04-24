@@ -146,4 +146,11 @@ class appFuncModule
     {
         include self::modulePath . '/js/' . $moduleName . '.php';
     }
+    //-----------------------------------------------------
+    // 文字列
+    //-----------------------------------------------------
+    public static function string(string $moduleName, string $text, array $option = [])
+    {
+        include self::modulePath . '/string/' . $moduleName . '.php';
+    }
 }

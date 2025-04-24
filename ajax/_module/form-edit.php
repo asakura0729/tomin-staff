@@ -13,7 +13,7 @@
             <div class="pb-2 pl-4">
                 <?php if (isset($_GET['clone']) && $_GET['clone'] === 'true'): ?>
                     <?php /*分岐1：転記*/ ?>
-                    <span class="text-danger"><i class="fa fa-exclamation-triangle pr-1" aria-hidden="true"></i>既存の対応ログを転記しました。「登録」を押すと、対応ログが新しく追加されます。</span>
+                    <?php appFuncModule::string('exclamation', '既存の対応ログを転記しました。「登録」を押すと、対応ログが新しく追加されます。'); ?>
                 <?php elseif ($option['dbResult']['cs_id'] === ''): ?>
                     <?php /*分岐2：新規作成*/ ?>
                     <span <?php if (isset($_GET['tel'])): ?>id="message" <?php endif; ?> class="bg-lgreen"></span>
@@ -21,10 +21,10 @@
                     <?php /*分岐3：既存＞権限／スタッフ*/ ?>
                     <?php if ($option['dbResult']['approval_status'] === appConfigStatus::approval_status['complete']['key']): ?>
                         <?php /*分岐3-1：既存＞権限／スタッフ＞承認済み対応ログ*/ ?>
-                        <span class="text-danger"><i class="fa fa-exclamation-triangle pr-1" aria-hidden="true"></i>承認済みの対応ログは編集できません</span>
+                        <?php appFuncModule::string('exclamation', '承認済みの対応ログは編集できません'); ?>
                     <?php elseif ($option['dbResult']['post_by'] != $_SESSION[appConfigSession::userId]): ?>
                         <?php /*分岐3-2：既存＞権限／スタッフ＞他のユーザーが作成*/ ?>
-                        <span class="text-danger"><i class="fa fa-exclamation-triangle pr-1" aria-hidden="true"></i>他のユーザーが作成した対応ログは編集できません</span>
+                        <?php appFuncModule::string('exclamation', '他のユーザーが作成した対応ログは編集できません'); ?>
                     <?php endif; ?>
                 <?php endif; ?>
             </div>

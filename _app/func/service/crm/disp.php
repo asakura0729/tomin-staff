@@ -45,6 +45,26 @@ class appFuncCrmDisp
         return $result;
     }
     //-----------------------------------------------------
+    // 対応ログ一覧＞テキスト
+    //-----------------------------------------------------
+    public static function dbResultValue(array $value, string $key, string $inputType): string
+    {
+
+        $str = appFuncArray::issetKey($value, $key);
+        $css = "";
+        if ($inputType != 'textarea') {
+            $css = 'text-center';
+        }
+        if ($str === '') {
+            $str = '---';
+            $css = 'text-center';
+        }
+        $result = <<<EOF
+        <span class="d-block {$css}">{$str}</span>
+        EOF;
+        return $result;
+    }
+    //-----------------------------------------------------
     // 対応ログ一覧＞背景色
     //-----------------------------------------------------
     public static function setBgcolor($value): string

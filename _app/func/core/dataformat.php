@@ -35,7 +35,7 @@ class appFuncDataformat
                     continue;
                 }
                 if ($value === null || $value === '') {
-                    $result[$rowName] = '---';
+                    $result[$rowName] = '';
                     continue;
                 }
                 switch ($rowInput) {

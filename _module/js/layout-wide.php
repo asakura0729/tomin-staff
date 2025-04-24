@@ -40,7 +40,7 @@
             mainContents.querySelectorAll(dataLayoutWide).forEach(function(selecter) {
                 selecter.style.width = tableWidth;
             });
-            let windowWidth = window.innerWidth - 20;
+            let windowWidth = window.innerWidth - 40;
             mainContents.querySelectorAll(dataLayoutWide + ">.pos-sticky").forEach(function(selecter) {
                 selecter.style.width = windowWidth + "px";
             });
