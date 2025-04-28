@@ -23,7 +23,7 @@ class appFuncCrmArray
     //-----------------------------------------------------
     public static function list(): array
     {
-        return [
+        $result = [
             'cs_id' => array_merge(self::csList['cs_id'], [self::rowCategory => self::rows['base']]),
             'sheet_cs_id' => self::csList['cs_id'],
             'cs_category' => self::csList['cs_category'],
@@ -67,13 +67,14 @@ class appFuncCrmArray
             'cs_tel_status' => array_merge(self::csList['cs_tel_status'], [self::rowCategory => self::rows['cs_tel']]),
             'cs_tel_date' => self::csList['cs_tel_date']
         ];
+        return self::renameTitles($result);
     }
     //-----------------------------------------------------
     // 対応ログ一覧（無効顧客）で表示する配列作成
     //-----------------------------------------------------
     public static function invalidList(): array
     {
-        return [
+        $result = [
             'cs_id' => array_merge(self::csList['cs_id'], [self::rowCategory => self::rows['base']]),
             'cs_category' => self::csList['cs_category'],
             'approval_status' => self::csList['approval_status'],
@@ -87,13 +88,14 @@ class appFuncCrmArray
             'cs_tel_status' => array_merge(self::csList['cs_tel_status'], [self::rowCategory => self::rows['cs_tel']]),
             'cs_tel_date' => self::csList['cs_tel_date']
         ];
+        return self::renameTitles($result);
     }
     //-----------------------------------------------------
     // 送客シート一覧で使用する配列作成
     //-----------------------------------------------------
     public static function sheetList(): array
     {
-        return [
+        $result = [
             'cs_id' => array_merge(self::csList['cs_id'], [self::rowCategory => self::rows['base']]),
             'approval_status' => self::csList['approval_status'],
             'approval_by' => self::csList['approval_by'],
@@ -113,13 +115,14 @@ class appFuncCrmArray
             'total_price' => self::csList['total_price'],
             'hall_price' => self::csList['hall_price'],
         ];
+        return self::renameTitles($result);
     }
     //-----------------------------------------------------
     // 入力フォームで使用する配列作成
     //-----------------------------------------------------
     public static function form(): array
     {
-        return [
+        $result = [
             'cs_id' => array_merge(self::csList['cs_id'], [self::rowCategory => self::rows['base']]),
             'cs_category' => self::csList['cs_category'],
             'approval_status' => self::csList['approval_status'],
@@ -151,5 +154,29 @@ class appFuncCrmArray
             'cs_tel_status' => array_merge(self::csList['cs_tel_status'], [self::rowCategory => self::rows['cs_tel']]),
             'cs_tel_date' => self::csList['cs_tel_date']
         ];
+        return self::renameTitles($result);
+    }
+    //-----------------------------------------------------
+    // 入力フォーム見出しの名称変更
+    //-----------------------------------------------------
+    public static function renameTitle($key, $title): string
+    {
+        if (isset(appDatabaseCs::rename[$key])) {
+            return appDatabaseCs::rename[$key];
+        } else {
+            return $title;
+        }
+    }
+    //-----------------------------------------------------
+    // 入力フォーム見出しの名称変更(複数)
+    //-----------------------------------------------------
+    public static function renameTitles($array): array
+    {
+        $result = [];
+        foreach ($array as $key => $row) {
+            $row['comment'] = self::renameTitle($key, $row['comment']);
+            $result[$key] = $row;
+        }
+        return $result;
     }
 }

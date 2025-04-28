@@ -18,15 +18,15 @@ switch (adminCsAjaxList::$path) {
     case appRoutesWeb::sitemap['adminCsEdit']['contents']:
     case appRoutesWeb::sitemap['adminCsList_check']['contents']:
         /*分岐1：通常*/
-        adminCsAjaxList::$tableRow = appFuncCrmDisp::renameTitles(appFuncCrmArray::list());
+        adminCsAjaxList::$tableRow = appFuncCrmArray::list();
         break;
     case appRoutesWeb::sitemap['adminCsList_invalid']['contents']:
         /*分岐2：無効電話一覧*/
-        adminCsAjaxList::$tableRow = appFuncCrmDisp::renameTitles(appFuncCrmArray::invalidList());
+        adminCsAjaxList::$tableRow = appFuncCrmArray::invalidList();
         break;
     case appRoutesWeb::sitemap['adminCsSheet']['contents']:
         /*分岐3：送客シート*/
-        adminCsAjaxList::$tableRow = appFuncCrmDisp::renameTitles(appFuncCrmArray::sheetList());
+        adminCsAjaxList::$tableRow = appFuncCrmArray::sheetList();
         break;
     default:
         adminCsAjaxList::$tableRow = appDatabaseCs::table;

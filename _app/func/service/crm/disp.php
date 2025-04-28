@@ -42,29 +42,6 @@ class appFuncCrmDisp
         return  $result;
     }
     //-----------------------------------------------------
-    // 入力フォーム見出しの名称変更
-    //-----------------------------------------------------
-    public static function renameTitle($key, $title): string
-    {
-        if (isset(appDatabaseCs::rename[$key])) {
-            return appDatabaseCs::rename[$key];
-        } else {
-            return $title;
-        }
-    }
-    //-----------------------------------------------------
-    // 入力フォーム見出しの名称変更(複数)
-    //-----------------------------------------------------
-    public static function renameTitles($array): array
-    {
-        $result = [];
-        foreach ($array as $key => $row) {
-            $row['comment'] = self::renameTitle($key, $row['comment']);
-            $result[$key] = $row;
-        }
-        return $result;
-    }
-    //-----------------------------------------------------
     // 対応ログ一覧＞テキスト
     //-----------------------------------------------------
     public static function dbResultValue(array $value, string $key, string $inputType): string

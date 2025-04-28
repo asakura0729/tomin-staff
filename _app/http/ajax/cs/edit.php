@@ -5,6 +5,7 @@
 class appHttpAjaxCsEdit
 {
     public static $dbResult = []; //DBから取得した値
+    
 }
 appHttpAjaxCsEdit::$dbResult = appFuncCrmGet::csEdit($_GET);
 appConfigPage::$titleAdd = appFuncCrmDisp::pageTitleAdd(appHttpAjaxCsEdit::$dbResult);

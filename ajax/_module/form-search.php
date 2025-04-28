@@ -11,26 +11,25 @@
         <p>検索ワードを入力※複数項目に入力した場合、AND検索されます。　（依頼者様氏名に「ヤマダ」、故人様氏名に「スズキ」を入力）</p>
         <div class="overflow-x bg-lgray pr-5">
             <div class="d-flex flex-nowrap border l-form-cs">
-                <?php $formContents = appFuncCrmDisp::renameTitles($option['dbTable']); ?>
-                <?php foreach ($formContents as $key => $row): ?>
+                <?php foreach ($option['dbTable'] as $key => $row): ?>
                     <?php appFuncModule::component('header-form-cs', [
                         'key' => $key,
                         'inputName' => $row['name'],
                         'inputType' => $row['input'],
-                        'dbTable' => $formContents,
-                        'title' => appFuncCrmDisp::renameTitle($key, $row['comment']),
+                        'dbTable' => $option['dbTable'],
+                        'title' => $row['comment'],
                         'rowCategory' => appFuncArray::issetKey($row, appFuncCrmArray::rowCategory, null)
                     ]); ?>
                     <?php appFuncModule::dbForm($key, [
                         'moduleName' => 'form-cs',
-                        'dbTable' => appFuncCrmDisp::renameTitles($formContents),
+                        'dbTable' => $option['dbTable'],
                         'dbResult' =>  $option['dbResult'],
                         'selectItemNoValue' => true
                     ]); ?>
                     <?php appFuncModule::component('footer-form-cs', [
                         'key' => $key,
                         'inputType' => $row['input'],
-                        'dbTable' => $formContents,
+                        'dbTable' => $option['dbTable'],
                     ]); ?>
                 <?php endforeach; ?>
                 <?php if ($option['path'] === appRoutesWeb::sitemap['adminCsList_invalid']['contents']): ?>

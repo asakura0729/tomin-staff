@@ -26,7 +26,7 @@
                     'key' => $key,
                     'inputType' => $row['input'],
                     'dbTable' => adminCsAjaxList::$tableRow,
-                    'title' => appFuncCrmDisp::renameTitle($key, $row['comment']),
+                    'title' => $row['comment'],
                     'dataWidth' => appFuncCrmDisp::setListRowWidth($row['name'], $row['input']),
                     'rowCategory' => appFuncArray::issetKey($row, appFuncCrmArray::rowCategory, null)
                 ]); ?>

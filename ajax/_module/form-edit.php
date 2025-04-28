@@ -31,14 +31,14 @@
         </div>
         <div class="overflow-x bg-lgray" data-scroll>
             <div class="d-flex flex-nowrap border l-form-cs">
-                <?php $formContents = appFuncCrmDisp::renameTitles(appFuncCrmArray::form()); ?>
+                <?php $formContents = appFuncCrmArray::form(); ?>
                 <?php foreach ($formContents as $key => $row): ?>
                     <?php appFuncModule::component('header-form-cs', [
                         'key' => $key,
                         'inputName' => $row['name'],
                         'inputType' => $row['input'],
                         'dbTable' => $formContents,
-                        'title' => appFuncCrmDisp::renameTitle($key, $row['comment']),
+                        'title' => $row['comment'],
                         'rowCategory' => appFuncArray::issetKey($row, appFuncCrmArray::rowCategory, null)
                     ]); ?>
                     <?php appFuncModule::dbForm($key, [
