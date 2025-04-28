@@ -25,7 +25,7 @@
                     <input type="checkbox" class="form-control" <?php echo appFuncCrmDisp::checkbox($inputName, $inputValue, appConfigStatus::approval_status['progress']['key'], appConfigStatus::approval_status['started']['key']); ?>>
                     <input name="<?php echo $inputName; ?>" type="hidden" value="<?php echo $inputValue; ?>">
                 <?php else: ?>
-                    <?php /*分岐2：未申請*/ ?>
+                    <?php /*分岐2：申請済*/ ?>
                     <input type="checkbox" class="form-control" checked disabled>
                     <span class="pt-1 d-block"><?php echo appConfigStatus::approval_status['complete']['name']; ?></span>
                 <?php endif; ?>

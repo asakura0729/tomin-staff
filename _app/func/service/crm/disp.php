@@ -6,6 +6,26 @@ class appFuncCrmDisp
 {
     public const db = appDatabaseCs::table;
     //-----------------------------------------------------
+    // 対応ログストレージ保存（開始）
+    //-----------------------------------------------------
+    public static function storageStart()
+    {
+        if (count($_GET) <= 0) {
+            /*分岐:新規作成*/
+            appFuncStorage::start();
+        }
+    }
+    //-----------------------------------------------------
+    // 対応ログストレージ保存（終了）
+    //-----------------------------------------------------
+    public static function storageEnd()
+    {
+        if (count($_GET) <= 0) {
+            /*分岐:新規作成*/
+            appFuncStorage::end();
+        }
+    }
+    //-----------------------------------------------------
     // 対応ログ編集画面タイトル
     //-----------------------------------------------------
     public static function pageTitleAdd(array $dbResult = []): string

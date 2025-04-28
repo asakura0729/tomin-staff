@@ -1,6 +1,7 @@
 <?php require_once '../../_app/ssl_base.php'; ?>
-<?php require_once '../_tmpl/page.php'; ?>
 
+<?php appFuncStorage::start(); ?>
+<?php require_once '../_tmpl/page.php'; ?>
 <div class="container" data-animation="animation-fadein-topslide">
     <div class="row">
         <?php foreach (appRoutesWeb::gNav as $key => $value): ?>
@@ -13,7 +14,7 @@
                         </a>
                         <?php if ($value[appRoutesWeb::pagePath] === appRoutesWeb::gNav['adminCsList_check'][appRoutesWeb::pagePath]): ?>
                             <div class="pos-top-left">
-                                <div class="pl-2 font-size-1_4" hx-get="<?php echo appRoutesWeb::async['adminCount_approval']['contents']; ?>" hx-trigger="load, every 30s" hx-swap="innerHTML"></div>
+                                <div class="pl-2 font-size-1_4" hx-get="<?php echo appRoutesWeb::async['adminCountCs']['contents']; ?>" hx-trigger="load, every 30s" hx-swap="innerHTML"></div>
                             </div>
                         <?php endif; ?>
                     </div>
@@ -22,3 +23,4 @@
         <?php endforeach; ?>
     </div>
 </div>
+<?php appFuncStorage::end(true); ?>

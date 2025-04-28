@@ -13,7 +13,7 @@
             <div class="pb-2 pl-4">
                 <?php if (isset($_GET['clone']) && $_GET['clone'] === 'true'): ?>
                     <?php /*分岐1：転記*/ ?>
-                    <?php appFuncModule::string('exclamation', '既存の対応ログを転記しました。「登録」を押すと、対応ログが新しく追加されます。'); ?>
+                    <?php appFuncModule::string('exclamation', '既存の対応ログを転記しました。「登録」を押すと、新しい対応ログが「対応ログ一覧」に追加されます。'); ?>
                 <?php elseif ($option['dbResult']['cs_id'] === ''): ?>
                     <?php /*分岐2：新規作成*/ ?>
                     <span <?php if (isset($_GET['tel'])): ?>id="message" <?php endif; ?> class="bg-lgreen"></span>

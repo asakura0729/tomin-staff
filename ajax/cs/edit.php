@@ -5,6 +5,8 @@
 ?>
 <?php require_once '../../_app/ssl_base.php'; ?>
 <?php require_once '../../_app/http/ajax/cs/edit.php'; ?>
+
+<?php appFuncCrmDisp::storageStart(); ?>
 <?php require_once '../_tmpl/page.php'; ?>
 <?php appFuncModule::heading('h1', 'h1', appConfigPage::$title); ?>
 <article>
@@ -31,10 +33,10 @@
         ]); ?>
     </section>
 </article>
-
 <?php if (appHttpAjaxCsEdit::$dbResult['client_tel'] != ''): ?>
     <?php /*分岐：電話番号指定あり*/ ?>
     <?php appFuncModule::js('pageload-submit-search', ['target' => appConfigSite::secSearch]); ?>
 <?php endif; ?>
 <?php appFuncModule::js('form-scroll', ['target' => appConfigSite::secCsEdit]); ?>
 <?php appFuncModule::js('link-confirm'); ?>
+<?php appFuncCrmDisp::storageEnd(); ?>

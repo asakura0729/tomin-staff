@@ -100,7 +100,8 @@ class appRoutesWeb
         ],
     ];
     public const async = [
-        'adminCount_approval' => [self::pagePath => null, self::pageContents => '/ajax/count_approval', self::pageTitle => '未承認ログの数', self::pageRoute => [], self::pageIcon => ''],
+        'adminCountCs' => [self::pagePath => null, self::pageContents => '/ajax/count_cs', self::pageTitle => '対応ログ（未承認）の数', self::pageRoute => [], self::pageIcon => ''],
+        'adminCountCsSheet' => [self::pagePath => null, self::pageContents => '/ajax/count_cs_sheet', self::pageTitle => '送客シート（未承認）の数', self::pageRoute => [], self::pageIcon => ''],
         'adminCsAjaxList' => [self::pagePath => null, self::pageContents => '/ajax/cs/ajax/list', self::pageTitle => '対応ログ一覧', self::pageRoute => [], self::pageIcon => ''],
         'adminCsAjaxPost' => [self::pagePath => null, self::pageContents => '/ajax/cs/ajax/post', self::pageTitle => '対応ログ編集', self::pageRoute => [], self::pageIcon => ''],
         'adminCsAjaxPost_approval' => [self::pagePath => null, self::pageContents => '/ajax/cs/ajax/post_approval', self::pageTitle => '対応ログ編集（承認）', self::pageRoute => [], self::pageIcon => ''],

@@ -10,4 +10,5 @@
     <?php /*分岐：データが更新された*/ ?>
     <?php appFuncModule::component('alert-success'); ?>
     <?php appFuncModule::js('pageload-submit-search', ['target' => appConfigSite::secSearch]); ?>
+    <?php appFuncModule::js('hx-trigger-autoload'); ?>
 <?php endif; ?>

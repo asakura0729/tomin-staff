@@ -191,7 +191,7 @@ class appFuncCrmGet
             /*判断：カテゴリは「送客シート」以外許可しない*/
             $csCategory = appConfigStatus::csCategorySheet;
         }
-        $table = array_merge(appDatabaseCs::tableCsList, appDatabaseCs::tableCsListJoin);
+        $table = appDatabaseCs::tableCsList;
         $getPrimaryKey = appFuncArray::issetKey($get, appDatabaseCs::primaryKey, '');
         if ($postPrimaryKey != '') {
             /*分岐1：既存データ参照...データ送信処理が実行された*/
@@ -248,5 +248,16 @@ class appFuncCrmGet
             $result = $formatResult;
         }
         return $result;
+    }
+    //-----------------------------------------------------
+    // 未承認データ総数取得
+    //-----------------------------------------------------
+    public static function countApproval($cs_category): int
+    {
+        $count = appFuncCrmGet::count([
+            'cs_category' => $cs_category,
+            'approval_status' => appConfigStatus::approval_status['progress']['key']
+        ]);
+        return $count;
     }
 }

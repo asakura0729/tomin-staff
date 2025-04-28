@@ -338,6 +338,13 @@ width-height
 }
 
 /*  
+margin padding
+---------------------------------*/
+.p-empty-0:empty {
+    padding: 0;
+}
+
+/*  
 typography
 ---------------------------------*/
 .font-notosans {

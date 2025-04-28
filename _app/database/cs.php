@@ -283,7 +283,7 @@ class appDatabaseCs extends appConfigDatabase
       'type' => 'INT(4)',
       'constraints' => 'NOT NULL',
       'comment' => '作成者（user_id)',
-      'input' => 'hidden'
+      'input' => 'hideen',
     ],
     'update_date' => [
       'name' => 'update_date',
@@ -297,7 +297,7 @@ class appDatabaseCs extends appConfigDatabase
       'type' => 'INT(4)',
       'constraints' => 'NOT NULL',
       'comment' => '変更者（user_id)',
-      'input' => 'hidden'
+      'input' => 'hideen',
     ],
     'delete_flg' => [
       'name' => 'delete_flg',
@@ -347,7 +347,9 @@ class appDatabaseCs extends appConfigDatabase
     'cs_tel_status' => self::table['cs_tel_status'],
     'hall_price' => self::table['hall_price'],
     'cs_tel_status' => self::table['cs_tel_status'],
-    'cs_tel_date' => self::table['cs_tel_date']
+    'cs_tel_date' => self::table['cs_tel_date'],
+    'insert_by' => self::table['insert_by'],
+    'insert_date' => self::table['insert_date']
   ];
   //-----------------------------------------------------
   // 送客シートで取得する内容（左外部結合）
@@ -366,7 +368,9 @@ class appDatabaseCs extends appConfigDatabase
     'sheet_comment' => self::table['comment'],
     'sheet_title' => self::table['title'],
     'sheet_funeral_name' => self::table['funeral_name'],
-    'sheet_option_flower' => self::table['option_flower']
+    'sheet_option_flower' => self::table['option_flower'],
+    'sheet_insert_by' => self::table['insert_by'],
+    'sheet_insert_date' => self::table['insert_date']
   ];
   //-----------------------------------------------------
   // 名称変更を行う列

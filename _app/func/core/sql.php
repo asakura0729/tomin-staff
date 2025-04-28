@@ -81,7 +81,12 @@ class appFuncSql
         foreach ($table as $key => $tableRow) {
             if (isset($get[$key]) && $get[$key] != '') {
                 $rowName = $tableRow[appConfigDatabase::row];
-                $result .= ' AND ' . $tableName . '.' . $rowName . ' LIKE "%' . $get[$key] . '%"';
+                $constraints = $tableRow['constraints'];
+                if ($constraints != 'longtext') {
+                    $result .= ' AND ' . $tableName . '.' . $rowName . ' ="' . $get[$key] . '"';
+                } else {
+                    $result .= ' AND ' . $tableName . '.' . $rowName . ' LIKE "%' . $get[$key] . '%"';
+                }
             }
         }
         return $result;

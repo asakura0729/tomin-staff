@@ -30,7 +30,10 @@
                             </span>
                         </a>
                         <?php if ($value[appRoutesWeb::pagePath] === appRoutesWeb::gNav['adminCsList_check'][appRoutesWeb::pagePath]): ?>
-                            <div class="pos-top-right font-size-0_9" data-hx-get="<?php echo appRoutesWeb::async['adminCount_approval']['contents']; ?>" data-hx-trigger="load, every 30s" data-hx-swap="innerHTML"></div>
+                            <div class="pos-top-right font-size-0_9" data-hx-get="<?php echo appRoutesWeb::async['adminCountCs']['contents']; ?>" data-hx-trigger="load, every 30s" data-hx-swap="innerHTML"></div>
+                        <?php endif; ?>
+                        <?php if ($value[appRoutesWeb::pagePath] === appRoutesWeb::gNav['adminCsSheet'][appRoutesWeb::pagePath]): ?>
+                            <div class="pos-top-right font-size-0_9" data-hx-get="<?php echo appRoutesWeb::async['adminCountCsSheet']['contents']; ?>" data-hx-trigger="load, every 30s" data-hx-swap="innerHTML"></div>
                         <?php endif; ?>
                     </div>
                 <?php endif; ?>

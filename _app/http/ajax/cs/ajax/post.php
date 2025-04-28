@@ -1,6 +1,6 @@
 <?php
 //======================================================================
-// 部品：転記フォーム
+// 部品：対応ログ編集フォーム／転記フォーム
 //======================================================================
 class appHttpAjaxCsAjaxPost
 {
@@ -9,3 +9,8 @@ class appHttpAjaxCsAjaxPost
 }
 appHttpAjaxCsAjaxPost::$postPrimaryKey = appFuncCrmPost::csData($_POST);
 appHttpAjaxCsAjaxPost::$dbResult = appFuncCrmGet::csEdit($_GET, appHttpAjaxCsAjaxPost::$postPrimaryKey);
+appFuncCrmStorage::createFile(
+    appHttpAjaxCsAjaxPost::$postPrimaryKey,
+    appRoutesWeb::async['adminCountCs']['contents'],
+    appConfigStatus::csCategoryLog
+);

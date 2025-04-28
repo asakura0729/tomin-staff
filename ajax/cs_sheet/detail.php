@@ -34,11 +34,16 @@
 </style>
 
 <article class="l-edit">
-    <section class="bg-white w-450px h-100 border <?php if (appHttpCssheetAjaxDetail::$dbResult['approval_status'] != appConfigStatus::approval_status['complete']['key']): ?>pt-4<?php endif; ?>">
+    <section class="bg-white w-450px h-100 border">
         <?php if (appHttpCssheetAjaxDetail::$dbResult['approval_status'] === appConfigStatus::approval_status['complete']['key']): ?>
             <?php /*分岐：承認完了*/ ?>
             <div class="pt-1 bg-lgreen text-center">
                 <p class="m-0 p-2">管理者承認済です</p>
+            </div>
+        <?php else: ?>
+            <?php /*分岐：未承認*/ ?>
+            <div class="pt-1 bg-lpink text-center">
+                <p class="m-0 p-2"><?php appFuncModule::string('exclamation', '承認が完了していません'); ?></p>
             </div>
         <?php endif; ?>
         <div class="container pt-4">
@@ -95,8 +100,12 @@
                     <?php if (appHttpCssheetAjaxDetail::$dbResult['approval_status'] === appConfigStatus::approval_status['complete']['key']): ?>
                         <?php /*分岐：管理者権限＞承認済*/ ?>
                         <?php appFuncModule::btn('print', ['css' => 'w-100']); ?>
-                    <?php elseif (appHttpCssheetAjaxDetail::$dbResult['approval_status'] === appConfigStatus::approval_status['progress']['key']): ?>
+                    <?php elseif (
+                        appHttpCssheetAjaxDetail::$dbResult['approval_status'] === appConfigStatus::approval_status['progress']['key'] ||
+                        appHttpCssheetAjaxDetail::$dbResult['approval_status'] === appConfigStatus::approval_status['started']['key'] && appHttpCssheetAjaxDetail::$dbResult['insert_by'] === $_SESSION[appConfigSession::userId]
+                    ): ?>
                         <?php /*分岐：管理者権限＞申請中*/ ?>
+                        <?php /*分岐：管理者権限＞未申請　+　送客シート作成者は管理者*/ ?>
                         <?php appFuncModule::form('form-control', appConfigStatus::approval_status['complete']['key'], ['inputName' => appDatabaseCs::table['approval_status']['name'], 'inputType' => 'hidden']); ?>
                         <?php appFuncModule::btn('print', ['css' => 'w-100', 'add' => 'data-submit']); ?>
                     <?php else: ?>
@@ -108,7 +117,6 @@
                     </div>
                 <?php endif; ?>
             </form>
-
     </section>
 </article>
 
@@ -125,6 +133,7 @@
     <?php /*分岐：データ更新*/ ?>
     <?php appFuncModule::component('alert-success'); ?>
     <?php appFuncModule::js('totop'); ?>
+    <?php appFuncModule::js('hx-trigger-autoload'); ?>
     <?php appFuncModule::js('url-push', ['path' => appRoutesWeb::sitemap['adminCsSheetDetail']['path'] . appFuncPath::setGetParam(['cs_id'], [appHttpCssheetAjaxDetail::$postPrimaryKey])]); ?>
 <?php endif; ?>
 <?php appFuncModule::js('form-submit'); ?>
