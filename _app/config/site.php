@@ -14,7 +14,7 @@ class appConfigSite
   public const siteName = 'TP_スタッフ管理画面';
   public const website = "https://tomin-osohshiki.jp/";
   public const tel = "03-6419-2012";
-  public const update = "20250424";
+  public const update = "20250428";
   //======================================================================
   // サイト内で使用するID
   //======================================================================
@@ -27,6 +27,5 @@ class appConfigSite
   //======================================================================
   // サイト内で使用するdata属性（除：bootStrap）
   //======================================================================
-  const data = '[data-disp="count_approval]';
   const cache = false; //キャッシュ保存の有無
 }

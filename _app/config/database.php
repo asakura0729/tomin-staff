@@ -9,7 +9,7 @@ class appConfigDatabase
   public const rowConstraints = 'constraints';
   public const rowInput = 'input';
   public const primaryKey = 'PRIMARY KEY';
-  
+
   public const deleteFlgTrue = 1;
   public const deleteFlgFalse = 0;
 
