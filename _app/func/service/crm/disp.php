@@ -241,9 +241,9 @@ class appFuncCrmDisp
         return $result;
     }
     //-----------------------------------------------------
-    // 入力フォーム＞特定のカテゴリのinputTypeを変更
+    // 入力フォーム＞対応ログ編集画面のinputTypeを変更
     //-----------------------------------------------------
-    public static function changeInputType($row): string
+    public static function formEditInputType($row): string
     {
         $result = "hidden";
         if (isset($row['input']) && isset($row['name'])) {
@@ -252,6 +252,22 @@ class appFuncCrmDisp
                 case self::db['delivery_status']['name']:
                 case self::db['approval_status']['name']:
                     $result = 'checkbox';
+                    break;
+            }
+        }
+        return $result;
+    }
+    //-----------------------------------------------------
+    // 入力フォーム＞対応ログ一覧のinputTypeを変更
+    //-----------------------------------------------------
+    public static function formSearchInputType($row): string
+    {
+        if (isset($row['input']) && isset($row['type'])) {
+            $result = $row['input'];
+            switch ($row['type']) {
+                case "datetime":
+                case "date":
+                    $result = 'date-range';
                     break;
             }
         }
@@ -305,10 +321,20 @@ class appFuncCrmDisp
                 if ($table[$key]['input'] === 'hidden') {
                     /*分岐1-1：非表示フォーム*/
                     continue;
-                }
-                if ($table[$key]['input'] === 'select') {
+                } elseif ($table[$key]['input'] === 'select') {
                     /*分岐1-2：セレクトメニュー*/
                     $value = appFuncDataformat::selectmenu($table, $key, $value);
+                } elseif ($table[$key]['input'] === 'date' || $table[$key]['input'] === 'datetime-local') {
+                    /*分岐1-3：日時（範囲指定）*/
+                    $date = appFuncSql::whereBetweenGetParam($get, $key);
+                    if ($date['min'] != '') {
+                        $value = $date['min'];
+                        if ($date['max'] != '') {
+                            $value .= '~' . $date['max'];
+                        }
+                    } else {
+                        continue;
+                    }
                 }
                 $result .= $table[$key]['comment'];
                 $result .= '「' . $value . '」、';

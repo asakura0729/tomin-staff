@@ -13,6 +13,7 @@
             dataToggleRow: '[data-toggle-row]',
             dataInputCheck: '[data-input-check]',
             dataInputNumber: '[data-input-number]',
+            dataInputDate: '[data-input-date]',
             inputClientCategory: "input[name=<?php echo appDatabaseCs::table['client_category']['name']; ?>]"
         }
         const css = {
@@ -96,6 +97,33 @@
                 inputNumberFormat(this);
             });
         }
+        const changeInputDateAction = function(selecter) {
+            targetForm.querySelectorAll(selecter).forEach(function(input) {
+                input.addEventListener("change", function() {
+                    const dataName = selecter.replace(/^\[|\]$/g, '');
+                    const targetInputs = '[' + dataName + '=' + this.getAttribute(dataName) + ']';
+                    let date = {
+                        'min': '',
+                        'max': ''
+                    };
+                    targetForm.querySelectorAll(targetInputs).forEach(function(targetInput, i) {
+                        if (i === 0) {
+                            date.min = targetInput.value;
+                        } else {
+                            date.max = targetInput.value;
+                            if (date.max != '' && date.min > date.max) {
+                                alert('検索開始日時よりも大きい値をいれて下さい');
+                                targetInput.value = '';
+                            } else if (date.min != '') {
+                                targetInput.readOnly = false;
+                            } else if (date.min === '') {
+                                targetInput.readOnly = true;
+                            }
+                        }
+                    });
+                });
+            });
+        }
         const inputNumberFormat = function(selecter) {
             let num = selecter.value;
             if (num != '') {
@@ -108,6 +136,7 @@
         setToggleRowBtn(elem.inputClientCategory);
         setDataInputCheck(elem.dataInputCheck);
         setInputNumberFormat(elem.dataInputNumber);
+        changeInputDateAction(elem.dataInputDate);
         if (!!targetForm.querySelector(elem.inputClientCategory + ':checked') === true) {
             targetForm.querySelector(elem.inputClientCategory + ':checked').click();
         }

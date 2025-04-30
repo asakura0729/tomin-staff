@@ -18,7 +18,7 @@
         <?php exit; ?>
     <?php endif; ?>
 
-    <div class="border-top border-left">
+    <div class="border">
 
         <header class="d-flex">
             <?php foreach (adminCsAjaxList::$tableRow as $key => $row): ?>
@@ -72,7 +72,7 @@
                 <?php foreach (adminCsAjaxList::$tableRow as $key => $row): ?>
                     <?php if (
                         adminCsAjaxList::$path === appRoutesWeb::sitemap['adminCsList_check']['contents'] &&
-                        $row['name'] === appDatabaseCs::table['approval_status']['name']
+                        $key === appDatabaseCs::table['approval_status']['name']
                     ): ?>
                         <?php /*分岐1：対応ログ一覧＞ログチェック一覧*/ ?>
                         <div data-row class=" m-0 p-1 border-right border-bottom font-size-0_9 text-center">

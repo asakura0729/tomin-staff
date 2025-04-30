@@ -45,7 +45,7 @@
                         'moduleName' => 'form-cs',
                         'dbTable' => $formContents,
                         'dbResult' => $option['dbResult'],
-                        'inputType' => appFuncCrmDisp::changeInputType($row)
+                        'inputType' => appFuncCrmDisp::formEditInputType($row)
                     ]); ?>
                     <?php appFuncModule::component('footer-form-cs', [
                         'key' => $key,
@@ -101,3 +101,4 @@
 <?php endif; ?>
 
 <?php appFuncModule::js('form-cs', ['target' => appConfigSite::secCsEdit]); ?>
+<?php appFuncModule::js('message', ['target' => '[data-disp=approval_by]', 'msg' => appFuncDataformat::selectmenu($formContents, 'approval_by', $option['dbResult']['approval_by'])]); ?>

@@ -27,7 +27,7 @@
                 <?php else: ?>
                     <?php /*分岐2：申請済*/ ?>
                     <input type="checkbox" class="form-control" checked disabled>
-                    <span class="pt-1 d-block"><?php echo appConfigStatus::approval_status['complete']['name']; ?></span>
+                    <span class="pt-1 d-block" data-disp="approval_by"></span>
                 <?php endif; ?>
             </div>
         </div>
@@ -39,9 +39,13 @@
                 <input name="<?php echo $inputName; ?>" type="hidden" value="<?php echo $inputValue; ?>">
             </div>
         </div>
+    <?php elseif ($inputType === 'date-range'): ?>
+        <?php /*分岐：日付（範囲指定）*/ ?>
+        <input name="<?php echo $inputName; ?>[min]" type="date" value="" class="form-control" data-input-date="<?php echo $inputName; ?>">
+        <input name="<?php echo $inputName; ?>[max]" type="date" value="" class="form-control" data-input-date="<?php echo $inputName; ?>" readonly>
     <?php elseif ($inputType === 'textarea'): ?>
         <?php /*分岐：テキストエリア*/ ?>
-        <textarea name="<?php echo $inputName; ?>" class="form-sheets font-size-0_9 p-1"><?php echo $inputValue; ?></textarea>
+        <textarea name=" <?php echo $inputName; ?>" class="form-sheets font-size-0_9 p-1"><?php echo $inputValue; ?></textarea>
     <?php elseif ($inputType === 'select'): ?>
         <?php /*分岐：セレクトメニュー*/ ?>
         <select name="<?php echo $inputName; ?>" class="form-sheets">

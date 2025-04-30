@@ -79,19 +79,77 @@ class appFuncSql
             $result .= self::deleteFlgFalse($tableName);
         }
         foreach ($table as $key => $tableRow) {
-            if (isset($get[$key]) && $get[$key] != '') {
-                $rowName = $tableRow[appConfigDatabase::row];
-                $constraints = $tableRow['constraints'];
-                if ($constraints != 'longtext') {
-                    $result .= ' AND ' . $tableName . '.' . $rowName . ' ="' . $get[$key] . '"';
-                } else {
-                    $result .= ' AND ' . $tableName . '.' . $rowName . ' LIKE "%' . $get[$key] . '%"';
-                }
+            $type = $tableRow['type'];
+            if ($type === 'longtext') {
+                $result .= self::whereLike($tableName, $tableRow, $get, $key);
+            } elseif ($type === 'datetime' || $type === 'date') {
+                $result .= self::whereBetween($tableName, $tableRow, $get, $key);
+            } else {
+                $result .= self::whereEquality($tableName, $tableRow, $get, $key);
             }
         }
         return $result;
     }
-
+    //-----------------------------------------------------
+    // WHERE句作成...等価演算子作成
+    //-----------------------------------------------------
+    public static function whereEquality(string $tableName, array $tableRow, array $get, string $key): string
+    {
+        $result = "";
+        $rowName = $tableRow[appConfigDatabase::row];
+        if (isset($get[$key]) && $get[$key] != '') {
+            $result = ' AND ' . $tableName . '.' . $rowName . ' ="' . $get[$key] . '"';
+        }
+        return $result;
+    }
+    //-----------------------------------------------------
+    // WHERE句作成...LIKE演算子作成
+    //-----------------------------------------------------
+    public static function whereLike(string $tableName, array $tableRow, array $get, string $key): string
+    {
+        $result = "";
+        $rowName = $tableRow[appConfigDatabase::row];
+        if (isset($get[$key]) && $get[$key] != '') {
+            $result = ' AND ' . $tableName . '.' . $rowName . ' LIKE "%' . $get[$key] . '%"';
+        }
+        return $result;
+    }
+    //-----------------------------------------------------
+    // WHERE句作成...開始日～終了日
+    //-----------------------------------------------------
+    public static function whereBetween(string $tableName, array $tableRow, array $get, string $key): string
+    {
+        $result = "";
+        $getParam = self::whereBetweenGetParam($get, $key);
+        $min = $getParam['min'];
+        $max = $getParam['max'];
+        $rowName = $tableRow[appConfigDatabase::row];
+        if ($min != '' && $min != null) {
+            if ($max != '' && $max != null) {
+                $result .= ' AND ' . $tableName . '.' . $rowName . ' BETWEEN "' . $min . ' 00:00:00" AND "' . $max . ' 23:59:59"';
+            } else {
+                $result .= ' AND ' . $tableName . '.' . $rowName . ' ="' . $min . '"';
+            }
+        }
+        return $result;
+    }
+    //-----------------------------------------------------
+    // WHERE句作成...開始日～終了日＞値取得
+    //-----------------------------------------------------
+    public static function whereBetweenGetParam(array $get, string $key): array
+    {
+        $result = [
+            'min' => '',
+            'max' => ''
+        ];
+        if (isset($get[$key]['min'])) {
+            $result['min'] = $get[$key]['min'];
+        }
+        if (isset($get[$key]['max'])) {
+            $result['max'] = $get[$key]['max'];
+        }
+        return $result;
+    }
     //-----------------------------------------------------
     // WHERE句作成...削除フラグが無いデータを選定
     //-----------------------------------------------------

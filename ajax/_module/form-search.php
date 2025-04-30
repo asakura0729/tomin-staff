@@ -24,6 +24,7 @@
                         'moduleName' => 'form-cs',
                         'dbTable' => $option['dbTable'],
                         'dbResult' =>  $option['dbResult'],
+                        'inputType' => appFuncCrmDisp::formSearchInputType($row),
                         'selectItemNoValue' => true
                     ]); ?>
                     <?php appFuncModule::component('footer-form-cs', [
