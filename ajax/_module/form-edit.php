@@ -53,17 +53,17 @@
                         'dbTable' => $formContents,
                     ]); ?>
                 <?php endforeach; ?>
-                <?php appFuncModule::form('form-control', "true", ['inputName' => 'redirect', 'inputType' => 'hidden', 'add' => 'disabled']); ?>
+                <?php appFuncModule::form('form-control', "true", ['inputName' => 'redirect_flg', 'inputType' => 'hidden', 'add' => 'disabled']); ?>
             </div>
         </div>
         <div class="d-flex pt-3 align-items-center">
             <div class="w-300px pr-3">
                 <?php if ($option['dbResult']['cs_id'] === '' || !isset($option['dbResult']['sheet_cs_id'])): ?>
                     <?php /*分岐1：新規作成　または　総客シート未作成 */ ?>
-                    <?php appFuncModule::btn('submit', ['title' => '登録<span class="font-size-1">（送客シート作成）</span>', 'add' => 'data-submit-redirect']); ?>
+                    <?php appFuncModule::btn('highlight', ['title' => '登録<span class="font-size-1">（送客シート作成）</span>', 'add' => 'data-submit-redirect']); ?>
                 <?php else: ?>
                     <?php /*分岐2：その他 */ ?>
-                    <?php appFuncModule::btn('submit', ['title' => '登録<span class="font-size-1">（送客シート作成）</span>', 'disabled' => true, 'popover' => '送客シートは作成済です']); ?>
+                    <?php appFuncModule::btn('highlight', ['title' => '登録<span class="font-size-1">（送客シート作成）</span>', 'disabled' => true, 'popover' => '送客シートは作成済です']); ?>
                 <?php endif; ?>
             </div>
             <div class="w-200px">
@@ -84,6 +84,7 @@
     <?php if ($option['dbResult']['cs_id'] === ''): ?>
         <?php /*分岐1-1：権限／スタッフ＞新規作成 */ ?>
         <?php appFuncModule::js('form-submit'); ?>
+        <?php appFuncModule::js('form-submit-redirect'); ?>
     <?php elseif (
         $option['dbResult']['approval_status'] === appConfigStatus::approval_status['complete']['key'] ||
         $option['dbResult']['post_by'] != $_SESSION[appConfigSession::userId]
@@ -94,10 +95,12 @@
     <?php else: ?>
         <?php /*分岐1-4：権限／スタッフ＞既存＞通常 */ ?>
         <?php appFuncModule::js('form-submit'); ?>
+        <?php appFuncModule::js('form-submit-redirect'); ?>
     <?php endif; ?>
 <?php else: ?>
     <?php /*分岐2：権限：管理者*/ ?>
     <?php appFuncModule::js('form-submit'); ?>
+    <?php appFuncModule::js('form-submit-redirect'); ?>
 <?php endif; ?>
 
 <?php appFuncModule::js('form-cs', ['target' => appConfigSite::secCsEdit]); ?>

@@ -37,11 +37,27 @@
                     <?php /*分岐：無効電話一覧の場合、検索オプションを追加*/ ?>
                     <?php appFuncModule::form('form-control', appConfigStatus::clientCategoryInvalid, ['inputName' => 'client_category_filter', 'inputType' => 'hidden']); ?>
                 <?php endif; ?>
+                <?php appFuncModule::form('form-control', $option['path'], ['inputName' => 'path', 'inputType' => 'hidden']); ?>
             </div>
         </div>
-        <div class="pt-3 w-200px">
-            <?php appFuncModule::form('form-control', $option['path'], ['inputName' => 'path', 'inputType' => 'hidden']); ?>
-            <?php appFuncModule::btn('search'); ?>
+        <div class="d-flex justify-content-between w-100 pt-3">
+            <div class="w-200px">
+                <?php appFuncModule::btn('search'); ?>
+            </div>
+            <?php if (
+                $option['path'] != appRoutesWeb::sitemap['adminCsEdit']['contents'] &&
+                appFuncSession::checkAuth(appConfigUser::authorityManager) === true
+            ): ?>
+                <?php /*分岐：対応ログ編集ページ以外 + 権限管理者*/ ?>
+                <div class="d-flex align-items-center">
+                    <div class="w-250px text-danger pr-3 text-right">
+                        ※管理者のみが操作できます
+                    </div>
+                    <div class="w-300px">
+                        <?php appFuncModule::btn('download'); ?>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
     <?php appFuncModule::include(__DIR__ . '/modal-client_category.php', [
@@ -61,6 +77,7 @@
 </article>
 
 <?php appFuncModule::js('form-cs', ['target' => appConfigSite::secSearch]); ?>
+<?php appFuncModule::js('form-submit-download', ['target' => appConfigSite::secSearch]); ?>
 <?php if ($option['path'] != appRoutesWeb::sitemap['adminCsEdit']['contents']): ?>
     <?php /*分岐：対応ログ編集画面以外*/ ?>
     <?php appFuncModule::js('pageload-submit-search', ['target' => appConfigSite::secSearch]); ?>

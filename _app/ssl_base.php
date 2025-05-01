@@ -34,7 +34,7 @@ include_once __DIR__ . '/func/service/crm/storage.php';
 $_SESSION = appFuncSession::formatSession($_SESSION, $_POST);
 appFuncSession::redirectNotLogin(appFuncPath::redirectUri());
 appConfigPage::$path = appFuncPath::getPath();
-
+/*
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 set_error_handler(function ($severity, $message, $file, $line) {
@@ -44,3 +44,4 @@ set_exception_handler(function ($exception) {
     echo "Exception: ", $exception->getMessage(), "\n";
     exit(1);
 });
+*/

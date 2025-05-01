@@ -63,11 +63,11 @@ class appFuncCrmGet
     //-----------------------------------------------------
     // データ取得
     //-----------------------------------------------------
-    public static function getData(array $get = [], array $table = []): array
+    public static function getData(array $get = [], int $colCount = 1): array
     {
-        $sql = self::sqlSelectFrom($get, $table);
+        $sql = self::sqlSelectFrom($get);
         $sql .= appFuncSql::orderBy(self::tableName, self::primaryKey);
-        $sql .= appFuncSql::limit();
+        $sql .= appFuncSql::limit($colCount);
         $result = appFuncDatabase::getData($sql);
         return $result;
     }
@@ -78,7 +78,7 @@ class appFuncCrmGet
     {
         if ($primaryKey != '') {
             /*分岐1：cs_id指定あり*/
-            $dbresult = self::getData([self::primaryKey => $primaryKey, 'cs_category' => $cs_category], $table);
+            $dbresult = self::getData([self::primaryKey => $primaryKey, 'cs_category' => $cs_category]);
             if (count($dbresult) > 0) {
                 /*分岐1-1：既存*/
                 $result = appFuncDataformat::dbResult($dbresult[0], $table);
@@ -95,10 +95,10 @@ class appFuncCrmGet
     //-----------------------------------------------------
     // データ取得(複数)
     //-----------------------------------------------------
-    public static function getDataIndex(array $get = []): array
+    public static function getDataIndex(array $get = [], int $colCount = appConfigDatabase::pageColCount): array
     {
         $result = [];
-        $dbresult = self::getData($get);
+        $dbresult = self::getData($get, $colCount);
         $table = array_merge(appDatabaseCs::tableCsList, appDatabaseCs::tableCsListJoin);
         if (count($dbresult) > 0) {
             foreach ($dbresult as $index => $value) {
@@ -259,5 +259,33 @@ class appFuncCrmGet
             'approval_status' => appConfigStatus::approval_status['progress']['key']
         ]);
         return $count;
+    }
+    //-----------------------------------------------------
+    // 表示する列の選定
+    //-----------------------------------------------------
+    public static function selectRow(string $path): array
+    {
+        $result = [];
+        switch ($path) {
+            case appRoutesWeb::sitemap['adminCsIndex']['contents']:
+            case appRoutesWeb::sitemap['adminCsEdit']['contents']:
+            case appRoutesWeb::sitemap['adminCsList_check']['contents']:
+                /*分岐1：通常*/
+                $result = appFuncCrmArray::list();
+                break;
+            case appRoutesWeb::sitemap['adminCsList_invalid']['contents']:
+                /*分岐2：無効電話一覧*/
+                $result = appFuncCrmArray::invalidList();
+                break;
+            case appRoutesWeb::sitemap['adminCsSheet']['contents']:
+                /*分岐3：送客シート*/
+                $result = appFuncCrmArray::sheetList();
+                break;
+            default:
+                /*分岐4：その他*/
+                $result = appFuncCrmArray::list();
+                break;
+        }
+        return $result;
     }
 }

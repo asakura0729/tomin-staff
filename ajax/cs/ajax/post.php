@@ -11,7 +11,7 @@
     'postPrimaryKey' => appHttpAjaxCsAjaxPost::$postPrimaryKey
 ]); ?>
 
-<?php if (appHttpAjaxCsAjaxPost::$postPrimaryKey != '' && isset($_POST['redirect'])): ?>
+<?php if (appHttpAjaxCsAjaxPost::$postPrimaryKey != '' && appHttpAjaxCsAjaxPost::$redirectFlg === true): ?>
     <?php /*分岐1：データ更新 + リダイレクト指定あり*/ ?>
     <?php appFuncModule::component('alert-success'); ?>
     <?php appFuncModule::js('redirect', ['path' => appRoutesWeb::sitemap['adminCsSheetEdit']['contents'] . appFuncPath::setGetParam(['cs_id', 'clone'], [appHttpAjaxCsAjaxPost::$postPrimaryKey, 'true'])]); ?>
@@ -23,3 +23,4 @@
 
 <?php appFuncModule::js('totop'); ?>
 <?php appFuncModule::js('message', ['target' => 'h1', 'msg' => appRoutesWeb::sitemap['adminCsEdit']['title'] . appFuncCrmDisp::pageTitleAdd(appHttpAjaxCsAjaxPost::$dbResult)]); ?>
+<?php appFuncModule::js('hx-trigger-autoload'); ?>

@@ -200,7 +200,7 @@ class appFuncSql
     //-----------------------------------------------------
     // LIMIT句作成
     //-----------------------------------------------------
-    public static function limit(int $elemCount = appConfigDatabase::pageColCount): string
+    public static function limit(int $elemCount = 0): string
     {
         /*$elemCount...取り出したいデータの数を記入*/
         $pageNum = 1;
