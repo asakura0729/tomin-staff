@@ -6,27 +6,7 @@ class appFuncCrmDisp
 {
     public const db = appDatabaseCs::table;
     //-----------------------------------------------------
-    // 対応ログストレージ保存（開始）
-    //-----------------------------------------------------
-    public static function storageStart()
-    {
-        if (count($_GET) <= 0) {
-            /*分岐:新規作成*/
-            appFuncStorage::start();
-        }
-    }
-    //-----------------------------------------------------
-    // 対応ログストレージ保存（終了）
-    //-----------------------------------------------------
-    public static function storageEnd()
-    {
-        if (count($_GET) <= 0) {
-            /*分岐:新規作成*/
-            appFuncStorage::end();
-        }
-    }
-    //-----------------------------------------------------
-    // 対応ログ編集画面タイトル
+    // 対応ログ編集画面＞タイトル
     //-----------------------------------------------------
     public static function pageTitleAdd(array $dbResult = []): string
     {
@@ -84,9 +64,36 @@ class appFuncCrmDisp
         return $result;
     }
     //-----------------------------------------------------
+    // ダウンロード用CSV
+    //-----------------------------------------------------
+    public static function csv(array $dbResult, array $tableRow): string
+    {
+        $result = "";
+        foreach ($tableRow as $key => $row) {
+            if ($key === appDatabaseCs::primaryKey || $row['input'] != '' && $row['input'] != 'hidden') {
+                $rowValues[] = $row['comment'];
+            }
+        }
+        $result .= implode(',', $rowValues) . "\n";
+        foreach ($dbResult as $value) {
+            $rowValues = [];
+            foreach ($tableRow as $key => $row) {
+                if ($key === appDatabaseCs::primaryKey || $row['input'] != '' && $row['input'] != 'hidden') {
+                    $cell = $value[$key];
+                    if (strpos($cell, ',') !== false || strpos($cell, '"') !== false) {
+                        $cell = '"' . str_replace('"', '""', $cell) . '"';
+                    }
+                    $rowValues[] = $cell;
+                }
+            }
+            $result .= implode(',', $rowValues) . "\n";
+        }
+        return $result;
+    }
+    //-----------------------------------------------------
     // 入力フォーム＞横幅調整
     //-----------------------------------------------------
-    public static function setListRowWidth($inputName, $inputType): string
+    public static function setListRowWidth(string $inputName, string $inputType): string
     {
         $result = "";
         switch ($inputName) {

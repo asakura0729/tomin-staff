@@ -9,7 +9,7 @@ class appHttpAjaxCsAjaxPost_approval
 }
 appHttpAjaxCsAjaxPost_approval::$postPrimaryKey = appFuncCrmPost::csData($_POST);
 appHttpAjaxCsAjaxPost_approval::$dbResult = appFuncCrmGet::csEdit($_GET, appHttpAjaxCsAjaxPost_approval::$postPrimaryKey);
-appFuncCrmStorage::createFile(
+appFuncCrmStorage::createCountFile(
     appHttpAjaxCsAjaxPost_approval::$postPrimaryKey,
     appRoutesWeb::async['adminCountCs']['contents'],
     appConfigStatus::csCategoryLog

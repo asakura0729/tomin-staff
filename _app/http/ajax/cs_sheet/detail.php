@@ -11,7 +11,7 @@ appHttpCssheetAjaxDetail::$postPrimaryKey = appFuncCrmPost::csData($_POST);
 appHttpCssheetAjaxDetail::$dbResult = appFuncCrmGet::csSheet($_GET, appHttpCssheetAjaxDetail::$postPrimaryKey, true);
 appConfigPage::$titleAdd = appFuncCrmDisp::pageTitleAdd(appHttpCssheetAjaxDetail::$dbResult);
 
-appFuncCrmStorage::createFile(
+appFuncCrmStorage::createCountFile(
     appHttpCssheetAjaxDetail::$postPrimaryKey,
     appRoutesWeb::async['adminCountCsSheet']['contents'],
     appConfigStatus::csCategorySheet

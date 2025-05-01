@@ -11,7 +11,7 @@ class appHttpAjaxCsAjaxPost
 appHttpAjaxCsAjaxPost::$postPrimaryKey = appFuncCrmPost::csData($_POST);
 appHttpAjaxCsAjaxPost::$redirectFlg = appFuncArray::issetKey($_POST, 'redirect_flg', '') == 'true'  ? true : false;
 appHttpAjaxCsAjaxPost::$dbResult = appFuncCrmGet::csEdit($_GET, appHttpAjaxCsAjaxPost::$postPrimaryKey);
-appFuncCrmStorage::createFile(
+appFuncCrmStorage::createCountFile(
     appHttpAjaxCsAjaxPost::$postPrimaryKey,
     appRoutesWeb::async['adminCountCs']['contents'],
     appConfigStatus::csCategoryLog
