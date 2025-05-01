@@ -128,7 +128,7 @@ class appFuncSql
             if ($max != '' && $max != null) {
                 $result .= ' AND ' . $tableName . '.' . $rowName . ' BETWEEN "' . $min . ' 00:00:00" AND "' . $max . ' 23:59:59"';
             } else {
-                $result .= ' AND ' . $tableName . '.' . $rowName . ' ="' . $min . '"';
+                $result .= ' AND ' . $tableName . '.' . $rowName . ' BETWEEN "' . $min . ' 00:00:00" AND "' . $min . ' 23:59:59"';
             }
         }
         return $result;
