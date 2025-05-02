@@ -29,9 +29,11 @@
                 return getScrollX();
             }
         }
-        getScrollX();
-        document.querySelector(targetId).addEventListener('htmx:afterSwap', function(event) {
-            return setScrollX(event);
-        });
+        if (!!document.querySelectorAll(elem.dataScroll) === true) {
+            getScrollX();
+            document.querySelector(targetId).addEventListener('htmx:afterSwap', function(event) {
+                return setScrollX(event);
+            });
+        }
     }());
 </script>

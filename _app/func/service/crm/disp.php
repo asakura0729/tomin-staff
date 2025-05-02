@@ -316,6 +316,17 @@ class appFuncCrmDisp
         return $result;
     }
     //-----------------------------------------------------
+    // 入力フォーム＞アコーディオン
+    //-----------------------------------------------------
+    public static function accordion(array $dbResult, string $key, string $param): string
+    {
+        if ($dbResult[$key] === '' || $dbResult[$key] === $param) {
+            return 'true';
+        } else {
+            return 'false';
+        }
+    }
+    //-----------------------------------------------------
     // テキスト作成：検索結果
     //-----------------------------------------------------
     public static function searchString(array $table, array $get = []): string

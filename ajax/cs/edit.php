@@ -35,7 +35,7 @@
 </article>
 <?php if (appHttpAjaxCsEdit::$dbResult['client_tel'] != ''): ?>
     <?php /*分岐：電話番号指定あり*/ ?>
-    <?php appFuncModule::js('pageload-submit-search', ['target' => appConfigSite::secSearch]); ?>
+    <?php appFuncModule::js('pageload-submit', ['target' => '[data-submit-search]']); ?>
 <?php endif; ?>
 <?php appFuncModule::js('form-scroll', ['target' => appConfigSite::secCsEdit]); ?>
 <?php appFuncModule::js('link-confirm'); ?>

@@ -5,8 +5,10 @@
 // $option['inputName'] => name属性,
 // $option['inputType'] => inputType,
 // $option['dbTable'] => 走査中のテーブル,
+// $option['dbResult'] => DB取得結果,
 // $option['title'] => 表題,
 // $option['rowCategory']=> 列カテゴリ
+// $option['dbPost']=> データベース送信の有無(bool)
 //======================================================================
 ?>
 <?php if (isset($option['rowCategory']) && $option['rowCategory'] != null) : ?>
@@ -17,7 +19,12 @@
         </div>
     <?php endif; ?>
 
-    <div class="<?php echo $option['rowCategory']['css']; ?> border-bottom" >
+    <?php if ($option['dbPost'] === true && $option['rowCategory']['key'] === appFuncCrmArray::rows['cs_tel']['key']): ?>
+        <?php /*分岐2：データベース送信あり + 架電フォーム*/ ?>
+        <button type="button" role="button" class="m-1 btn border-contrast color-contrast opacity-hover-075 bg-white position-relative" data-toggle-accordion="<?php echo appFuncCrmDisp::accordion($option['dbResult'], $option['key'], appConfigStatus::cs_tel_status['unnecessary']['key']); ?>"></button>
+    <?php endif; ?>
+
+    <div class="<?php echo $option['rowCategory']['css']; ?> border-bottom">
         <h3 class="position-relative m-0 pt-3 pb-3 border-bottom border-right font-size-0_9 text-center overflow-hidden">
             <span class="pos-middle-center d-block w-300px"><?php echo $option['rowCategory']['title']; ?></span>
         </h3>
@@ -25,6 +32,7 @@
         <?php endif; ?>
 
         <?php if ($option['inputType'] != 'hidden' && $option['inputType'] != ''): ?>
+            <?php /*分岐3：表示される*/ ?>
             <div class="<?php echo appFuncCrmDisp::setFormRowWidth($option['inputName'], $option['inputType']); ?> border font-size-0_9" data-wrap-disp="<?php echo appFuncCrmDisp::setDataDisp($option['key']); ?>">
                 <h4 class="m-0 p-2 text-center font-size-0_9 border-bottom">
                     <?php echo $option['title']; ?>

@@ -17,8 +17,10 @@
                         'inputName' => $row['name'],
                         'inputType' => $row['input'],
                         'dbTable' => $option['dbTable'],
+                        'dbResult' =>  $option['dbResult'],
                         'title' => $row['comment'],
-                        'rowCategory' => appFuncArray::issetKey($row, appFuncCrmArray::rowCategory, null)
+                        'rowCategory' => appFuncArray::issetKey($row, appFuncCrmArray::rowCategory, null),
+                        'dbPost' => false
                     ]); ?>
                     <?php appFuncModule::dbForm($key, [
                         'moduleName' => 'form-cs',
@@ -51,7 +53,7 @@
                 <?php /*分岐：対応ログ編集ページ以外 + 権限管理者*/ ?>
                 <div class="d-flex align-items-center">
                     <div class="w-250px text-danger pr-3 text-right">
-                        ※管理者のみが操作できます
+                        ※管理者のみ表示されています
                     </div>
                     <div class="w-300px">
                         <?php appFuncModule::btn('download'); ?>
@@ -80,7 +82,7 @@
 <?php appFuncModule::js('form-submit-download', ['target' => appConfigSite::secSearch]); ?>
 <?php if ($option['path'] != appRoutesWeb::sitemap['adminCsEdit']['contents']): ?>
     <?php /*分岐：対応ログ編集画面以外*/ ?>
-    <?php appFuncModule::js('pageload-submit-search', ['target' => appConfigSite::secSearch]); ?>
+    <?php appFuncModule::js('pageload-submit', ['target' => '[data-submit-search]']); ?>
     <?php if (appFuncSession::checkAuth(appConfigUser::authorityManager) != true): ?>
         <?php /*分岐：スタッフ権限*/ ?>
         <?php appFuncModule::js('form-readonly', ['target' => appConfigSite::secSearch, 'child' => 'select[name=post_by]']); ?>

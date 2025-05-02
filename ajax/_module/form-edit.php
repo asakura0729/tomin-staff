@@ -38,8 +38,10 @@
                         'inputName' => $row['name'],
                         'inputType' => $row['input'],
                         'dbTable' => $formContents,
+                        'dbResult' => $option['dbResult'],
                         'title' => $row['comment'],
-                        'rowCategory' => appFuncArray::issetKey($row, appFuncCrmArray::rowCategory, null)
+                        'rowCategory' => appFuncArray::issetKey($row, appFuncCrmArray::rowCategory, null),
+                        'dbPost' => true
                     ]); ?>
                     <?php appFuncModule::dbForm($key, [
                         'moduleName' => 'form-cs',
@@ -60,7 +62,7 @@
             <div class="w-300px pr-3">
                 <?php if ($option['dbResult']['cs_id'] === '' || !isset($option['dbResult']['sheet_cs_id'])): ?>
                     <?php /*分岐1：新規作成　または　総客シート未作成 */ ?>
-                    <?php appFuncModule::btn('highlight', ['title' => '登録<span class="font-size-1">（送客シート作成）</span>', 'add' => 'data-submit-redirect']); ?>
+                    <?php appFuncModule::btn('highlight', ['title' => '登録<span class="font-size-1">（送客シート作成）</span>', 'add' => 'data-submit-redirect data-wrap-disp="valid"']); ?>
                 <?php else: ?>
                     <?php /*分岐2：その他 */ ?>
                     <?php appFuncModule::btn('highlight', ['title' => '登録<span class="font-size-1">（送客シート作成）</span>', 'disabled' => true, 'popover' => '送客シートは作成済です']); ?>

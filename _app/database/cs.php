@@ -262,7 +262,7 @@ class appDatabaseCs extends appConfigDatabase
       'constraints' => 'NULL',
       'comment' => '架電ステータス',
       'input' => 'select',
-      'value' => ['item' => appConfigStatus::cs_tel_status]
+      'value' => ['item' => appConfigStatus::cs_tel_status, 'string' => 'name']
     ],
     'cs_tel_date' => [
       'name' => 'cs_tel_date',

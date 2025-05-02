@@ -7,17 +7,17 @@
 <script>
     (function() {
         const targetId = "<?php echo $option['target']; ?>";
-        const targetForm = document.querySelector(targetId);;
+        const targetForm = document.querySelector(targetId);
         const elem = {
             dataModal: '[data-modal]',
             dataToggleRow: '[data-toggle-row]',
+            dataToggleAccordion: '[data-toggle-accordion]',
             dataInputCheck: '[data-input-check]',
             dataInputNumber: '[data-input-number]',
-            dataInputDate: '[data-input-date]',
-            inputClientCategory: "input[name=<?php echo appDatabaseCs::table['client_category']['name']; ?>]"
+            dataInputDate: '[data-input-date]'
         }
         const css = {
-            dNone: 'd-none',
+            dNone: 'is-invalid',
             bgSelect: 'bg-lgreen'
         }
         const labelBgColorChange = function(event) {
@@ -39,7 +39,7 @@
                 radioBtn.addEventListener("click", function() {
                     if (this.checked) {
                         const radioBtnText = this.closest('label').textContent.trim();
-                        const dataToggleRow = elem.dataToggleRow.replace(/^\[|\]$/g, '');
+                        const dataToggleRow = selecter.replace(/^\[|\]$/g, '');
                         const toggleRowJSON = this.getAttribute(dataToggleRow);
                         const toggleRow = JSON.parse(toggleRowJSON);
                         const toggleTarget = toggleRow.target;
@@ -65,6 +65,35 @@
                         }, "500");
                     }
                 });
+            });
+            if (!!targetForm.querySelector(selecter + ':checked') === true) {
+                targetForm.querySelector(selecter + ':checked').click();
+            }
+        }
+        const setToggleAccordionBtn = function(selecter) {
+            const closeStatusText = '＋';
+            const openStatusText = '－';
+            const dataName = selecter.replace(/^\[|\]$/g, '');
+            if (!!targetForm.querySelectorAll(selecter) === false) {
+                return;
+            }
+            targetForm.querySelectorAll(selecter).forEach(button => {
+                const btnStatus = button.getAttribute(dataName);
+                button.addEventListener('click', () => {
+                    const target = button.nextElementSibling;
+                    if (target.classList.contains(css.dNone)) {
+                        target.classList.remove(css.dNone);
+                        button.textContent = openStatusText;
+                    } else {
+                        target.classList.add(css.dNone);
+                        button.textContent = closeStatusText;
+                    }
+                });
+                if (btnStatus === 'true') {
+                    button.click();
+                } else {
+                    button.textContent = openStatusText;
+                }
             });
         }
         const setDataInputCheck = function(selecter) {
@@ -133,12 +162,10 @@
             selecter.value = num;
         }
         setModalBtn(elem.dataModal);
-        setToggleRowBtn(elem.inputClientCategory);
+        setToggleRowBtn(elem.dataToggleRow);
+        setToggleAccordionBtn(elem.dataToggleAccordion);
         setDataInputCheck(elem.dataInputCheck);
         setInputNumberFormat(elem.dataInputNumber);
         changeInputDateAction(elem.dataInputDate);
-        if (!!targetForm.querySelector(elem.inputClientCategory + ':checked') === true) {
-            targetForm.querySelector(elem.inputClientCategory + ':checked').click();
-        }
     }());
 </script>

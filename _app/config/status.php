@@ -23,9 +23,9 @@ class appConfigStatus
 
     /*架電ステータス*/
     public const cs_tel_status = [
-        'unnecessary' => '架電不要',
-        'required' => '要架電',
-        'complete' => '架電完了'
+        'unnecessary' => ['key' => 'unnecessary', 'name' => '架電不要'],
+        'required' => ['key' => 'required', 'name' => '要架電'],
+        'complete' => ['key' => 'complete', 'name' => '架電完了']
     ];
 
     /*顧客カテゴリ*/

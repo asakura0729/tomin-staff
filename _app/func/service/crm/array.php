@@ -9,14 +9,14 @@ class appFuncCrmArray
     public const rowCategory = 'rowCategory';
 
     public const rows = [
-        'base' => ['title' => '　', 'css' => 'bg-row-base'],
-        'client' => ['title' => '入電者様情報', 'css' => 'bg-row-client'],
-        'dec' => ['title' => '故人様情報', 'css' => 'bg-row-dec'],
-        'plan' => ['title' => '　', 'css' => 'bg-row-cs'],
-        'comment' => ['title' => '　', 'css' => 'bg-row-base'],
-        'sheet' => ['title' => '　', 'css' => 'bg-row-sheet'],
-        'status' => ['title' => '　', 'css' => 'bg-row-status'],
-        'cs_tel' => ['title' => '架電', 'css' => 'bg-row-base'],
+        'base' => ['key' => 'base', 'title' => '　', 'css' => 'bg-row-base'],
+        'client' => ['key' => 'client', 'title' => '入電者様情報', 'css' => 'bg-row-client'],
+        'dec' => ['key' => 'dec', 'title' => '故人様情報', 'css' => 'bg-row-dec'],
+        'plan' => ['key' => 'plan', 'title' => '　', 'css' => 'bg-row-cs'],
+        'comment' => ['key' => 'comment', 'title' => '　', 'css' => 'bg-row-base'],
+        'sheet' => ['key' => 'sheet', 'title' => '　', 'css' => 'bg-row-sheet'],
+        'status' => ['key' => 'status', 'title' => '　', 'css' => 'bg-row-status'],
+        'cs_tel' => ['key' => 'cs_tel', 'title' => '架電', 'css' => 'bg-row-base'],
     ];
     //-----------------------------------------------------
     // 対応ログ一覧用の配列作成
