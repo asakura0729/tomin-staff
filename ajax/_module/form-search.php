@@ -44,7 +44,7 @@
         </div>
         <div class="d-flex justify-content-between w-100 pt-3">
             <div class="w-200px">
-                <?php appFuncModule::btn('search'); ?>
+                <?php appFuncModule::btn('search', ['add' => 'data-add-spinner="' . appConfigSite::secCsIndex . '"']); ?>
             </div>
             <?php if (
                 $option['path'] != appRoutesWeb::sitemap['adminCsEdit']['contents'] &&

@@ -13,7 +13,8 @@ class appFuncPager
     public static function disp(
         $hxGet = "",
         $hxTarget = "",
-        $totalElementsCount = ""
+        $totalElementsCount = "",
+        $add = ""
     ) {
         /*
         $sitemapKey・・・遷移先ページ

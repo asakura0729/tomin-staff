@@ -93,7 +93,12 @@
             </div>
         <?php endforeach; ?>
     </div>
-    <?php appFuncPager::disp(appRoutesWeb::async['adminCsAjaxList']['contents'], appConfigSite::secCsIndex, adminCsAjaxList::$dbResultCsCount); ?>
+    <?php appFuncPager::disp(
+        appRoutesWeb::async['adminCsAjaxList']['contents'],
+        appConfigSite::secCsIndex,
+        adminCsAjaxList::$dbResultCsCount,
+        'data-add-spinner="' . appConfigSite::secCsIndex . '"'
+    ); ?>
 </article>
 
 <?php if (count(adminCsAjaxList::$dbResultCs) > 0): ?>

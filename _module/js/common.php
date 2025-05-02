@@ -13,6 +13,7 @@
         header: document.querySelector(id.header),
         dataHxPushUrl: "[data-hx-push-url]",
         dataHxReplaceUrl: "[data-hx-replace-url]",
+        dataAddSpinner: "[data-add-spinner]",
         dataAnimation: "[data-animation]"
     }
     const css = {
@@ -31,6 +32,13 @@
                 setTimeout(function() {
                     window.scrollTo(0, 0);
                 }, 100);
+            });
+        });
+        selector.querySelectorAll(elem.dataAddSpinner).forEach(button => {
+            button.addEventListener("click", function() {
+                const target = this.getAttribute(dataAttribute(elem.dataAddSpinner));
+                const cloneSpinner = document.querySelector(id.spinners).innerHTML;
+                document.querySelector(target).innerHTML = cloneSpinner;
             });
         });
     }
@@ -63,7 +71,7 @@
             $('[data-toggle="popover"]').popover();
         });
     });
-    document.body.addEventListener("htmx:afterSettle", function() {
+    document.body.addEventListener("htmx:afterSettle", function(event) {
         gNavColorChange();
         setTimeout(function() {
             document.querySelector(id.spinners).classList.add(css.dNone);

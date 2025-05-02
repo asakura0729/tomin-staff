@@ -953,6 +953,13 @@ components
 .pagination .page-item {
     cursor: pointer;
 }
+.page-link{
+    color: var(--contrast);
+}
+.page-item.active .page-link{
+    border: none;
+    background-color: var(--contrast);
+}
 
 /*form-sheets*/
 .form-sheets {
@@ -987,11 +994,13 @@ select.is-readonly {
 .is-invalid {
     display: none;
 }
+
 button.is-invalid {
     display: block;
     opacity: 0.15;
     pointer-events: none;
 }
+
 
 /*htmx-spinner*/
 .dropdown-after-none.dropdown-toggle::after {

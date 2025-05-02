@@ -13,6 +13,7 @@
                             <span class="color-dgray"><?php echo appRoutesWeb::sitemap[$key][appRoutesWeb::pageTitle]; ?></span>
                         </a>
                         <?php if ($value[appRoutesWeb::pagePath] === appRoutesWeb::gNav['adminCsList_check'][appRoutesWeb::pagePath]): ?>
+                            <div class="pos-top-right font-size-0_9 color-white bg-black pl-2 pr-2">管理者権限</div>
                             <div class="pos-top-left font-size-1_4 pl-2" data-hx-get="<?php echo appRoutesWeb::async['adminCountCs']['contents']; ?>" data-hx-trigger="load, every 30s" data-hx-swap="innerHTML"></div>
                         <?php endif; ?>
                         <?php if ($value[appRoutesWeb::pagePath] === appRoutesWeb::gNav['adminCsSheet'][appRoutesWeb::pagePath]): ?>
