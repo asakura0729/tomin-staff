@@ -78,4 +78,8 @@
             setAnimation();
         }, 250);
     });
+    document.body.addEventListener('htmx:responseError', function(event) {
+        alert('データの読み込みに失敗しました。再度操作を行ってください。');
+        document.querySelector(id.spinners).classList.remove(css.dNone);
+    });
 </script>
