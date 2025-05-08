@@ -4,11 +4,31 @@
 //======================================================================
 class appFuncCrmGet
 {
-    public const dbClass = appDatabaseCs::className;
-    public const tableName = appDatabaseCs::tableName;
-    public const primaryKey = appDatabaseCs::primaryKey;
-    public const db = appDatabaseCs::table;
-    public const alias = 'cs_sheet';
+    //======================================================================
+    // パラメータ
+    //======================================================================
+    public const tableName = appDatabaseCs::tableName; //テーブル名
+    public const primaryKey = appDatabaseCs::primaryKey; //主キー
+    public const alias = 'cs_sheet';  //結合テーブルエイリアス名
+    //-----------------------------------------------------
+    // GETパラメータ（対応ログ編集画面 + 送客シート編集画面）
+    //-----------------------------------------------------
+    public const getPrimaryKey = appDatabaseCs::primaryKey; //主キー
+    //-----------------------------------------------------
+    // GETパラメータ（対応ログ編集画面）
+    //-----------------------------------------------------
+    public const getCloneFlg = 'clone'; //複製フラグ
+    public const getTel = 'tel'; //電話番号
+    public const getDate = 'date'; //日付
+    public const getOverwriteSheetFlg = 'overwrite_sheet'; //上書きフラグ（対応ログの一部を送客シートの内容に書き換える）
+    //-----------------------------------------------------
+    // GETパラメータ（一覧画面）
+    //-----------------------------------------------------
+    public const getClientCategoryFilter = 'client_category_filter'; //有効・無効電話のフィルタリング
+
+    //======================================================================
+    // SQL作成
+    //======================================================================
     //-----------------------------------------------------
     // SQL作成
     //-----------------------------------------------------
@@ -25,7 +45,7 @@ class appFuncCrmGet
         return $sql;
     }
     //-----------------------------------------------------
-    // SQL作成＞JOIN
+    // SQL作成＞JOIN句作成
     //-----------------------------------------------------
     public static function sqlJoin($select, $alias): string
     {
@@ -39,17 +59,16 @@ class appFuncCrmGet
         return $select;
     }
     //-----------------------------------------------------
-    // SQL作成＞無効電話のフィルタリング
+    // SQL作成＞Where句＞有効・無効電話のフィルタリング
     //-----------------------------------------------------
     public static function whereClienCategory($get, $tableName, $result = ""): string
     {
-        if (isset($get['client_category_filter'])) {
-            $filterparam = $get['client_category_filter'];
+        if (isset($get[self::getClientCategoryFilter])) {
+            $filterparam = $get[self::getClientCategoryFilter];
             $array = appConfigStatus::clientCategory;
             $result .= "AND(";
             foreach ($array as $key => $value) {
                 if ($value['type'] == $filterparam) {
-                    /*分岐：無効電話*/
                     $result .= $tableName . '.client_category="' . $key . '" ';
                     if ($value != end($array)) {
                         $result .= 'OR ';
@@ -60,6 +79,10 @@ class appFuncCrmGet
         }
         return $result;
     }
+
+    //======================================================================
+    // データ取得
+    //======================================================================
     //-----------------------------------------------------
     // データ取得
     //-----------------------------------------------------
@@ -109,7 +132,7 @@ class appFuncCrmGet
         return $result;
     }
     //-----------------------------------------------------
-    // データ総数取得
+    // データ取得(複数＞総数)
     //-----------------------------------------------------
     public static function count(array $get = []): string
     {
@@ -121,18 +144,51 @@ class appFuncCrmGet
         $where = self::whereClienCategory($get, self::tableName, $where);
         $dbresult = appFuncDatabase::getData($select . $where);
         if (isset($dbresult[0]['count'])) {
+            /*分岐：データが存在*/
             $result = $dbresult[0]['count'];
         }
         return $result;
     }
+
+    //======================================================================
+    // 固有ページの挙動
+    //======================================================================
     //-----------------------------------------------------
-    // /tpadmin/cs/edit 読込時の挙動
+    // 一覧画面＞表示する列の選定
+    //-----------------------------------------------------
+    public static function selectRow(string $path): array
+    {
+        $result = [];
+        switch ($path) {
+            case appRoutesWeb::sitemap['adminCsIndex']['contents']:
+            case appRoutesWeb::sitemap['adminCsEdit']['contents']:
+            case appRoutesWeb::sitemap['adminCsList_check']['contents']:
+                /*分岐1：通常*/
+                $result = appFuncCrmArray::list();
+                break;
+            case appRoutesWeb::sitemap['adminCsList_invalid']['contents']:
+                /*分岐2：無効電話一覧*/
+                $result = appFuncCrmArray::invalidList();
+                break;
+            case appRoutesWeb::sitemap['adminCsSheet']['contents']:
+                /*分岐3：送客シート*/
+                $result = appFuncCrmArray::sheetList();
+                break;
+            default:
+                /*分岐4：その他*/
+                $result = appFuncCrmArray::list();
+                break;
+        }
+        return $result;
+    }
+    //-----------------------------------------------------
+    // 対応ログ編集画面＞読込時の挙動
     //-----------------------------------------------------
     public static function csEdit(array $get, string $postPrimaryKey = '', bool $dataformat = false): array
     {
         $result = [];
+        $getPrimaryKey = appFuncArray::issetKey($get, self::getPrimaryKey, '');
         $table = array_merge(appDatabaseCs::tableCsList, appDatabaseCs::tableCsListJoin);
-        $getPrimaryKey = appFuncArray::issetKey($get, appDatabaseCs::primaryKey, '');
         $csCategory = appConfigStatus::csCategoryLog;
         if ($postPrimaryKey != '') {
             /*分岐1：既存データ参照...データ送信処理が実行された*/
@@ -149,11 +205,10 @@ class appFuncCrmGet
             appFuncModule::component('nodata', ['css' => 'text-center']);
             exit;
         }
-        $result = self::csEditDataformat($get, $result, $table, $dataformat);
-        return $result;
+        return self::csEditDataformat($get, $result, $table, $dataformat);
     }
     //-----------------------------------------------------
-    // /tpadmin/cs/edit 読込時の挙動＞データフォーマット
+    // 対応ログ編集画面＞読込時の挙動＞データ整形
     //-----------------------------------------------------
     public static function csEditDataformat(array $get, array $result, array $table, bool $dataFormat = false): array
     {
@@ -162,17 +217,19 @@ class appFuncCrmGet
             $result = appFuncDataformat::dbResultStr($result, $table);
         }
         if ($result[self::primaryKey] === '') {
-            /*分岐1：新規*/
-            $result['post_date'] = appFuncDate::dateFormat(appFuncArray::issetKey($get, 'date'));
-            $result['client_tel'] = appFuncArray::issetKey($get, 'tel');
+            /*分岐1：新規データ...デフォルト値設定*/
+            $getDate = appFuncDate::dateFormat(appFuncArray::issetKey($get,  self::getDate));
+            $getTel = appFuncArray::issetKey($get, self::getTel);
+            $result['post_date'] = $getDate;
+            $result['client_tel'] = $getTel;
             $result['post_by'] = $_SESSION[appConfigSession::userId];
             $result['cs_category'] = appConfigStatus::csCategoryLog;
             $result['delivery_status'] = appConfigStatus::delivery_status['unnecessary']['key'];
             $result['client_category'] = appConfigStatus::clientCategory['other_invalid']['key'];
             $result['approval_status'] = appConfigStatus::approval_status['started']['key'];
         } else {
-            /*分岐2：既存*/
-            $getCloneFlg = appFuncArray::issetKey($get, 'clone', '') == 'true'  ? true : false;
+            /*分岐2：既存データ*/
+            $getCloneFlg = appFuncArray::issetKey($get, self::getCloneFlg, '') == 'true'  ? true : false;
             if ($getCloneFlg === true) {
                 /*分岐2-1：複製フラグあり*/
                 $result[self::primaryKey] = '';
@@ -182,7 +239,7 @@ class appFuncCrmGet
         return $result;
     }
     //-----------------------------------------------------
-    // /tpadmin/cs/sheet 読込時の挙動
+    // 送客シート編集画面＞読込時の挙動
     //-----------------------------------------------------
     public static function csSheet(array $get, string $postPrimaryKey = '', bool $dataformat = false, $categoryFilter = true): array
     {
@@ -192,36 +249,35 @@ class appFuncCrmGet
             $csCategory = appConfigStatus::csCategorySheet;
         }
         $table = appDatabaseCs::tableCsList;
-        $getPrimaryKey = appFuncArray::issetKey($get, appDatabaseCs::primaryKey, '');
+        $getPrimaryKey = appFuncArray::issetKey($get, self::getPrimaryKey, '');
         if ($postPrimaryKey != '') {
-            /*分岐1：既存データ参照...データ送信処理が実行された*/
+            /*分岐1-1：既存データ参照...データ送信処理が実行された*/
             $result = self::getDataSingle($table, $postPrimaryKey, $csCategory);
         } else if ($getPrimaryKey != '') {
-            /*分岐2：既存データ参照...クエリパラメータにcs_idあり*/
+            /*分岐1-2：既存データ参照...クエリパラメータにcs_idあり*/
             $result = self::getDataSingle($table, $getPrimaryKey, $csCategory);
         } else {
-            /*分岐3：新規データ*/
+            /*分岐1-3：新規データ*/
             $result = [];
         }
         if (isset($result['cs_category']) && $result['cs_category'] === appConfigStatus::csCategoryLog) {
-            /*判断：カテゴリは対応ログ */
+            /*分岐2：既存データ参照 + カテゴリは対応ログ */
             $sheet_cs_id = appFuncArray::issetKey($result, 'sheet_cs_id', '');
             if ($sheet_cs_id != '') {
-                /*分岐：送客シート作成済*/
+                /*分岐2-1：当該データは送客シートを作成済*/
                 appFuncModule::component('nodata', ['css' => 'text-center', 'title' => '送客シートは作成済です']);
                 exit;
             }
         }
         if ($result === []) {
-            /*判断：データが存在しない*/
+            /*分岐3：新規データ or 既存データ参照したがデータが無い*/
             appFuncModule::component('nodata', ['css' => 'text-center']);
             exit;
         }
-        $result = self::csSheetDataformat($result, $table, $dataformat);
-        return $result;
+        return self::csSheetDataformat($result, $table, $dataformat);
     }
     //-----------------------------------------------------
-    // /tpadmin/cs/sheet 読込時の挙動＞データフォーマット
+    // 送客シート編集画面＞読込時の挙動＞データ整形
     //-----------------------------------------------------
     public static function csSheetDataformat(array $result, array $table, bool $dataformat = false): array
     {
@@ -250,42 +306,14 @@ class appFuncCrmGet
         return $result;
     }
     //-----------------------------------------------------
-    // 未承認データ総数取得
+    //  /tpadmin/cs/count_cs　または　/tpadmin/cs/count_cs_sheet 読込時の挙動
     //-----------------------------------------------------
-    public static function countApproval($cs_category): int
+    public static function countApproval(string $cs_category): int
     {
         $count = appFuncCrmGet::count([
             'cs_category' => $cs_category,
             'approval_status' => appConfigStatus::approval_status['progress']['key']
         ]);
         return $count;
-    }
-    //-----------------------------------------------------
-    // 表示する列の選定
-    //-----------------------------------------------------
-    public static function selectRow(string $path): array
-    {
-        $result = [];
-        switch ($path) {
-            case appRoutesWeb::sitemap['adminCsIndex']['contents']:
-            case appRoutesWeb::sitemap['adminCsEdit']['contents']:
-            case appRoutesWeb::sitemap['adminCsList_check']['contents']:
-                /*分岐1：通常*/
-                $result = appFuncCrmArray::list();
-                break;
-            case appRoutesWeb::sitemap['adminCsList_invalid']['contents']:
-                /*分岐2：無効電話一覧*/
-                $result = appFuncCrmArray::invalidList();
-                break;
-            case appRoutesWeb::sitemap['adminCsSheet']['contents']:
-                /*分岐3：送客シート*/
-                $result = appFuncCrmArray::sheetList();
-                break;
-            default:
-                /*分岐4：その他*/
-                $result = appFuncCrmArray::list();
-                break;
-        }
-        return $result;
     }
 }

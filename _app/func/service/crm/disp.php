@@ -64,34 +64,7 @@ class appFuncCrmDisp
         return $result;
     }
     //-----------------------------------------------------
-    // ダウンロード用CSV
-    //-----------------------------------------------------
-    public static function csv(array $dbResult, array $tableRow): string
-    {
-        $result = "";
-        foreach ($tableRow as $key => $row) {
-            if ($key === appDatabaseCs::primaryKey || $row['input'] != '' && $row['input'] != 'hidden') {
-                $rowValues[] = $row['comment'];
-            }
-        }
-        $result .= implode(',', $rowValues) . "\n";
-        foreach ($dbResult as $value) {
-            $rowValues = [];
-            foreach ($tableRow as $key => $row) {
-                if ($key === appDatabaseCs::primaryKey || $row['input'] != '' && $row['input'] != 'hidden') {
-                    $cell = $value[$key];
-                    if (strpos($cell, ',') !== false || strpos($cell, '"') !== false) {
-                        $cell = '"' . str_replace('"', '""', $cell) . '"';
-                    }
-                    $rowValues[] = $cell;
-                }
-            }
-            $result .= implode(',', $rowValues) . "\n";
-        }
-        return $result;
-    }
-    //-----------------------------------------------------
-    // 入力フォーム＞横幅調整
+    // 対応ログ一覧＞セルの横幅調整
     //-----------------------------------------------------
     public static function setListRowWidth(string $inputName, string $inputType): string
     {
@@ -168,6 +141,33 @@ class appFuncCrmDisp
                 break;
         }
         $result['title'] = $btnTitle;
+        return $result;
+    }
+    //-----------------------------------------------------
+    // 対応ログ一覧＞ダウンロード用CSV
+    //-----------------------------------------------------
+    public static function csv(array $dbResult, array $tableRow): string
+    {
+        $result = "";
+        foreach ($tableRow as $key => $row) {
+            if ($key === appDatabaseCs::primaryKey || $row['input'] != '' && $row['input'] != 'hidden') {
+                $rowValues[] = $row['comment'];
+            }
+        }
+        $result .= implode(',', $rowValues) . "\n";
+        foreach ($dbResult as $value) {
+            $rowValues = [];
+            foreach ($tableRow as $key => $row) {
+                if ($key === appDatabaseCs::primaryKey || $row['input'] != '' && $row['input'] != 'hidden') {
+                    $cell = $value[$key];
+                    if (strpos($cell, ',') !== false || strpos($cell, '"') !== false) {
+                        $cell = '"' . str_replace('"', '""', $cell) . '"';
+                    }
+                    $rowValues[] = $cell;
+                }
+            }
+            $result .= implode(',', $rowValues) . "\n";
+        }
         return $result;
     }
     //-----------------------------------------------------

@@ -14,7 +14,7 @@
 <?php if (appHttpAjaxCsAjaxPost::$postPrimaryKey != '' && appHttpAjaxCsAjaxPost::$redirectFlg === true): ?>
     <?php /*分岐1：データ更新 + リダイレクト指定あり*/ ?>
     <?php appFuncModule::component('alert-success'); ?>
-    <?php appFuncModule::js('redirect', ['path' => appRoutesWeb::sitemap['adminCsSheetEdit']['contents'] . appFuncPath::setGetParam(['cs_id', 'clone'], [appHttpAjaxCsAjaxPost::$postPrimaryKey, 'true'])]); ?>
+    <?php appFuncModule::js('redirect', ['path' => appRoutesWeb::sitemap['adminCsSheetEdit']['contents'] . appFuncPath::setGetParam(['cs_id', appFuncCrmGet::getCloneFlg], [appHttpAjaxCsAjaxPost::$postPrimaryKey, 'true'])]); ?>
 <?php elseif (appHttpAjaxCsAjaxPost::$postPrimaryKey != ''): ?>
     <?php /*分岐2：データ更新*/ ?>
     <?php appFuncModule::component('alert-success'); ?>

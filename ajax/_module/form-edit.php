@@ -11,7 +11,7 @@
         <div class="d-flex align-items-center">
             <?php appFuncModule::heading('h2', 'h2', '受電内容メモ', ['addCss' => 'pl-2 pb-2']); ?>
             <div class="pb-2 pl-4">
-                <?php if (isset($_GET['clone']) && $_GET['clone'] === 'true'): ?>
+                <?php if (isset($_GET[appFuncCrmGet::getCloneFlg]) && $_GET[appFuncCrmGet::getCloneFlg] === 'true'): ?>
                     <?php /*分岐1：転記*/ ?>
                     <?php appFuncModule::string('exclamation', '既存の対応ログを転記しました。「登録」を押すと、新しい対応ログが「対応ログ一覧」に追加されます。'); ?>
                 <?php elseif ($option['dbResult']['cs_id'] === ''): ?>

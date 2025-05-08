@@ -37,7 +37,7 @@
                 <?php endforeach; ?>
                 <?php if ($option['path'] === appRoutesWeb::sitemap['adminCsList_invalid']['contents']): ?>
                     <?php /*分岐：無効電話一覧の場合、検索オプションを追加*/ ?>
-                    <?php appFuncModule::form('form-control', appConfigStatus::clientCategoryInvalid, ['inputName' => 'client_category_filter', 'inputType' => 'hidden']); ?>
+                    <?php appFuncModule::form('form-control', appConfigStatus::clientCategoryInvalid, ['inputName' => appFuncCrmGet::getClientCategoryFilter, 'inputType' => 'hidden']); ?>
                 <?php endif; ?>
                 <?php appFuncModule::form('form-control', $option['path'], ['inputName' => 'path', 'inputType' => 'hidden']); ?>
             </div>

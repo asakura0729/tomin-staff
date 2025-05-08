@@ -46,7 +46,7 @@
                             <?php /*分岐1：対応ログ編集*/ ?>
                             <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsEdit'], ['css' => 'w-100', 'title' => '対応ログ編集', 'queryParam' => appFuncPath::setGetParam(['cs_id'], [$value['cs_id']])]); ?>
                             <div class="dropdown-divider"></div>
-                            <?php appFuncModule::link('chevron', appRoutesWeb::async['adminCsAjaxPost'], ['css' => 'w-100', 'title' => '転記', 'queryParam' => appFuncPath::setGetParam(['cs_id', 'clone'], [$value['cs_id'], 'true']), 'hxPush' => false, 'hxTarget' => appConfigSite::secCsEdit]); ?>
+                            <?php appFuncModule::link('chevron', appRoutesWeb::async['adminCsAjaxPost'], ['css' => 'w-100', 'title' => '転記', 'queryParam' => appFuncPath::setGetParam(['cs_id', appFuncCrmGet::getCloneFlg], [$value['cs_id'], 'true']), 'hxPush' => false, 'hxTarget' => appConfigSite::secCsEdit]); ?>
                         <?php elseif (
                             adminCsAjaxList::$path === appRoutesWeb::sitemap['adminCsIndex']['contents'] ||
                             adminCsAjaxList::$path === appRoutesWeb::sitemap['adminCsList_invalid']['contents'] ||
@@ -55,7 +55,7 @@
                             <?php /*分岐2：対応ログ一覧*/ ?>
                             <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsEdit'], ['css' => 'w-100', 'title' => '対応ログ編集', 'queryParam' => appFuncPath::setGetParam(['cs_id'], [$value['cs_id']])]); ?>
                             <div class="dropdown-divider"></div>
-                            <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsEdit'], ['css' => 'w-100', 'title' => '転記', 'queryParam' => appFuncPath::setGetParam(['cs_id', 'clone'], [$value['cs_id'], 'true'])]); ?>
+                            <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsEdit'], ['css' => 'w-100', 'title' => '転記', 'queryParam' => appFuncPath::setGetParam(['cs_id', appFuncCrmGet::getCloneFlg], [$value['cs_id'], 'true'])]); ?>
                             <?php if (isset($value['sheet_cs_id']) && $value['sheet_cs_id'] != ''): ?>
                                 <?php /*分岐2-1：送客シートあり*/ ?>
                                 <?php appFuncModule::link('chevron', appRoutesWeb::sitemap['adminCsSheetDetail'], ['css' => 'w-100', 'queryParam' => appFuncPath::setGetParam(['cs_id'], [$value['sheet_cs_id']])]); ?>
