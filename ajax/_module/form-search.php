@@ -42,21 +42,25 @@
                 <?php appFuncModule::form('form-control', $option['path'], ['inputName' => 'path', 'inputType' => 'hidden']); ?>
             </div>
         </div>
-        <div class="d-flex justify-content-between w-100 pt-3">
-            <div class="w-200px">
-                <?php appFuncModule::btn('search', ['add' => 'data-add-spinner="' . appConfigSite::secCsIndex . '"']); ?>
+        <div class="row justify-content-between w-100 pt-3">
+            <div class="col-12 col-lg-6 pb-2 pb-lg-0">
+                <div class="w-lg-200px">
+                    <?php appFuncModule::btn('search', ['add' => 'data-add-spinner="' . appConfigSite::secCsIndex . '"']); ?>
+                </div>
             </div>
             <?php if (
                 $option['path'] != appRoutesWeb::sitemap['adminCsEdit']['contents'] &&
                 appFuncSession::checkAuth(appConfigUser::authorityManager) === true
             ): ?>
                 <?php /*分岐：対応ログ編集ページ以外 + 権限管理者*/ ?>
-                <div class="d-flex align-items-center">
-                    <div class="w-250px text-danger pr-3 text-right">
-                        ※管理者のみ表示されています
-                    </div>
-                    <div class="w-300px">
-                        <?php appFuncModule::btn('download'); ?>
+                <div class="col-12 col-lg-6">
+                    <div class="row ml-auto no-gutters justify-content-end align-items-center w-lg-600px">
+                        <div class="col-md-6 text-danger text-right pb-1 pb-md-0">
+                            <span class="pr-3">※管理者のみ表示されています</span>
+                        </div>
+                        <div class="col-md-6">
+                            <?php appFuncModule::btn('download'); ?>
+                        </div>
                     </div>
                 </div>
             <?php endif; ?>

@@ -80,12 +80,17 @@ class appFuncSql
         }
         foreach ($table as $key => $tableRow) {
             $type = $tableRow['type'];
-            if ($type === 'longtext') {
-                $result .= self::whereLike($tableName, $tableRow, $get, $key);
-            } elseif ($type === 'datetime' || $type === 'date') {
-                $result .= self::whereBetween($tableName, $tableRow, $get, $key);
-            } else {
-                $result .= self::whereEquality($tableName, $tableRow, $get, $key);
+            switch ($type) {
+                case 'longtext':
+                    $result .= self::whereLike($tableName, $tableRow, $get, $key);
+                    break;
+                case 'datetime':
+                case 'date':
+                    $result .= self::whereBetween($tableName, $tableRow, $get, $key);
+                    break;
+                default:
+                    $result .= self::whereEquality($tableName, $tableRow, $get, $key);
+                    break;
             }
         }
         return $result;
