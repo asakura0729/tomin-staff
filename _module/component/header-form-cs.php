@@ -21,7 +21,7 @@
 
     <?php if ($option['dbPost'] === true && $option['rowCategory']['key'] === appFuncCrmArray::rows['cs_tel']['key']): ?>
         <?php /*分岐2：データベース送信あり + 架電フォーム*/ ?>
-        <button type="button" role="button" class="m-1 btn border-contrast color-contrast opacity-hover-075 bg-white position-relative" data-toggle-accordion="<?php echo appFuncCrmDisp::accordion($option['dbResult'], $option['key'], appConfigStatus::cs_tel_status['unnecessary']['key']); ?>"></button>
+        <button type="button" class="m-1 btn border-contrast color-contrast opacity-hover-075 bg-white position-relative" data-toggle-accordion="<?php echo appFuncCrmDisp::accordion($option['dbResult'], $option['key'], appConfigStatus::cs_tel_status['unnecessary']['key']); ?>"></button>
     <?php endif; ?>
 
     <div class="<?php echo $option['rowCategory']['css']; ?> border-bottom">

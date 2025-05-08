@@ -79,7 +79,10 @@
         }, 250);
     });
     document.body.addEventListener('htmx:responseError', function(event) {
-        alert('データの読み込みに失敗しました。再度操作を行ってください。');
-        document.querySelector(id.spinners).classList.remove(css.dNone);
+        const method = event.detail.requestConfig.verb;
+        if (method === "POST") {
+            alert('データの送信に失敗しました。お手数ですがもう一度操作を行ってください。');
+            document.querySelector(id.spinners).classList.add(css.dNone);
+        }
     });
 </script>

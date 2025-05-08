@@ -14,5 +14,5 @@ class appConfigDatabase
   public const deleteFlgFalse = 0;
 
   public const pageColCount = 20;
-  public const pagerCount = 10;
+  public const pagerCount = 8;
 }

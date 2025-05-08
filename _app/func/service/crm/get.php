@@ -230,10 +230,25 @@ class appFuncCrmGet
         } else {
             /*分岐2：既存データ*/
             $getCloneFlg = appFuncArray::issetKey($get, self::getCloneFlg, '') == 'true'  ? true : false;
+            $getOverwriteSheetFlg = appFuncArray::issetKey($get, self::getOverwriteSheetFlg, '') == 'true'  ? true : false;
             if ($getCloneFlg === true) {
-                /*分岐2-1：複製フラグあり*/
+                /*分岐2-1：複製フラグあり...新規データとして扱う*/
                 $result[self::primaryKey] = '';
                 $result['post_by'] = $_SESSION[appConfigSession::userId];
+            } else if ($getOverwriteSheetFlg === true) {
+                /*分岐2-2：上書きフラグあり...データ一部を送客シートの内容に書き換え*/
+                $result['client_name'] = $result['sheet_client_name'];
+                $result['client_tel'] = $result['sheet_client_tel'];
+                $result['dec_name'] = $result['sheet_dec_name'];
+                $result['dec_relation'] = $result['sheet_dec_relation'];
+                $result['funeral_date'] = $result['sheet_funeral_date'];
+                $result['hall_name'] = $result['sheet_hall_name'];
+                $result['dec_region'] = $result['sheet_dec_region'];
+                $result['crematory_name'] = $result['sheet_crematory_name'];
+                $result['ensconce_category'] = $result['sheet_ensconce_category'];
+                $result['dest_address'] = $result['sheet_dest_address'];
+                $result['plan_category'] = $result['sheet_plan_category'];
+                $result['option_name'] = $result['sheet_option_name'];
             }
         }
         return $result;

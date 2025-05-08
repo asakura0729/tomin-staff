@@ -6,7 +6,7 @@
 <?php require_once '../../../_app/ssl_base.php'; ?>
 <?php require_once '../../../_app/http/ajax/cs/ajax/list.php'; ?>
 
-<article data-animation="animation-fadein">
+<div data-animation="animation-fadein">
 
     <?php if (adminCsAjaxList::$searchString != ''): ?>
         <?php appFuncModule::heading('h2', 'h2', '検索結果', ['addCss' => 'pl-2']); ?>
@@ -93,13 +93,24 @@
             </div>
         <?php endforeach; ?>
     </div>
+    <div class="pt-2 pb-2 w-lg-600px">
+        <div class="bg-white p-2 pl-3 d-flex font-size-0_8">
+            <span class="pr-2">行の背景色について：</span>
+            <span class="border bg-lblue w-50px"></span>
+            <span class="pl-1 pr-3">有効顧客</span>
+            <span class="border bg-lpink w-50px"></span>
+            <span class="pl-1 pr-3">キャンセル顧客</span>
+            <span class="border bg-gray w-50px"></span>
+            <span class="pl-1 pr-3">報告完了</span>
+        </div>
+    </div>
     <?php appFuncPager::disp(
         appRoutesWeb::async['adminCsAjaxList']['contents'],
         appConfigSite::secCsIndex,
         adminCsAjaxList::$dbResultCsCount,
         'data-add-spinner="' . appConfigSite::secCsIndex . '"'
     ); ?>
-</article>
+</div>
 
 <?php if (count(adminCsAjaxList::$dbResultCs) > 0): ?>
     <?php appFuncModule::js('message', ['target' => '#message', 'msg' => '過去の対応ログが存在する電話番号です']); ?>

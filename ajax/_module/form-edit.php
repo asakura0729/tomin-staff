@@ -25,6 +25,15 @@
                     <?php elseif ($option['dbResult']['post_by'] != $_SESSION[appConfigSession::userId]): ?>
                         <?php /*分岐3-2：既存＞権限／スタッフ＞他のユーザーが作成*/ ?>
                         <?php appFuncModule::string('exclamation', '他のユーザーが作成した対応ログは編集できません'); ?>
+                    <?php elseif (isset($_GET[appFuncCrmGet::getOverwriteSheetFlg]) && $_GET[appFuncCrmGet::getOverwriteSheetFlg] === 'true'): ?>
+                        <?php /*分岐3-3：既存＞権限／スタッフ＞上書きフラグ（対応ログの一部を送客シートの内容に書き換える）あり*/ ?>
+                        <?php appFuncModule::string('exclamation', '送客シートの情報を引き継いでいます'); ?>
+                    <?php endif; ?>
+                <?php elseif (appFuncSession::checkAuth(appConfigUser::authorityManager) === true): ?>
+                    <?php /*分岐4：既存＞権限／管理者*/ ?>
+                    <?php if (isset($_GET[appFuncCrmGet::getOverwriteSheetFlg]) && $_GET[appFuncCrmGet::getOverwriteSheetFlg] === 'true'): ?>
+                        <?php /*分岐4-1：既存＞権限／管理者＞上書きフラグ（対応ログの一部を送客シートの内容に書き換える）あり*/ ?>
+                        <?php appFuncModule::string('exclamation', '送客シートの情報を引き継いでいます'); ?>
                     <?php endif; ?>
                 <?php endif; ?>
             </div>

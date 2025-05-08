@@ -8,7 +8,7 @@
 ?>
 
 <?php /*分岐：ステータス選択*/ ?>
-<div class="modal" id="<?php echo $option['modalId']; ?>" tabindex="-1" role="dialog" aria-labelledby="<?php echo $option['modalId']; ?>-label" aria-hidden="true">
+<div class="modal" id="<?php echo $option['modalId']; ?>" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <header class="d-flex flex-row-reverse border-bottom">

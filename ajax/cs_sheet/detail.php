@@ -68,11 +68,11 @@
                     'chevron_btn',
                     appRoutesWeb::sitemap['adminCsEdit'],
                     [
-                        'title' => '対応ログ編集画面へ',
+                        'title' => '対応ログ編集（送客シート引継ぎ）',
                         'css' => 'w-100 text-center',
                         'queryParam' => appFuncPath::setGetParam(
-                            ['cs_id'],
-                            [appHttpCssheetAjaxDetail::$dbResult['parent_cs_id']]
+                            ['cs_id', appFuncCrmGet::getOverwriteSheetFlg],
+                            [appHttpCssheetAjaxDetail::$dbResult['parent_cs_id'], 'true']
                         )
                     ]
                 );

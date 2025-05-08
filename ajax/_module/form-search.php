@@ -73,14 +73,14 @@
     ]); ?>
 </form>
 
-<article class="minh-40vh pb-4">
+<div class="minh-40vh pb-4">
     <div id="<?php echo appFuncString::exclusionHash(appConfigSite::secCsIndex); ?>">
         <?php if ($option['path'] != appRoutesWeb::sitemap['adminCsEdit']['contents']): ?>
             <?php /*分岐：対応ログ編集画面以外*/ ?>
             <?php appFuncModule::component('spinners-left'); ?>
         <?php endif; ?>
     </div>
-</article>
+</div>
 
 <?php appFuncModule::js('form-cs', ['target' => appConfigSite::secSearch]); ?>
 <?php appFuncModule::js('form-submit-download', ['target' => appConfigSite::secSearch]); ?>
