@@ -6,7 +6,6 @@ include_once __DIR__ . '/config/page.php';
 include_once __DIR__ . '/config/status.php';
 include_once __DIR__ . '/config/session.php';
 include_once __DIR__ . '/config/database.php';
-include_once __DIR__ . '/config/plan.php';
 include_once __DIR__ . '/config/funeral.php';
 include_once __DIR__ . '/database/cs.php';
 include_once __DIR__ . '/routes/web.php';
