@@ -33,7 +33,7 @@
     }
 </style>
 
-<article class="l-edit">
+<div class="l-edit">
     <section class="bg-white w-450px h-100 border">
         <?php if (appHttpCssheetAjaxDetail::$dbResult['approval_status'] === appConfigStatus::approval_status['complete']['key']): ?>
             <?php /*分岐：承認完了*/ ?>
@@ -118,16 +118,16 @@
                 <?php endif; ?>
             </form>
     </section>
-</article>
+</div>
 
-<article class="l-prev" <?php if (appHttpCssheetAjaxDetail::$postPrimaryKey === ''): ?> data-animation="animation-fadein-leftslide" <?php endif; ?>>
+<div class="l-prev" <?php if (appHttpCssheetAjaxDetail::$postPrimaryKey === ''): ?> data-animation="animation-fadein-leftslide" <?php endif; ?>>
     <?php appFuncModule::include('../_module/print-sheet.php', [
         'moduleName' => 'form-control',
         'dbTable' => appDatabaseCs::table,
         'dbResult' => appHttpCssheetAjaxDetail::$dbResult,
         'editFlg' => false
     ]); ?>
-</article>
+</div>
 
 <?php if (appHttpCssheetAjaxDetail::$postPrimaryKey != ''): ?>
     <?php /*分岐：データ更新*/ ?>
