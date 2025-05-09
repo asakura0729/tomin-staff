@@ -11,8 +11,8 @@
         <div class="d-flex align-items-center">
             <?php appFuncModule::heading('h2', 'h2', '受電内容メモ', ['addCss' => 'pl-2 pb-2']); ?>
             <div class="pb-2 pl-4">
-                <?php if (isset($_GET[appFuncCrmGet::getCloneFlg]) && $_GET[appFuncCrmGet::getCloneFlg] === 'true'): ?>
-                    <?php /*分岐1：転記*/ ?>
+                <?php if ($option['dbResult']['cs_id'] === '' && isset($_GET[appFuncCrmGet::getCloneFlg]) && $_GET[appFuncCrmGet::getCloneFlg] === 'true'): ?>
+                    <?php /*分岐1：新規作成＞転記*/ ?>
                     <?php appFuncModule::string('exclamation', '既存の対応ログを転記しました。「登録」を押すと、新しい対応ログが「対応ログ一覧」に追加されます。'); ?>
                 <?php elseif ($option['dbResult']['cs_id'] === ''): ?>
                     <?php /*分岐2：新規作成*/ ?>
@@ -69,12 +69,13 @@
         </div>
         <div class="d-flex pt-3 align-items-center">
             <div class="w-300px pr-3">
+                <?php $btnTitle = '登録<span class="font-size-1">（送客シート作成）</span>'; ?>
                 <?php if ($option['dbResult']['cs_id'] === '' || !isset($option['dbResult']['sheet_cs_id'])): ?>
                     <?php /*分岐1：新規作成　または　総客シート未作成 */ ?>
-                    <?php appFuncModule::btn('highlight', ['title' => '登録<span class="font-size-1">（送客シート作成）</span>', 'add' => 'data-submit-redirect data-wrap-disp="valid"']); ?>
+                    <?php appFuncModule::btn('highlight', ['title' => $btnTitle, 'add' => 'data-submit-redirect data-wrap-disp="valid"']); ?>
                 <?php else: ?>
                     <?php /*分岐2：その他 */ ?>
-                    <?php appFuncModule::btn('highlight', ['title' => '登録<span class="font-size-1">（送客シート作成）</span>', 'disabled' => true, 'popover' => '送客シートは作成済です']); ?>
+                    <?php appFuncModule::btn('highlight', ['title' => $btnTitle, 'disabled' => true, 'popover' => '送客シートは作成済です']); ?>
                 <?php endif; ?>
             </div>
             <div class="w-200px">
@@ -89,27 +90,27 @@
     ]); ?>
 </form>
 
-<?php if (appFuncSession::checkAuth(appConfigUser::authorityManager) === false): ?>
-    <?php /*分岐1：権限／スタッフ*/ ?>
+<?php if ($option['dbResult']['cs_id'] === ''): ?>
+    <?php /*分岐1：新規作成 */ ?>
+    <?php appFuncModule::js('form-submit'); ?>
+    <?php appFuncModule::js('form-submit-redirect'); ?>
+<?php elseif (appFuncSession::checkAuth(appConfigUser::authorityManager) === false): ?>
+    <?php /*分岐2：既存＞権限／スタッフ*/ ?>
     <?php appFuncModule::js('form-readonly', ['target' => appConfigSite::secCsEdit, 'child' => 'select[name=post_by]']); ?>
-    <?php if ($option['dbResult']['cs_id'] === ''): ?>
-        <?php /*分岐1-1：権限／スタッフ＞新規作成 */ ?>
-        <?php appFuncModule::js('form-submit'); ?>
-        <?php appFuncModule::js('form-submit-redirect'); ?>
-    <?php elseif (
+    <?php if (
         $option['dbResult']['approval_status'] === appConfigStatus::approval_status['complete']['key'] ||
         $option['dbResult']['post_by'] != $_SESSION[appConfigSession::userId]
     ): ?>
-        <?php /*分岐1-2：権限／スタッフ＞既存＞対応ログが承認済み*/ ?>
-        <?php /*分岐1-3：権限／スタッフ＞既存＞自分以外のスタッフが対応*/ ?>
+        <?php /*分岐1-2：既存＞権限／スタッフ＞対応ログが承認済み*/ ?>
+        <?php /*分岐1-3：既存＞権限／スタッフ＞他のユーザーが作成*/ ?>
         <?php appFuncModule::js('form-readonly', ['target' => appConfigSite::secCsEdit]); ?>
     <?php else: ?>
-        <?php /*分岐1-4：権限／スタッフ＞既存＞通常 */ ?>
+        <?php /*分岐1-4：既存＞権限／スタッフ＞通常 */ ?>
         <?php appFuncModule::js('form-submit'); ?>
         <?php appFuncModule::js('form-submit-redirect'); ?>
     <?php endif; ?>
 <?php else: ?>
-    <?php /*分岐2：権限：管理者*/ ?>
+    <?php /*分岐2：既存＞権限：管理者*/ ?>
     <?php appFuncModule::js('form-submit'); ?>
     <?php appFuncModule::js('form-submit-redirect'); ?>
 <?php endif; ?>
