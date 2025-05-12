@@ -20,15 +20,26 @@
         dNone: 'd-none',
         isCurrent: 'is-current'
     }
+    const confirmPath = {
+        csEdit: '<?php echo appRoutesWeb::sitemap['adminCsEdit']['path']; ?>'
+    }
     const dataAttribute = function(str) {
         return str.replace(/^\[|\]$/g, '');
+    }
+    const spinners = function(bool) {
+        const spinners = document.querySelector(id.spinners);
+        if (bool === true) {
+            spinners.classList.remove(css.dNone);
+        } else {
+            spinners.classList.add(css.dNone);
+        }
     }
     const htmxSetting = function(selector) {
         selector.querySelectorAll(elem.dataHxPushUrl).forEach(button => {
             const pushUrl = button.getAttribute(dataAttribute(elem.dataHxPushUrl));
             button.setAttribute(dataAttribute(elem.dataHxReplaceUrl), pushUrl);
             button.addEventListener("click", function() {
-                document.querySelector(id.spinners).classList.remove(css.dNone);
+                spinners(true);
                 setTimeout(function() {
                     window.scrollTo(0, 0);
                 }, 100);
@@ -74,7 +85,7 @@
     document.body.addEventListener("htmx:afterSettle", function(event) {
         gNavColorChange();
         setTimeout(function() {
-            document.querySelector(id.spinners).classList.add(css.dNone);
+            spinners(false);
             setAnimation();
         }, 250);
     });
@@ -82,7 +93,18 @@
         const method = event.detail.requestConfig.verb;
         if (method === "POST") {
             alert('データの送信に失敗しました。お手数ですがもう一度操作を行ってください。');
-            document.querySelector(id.spinners).classList.add(css.dNone);
+            spinners(false);
+        }
+    });
+    document.body.addEventListener('htmx:configRequest', function(event) {
+        const triggeringElement = event.detail.elt;
+        if (triggeringElement.matches(elem.dataHxPushUrl) && location.pathname === confirmPath.csEdit) {
+            if (!confirm('保存されていない編集中の内容は破棄されます。他のページに移動しますか？')) {
+                event.preventDefault();
+                setTimeout(function() {
+                    spinners(false);
+                }, 500);
+            }
         }
     });
 </script>
