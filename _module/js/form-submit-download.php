@@ -25,6 +25,7 @@
                 }
             }
             location.href = action + toQueryString(data);
+            form.querySelector(searchBtn).click();
         }
 
         const toQueryString = function(data) {

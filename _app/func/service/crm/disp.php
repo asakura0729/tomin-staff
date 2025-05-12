@@ -159,7 +159,8 @@ class appFuncCrmDisp
             $rowValues = [];
             foreach ($tableRow as $key => $row) {
                 if ($key === appDatabaseCs::primaryKey || $row['input'] != '' && $row['input'] != 'hidden') {
-                    $cell = $value[$key];
+                    $cell = strip_tags($value[$key]);
+                    $cell = str_replace(["\r\n", "\r", "\n"], '', $cell);
                     if (strpos($cell, ',') !== false || strpos($cell, '"') !== false) {
                         $cell = '"' . str_replace('"', '""', $cell) . '"';
                     }
