@@ -38,5 +38,4 @@
     <?php appFuncModule::js('pageload-submit', ['target' => '[data-submit-search]']); ?>
 <?php endif; ?>
 <?php appFuncModule::js('form-scroll', ['target' => appConfigSite::secCsEdit]); ?>
-<?php appFuncModule::js('link-confirm'); ?>
 <?php appFuncCrmStorage::end(); ?>

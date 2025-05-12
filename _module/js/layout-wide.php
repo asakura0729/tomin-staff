@@ -17,6 +17,7 @@
         }
         const setTableLayout = function() {
             if (!!mainContents.querySelector(targetTable) != true) {
+                console.log("targetTable not found");
                 return;
             }
             const table = mainContents.querySelector(targetTable);
