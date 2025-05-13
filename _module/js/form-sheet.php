@@ -24,7 +24,7 @@
         <?php appFuncMinify::minifySourceStart(); ?>
         const kasouPlan = {
             <?php foreach (appConfigFuneral::plan as $key => $plan): ?>
-                <?php if ($plan['category'] === appConfigFuneral::planCategoryKasou): ?>
+                <?php if ($plan['category'] != appConfigFuneral::planCategorySougi): ?>
                     <?php echo $key; ?>: "<?php echo $key; ?>",
                 <?php endif; ?>
             <?php endforeach; ?>
