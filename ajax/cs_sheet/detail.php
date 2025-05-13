@@ -84,7 +84,13 @@
                 <?php appFuncModule::form('form-control', appHttpCssheetAjaxDetail::$dbResult['cs_id'], ['inputName' => 'cs_id', 'inputType' => 'hidden']); ?>
                 <?php if (appFuncSession::checkAuth(appConfigUser::authorityManager) != true): ?>
                     <?php /*分岐：スタッフ権限*/ ?>
-                    <?php if (appHttpCssheetAjaxDetail::$dbResult['approval_status'] === appConfigStatus::approval_status['complete']['key']): ?>
+                    <?php if (appHttpCssheetAjaxDetail::$dbResult['insert_by'] != $_SESSION[appConfigSession::userId]): ?>
+                        <?php /*分岐：スタッフ権限＞他のユーザーが作成*/ ?>
+                        <?php appFuncModule::btn('submit', ['title' => '管理者確認', 'disabled' => true]); ?>
+                        <p class="pt-3 text-center">
+                            <?php appFuncModule::string('exclamation', '他のユーザーが作成した送客シートです'); ?>
+                        </p>
+                    <?php elseif (appHttpCssheetAjaxDetail::$dbResult['approval_status'] === appConfigStatus::approval_status['complete']['key']): ?>
                         <?php /*分岐：スタッフ権限＞承認済*/ ?>
                         <?php appFuncModule::btn('submit', ['title' => '管理者確認', 'disabled' => true, 'popover' => '管理者承認済です']); ?>
                     <?php elseif (appHttpCssheetAjaxDetail::$dbResult['approval_status'] === appConfigStatus::approval_status['progress']['key']): ?>
