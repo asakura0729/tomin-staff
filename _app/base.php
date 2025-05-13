@@ -29,3 +29,4 @@ include_once __DIR__ . '/func/service/crm/array.php';
 include_once __DIR__ . '/func/service/crm/get.php';
 include_once __DIR__ . '/func/service/crm/disp.php';
 include_once __DIR__ . '/func/service/crm/storage.php';
+appConfigPage::$path = appFuncPath::getPath();
