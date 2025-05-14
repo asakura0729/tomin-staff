@@ -15,4 +15,7 @@ class appConfigPage
     public static $tmpl = ""; //ページの見た目を切り替える際に使用する変数
     public static $pageCategory = ""; //ページのカテゴリ
     public static $path = ""; //ファイルパス
+
+    public static $microtimeStart = 0; //ページの処理開始時間
+    public static $microtimeEnd = 0; //ページの処理終了時間
 }

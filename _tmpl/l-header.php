@@ -6,7 +6,7 @@
             </a>
         </div>
         <?php if (appFuncSession::checkLogin() === true) : ?>
-            <form method="post" class="dropdown">
+            <form id="<?php echo appFuncString::exclusionHash(appConfigSite::pageHeaderForm); ?>" method="post" class="dropdown">
                 <button id="page-header-dropdown" class="btn dropdown-toggle color-white align-top p-0 pb-1 pl-2 pr-3" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="color-white">
                         <span class="pr-2"><?php echo $_SESSION[appConfigSession::userName]; ?></span>がログイン中
@@ -15,6 +15,7 @@
                 <div class="dropdown-menu w-100 p-2" aria-labelledby="page-header-dropdown">
                     <button type="submit" class="btn dropdown-item"><i class="fa fa-sign-out pr-2 color-contrast" aria-hidden="true"></i>ログアウト</button>
                 </div>
+                <input type="hidden" name="userid" value="<?php echo $_SESSION[appConfigSession::userId]; ?>">
                 <input type="hidden" name="logout" value="<?php echo appConfigSession::logoutValue; ?>">
             </form>
         <?php endif; ?>

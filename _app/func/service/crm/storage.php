@@ -17,11 +17,11 @@ class appFuncCrmStorage
     //-----------------------------------------------------
     // 対応ログストレージ保存（終了）
     //-----------------------------------------------------
-    public static function end()
+    public static function end($minify = false)
     {
         if (count($_GET) <= 0) {
             /*分岐:新規作成*/
-            appFuncStorage::end();
+            appFuncStorage::end($minify);
         }
     }
     //-----------------------------------------------------

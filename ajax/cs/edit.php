@@ -5,11 +5,9 @@
 ?>
 <?php require_once '../../_app/ssl_base.php'; ?>
 <?php require_once '../../_app/http/ajax/cs/edit.php'; ?>
-
 <?php appFuncCrmStorage::start(); ?>
 <?php require_once '../_tmpl/page.php'; ?>
 <?php appFuncModule::heading('h1', 'h1', appConfigPage::$title); ?>
-
 <section class="p-3 pb-5">
     <div id="<?php echo appFuncString::exclusionHash(appConfigSite::secCsEdit); ?>" class="minh-200px">
         <?php appFuncModule::include('../_module/form-edit.php', [
@@ -33,9 +31,12 @@
     ]); ?>
 </section>
 
+<?php appFuncModule::include('../_module/js-form-edit.php', ['dbResult' => appHttpAjaxCsEdit::$dbResult]); ?>
+<?php appFuncModule::js('form-scroll', ['target' => appConfigSite::secCsEdit]); ?>
+<?php appFuncModule::js('form-cs', ['target' => appConfigSite::secSearch]); ?>
 <?php if (appHttpAjaxCsEdit::$dbResult['client_tel'] != ''): ?>
     <?php /*分岐：電話番号指定あり*/ ?>
     <?php appFuncModule::js('pageload-submit', ['target' => '[data-submit-search]']); ?>
 <?php endif; ?>
-<?php appFuncModule::js('form-scroll', ['target' => appConfigSite::secCsEdit]); ?>
+
 <?php appFuncCrmStorage::end(); ?>

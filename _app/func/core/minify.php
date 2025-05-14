@@ -31,4 +31,18 @@ class appFuncMinify
             '/(\s)+/s'       // 複数の空白を1つにする
         ], ['>', '<', '\\1'], $html);
     }
+    //-----------------------------------------------------
+    // 速度計測
+    //-----------------------------------------------------
+    public static function microtime(bool $cache = false)
+    {
+        appConfigPage::$microtimeEnd = microtime(true);
+        $microtime = appConfigPage::$microtimeEnd - appConfigPage::$microtimeStart;
+        $path = appConfigPage::$path;
+        if ($cache === true) {
+            echo '<script>console.log("cache:' . $path . ',time:' . $microtime . '");</script>';
+        } else {
+            echo '<script>console.log("cache:none,time:' . $microtime . '");</script>';
+        }
+    }
 }

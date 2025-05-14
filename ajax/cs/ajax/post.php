@@ -21,6 +21,7 @@
     <?php appFuncModule::js('url-push', ['path' => appRoutesWeb::sitemap['adminCsEdit']['path'] . appFuncPath::setGetParam(['cs_id'], [appHttpAjaxCsAjaxPost::$postPrimaryKey])]); ?>
 <?php endif; ?>
 
+<?php appFuncModule::include('../../_module/js-form-edit.php', ['dbResult' => appHttpAjaxCsAjaxPost::$dbResult]); ?>
 <?php appFuncModule::js('totop'); ?>
 <?php appFuncModule::js('message', ['target' => 'h1', 'msg' => appRoutesWeb::sitemap['adminCsEdit']['title'] . appFuncCrmDisp::pageTitleAdd(appHttpAjaxCsAjaxPost::$dbResult)]); ?>
 <?php appFuncModule::js('hx-trigger-autoload'); ?>

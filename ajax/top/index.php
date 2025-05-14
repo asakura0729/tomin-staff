@@ -1,6 +1,7 @@
 <?php require_once '../../_app/ssl_base.php'; ?>
 
 <?php appFuncStorage::start(); ?>
+<?php appFuncMinify::minifySourceStart(); ?>
 <?php require_once '../_tmpl/page.php'; ?>
 <div class="container" data-animation="animation-fadein-topslide">
     <div class="row">
@@ -25,4 +26,5 @@
         <?php endforeach; ?>
     </div>
 </div>
-<?php appFuncStorage::end(true); ?>
+<?php appFuncMinify::minifySourceEnd(); ?>
+<?php appFuncStorage::end(); ?>

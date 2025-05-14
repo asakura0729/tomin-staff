@@ -41,37 +41,34 @@ class appFuncStorage
     //-----------------------------------------------------
     public static function start()
     {
-        if (appConfigSite::cache === false) {
-            return;
-        }
-        $cacheFile = self::createPathAuthority();
-        if (file_exists($cacheFile)) {
-            readfile($cacheFile);
-            $path = appConfigPage::$path;
-            echo <<<EOF
-            <script>console.log("cache:{$path}");</script>
-            EOF;
-            exit;
-        } else {
-            ob_start();
+        appConfigPage::$microtimeStart = microtime(true);
+        if (appConfigSite::cache === true) {
+            $cacheFile = self::createPathAuthority();
+            if (file_exists($cacheFile)) {
+                /*分岐：キャッシュファイルあり*/
+                readfile($cacheFile);
+                appFuncMinify::microtime(true);
+                exit;
+            } else {
+                /*分岐：キャッシュファイルなし*/
+                ob_start();
+            }
         }
     }
     //-----------------------------------------------------
     // 権限別キャッシュファイル生成（終了）
     //-----------------------------------------------------
-    public static function end($minify = false)
+    public static function end()
     {
-        if (appConfigSite::cache === false) {
-            return;
-        }
-        $cacheFile = self::createPathAuthority();
-        if (!file_exists($cacheFile)) {
-            $outputHtml = ob_get_clean();
-            if ($minify === true) {
-                $outputHtml = appFuncMinify::minifyStr($outputHtml);
+        if (appConfigSite::cache === true) {
+            $cacheFile = self::createPathAuthority();
+            if (!file_exists($cacheFile)) {
+                /*分岐：キャッシュファイルなし*/
+                $outputHtml = ob_get_clean();
+                appFuncEditFile::createFile($cacheFile, $outputHtml);
+                echo $outputHtml;
             }
-            appFuncEditFile::createFile($cacheFile, $outputHtml);
-            echo $outputHtml;
         }
+        appFuncMinify::microtime(false);
     }
 }

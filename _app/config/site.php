@@ -19,6 +19,7 @@ class appConfigSite
   // サイト内で使用するID
   //======================================================================
   const pageHeader = '#page-header'; //ヘッダーのID
+  const pageHeaderForm = '#page-header-form'; //ヘッダーのフォーム
   const pageMain = '#page-main'; //メインコンテンツのID
   const spinners = '#spinners';
   const secCsIndex = '#cs-index'; //対応ログ一覧

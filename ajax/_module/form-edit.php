@@ -2,7 +2,6 @@
 //======================================================================
 //対応ログ編集フォーム
 //$option['dbResult']...DBから取得したデータ
-//$option['postPrimaryKey']...DBに送信したデータの主キー
 //======================================================================
 ?>
 
@@ -89,31 +88,3 @@
         'inputValue' => $option['dbResult'][appDatabaseCs::table['client_category']['name']],
     ]); ?>
 </form>
-
-<?php if ($option['dbResult']['cs_id'] === ''): ?>
-    <?php /*分岐1：新規作成 */ ?>
-    <?php appFuncModule::js('form-submit'); ?>
-    <?php appFuncModule::js('form-submit-redirect'); ?>
-<?php elseif (appFuncSession::checkAuth(appConfigUser::authorityManager) === false): ?>
-    <?php /*分岐2：既存＞権限／スタッフ*/ ?>
-    <?php appFuncModule::js('form-readonly', ['target' => appConfigSite::secCsEdit, 'child' => 'select[name=post_by]']); ?>
-    <?php if (
-        $option['dbResult']['approval_status'] === appConfigStatus::approval_status['complete']['key'] ||
-        $option['dbResult']['post_by'] != $_SESSION[appConfigSession::userId]
-    ): ?>
-        <?php /*分岐1-2：既存＞権限／スタッフ＞対応ログが承認済み*/ ?>
-        <?php /*分岐1-3：既存＞権限／スタッフ＞他のユーザーが作成*/ ?>
-        <?php appFuncModule::js('form-readonly', ['target' => appConfigSite::secCsEdit]); ?>
-    <?php else: ?>
-        <?php /*分岐1-4：既存＞権限／スタッフ＞通常 */ ?>
-        <?php appFuncModule::js('form-submit'); ?>
-        <?php appFuncModule::js('form-submit-redirect'); ?>
-    <?php endif; ?>
-<?php else: ?>
-    <?php /*分岐2：既存＞権限：管理者*/ ?>
-    <?php appFuncModule::js('form-submit'); ?>
-    <?php appFuncModule::js('form-submit-redirect'); ?>
-<?php endif; ?>
-
-<?php appFuncModule::js('form-cs', ['target' => appConfigSite::secCsEdit]); ?>
-<?php appFuncModule::js('message', ['target' => '[data-disp=approval_by]', 'msg' => appFuncDataformat::selectmenu($formContents, 'approval_by', $option['dbResult']['approval_by'])]); ?>
