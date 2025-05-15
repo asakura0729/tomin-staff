@@ -22,8 +22,7 @@
             <div class="pos-middle-center w-80per text-center">
                 <?php if ($inputValue != appConfigStatus::approval_status['complete']['key']): ?>
                     <?php /*分岐1：申請中*/ ?>
-                    <input type="checkbox" class="form-control" <?php echo appFuncCrmDisp::checkbox($inputName, $inputValue, appConfigStatus::approval_status['progress']['key'], appConfigStatus::approval_status['started']['key']); ?>>
-                    <input name="<?php echo $inputName; ?>" type="hidden" value="<?php echo $inputValue; ?>">
+                    <?php echo appConfigStatus::approval_status['progress']['name']; ?>
                 <?php else: ?>
                     <?php /*分岐2：申請済*/ ?>
                     <input type="checkbox" class="form-control" checked disabled>
@@ -43,9 +42,6 @@
         <?php /*分岐：日付（範囲指定）*/ ?>
         <input name="<?php echo $inputName; ?>[min]" type="date" value="" class="form-control" data-input-date="<?php echo $inputName; ?>">
         <input name="<?php echo $inputName; ?>[max]" type="date" value="" class="form-control" data-input-date="<?php echo $inputName; ?>" readonly>
-    <?php elseif ($inputType === 'textarea'): ?>
-        <?php /*分岐：テキストエリア*/ ?>
-        <textarea name=" <?php echo $inputName; ?>" class="form-sheets font-size-0_9 p-1"><?php echo $inputValue; ?></textarea>
     <?php elseif ($inputType === 'select'): ?>
         <?php /*分岐：セレクトメニュー*/ ?>
         <select name="<?php echo $inputName; ?>" class="form-sheets">
@@ -59,6 +55,6 @@
         <input name="<?php echo $inputName; ?>" type="text" value="<?php echo $inputValue; ?>" class="form-sheets text-right p-1" data-input-number>
     <?php else: ?>
         <?php /*分岐：その他*/ ?>
-        <input name="<?php echo $inputName; ?>" type="<?php echo $inputType; ?>" value="<?php echo $inputValue; ?>" class="form-sheets">
+        <textarea name="<?php echo $inputName; ?>" class="form-sheets font-size-0_9 p-1"><?php echo $inputValue; ?></textarea>
     <?php endif; ?>
 <?php endif; ?>

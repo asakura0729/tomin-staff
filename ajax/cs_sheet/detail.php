@@ -106,11 +106,7 @@
                     <?php if (appHttpCssheetAjaxDetail::$dbResult['approval_status'] === appConfigStatus::approval_status['complete']['key']): ?>
                         <?php /*分岐：管理者権限＞承認済*/ ?>
                         <?php appFuncModule::btn('print', ['css' => 'w-100']); ?>
-                    <?php elseif (
-                        appHttpCssheetAjaxDetail::$dbResult['approval_status'] === appConfigStatus::approval_status['progress']['key'] ||
-                        appHttpCssheetAjaxDetail::$dbResult['approval_status'] === appConfigStatus::approval_status['started']['key'] && appHttpCssheetAjaxDetail::$dbResult['insert_by'] === $_SESSION[appConfigSession::userId]
-                    ): ?>
-                        <?php /*分岐：管理者権限＞申請中*/ ?>
+                    <?php elseif (appHttpCssheetAjaxDetail::$dbResult['approval_status'] === appConfigStatus::approval_status['progress']['key']): ?>
                         <?php /*分岐：管理者権限＞未申請　+　送客シート作成者は管理者*/ ?>
                         <?php appFuncModule::form('form-control', appConfigStatus::approval_status['complete']['key'], ['inputName' => appDatabaseCs::table['approval_status']['name'], 'inputType' => 'hidden']); ?>
                         <?php appFuncModule::btn('print', ['css' => 'w-100', 'add' => 'data-submit']); ?>

@@ -224,7 +224,7 @@ class appFuncCrmGet
             $result['client_tel'] = $getTel;
             $result['cs_category'] = appConfigStatus::csCategoryLog;
             $result['delivery_status'] = appConfigStatus::delivery_status['unnecessary']['key'];
-            $result['approval_status'] = appConfigStatus::approval_status['started']['key'];
+            $result['approval_status'] = appConfigStatus::approval_status['progress']['key'];
         } else {
             /*分岐2：既存データ*/
             $getCloneFlg = appFuncArray::issetKey($get, self::getCloneFlg, '') == 'true'  ? true : false;
@@ -306,7 +306,7 @@ class appFuncCrmGet
             $result['title'] = '送客シート';
             $result['parent_cs_id'] = $_GET[appDatabaseCs::primaryKey];
             $result['cs_category'] = appConfigStatus::csCategorySheet;
-            $result['approval_status'] = appConfigStatus::approval_status['started']['key'];
+            $result['approval_status'] = appConfigStatus::approval_status['progress']['key'];
             $result['comment'] = '';
         }
         if ($dataformat === true) {
