@@ -115,27 +115,21 @@ class appFuncCrmDisp
     public static function btnApproval($value): array
     {
         $result = [];
-        $btnTitle = "承認";
         $csId = $value[appDatabaseCs::primaryKey];
         $approvalStatusKey = self::db['approval_status']['name'];
         $approvalStatus = $value['dbresult'][$approvalStatusKey];
-        $insertApprovalStatus = "";
-        switch ($approvalStatus) {
-            case appConfigStatus::approval_status['progress']['key']:
-                /*分岐1：未承認*/
-                $insertApprovalStatus = appConfigStatus::approval_status['complete']['key'];
-                $result['add'] = <<<EOF
-                data-edit-approval='{"cs_id":"{$csId}","approval_status":"{$insertApprovalStatus}"}'
-                EOF;
-                break;
-            case appConfigStatus::approval_status['complete']['key']:
-                /*分岐2：承認済*/
-                $btnTitle = "承認済";
-                $result['disabled'] = true;
-                $result['popover'] = '承認済です';
-                break;
+        if ($approvalStatus === appConfigStatus::approval_status['complete']['key']) {
+            /*分岐1：承認済*/
+            $result['title'] = appConfigStatus::approval_status['complete']['name'];
+            $result['disabled'] = true;
+        } else {
+            /*分岐2：未承認*/
+            $insertApprovalStatus = appConfigStatus::approval_status['complete']['key'];
+            $result['title'] = appConfigStatus::approval_status['progress']['name'];
+            $result['add'] = <<<EOF
+            data-edit-approval='{"cs_id":"{$csId}","approval_status":"{$insertApprovalStatus}"}'
+            EOF;
         }
-        $result['title'] = $btnTitle;
         return $result;
     }
     //-----------------------------------------------------

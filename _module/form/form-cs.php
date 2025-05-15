@@ -23,6 +23,7 @@
                 <?php if ($inputValue != appConfigStatus::approval_status['complete']['key']): ?>
                     <?php /*分岐1：申請中*/ ?>
                     <?php echo appConfigStatus::approval_status['progress']['name']; ?>
+                    <input name="<?php echo $inputName; ?>" type="hidden" value="<?php echo $inputValue; ?>">
                 <?php else: ?>
                     <?php /*分岐2：申請済*/ ?>
                     <input type="checkbox" class="form-control" checked disabled>
@@ -53,6 +54,9 @@
     <?php elseif ($inputType === 'number'): ?>
         <?php /*分岐：数値*/ ?>
         <input name="<?php echo $inputName; ?>" type="text" value="<?php echo $inputValue; ?>" class="form-sheets text-right p-1" data-input-number>
+    <?php elseif ($inputType === 'datetime-local' || $inputType === 'date'): ?>
+        <?php /*分岐：日付*/ ?>
+        <input name="<?php echo $inputName; ?>" type="<?php echo $inputType; ?>" value="<?php echo $inputValue; ?>" class="form-sheets">
     <?php else: ?>
         <?php /*分岐：その他*/ ?>
         <textarea name="<?php echo $inputName; ?>" class="form-sheets font-size-0_9 p-1"><?php echo $inputValue; ?></textarea>

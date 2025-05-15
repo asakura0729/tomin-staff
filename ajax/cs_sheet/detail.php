@@ -82,37 +82,15 @@
         <div class="container pt-3">
             <form data-hx-post="<?php echo appRoutesWeb::sitemap['adminCsSheetDetail']['contents'] . appFuncPath::setGetParam(['cs_id'], [appHttpCssheetAjaxDetail::$dbResult['cs_id']]); ?>" data-hx-target="<?php echo appConfigSite::pageMain; ?>">
                 <?php appFuncModule::form('form-control', appHttpCssheetAjaxDetail::$dbResult['cs_id'], ['inputName' => 'cs_id', 'inputType' => 'hidden']); ?>
-                <?php if (appFuncSession::checkAuth(appConfigUser::authorityManager) != true): ?>
-                    <?php /*分岐：スタッフ権限*/ ?>
-                    <?php if (appHttpCssheetAjaxDetail::$dbResult['insert_by'] != $_SESSION[appConfigSession::userId]): ?>
-                        <?php /*分岐：スタッフ権限＞他のユーザーが作成*/ ?>
-                        <?php appFuncModule::btn('submit', ['title' => '管理者確認', 'disabled' => true]); ?>
-                        <p class="pt-3 text-center">
-                            <?php appFuncModule::string('exclamation', '他のユーザーが作成した送客シートです'); ?>
-                        </p>
-                    <?php elseif (appHttpCssheetAjaxDetail::$dbResult['approval_status'] === appConfigStatus::approval_status['complete']['key']): ?>
-                        <?php /*分岐：スタッフ権限＞承認済*/ ?>
-                        <?php appFuncModule::btn('submit', ['title' => '管理者確認', 'disabled' => true, 'popover' => '管理者承認済です']); ?>
-                    <?php elseif (appHttpCssheetAjaxDetail::$dbResult['approval_status'] === appConfigStatus::approval_status['progress']['key']): ?>
-                        <?php /*分岐：スタッフ権限＞申請中*/ ?>
-                        <?php appFuncModule::btn('submit', ['title' => '管理者確認', 'disabled' => true, 'popover' => '管理者確認中です']); ?>
-                    <?php else: ?>
-                        <?php /*分岐：スタッフ権限＞未申請*/ ?>
-                        <?php appFuncModule::form('form-control', appConfigStatus::approval_status['progress']['key'], ['inputName' => appDatabaseCs::table['approval_status']['name'], 'inputType' => 'hidden']); ?>
-                        <?php appFuncModule::btn('submit', ['title' => '管理者確認']); ?>
-                    <?php endif; ?>
-                <?php elseif (appFuncSession::checkAuth(appConfigUser::authorityManager) === true): ?>
+                <?php if (appFuncSession::checkAuth(appConfigUser::authorityManager) === true): ?>
                     <?php /*分岐：管理者権限*/ ?>
                     <?php if (appHttpCssheetAjaxDetail::$dbResult['approval_status'] === appConfigStatus::approval_status['complete']['key']): ?>
                         <?php /*分岐：管理者権限＞承認済*/ ?>
                         <?php appFuncModule::btn('print', ['css' => 'w-100']); ?>
                     <?php elseif (appHttpCssheetAjaxDetail::$dbResult['approval_status'] === appConfigStatus::approval_status['progress']['key']): ?>
-                        <?php /*分岐：管理者権限＞未申請　+　送客シート作成者は管理者*/ ?>
+                        <?php /*分岐：管理者権限＞未承認*/ ?>
                         <?php appFuncModule::form('form-control', appConfigStatus::approval_status['complete']['key'], ['inputName' => appDatabaseCs::table['approval_status']['name'], 'inputType' => 'hidden']); ?>
                         <?php appFuncModule::btn('print', ['css' => 'w-100', 'add' => 'data-submit']); ?>
-                    <?php else: ?>
-                        <?php /*分岐：管理者権限＞未申請*/ ?>
-                        <?php appFuncModule::btn('print', ['css' => 'w-100', 'disabled' => true, 'popover' => '管理者確認が未送信です']); ?>
                     <?php endif; ?>
                     <div class="pt-4 font-size-0_9 pb-5">
                         【印刷時の設定について】<br>※管理者権限のみ印刷が行えます<br>※用紙サイズはA4を指定してください<br>※余白は「デフォルト」を設定してください
@@ -135,7 +113,7 @@
     <?php /*分岐：データ更新*/ ?>
     <?php appFuncModule::component('alert-success'); ?>
     <?php appFuncModule::js('totop'); ?>
-    <?php appFuncModule::js('hx-trigger-autoload'); ?>
     <?php appFuncModule::js('url-push', ['path' => appRoutesWeb::sitemap['adminCsSheetDetail']['path'] . appFuncPath::setGetParam(['cs_id'], [appHttpCssheetAjaxDetail::$postPrimaryKey])]); ?>
 <?php endif; ?>
+<?php appFuncModule::js('hx-trigger-autoload'); ?>
 <?php appFuncModule::js('form-submit'); ?>
