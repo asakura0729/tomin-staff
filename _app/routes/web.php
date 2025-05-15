@@ -103,8 +103,11 @@ class appRoutesWeb
     // 非同期コンテンツ
     //======================================================================
     public const async = [
-        'adminCountCs' => [self::pagePath => null, self::pageContents => '/ajax/count_cs', self::pageTitle => '対応ログ（未承認）の数', self::pageRoute => [], self::pageIcon => ''],
-        'adminCountCsSheet' => [self::pagePath => null, self::pageContents => '/ajax/count_cs_sheet', self::pageTitle => '送客シート（未承認）の数', self::pageRoute => [], self::pageIcon => ''],
+        'adminApi404' => [self::pagePath => null, self::pageContents => '/ajax/api/404', self::pageTitle => 'ページが存在しません', self::pageRoute => [], self::pageIcon => ''],
+        'adminApiAlert' => [self::pagePath => null, self::pageContents => '/ajax/api/alert', self::pageTitle => '通知・注意喚起', self::pageRoute => [], self::pageIcon => ''],
+        'adminCountCs' => [self::pagePath => null, self::pageContents => '/ajax/api/count_cs', self::pageTitle => '対応ログ（未承認）の数', self::pageRoute => [], self::pageIcon => ''],
+        'adminCountCsSheet' => [self::pagePath => null, self::pageContents => '/ajax/api/count_cs_sheet', self::pageTitle => '送客シート（未承認）の数', self::pageRoute => [], self::pageIcon => ''],
+        'adminApiHeaderform' => [self::pagePath => null, self::pageContents => '/ajax/api/form-page-header', self::pageTitle => 'ユーザーフォーム', self::pageRoute => [], self::pageIcon => ''],
         'adminCsAjaxList' => [self::pagePath => null, self::pageContents => '/ajax/cs/ajax/list', self::pageTitle => '対応ログ一覧', self::pageRoute => [], self::pageIcon => ''],
         'adminCsAjaxPost' => [self::pagePath => null, self::pageContents => '/ajax/cs/ajax/post', self::pageTitle => '対応ログ編集', self::pageRoute => [], self::pageIcon => ''],
         'adminCsAjaxPost_approval' => [self::pagePath => null, self::pageContents => '/ajax/cs/ajax/post_approval', self::pageTitle => '対応ログ編集（承認）', self::pageRoute => [], self::pageIcon => ''],

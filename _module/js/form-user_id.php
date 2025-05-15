@@ -15,7 +15,16 @@
             userId: 'input[name=userid]',
             targetInput: '<?php echo $option['child']; ?>',
         }
-        const userId = document.querySelector(elem.headerForm).querySelector(input.userId).value;
-        document.querySelector(elem.targetForm).querySelector(input.targetInput).value = userId;
+        const setUserId = function() {
+            if (!!document.querySelector(elem.headerForm) === true) {
+                const userId = document.querySelector(elem.headerForm).querySelector(input.userId).value;
+                document.querySelector(elem.targetForm).querySelector(input.targetInput).value = userId;
+            } else {
+                return setTimeout(function() {
+                    setUserId();
+                }, 100);
+            }
+        }
+        setUserId();
     }());
 </script>

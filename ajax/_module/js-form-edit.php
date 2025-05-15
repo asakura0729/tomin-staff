@@ -5,6 +5,11 @@
 //======================================================================
 ?>
 
+<?php if ($option['dbResult'][appDatabaseCs::primaryKey] === ''): ?>
+    <?php /*分岐：データが新規*/ ?>
+    <?php appFuncModule::js('form-user_id', ['target' => appConfigSite::secCsEdit, 'child' => 'select[name=post_by]']); ?>
+<?php endif; ?>
+
 <?php if (appFuncSession::checkAuth(appConfigUser::authorityManager) === false): ?>
     <?php /*分岐1：権限／スタッフ*/ ?>
     <?php appFuncModule::js('form-readonly', ['target' => appConfigSite::secCsEdit, 'child' => 'select[name=post_by]']); ?>
@@ -24,11 +29,6 @@
     <?php /*分岐2：権限／管理者*/ ?>
     <?php appFuncModule::js('form-submit'); ?>
     <?php appFuncModule::js('form-submit-redirect'); ?>
-<?php endif; ?>
-
-<?php if ($option['dbResult'][appDatabaseCs::primaryKey] === ''): ?>
-    <?php /*分岐：データが新規*/ ?>
-    <?php appFuncModule::js('form-user_id', ['target' => appConfigSite::secCsEdit, 'child' => 'select[name=post_by]']); ?>
 <?php endif; ?>
 
 <?php appFuncModule::js('form-cs', ['target' => appConfigSite::secCsEdit]); ?>

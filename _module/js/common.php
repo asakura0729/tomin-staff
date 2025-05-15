@@ -82,7 +82,7 @@
             $('[data-toggle="popover"]').popover();
         });
     });
-    document.body.addEventListener("htmx:afterSettle", function(event) {
+    document.querySelector(id.main).addEventListener("htmx:afterSettle", function(event) {
         gNavColorChange();
         setTimeout(function() {
             spinners(false);

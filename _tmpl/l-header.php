@@ -15,8 +15,8 @@
                 <div class="dropdown-menu w-100 p-2" aria-labelledby="page-header-dropdown">
                     <button type="submit" class="btn dropdown-item"><i class="fa fa-sign-out pr-2 color-contrast" aria-hidden="true"></i>ログアウト</button>
                 </div>
-                <input type="hidden" name="userid" value="<?php echo $_SESSION[appConfigSession::userId]; ?>">
-                <input type="hidden" name="logout" value="<?php echo appConfigSession::logoutValue; ?>">
+                <?php appFuncModule::form('form-control', $_SESSION[appConfigSession::userId], ['inputName' => 'userid', 'inputType' => 'hidden']); ?>
+                <?php appFuncModule::form('form-control', appConfigSession::logoutValue, ['inputName' => 'logout', 'inputType' => 'hidden']); ?>
             </form>
         <?php endif; ?>
     </div>
@@ -41,4 +41,5 @@
             <?php endforeach; ?>
         </nav>
     <?php endif; ?>
+    <div id="page-alert" data-hx-get="<?php echo appRoutesWeb::async['adminApiAlert']['contents']; ?>" data-hx-trigger="load, every 60s" data-hx-swap="innerHTML"></div>
 </header>

@@ -30,7 +30,7 @@ class appFuncStorage
         try {
             $authority = $_SESSION[appConfigSession::authority];
             $add = '-' . $authority;
-            return  self::createPath(appConfigPage::$path, $add);
+            return self::createPath(appConfigPage::$path, $add);
         } catch (PDOException $e) {
             echo 'Error:' . $e->getMessage();
             exit;
@@ -39,10 +39,11 @@ class appFuncStorage
     //-----------------------------------------------------
     // 権限別キャッシュファイル生成（開始）
     //-----------------------------------------------------
-    public static function start()
+    public static function start(bool $cacheFlg = appConfigSite::cache)
     {
         appConfigPage::$microtimeStart = microtime(true);
-        if (appConfigSite::cache === true) {
+        if ($cacheFlg === true) {
+            /*分岐：キャッシュの設定有効*/
             $cacheFile = self::createPathAuthority();
             if (file_exists($cacheFile)) {
                 /*分岐：キャッシュファイルあり*/
@@ -58,9 +59,10 @@ class appFuncStorage
     //-----------------------------------------------------
     // 権限別キャッシュファイル生成（終了）
     //-----------------------------------------------------
-    public static function end()
+    public static function end(bool $cacheFlg = appConfigSite::cache)
     {
-        if (appConfigSite::cache === true) {
+        if ($cacheFlg === true) {
+            /*分岐：キャッシュの設定有効*/
             $cacheFile = self::createPathAuthority();
             if (!file_exists($cacheFile)) {
                 /*分岐：キャッシュファイルなし*/

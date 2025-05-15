@@ -7,18 +7,24 @@ class appFuncMinify
     //-----------------------------------------------------
     // HTML圧縮開始
     //-----------------------------------------------------
-    public static function minifySourceStart()
+    public static function minifySourceStart(bool $bool = true)
     {
-        ob_start();
+        if ($bool === true) {
+            /*分岐：HTML圧縮の設定有効*/
+            ob_start();
+        }
     }
     //-----------------------------------------------------
     // HTML圧縮終了
     //-----------------------------------------------------
-    public static function minifySourceEnd()
+    public static function minifySourceEnd(bool $bool = true)
     {
-        $buffer = ob_get_clean();
-        $minified_html = self::minifyStr($buffer);
-        echo $minified_html . "\n\n";
+        if ($bool === true) {
+            /*分岐：HTML圧縮の設定有効*/
+            $buffer = ob_get_clean();
+            $minified_html = self::minifyStr($buffer);
+            echo $minified_html . "\n\n";
+        }
     }
     //-----------------------------------------------------
     // HTML圧縮処理

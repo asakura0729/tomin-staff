@@ -5,7 +5,9 @@
 ?>
 <?php require_once '../../_app/ssl_base.php'; ?>
 <?php require_once '../../_app/http/ajax/cs/edit.php'; ?>
-<?php appFuncCrmStorage::start(); ?>
+<?php $cacheFlg = appFuncCrmStorage::cacheFlg(); ?>
+<?php appFuncStorage::start($cacheFlg); ?>
+<?php appFuncMinify::minifySourceStart($cacheFlg); ?>
 <?php require_once '../_tmpl/page.php'; ?>
 <?php appFuncModule::heading('h1', 'h1', appConfigPage::$title); ?>
 <section class="p-3 pb-5">
@@ -30,6 +32,7 @@
         ]
     ]); ?>
 </section>
+<?php appFuncMinify::minifySourceEnd($cacheFlg); ?>
 
 <?php appFuncModule::include('../_module/js-form-edit.php', ['dbResult' => appHttpAjaxCsEdit::$dbResult]); ?>
 <?php appFuncModule::js('form-scroll', ['target' => appConfigSite::secCsEdit]); ?>
@@ -39,4 +42,4 @@
     <?php appFuncModule::js('pageload-submit', ['target' => '[data-submit-search]']); ?>
 <?php endif; ?>
 
-<?php appFuncCrmStorage::end(); ?>
+<?php appFuncStorage::end($cacheFlg); ?>

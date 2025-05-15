@@ -44,9 +44,9 @@ class appFuncPath
     //-----------------------------------------------------
     // hx-get作成
     //-----------------------------------------------------
-    public static function hxGet(): string
+    public static function hxGet(string $defaultPath): string
     {
-        $result = '';
+        $result = $defaultPath;
         $path = self::getPath();
         $getParam = self::getQuery();
         foreach (self::sitemap as $page) {

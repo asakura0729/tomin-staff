@@ -5,23 +5,22 @@
 class appFuncCrmStorage
 {
     //-----------------------------------------------------
-    // 対応ログストレージ保存（開始）
+    // キャッシュ生成するか否か
     //-----------------------------------------------------
-    public static function start()
+    public static function cacheFlg(): bool
     {
-        if (count($_GET) <= 0) {
-            /*分岐:新規作成*/
-            appFuncStorage::start();
-        }
-    }
-    //-----------------------------------------------------
-    // 対応ログストレージ保存（終了）
-    //-----------------------------------------------------
-    public static function end($minify = false)
-    {
-        if (count($_GET) <= 0) {
-            /*分岐:新規作成*/
-            appFuncStorage::end($minify);
+        if (appConfigSite::cache === true) {
+            /*分岐：キャッシュの設定有効*/
+            if (count($_GET) > 0) {
+                /*分岐：GETパラメータあり*/
+                return false;
+            } else {
+                /*分岐：GETパラメータなし*/
+                return true;
+            }
+        } else {
+            /*分岐：キャッシュの設定無効*/
+            return false;
         }
     }
     //-----------------------------------------------------
