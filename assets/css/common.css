@@ -8,7 +8,6 @@
 /*  
 layout
 ---------------------------------*/
-
 body {
     background-color: var(--ll-gray);
 }
@@ -953,10 +952,12 @@ components
 .pagination .page-item {
     cursor: pointer;
 }
-.page-link{
+
+.page-link {
     color: var(--contrast);
 }
-.page-item.active .page-link{
+
+.page-item.active .page-link {
     border: none;
     background-color: var(--contrast);
 }
@@ -1000,7 +1001,6 @@ button.is-invalid {
     opacity: 0.15;
     pointer-events: none;
 }
-
 
 /*htmx-spinner*/
 .dropdown-after-none.dropdown-toggle::after {

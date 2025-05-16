@@ -16,12 +16,12 @@
         dataAddSpinner: "[data-add-spinner]",
         dataAnimation: "[data-animation]"
     }
+    const confirmPath = {
+        csEdit: '<?php echo appRoutesWeb::sitemap['adminCsEdit']['path']; ?>'
+    }
     const css = {
         dNone: 'd-none',
         isCurrent: 'is-current'
-    }
-    const confirmPath = {
-        csEdit: '<?php echo appRoutesWeb::sitemap['adminCsEdit']['path']; ?>'
     }
     const dataAttribute = function(str) {
         return str.replace(/^\[|\]$/g, '');
@@ -52,6 +52,9 @@
                 document.querySelector(target).innerHTML = cloneSpinner;
             });
         });
+        $(function() {
+            $(selector).find('[data-toggle="popover"]').popover();
+        });
     }
     const gNavColorChange = function() {
         const path = location.pathname;
@@ -78,12 +81,11 @@
     htmxSetting(elem.header);
     htmx.onLoad(function(ajaxContents) {
         htmxSetting(ajaxContents);
-        $(function() {
-            $('[data-toggle="popover"]').popover();
-        });
     });
-    document.querySelector(id.main).addEventListener("htmx:afterSettle", function(event) {
-        gNavColorChange();
+    document.body.addEventListener("htmx:afterSettle", function(event) {
+        if (event.target.id === id.main.replace("#", "")) {
+            gNavColorChange();
+        }
         setTimeout(function() {
             spinners(false);
             setAnimation();

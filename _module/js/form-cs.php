@@ -73,12 +73,11 @@
         const setToggleAccordionBtn = function(selecter) {
             const closeStatusText = '＋';
             const openStatusText = '－';
-            const dataName = selecter.replace(/^\[|\]$/g, '');
             if (!!targetForm.querySelectorAll(selecter) === false) {
                 return;
             }
             targetForm.querySelectorAll(selecter).forEach(button => {
-                const btnStatus = button.getAttribute(dataName);
+                const btnStatus = button.getAttribute(dataAttribute(selecter));
                 button.addEventListener('click', () => {
                     const target = button.nextElementSibling;
                     if (target.classList.contains(css.dNone)) {
@@ -99,8 +98,7 @@
         const setDataInputCheck = function(selecter) {
             targetForm.querySelectorAll(selecter).forEach(function(checkBox) {
                 checkBox.addEventListener("click", function() {
-                    const dataInputCheck = elem.dataInputCheck.replace(/^\[|\]$/g, '');
-                    const inputCheckJSON = this.getAttribute(dataInputCheck);
+                    const inputCheckJSON = this.getAttribute(dataAttribute(elem.dataInputCheck));
                     const inputCheck = JSON.parse(inputCheckJSON);
                     const target = inputCheck.target;
                     const checkValue = inputCheck.checkValue;
@@ -129,7 +127,7 @@
         const changeInputDateAction = function(selecter) {
             targetForm.querySelectorAll(selecter).forEach(function(input) {
                 input.addEventListener("change", function() {
-                    const dataName = selecter.replace(/^\[|\]$/g, '');
+                    const dataName = dataAttribute(selecter);
                     const targetInputs = '[' + dataName + '=' + this.getAttribute(dataName) + ']';
                     let date = {
                         'min': '',

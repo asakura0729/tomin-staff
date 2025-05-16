@@ -12,9 +12,6 @@
         const dataRow = "[data-row]";
         const dataLayoutWide = "[data-layout-wide]";
         const mainContents = document.querySelector(targetid);
-        const dataAttribute = function(str) {
-            return str.replace(/^\[|\]$/g, '');
-        }
         const setTableLayout = function() {
             if (!!mainContents.querySelector(targetTable) != true) {
                 console.log("targetTable not found");

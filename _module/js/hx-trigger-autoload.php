@@ -10,11 +10,9 @@
             dataHxTrigger: '[data-hx-trigger]'
         }
         const triggerparam = 'every';
-        const attributeGet = elem.dataHxGet.replace(/^\[|\]$/g, '');
-        const attributeTrigger = elem.dataHxTrigger.replace(/^\[|\]$/g, '');
         document.querySelectorAll(elem.dataHxTrigger).forEach(function(selecter) {
-            const getUrl = selecter.getAttribute(attributeGet);
-            const getTrigger = selecter.getAttribute(attributeTrigger);
+            const getUrl = selecter.getAttribute(dataAttribute(elem.dataHxGet));
+            const getTrigger = selecter.getAttribute(dataAttribute(elem.dataHxTrigger));
             if (getTrigger.includes(triggerparam)) {
                 htmx.ajax('GET', getUrl, selecter)
             }

@@ -22,8 +22,7 @@
         const setScrollX = function(event) {
             const targetForm = document.querySelector(targetId + ' form');
             const scrollElem = targetForm.querySelector(elem.dataScroll);
-            const dataHxPost = elem.dataHxPost.replace(/^\[|\]$/g, '');
-            const hxPost = targetForm.getAttribute(dataHxPost);
+            const hxPost = targetForm.getAttribute(dataAttribute(elem.dataHxPost));
             if (event.detail.pathInfo.requestPath === hxPost) {
                 targetForm.querySelector(elem.dataScroll).scrollLeft = scrollVal;
                 return getScrollX();
