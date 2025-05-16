@@ -74,18 +74,19 @@ class appFuncCrmDisp
                 $result = '250';
                 break;
             case self::db['comment']['name']:
+            case self::db['comment_sheet']['name']:
                 $result = '400';
                 break;
             case self::db['total_price']['name']:
             case self::db['hall_price']['name']:
+            case self::db['client_region']['name']:
+            case self::db['dec_region']['name']:
                 $result = '150';
                 break;
             case self::db['post_by']['name']:
             case self::db['delivery_status']['name']:
             case self::db['approval_status']['name']:
             case self::db['funeral_status']['name']:
-            case self::db['client_region']['name']:
-            case self::db['dec_region']['name']:
                 $result = '100';
                 break;
             default:
@@ -102,7 +103,7 @@ class appFuncCrmDisp
                         $result = '180';
                         break;
                     default:
-                        $result = '100';
+                        $result = '150';
                         break;
                 }
                 break;
@@ -184,6 +185,7 @@ class appFuncCrmDisp
         }
         switch ($inputName) {
             case self::db['comment']['name']:
+            case self::db['comment_sheet']['name']:
                 $colClass = 'w-600px';
                 break;
             case self::db['client_category']['name']:

@@ -97,6 +97,7 @@
                     </div>
                 <?php endif; ?>
             </form>
+        </div>
     </section>
 </div>
 

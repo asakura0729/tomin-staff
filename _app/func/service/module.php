@@ -1,12 +1,12 @@
 <?php
 //======================================================================
-// モジュール読込
+// モジュールを読込んで部分的に値を変える
 //======================================================================
 class appFuncModule
 {
     public const modulePath = __DIR__ . '/../../../_module'; //モジュールのパス
     //-----------------------------------------------------
-    // 汎用
+    // PHPファイルの読み込み
     //-----------------------------------------------------
     public static function include(string $path, array $option = [])
     {
@@ -64,7 +64,11 @@ class appFuncModule
         $selectItemString = appFuncArray::issetKey($option, 'selectItemString', ''); //↑で使用する配列が連想配列の場合、表示する文字列を指定
         $selectItemNoValue = appFuncArray::issetKey($option, 'selectItemNoValue', false); //セレクトメニュー：「値未指定」の表記
         $editFlg = appFuncArray::issetKey($option, 'editFlg', true); //編集可・不可
+        $maxlength = appFuncArray::issetKey($option, 'maxlength', ''); //最大文字数
         $addParam = appFuncArray::issetKey($option, 'add', ''); //追加要素(ID、data属性、onClick属性など)
+        if ($inputType === 'text' && $maxlength != '') {
+            $addParam .= ' maxlength="' . $maxlength . '"';
+        }
         include self::modulePath . '/form/' . $moduleName . '.php';
     }
     //-----------------------------------------------------
@@ -80,6 +84,7 @@ class appFuncModule
         $dbResult = appFuncArray::issetKey($dbConfig, 'dbResult', []);
         $editFlg = appFuncArray::issetKey($dbConfig, 'editFlg', false);
         $inputType = appFuncArray::issetKey($dbConfig, 'inputType', $dbTable[$tableRow]['input']);
+        $maxlength = appFuncString::getInt($dbTable[$tableRow]['type']);
         $addParam = appFuncArray::issetKey($dbConfig, 'add', '');
         $selectItem = [];
         $selectItemString = "";
@@ -101,6 +106,7 @@ class appFuncModule
                 'selectItemString' => $selectItemString,
                 'selectItemNoValue' => $selectItemNoValue,
                 'editFlg' => $editFlg,
+                'maxlength' => $maxlength,
                 'add' => $addParam
             ]
         );

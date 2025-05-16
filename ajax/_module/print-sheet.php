@@ -26,7 +26,7 @@
 
     <div class="pb-3">
         <div class="d-flex align-items-center pb-2">
-            <?php appFuncModule::dbForm('funeral_name', $option); ?>
+            <?php appFuncModule::dbForm('funeral_company_name', $option); ?>
             <div class="w-100px pl-2">御中</div>
         </div>
         <p class="font-size-0_9 m-0 p-0">
@@ -97,7 +97,7 @@
 
     <div class="pt-3 pb-3">
         <div class="border p-2 h-200px">
-            <?php appFuncModule::dbForm('comment', $option); ?>
+            <?php appFuncModule::dbForm('comment_sheet', $option); ?>
         </div>
     </div>
 

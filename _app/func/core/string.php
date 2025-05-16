@@ -74,8 +74,8 @@ class appFuncString
     //-----------------------------------------------------
     public static function getInt($str): string
     {
-        $str = preg_match("/^[0-9]+$/", $str);
-        return $str;
+        $result = preg_replace('/\D/', '', $str);
+        return $result;
     }
     //-----------------------------------------------------
     // ランダム文字列を返す

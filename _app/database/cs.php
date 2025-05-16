@@ -113,6 +113,20 @@ class appDatabaseCs extends appConfigDatabase
       'comment' => '依頼者連絡先',
       'input' => 'textarea'
     ],
+    'chief_mourner_name' => [
+      'name' => 'chief_mourner_name',
+      'type' => 'longtext',
+      'constraints' => 'NULL',
+      'comment' => '喪主名',
+      'input' => 'textarea'
+    ],
+    'chief_mourner_relation' => [
+      'name' => 'chief_mourner_relation',
+      'type' => 'VARCHAR(20)',
+      'constraints' => 'NULL',
+      'comment' => '喪主続柄',
+      'input' => 'text'
+    ],
     'dec_name' => [
       'name' => 'dec_name',
       'type' => 'longtext',
@@ -133,6 +147,27 @@ class appDatabaseCs extends appConfigDatabase
       'constraints' => 'NULL',
       'comment' => '故人続柄',
       'input' => 'text'
+    ],
+    'dec_birth_date' => [
+      'name' => 'dec_birth_date',
+      'type' => 'date',
+      'constraints' => 'NULL',
+      'comment' => '故人生年月日',
+      'input' => 'date'
+    ],
+    'dec_passing_date' => [
+      'name' => 'dec_passing_date',
+      'type' => 'date',
+      'constraints' => 'NULL',
+      'comment' => '故人命日',
+      'input' => 'date'
+    ],
+    'religion_category' => [
+      'name' => 'religion_category',
+      'type' => 'longtext',
+      'constraints' => 'NULL',
+      'comment' => '故人宗派',
+      'input' => 'textarea'
     ],
     'plan_category' => [
       'name' => 'plan_category',
@@ -187,7 +222,7 @@ class appDatabaseCs extends appConfigDatabase
     ],
     'option_name' => [
       'name' => 'option_name',
-      'type' => 'VARCHAR(100)',
+      'type' => 'longtext',
       'constraints' => 'NULL',
       'comment' => 'オプション内容',
       'input' => 'textarea'
@@ -235,6 +270,13 @@ class appDatabaseCs extends appConfigDatabase
       'comment' => 'コメント',
       'input' => 'textarea'
     ],
+    'comment_sheet' => [
+      'name' => 'comment_sheet',
+      'type' => 'longtext',
+      'constraints' => 'NULL',
+      'comment' => '送客シート特記事項',
+      'input' => 'textarea'
+    ],
     'title' => [
       'name' => 'title',
       'type' => 'VARCHAR(40)',
@@ -242,16 +284,23 @@ class appDatabaseCs extends appConfigDatabase
       'comment' => 'タイトル',
       'input' => 'text'
     ],
-    'funeral_name' => [
-      'name' => 'funeral_name',
+    'funeral_company_name' => [
+      'name' => 'funeral_company_name',
       'type' => 'VARCHAR(20)',
       'constraints' => 'NULL',
       'comment' => '葬儀社名',
       'input' => 'text'
     ],
+    'funeral_manager_name' => [
+      'name' => 'funeral_manager_name',
+      'type' => 'VARCHAR(20)',
+      'constraints' => 'NULL',
+      'comment' => '葬儀担当者名',
+      'input' => 'text'
+    ],
     'option_flower' => [
       'name' => 'option_flower',
-      'type' => 'VARCHAR(20)',
+      'type' => 'VARCHAR(40)',
       'constraints' => 'NULL',
       'comment' => 'お花盆（プレゼント特典）',
       'input' => 'textarea'
@@ -313,8 +362,8 @@ class appDatabaseCs extends appConfigDatabase
   //-----------------------------------------------------
   public const tableCsList = [
     'cs_id' => self::table['cs_id'],
-    'cs_category' => self::table['cs_category'],
     'parent_cs_id' => self::table['parent_cs_id'],
+    'cs_category' => self::table['cs_category'],
     'approval_status' => self::table['approval_status'],
     'approval_by' => self::table['approval_by'],
     'post_date' => self::table['post_date'],
@@ -324,9 +373,14 @@ class appDatabaseCs extends appConfigDatabase
     'client_name' => self::table['client_name'],
     'client_region' => self::table['client_region'],
     'client_tel' => self::table['client_tel'],
+    'chief_mourner_name' => self::table['chief_mourner_name'],
+    'chief_mourner_relation' => self::table['chief_mourner_relation'],
     'dec_name' => self::table['dec_name'],
     'dec_region' => self::table['dec_region'],
     'dec_relation' => self::table['dec_relation'],
+    'dec_birth_date' => self::table['dec_birth_date'],
+    'dec_passing_date' => self::table['dec_passing_date'],
+    'religion_category' => self::table['religion_category'],
     'plan_category' => self::table['plan_category'],
     'ensconce_category' => self::table['ensconce_category'],
     'dest_address' => self::table['dest_address'],
@@ -341,15 +395,18 @@ class appDatabaseCs extends appConfigDatabase
     'estimate_date' => self::table['estimate_date'],
     'invoice_date' => self::table['invoice_date'],
     'comment' => self::table['comment'],
+    'comment_sheet' => self::table['comment_sheet'],
     'title' => self::table['title'],
+    'funeral_company_name' => self::table['funeral_company_name'],
+    'funeral_manager_name' => self::table['funeral_manager_name'],
     'option_flower' => self::table['option_flower'],
-    'funeral_name' => self::table['funeral_name'],
-    'cs_tel_status' => self::table['cs_tel_status'],
-    'hall_price' => self::table['hall_price'],
     'cs_tel_status' => self::table['cs_tel_status'],
     'cs_tel_date' => self::table['cs_tel_date'],
+    'insert_date' => self::table['insert_date'],
     'insert_by' => self::table['insert_by'],
-    'insert_date' => self::table['insert_date']
+    'update_date' => self::table['update_date'],
+    'update_by' => self::table['update_by'],
+    'delete_flg' => self::table['delete_flg']
   ];
   //-----------------------------------------------------
   // 送客シートで取得する内容（左外部結合）
@@ -371,9 +428,10 @@ class appDatabaseCs extends appConfigDatabase
     'sheet_hall_name' => self::table['hall_name'],
     'sheet_crematory_name' => self::table['crematory_name'],
     'sheet_option_name' => self::table['option_name'],
-    'sheet_comment' => self::table['comment'],
+    'sheet_comment_sheet' => self::table['comment_sheet'],
     'sheet_title' => self::table['title'],
-    'sheet_funeral_name' => self::table['funeral_name'],
+    'sheet_funeral_company_name' => self::table['funeral_company_name'],
+    'sheet_funeral_manager_name' => self::table['funeral_manager_name'],
     'sheet_option_flower' => self::table['option_flower'],
     'sheet_insert_by' => self::table['insert_by'],
     'sheet_insert_date' => self::table['insert_date']
@@ -391,24 +449,9 @@ class appDatabaseCs extends appConfigDatabase
     'dec_name' =>  '氏名',
     'dec_region' => '住民票',
     'dec_relation' =>  '続柄',
-    'funeral_date' => '葬儀希望日',
-    'hall_name' => '希望式場',
-    'crematory_name' => '希望火葬場',
-    'option_name' => '希望オプション',
-    'sheet_comment' => '送客シート特記事項',
-    'comment' => '対応ログ'
-  ];
-  //-----------------------------------------------------
-  // 列をカテゴリ別に分類
-  //-----------------------------------------------------
-  public const rowCategory = [
-    'cs_id' => ['title' => '　', 'css' => 'bg-row-base'],
-    'client_name' => ['title' => '入電者様情報', 'css' => 'bg-row-client'],
-    'dec_name' => ['title' => '故人様情報', 'css' => 'bg-row-dec'],
-    'plan_category' => ['title' => '　', 'css' => 'bg-row-cs'],
-    'sheet_comment' => ['title' => '　', 'css' => 'bg-row-base'],
-    'sheet_approval_status' => ['title' => '　', 'css' => 'bg-row-sheet'],
-    'funeral_status' => ['title' => '　', 'css' => 'bg-row-status'],
-    'cs_tel_status' => ['title' => '架電', 'css' => 'bg-row-base'],
+    'dec_birth_date' => '生年月日',
+    'dec_passing_date' => '命日',
+    'religion_category' => '宗派',
+    'chief_mourner_relation'=> '続柄'
   ];
 }

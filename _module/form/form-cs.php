@@ -53,12 +53,12 @@
         </select>
     <?php elseif ($inputType === 'number'): ?>
         <?php /*分岐：数値*/ ?>
-        <input name="<?php echo $inputName; ?>" type="text" value="<?php echo $inputValue; ?>" class="form-sheets text-right p-1" data-input-number>
+        <input name="<?php echo $inputName; ?>" type="text" value="<?php echo $inputValue; ?>" class="form-sheets text-right p-1" placeholder="0" data-input-number>
     <?php elseif ($inputType === 'datetime-local' || $inputType === 'date'): ?>
         <?php /*分岐：日付*/ ?>
         <input name="<?php echo $inputName; ?>" type="<?php echo $inputType; ?>" value="<?php echo $inputValue; ?>" class="form-sheets">
     <?php else: ?>
         <?php /*分岐：その他*/ ?>
-        <textarea name="<?php echo $inputName; ?>" class="form-sheets font-size-0_9 p-1"><?php echo $inputValue; ?></textarea>
+        <textarea name="<?php echo $inputName; ?>" class="form-sheets font-size-0_9 p-1" <?php echo $addParam; ?>><?php echo $inputValue; ?></textarea>
     <?php endif; ?>
 <?php endif; ?>

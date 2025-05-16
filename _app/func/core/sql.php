@@ -276,4 +276,22 @@ class appFuncSql
         $sqlParam = substr($sqlParam, 0, -1);
         return 'UPDATE `' . $tableName . '` SET ' . $sqlParam;
     }
+
+    //-----------------------------------------------------
+    // SQL文作成：テーブルに列追加
+    //-----------------------------------------------------
+    public static function addRow($database): string
+    {
+        $table = $database::table;
+        $tableName = $database::tableName;
+
+        $sql = 'ALTER TABLE '.$tableName.'<br>';
+        foreach ($table as $index => $row) {
+            $type = $row['type'];
+            $constraints = $row['constraints'];
+            $comment = $row['comment'];
+            $sql .= 'ADD COLUMN `' . $index . '` ' . $type . ' ' . $constraints . ' COMMENT "' . $comment . '",<br>';
+        }
+        return $sql;
+    }
 }
