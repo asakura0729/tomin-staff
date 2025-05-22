@@ -43,8 +43,8 @@ class appConfigStatus
         'consultation' => ['key' => 'consultation', 'name' => '対面相談(初回)', 'type' => self::clientCategoryValid],
         'consultation_re' => ['key' => 'consultation_re', 'name' => '対面相談(再)', 'type' => self::clientCategoryValid],
         'document_request' => ['key' => 'document_request', 'name' => '資料請求(web)', 'type' => self::clientCategoryValid],
-        'other_valid' => ['key' => 'other_invalid', 'name' => 'その他（有効電話）', 'type' => self::clientCategoryValid],
         'cancel' => ['key' => 'cancel', 'name' => 'キャンセル', 'type' => self::clientCategoryValid],
+        'other_valid' => ['key' => 'other_invalid', 'name' => 'その他（有効電話）', 'type' => self::clientCategoryValid],
         'wrong' => ['key' => 'wrong', 'name' => '間違い電話', 'type' => self::clientCategoryInvalid],
         'prank' => ['key' => 'prank', 'name' => 'いたずら電話', 'type' => self::clientCategoryInvalid],
         'silent' => ['key' => 'silent', 'name' => '無言電話', 'type' => self::clientCategoryInvalid],
@@ -59,5 +59,4 @@ class appConfigStatus
         'progress' => ['key' => 'progress', 'name' => '未完了'],
         'complete' => ['key' => 'complete', 'name' => '完了'],
     ];
-
 }

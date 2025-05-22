@@ -10,13 +10,13 @@
             dataHxTrigger: '[data-hx-trigger]'
         }
         const triggerparam = 'every';
-        document.querySelectorAll(elem.dataHxTrigger).forEach(function(selecter) {
-            const getUrl = selecter.getAttribute(dataAttribute(elem.dataHxGet));
+        document.querySelectorAll(elem.dataHxTrigger).forEach(function(selecter, i) {
+            const getUrl = selecter.getAttribute(dataAttribute(elem.dataHxGet)) + '';
             const getTrigger = selecter.getAttribute(dataAttribute(elem.dataHxTrigger));
             if (getTrigger.includes(triggerparam)) {
-                setTimeout(function() {
+                setTimeout(() => {
                     htmx.ajax('GET', getUrl, selecter);
-                }, 500);
+                }, i * 100);
             }
         });
     }());
