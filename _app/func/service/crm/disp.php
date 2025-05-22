@@ -152,7 +152,7 @@ class appFuncCrmDisp
         } else {
             /*分岐2：未承認*/
             $insertApprovalStatus = appConfigStatus::approval_status['complete']['key'];
-            $result['title'] = appConfigStatus::approval_status['progress']['name'];
+            $result['title'] = '承認';
             $result['add'] = <<<EOF
             data-edit-approval='{"cs_id":"{$csId}","approval_status":"{$insertApprovalStatus}"}'
             EOF;
