@@ -28,7 +28,7 @@
         'dbTable' => appFuncCrmArray::list(),
         'dbResult' => [
             'cs_category' => appConfigStatus::csCategoryLog,
-            'client_tel' => appHttpAjaxCsEdit::$dbResult['client_tel']
+            'client_tel' => appFuncArray::issetKey($_GET, appFuncCrmGet::getTel)
         ]
     ]); ?>
 </section>
@@ -37,7 +37,7 @@
 <?php appFuncModule::include('../_module/js-form-edit.php', ['dbResult' => appHttpAjaxCsEdit::$dbResult]); ?>
 <?php appFuncModule::js('form-scroll', ['target' => appConfigSite::secCsEdit]); ?>
 <?php appFuncModule::js('form-cs', ['target' => appConfigSite::secSearch]); ?>
-<?php if (appHttpAjaxCsEdit::$dbResult['client_tel'] != ''): ?>
+<?php if (appFuncArray::issetKey($_GET, appFuncCrmGet::getTel) != ''): ?>
     <?php /*分岐：電話番号指定あり*/ ?>
     <?php appFuncModule::js('pageload-submit', ['target' => '[data-submit-search]']); ?>
 <?php endif; ?>

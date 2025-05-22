@@ -35,9 +35,9 @@ class appConfigStatus
         'contact_re' => ['key' => 'contact_re', 'name' => '問い合わせ(再)', 'type' => self::clientCategoryValid],
         'order' => ['key' => 'order', 'name' => '(既死)ご依頼(初回)', 'type' => self::clientCategoryValid],
         'order_re' => ['key' => 'order_re', 'name' => '(既死)ご依頼(再)', 'type' => self::clientCategoryValid],
-        'order_re_alive' => ['key' => 'order', 'name' => '(存命当月)ご依頼(再)', 'type' => self::clientCategoryValid],
-        'order_re_alive_mo' => ['key' => 'order_re', 'name' => '(存命)ご依頼(再)', 'type' => self::clientCategoryValid],
-        'contact_after' => ['key' => 'order_re', 'name' => '依頼後の問い合わせ', 'type' => self::clientCategoryValid],
+        'order_re_alive' => ['key' => 'order_re_alive', 'name' => '(存命当月)ご依頼(再)', 'type' => self::clientCategoryValid],
+        'order_re_alive_mo' => ['key' => 'order_re_alive_mo', 'name' => '(存命)ご依頼(再)', 'type' => self::clientCategoryValid],
+        'contact_after' => ['key' => 'contact_after', 'name' => '依頼後の問い合わせ', 'type' => self::clientCategoryValid],
         'reservation' => ['key' => 'reservation', 'name' => '事前予約(初回)', 'type' => self::clientCategoryValid],
         'reservation_re' => ['key' => 'reservation_re', 'name' => '事前予約(再)', 'type' => self::clientCategoryValid],
         'consultation' => ['key' => 'consultation', 'name' => '対面相談(初回)', 'type' => self::clientCategoryValid],
@@ -59,27 +59,5 @@ class appConfigStatus
         'progress' => ['key' => 'progress', 'name' => '未完了'],
         'complete' => ['key' => 'complete', 'name' => '完了'],
     ];
-
-    /*対応ログテンプレ文章*/
-    public const commentTmpl = <<<EOF
-【状況：既死・存命・不明】
-[流入経路]HP()/広告()/資料/その他()/不明
-[申告]
-・
-・
-・
-[1]
-→
-※
-[2]
-→
-※
-[補足案内]
-・
-・
-・
-[結果]
-EOF;
-
 
 }

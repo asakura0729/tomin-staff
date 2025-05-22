@@ -14,7 +14,9 @@
             const getUrl = selecter.getAttribute(dataAttribute(elem.dataHxGet));
             const getTrigger = selecter.getAttribute(dataAttribute(elem.dataHxTrigger));
             if (getTrigger.includes(triggerparam)) {
-                htmx.ajax('GET', getUrl, selecter)
+                setTimeout(function() {
+                    htmx.ajax('GET', getUrl, selecter);
+                }, 500);
             }
         });
     }());

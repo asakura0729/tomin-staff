@@ -8,13 +8,15 @@
     (function() {
         const targetId = "<?php echo $option['target']; ?>";
         const targetForm = document.querySelector(targetId);
-        const elem = {
+        const dataElem = {
             dataModal: '[data-modal]',
             dataToggleRow: '[data-toggle-row]',
             dataToggleAccordion: '[data-toggle-accordion]',
             dataInputCheck: '[data-input-check]',
             dataInputNumber: '[data-input-number]',
-            dataInputDate: '[data-input-date]'
+            dataInputDate: '[data-input-date]',
+            dataAddSelect: '[data-add-select]',
+            dataAddClone: '[data-add-clone]'
         }
         const css = {
             dNone: 'is-invalid',
@@ -49,7 +51,7 @@
                             $(targetId).find('.modal').modal('hide');
                         }, "250");
                         setTimeout(() => {
-                            targetForm.querySelector(elem.dataModal).textContent = radioBtnText;
+                            targetForm.querySelector(dataElem.dataModal).textContent = radioBtnText;
                             targetForm.querySelectorAll(toggleTarget).forEach(function(col) {
                                 if (toggleDisp === true) {
                                     col.classList.remove(css.dNone);
@@ -95,10 +97,10 @@
                 }
             });
         }
-        const setDataInputCheck = function(selecter) {
+        const setInputCheck = function(selecter) {
             targetForm.querySelectorAll(selecter).forEach(function(checkBox) {
                 checkBox.addEventListener("click", function() {
-                    const inputCheckJSON = this.getAttribute(dataAttribute(elem.dataInputCheck));
+                    const inputCheckJSON = this.getAttribute(dataAttribute(dataElem.dataInputCheck));
                     const inputCheck = JSON.parse(inputCheckJSON);
                     const target = inputCheck.target;
                     const checkValue = inputCheck.checkValue;
@@ -107,9 +109,7 @@
                     if (this.checked) {
                         setValue = checkValue;
                     }
-                    targetForm.querySelectorAll(target).forEach(function(input) {
-                        input.value = setValue;
-                    });
+                    targetForm.querySelector(target).value = setValue;
                 });
             });
         }
@@ -117,6 +117,32 @@
             targetForm.querySelectorAll(selecter).forEach(function(input) {
                 inputNumberFormat(input);
                 changeInputNumberFormat(input);
+            });
+        }
+        const setAddValSelectmenu = function(selecter) {
+            targetForm.querySelectorAll(selecter).forEach(function(selectMenu) {
+                selectMenu.addEventListener("change", function() {
+                    const selectValue = this.value.replace(/&#10;/g, '\n');;
+                    const targetInput = this.getAttribute(dataAttribute(selecter));
+                    const targetInputVal = targetForm.querySelector(targetInput).value;
+                    setTimeout(() => {
+                        targetForm.querySelector(targetInput).value = selectValue + '\n' + targetInputVal;
+                        this.selectedIndex = 0;
+                    }, "250");
+                });
+            });
+        }
+        const setAddCloneValBtn = function(selecter) {
+            targetForm.querySelectorAll(selecter).forEach(function(btn) {
+                btn.addEventListener("click", function() {
+                    const data = JSON.parse(this.getAttribute(dataAttribute(selecter)));
+                    const dataTarget = data.target;
+                    const dataClone = data.clone;
+                    targetForm.querySelector(dataTarget).value ='';
+                    setTimeout(() => {
+                        targetForm.querySelector(dataTarget).value = targetForm.querySelector(dataClone).value;
+                    }, "250");
+                });
             });
         }
         const changeInputNumberFormat = function(selecter) {
@@ -159,11 +185,13 @@
             }
             selecter.value = num;
         }
-        setModalBtn(elem.dataModal);
-        setToggleRowBtn(elem.dataToggleRow);
-        setToggleAccordionBtn(elem.dataToggleAccordion);
-        setDataInputCheck(elem.dataInputCheck);
-        setInputNumberFormat(elem.dataInputNumber);
-        changeInputDateAction(elem.dataInputDate);
+        setModalBtn(dataElem.dataModal);
+        setToggleRowBtn(dataElem.dataToggleRow);
+        setToggleAccordionBtn(dataElem.dataToggleAccordion);
+        setInputCheck(dataElem.dataInputCheck);
+        setInputNumberFormat(dataElem.dataInputNumber);
+        setAddCloneValBtn(dataElem.dataAddClone);
+        setAddValSelectmenu(dataElem.dataAddSelect);
+        changeInputDateAction(dataElem.dataInputDate);
     }());
 </script>

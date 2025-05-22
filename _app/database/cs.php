@@ -115,10 +115,10 @@ class appDatabaseCs extends appConfigDatabase
     ],
     'chief_mourner_name' => [
       'name' => 'chief_mourner_name',
-      'type' => 'longtext',
+      'type' => 'VARCHAR(20)',
       'constraints' => 'NULL',
       'comment' => '喪主名',
-      'input' => 'textarea'
+      'input' => 'text'
     ],
     'chief_mourner_relation' => [
       'name' => 'chief_mourner_relation',
@@ -129,17 +129,17 @@ class appDatabaseCs extends appConfigDatabase
     ],
     'dec_name' => [
       'name' => 'dec_name',
-      'type' => 'longtext',
+      'type' => 'VARCHAR(20)',
       'constraints' => 'NULL',
       'comment' => '故人氏名',
-      'input' => 'textarea'
+      'input' => 'text'
     ],
     'dec_region' => [
       'name' => 'dec_region',
-      'type' => 'longtext',
+      'type' => 'VARCHAR(20)',
       'constraints' => 'NULL',
       'comment' => '故人住民票',
-      'input' => 'textarea'
+      'input' => 'text'
     ],
     'dec_relation' => [
       'name' => 'dec_relation',
@@ -167,7 +167,7 @@ class appDatabaseCs extends appConfigDatabase
       'type' => 'longtext',
       'constraints' => 'NULL',
       'comment' => '故人宗派',
-      'input' => 'textarea'
+      'input' => 'textarea',
     ],
     'plan_category' => [
       'name' => 'plan_category',
@@ -452,6 +452,6 @@ class appDatabaseCs extends appConfigDatabase
     'dec_birth_date' => '生年月日',
     'dec_passing_date' => '命日',
     'religion_category' => '宗派',
-    'chief_mourner_relation'=> '続柄'
+    'chief_mourner_relation' => '続柄'
   ];
 }

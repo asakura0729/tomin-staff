@@ -12,21 +12,47 @@ class appFuncCrmDisp
     {
         if ($dbResult[appDatabaseCs::primaryKey] != '') {
             /*分岐1：既存データ*/
-            $result = '（依頼者：';
-            $result .= appFuncString::strlenString($dbResult['client_name'], $dbResult['client_name'], '---');
-            $result .= ' 様）';
+            $clientName = appFuncString::strlenString($dbResult['client_name'], $dbResult['client_name'], '---');
+            $result = '（依頼者：' . $clientName . ' 様）';
         } else {
             /*分岐2：新規作成*/
             $result = '（新規作成）';
         }
+        $result = strip_tags($result);
         return  $result;
+    }
+    //-----------------------------------------------------
+    // 対応ログ編集画面＞テキスト挿入セレクトメニュー 選定
+    //-----------------------------------------------------
+    public static function setSelectMenuAddToValue(string $inputName): array
+    {
+        switch ($inputName) {
+            case appDatabaseCs::table['chief_mourner_name']['name']:
+                $result = [['name' => '入電者', 'value' => '']];
+                break;
+            case appDatabaseCs::table['religion_category']['name']:
+                $result = appConfigFuneral::religion_category;
+                break;
+            case appDatabaseCs::table['funeral_company_name']['name']:
+                $result = appConfigFuneral::funeral_company_name;
+                break;
+            case appDatabaseCs::table['comment']['name']:
+                $result = [['name' => '通常テンプレート', 'value' => appFuncString::convertTextForDataAttribute(appConfigString::commentTmpl)]];
+                break;
+            case appDatabaseCs::table['comment_sheet']['name']:
+                $result = [['name' => '通常テンプレート', 'value' => appFuncString::convertTextForDataAttribute(appConfigString::commentSheetTmpl)]];
+                break;
+            default:
+                $result = [];
+                break;
+        }
+        return $result;
     }
     //-----------------------------------------------------
     // 対応ログ一覧＞テキスト
     //-----------------------------------------------------
     public static function dbResultValue(array $value, string $key, string $inputType): string
     {
-
         $str = appFuncArray::issetKey($value, $key);
         $css = "";
         if ($inputType != 'textarea') {
@@ -353,6 +379,7 @@ class appFuncCrmDisp
         if ($result != '') {
             /*判断：文字が存在*/
             $result = mb_substr($result, 0, -1);
+            $result = strip_tags($result);
         }
         return $result;
     }

@@ -41,4 +41,35 @@ class appConfigFuneral
         'storage' => 'お預かり安置',
         'stay' => '付添い安置'
     ];
+
+    /*葬儀社名*/
+    public const funeral_company_name = [
+        'tsubasa' => ['name' => 'つばさの葬儀社'],
+    ];
+
+    /*宗派*/
+    public const religion_category = [
+        ['name' => '無宗教'],
+        ['name' => '日蓮宗'],
+        ['name' => '真言宗　豊山派'],
+        ['name' => '真言宗　智山派'],
+        ['name' => '真言宗'],
+        ['name' => '浄土真宗　西'],
+        ['name' => '浄土真宗　東'],
+        ['name' => '浄土真宗'],
+        ['name' => '曹洞宗'],
+        ['name' => '天台宗'],
+        ['name' => '臨済宗'],
+        ['name' => '浄土宗'],
+        ['name' => '黄檗宗'],
+        ['name' => '時宗'],
+        ['name' => '法華宗'],
+        ['name' => '本門佛立宗'],
+        ['name' => '日蓮正宗'],
+        ['name' => '立正佼成会'],
+        ['name' => '創価学会'],
+        ['name' => '神道'],
+        ['name' => 'プロテスタント'],
+        ['name' => 'カトリック'],
+    ];
 }

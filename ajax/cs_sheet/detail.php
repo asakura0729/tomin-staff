@@ -114,7 +114,7 @@
     <?php /*分岐：データ更新*/ ?>
     <?php appFuncModule::component('alert-success'); ?>
     <?php appFuncModule::js('totop'); ?>
+    <?php appFuncModule::js('hx-trigger-autoload'); ?>
     <?php appFuncModule::js('url-push', ['path' => appRoutesWeb::sitemap['adminCsSheetDetail']['path'] . appFuncPath::setGetParam(['cs_id'], [appHttpCssheetAjaxDetail::$postPrimaryKey])]); ?>
 <?php endif; ?>
-<?php appFuncModule::js('hx-trigger-autoload'); ?>
 <?php appFuncModule::js('form-submit'); ?>

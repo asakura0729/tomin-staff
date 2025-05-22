@@ -34,7 +34,25 @@
         <?php if ($option['inputType'] != 'hidden' && $option['inputType'] != ''): ?>
             <?php /*分岐3：表示される*/ ?>
             <div class="<?php echo appFuncCrmDisp::setFormRowWidth($option['inputName'], $option['inputType']); ?> border font-size-0_9" data-wrap-disp="<?php echo appFuncCrmDisp::setDataDisp($option['key']); ?>">
-                <h4 class="m-0 p-2 text-center font-size-0_9 border-bottom">
-                    <?php echo $option['title']; ?>
-                </h4>
+                <header class="d-flex justify-content-between border-bottom">
+                    <h4 class="m-0 p-2 text-center font-size-0_9">
+                        <?php echo $option['title']; ?>
+                    </h4>
+                    <?php if ($option['dbPost'] === true): ?>
+                        <?php /*分岐3-1：データベース送信あり*/ ?>
+                        <?php $selectMenu = appFuncCrmDisp::setSelectMenuAddToValue($option['inputName']); ?>
+                        <?php if ($option['inputName'] === appDatabaseCs::table['chief_mourner_name']['name']): ?>
+                            <?php /*分岐3-1-1：データベース送信あり＞喪主名*/ ?>
+                            <button type="button" data-add-clone='{"target":"[name=<?php echo $option['inputName']; ?>]","clone":"[name=<?php echo appDatabaseCs::table['client_name']['name']; ?>]"}' class="btn border-contrast color-contrast bg-white opacity-hover-075 p-0 w-100px"><i class="fa fa-files-o pr-1" aria-hidden="true"></i>転記</button>
+                        <?php elseif (!empty($selectMenu)): ?>
+                            <?php /*分岐3-1-2：データベース送信あり＞value値追加セレクトメニューに値あり*/ ?>
+                            <select data-add-select='[name="<?php echo $option['inputName']; ?>" ]' class="w-100px font-size-0_9 border rounded-0">
+                                <option value="">選択</option>
+                                <?php foreach ($selectMenu as $selectMenuVal): ?>
+                                    <option value="<?php echo appFuncArray::issetKey($selectMenuVal, 'value', $selectMenuVal['name']); ?>"><?php echo $selectMenuVal['name']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </header>
             <?php endif; ?>

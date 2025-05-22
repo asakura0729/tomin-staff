@@ -13,6 +13,13 @@ class appFuncString
         return str_replace("#", "", $str);
     }
     //-----------------------------------------------------
+    // 改行を除去して描画
+    //-----------------------------------------------------
+    public static function removeNewlines(string $str): string
+    {
+        return str_replace(["\r\n", "\n", "\r"], '', $str);
+    }
+    //-----------------------------------------------------
     // 文字列が0文字以下の場合、代替テキストを返す
     //-----------------------------------------------------
     public static function strlenString(string $string, string $strFalse = ""): string
@@ -22,6 +29,17 @@ class appFuncString
         } else {
             return $strFalse;
         }
+    }
+    //-----------------------------------------------------
+    // 文字列に対し、HTML属性に安全に埋め込むための変換を行う
+    //-----------------------------------------------------
+    public static function convertTextForDataAttribute(string $text): string
+    {
+        return htmlspecialchars(
+            str_replace(["\r\n", "\n", "\r"], "&#10;", $text),
+            ENT_QUOTES | ENT_HTML5,
+            'UTF-8'
+        );
     }
     //-----------------------------------------------------
     // bool値のtrue、falseで異なる文字列を描画
