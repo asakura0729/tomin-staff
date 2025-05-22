@@ -124,4 +124,15 @@ class appRoutesWeb
         'adminCsSheet' => self::sitemap['adminCsSheet'],
         'adminPrint' => self::sitemap['adminPrint'],
     ];
+    //======================================================================
+    // キャッシュ対象
+    //======================================================================
+    public const cache = [
+        'adminCsEdit' => self::sitemap['adminCsEdit'],
+        'adminCsIndex' => self::sitemap['adminCsIndex'],
+        'adminCsList_invalid' => self::sitemap['adminCsList_invalid'],
+        'adminCsList_check' => self::sitemap['adminCsList_check'],
+        'adminCsSheet' => self::sitemap['adminCsSheet'],
+        'adminPrint' => self::sitemap['adminPrint'],
+    ];
 }

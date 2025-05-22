@@ -9,6 +9,11 @@ class appFuncEditFile
     //-----------------------------------------------------
     public static function createFile($filepath, $result)
     {
+        $dir = dirname($filepath);
+        if (!is_dir($dir)) {
+            /*分岐：ディレクトリ無し*/
+            mkdir($dir, 0755, true);
+        }
         file_put_contents($filepath, $result);
     }
     //-----------------------------------------------------
