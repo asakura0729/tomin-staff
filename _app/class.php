@@ -17,6 +17,7 @@ include_once __DIR__ . '/func/core/debug.php';
 include_once __DIR__ . '/func/core/string.php';
 include_once __DIR__ . '/func/core/calc.php';
 include_once __DIR__ . '/func/core/editfile.php';
+include_once __DIR__ . '/func/core/page.php';
 include_once __DIR__ . '/func/core/pager.php';
 include_once __DIR__ . '/func/core/path.php';
 include_once __DIR__ . '/func/core/session.php';
