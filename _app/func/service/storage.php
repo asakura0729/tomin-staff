@@ -65,7 +65,7 @@ class appFuncStorage
             /*分岐：キャッシュの設定有効*/
             $cacheFile = self::createPathAuthority();
             if (!file_exists($cacheFile)) {
-                /*分岐：キャッシュファイルなし*/
+                /*分岐：キャッシュファイル無し*/
                 $outputHtml = ob_get_clean();
                 appFuncEditFile::createFile($cacheFile, $outputHtml);
                 echo $outputHtml;

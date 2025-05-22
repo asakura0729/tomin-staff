@@ -43,11 +43,9 @@
                 selecter.style.width = windowWidth + "px";
             });
         }
-        mainContents.querySelector(targetTable).addEventListener('htmx:afterSwap', function(event) {
+        setTableLayout();
+        window.addEventListener('resize', () => {
             setTableLayout();
-            window.addEventListener('resize', () => {
-                setTableLayout();
-            });
         });
     }());
 </script>
