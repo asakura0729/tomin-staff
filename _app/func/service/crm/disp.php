@@ -223,6 +223,8 @@ class appFuncCrmDisp
             case self::db['dec_name']['name']:
             case self::db['dec_region']['name']:
             case self::db['dec_relation']['name']:
+            case self::db['funeral_manager_name']['name']:
+            case self::db['chief_mourner_relation']['name']:
                 $colClass = 'w-150px';
                 break;
             case self::db['delivery_status']['name']:
