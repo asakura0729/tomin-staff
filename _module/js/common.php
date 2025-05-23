@@ -11,10 +11,12 @@
     }
     const elem = {
         header: document.querySelector(id.header),
+        main: document.querySelector(id.main),
         dataHxPushUrl: "[data-hx-push-url]",
         dataHxReplaceUrl: "[data-hx-replace-url]",
         dataAddSpinner: "[data-add-spinner]",
-        dataAnimation: "[data-animation]"
+        dataAnimation: "[data-animation]",
+        dataPopover: "[data-toggle='popover']"
     }
     const confirmPath = {
         csEdit: '<?php echo appRoutesWeb::sitemap['adminCsEdit']['path']; ?>'
@@ -53,7 +55,7 @@
             });
         });
         $(function() {
-            $(selector).find('[data-toggle="popover"]').popover();
+            $(selector).find(elem.dataPopover).popover();
         });
     }
     const gNavColorChange = function() {
