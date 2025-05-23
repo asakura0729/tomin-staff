@@ -5,8 +5,12 @@
 //======================================================================
 ?>
 <script>
-    setTimeout(() => {
+    (function() {
         const target = "<?php echo $option['target']; ?>";
-        document.querySelector(target).click();
-    }, "500");
+        setTimeout(() => {
+            if (!!document.querySelector(target) === true) {
+                document.querySelector(target).click();
+            }
+        }, "500");
+    }());
 </script>

@@ -13,10 +13,6 @@
         const dataLayoutWide = "[data-layout-wide]";
         const mainContents = document.querySelector(targetid);
         const setTableLayout = function() {
-            if (!!mainContents.querySelector(targetTable) != true) {
-                console.log("targetTable not found");
-                return;
-            }
             const table = mainContents.querySelector(targetTable);
             let tableWidth = 300;
             let thCount = 0;
@@ -43,9 +39,11 @@
                 selecter.style.width = windowWidth + "px";
             });
         }
-        setTableLayout();
-        window.addEventListener('resize', () => {
+        if (!!mainContents.querySelector(targetTable) === true) {
             setTableLayout();
-        });
+            window.addEventListener('resize', () => {
+                setTableLayout();
+            });
+        }
     }());
 </script>
