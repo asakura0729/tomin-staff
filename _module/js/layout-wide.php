@@ -12,7 +12,11 @@
         const dataRow = "[data-row]";
         const dataLayoutWide = "[data-layout-wide]";
         const mainContents = document.querySelector(targetid);
+        let resizeTimeout;
         const setTableLayout = function() {
+            if (!!mainContents.querySelector(targetTable) === false) {
+                return;
+            }
             const table = mainContents.querySelector(targetTable);
             let tableWidth = 300;
             let thCount = 0;
@@ -42,7 +46,10 @@
         if (!!mainContents.querySelector(targetTable) === true) {
             setTableLayout();
             window.addEventListener('resize', () => {
-                setTableLayout();
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    setTableLayout();
+                }, 500);
             });
         }
     }());

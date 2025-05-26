@@ -319,7 +319,6 @@ class appFuncCrmGet
             $result['approval_status'] = appConfigStatus::approval_status['progress']['key'];
             $result['funeral_date'] = '';
             $result['hall_name'] =  '';
-            $result['dec_region'] =  '';
             $result['crematory_name'] = '';
             $result['ensconce_category'] =  '';
             $result['dest_address'] =  '';
