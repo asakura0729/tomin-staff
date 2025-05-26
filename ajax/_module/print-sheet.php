@@ -96,7 +96,7 @@
     </table>
 
     <div class="pt-3 pb-3">
-        <div class="border p-2 minh-200px">
+        <div class="border p-2 <?php if ($option['editFlg'] === true): ?>h-200px<?php else: ?>minh-200px<?php endif; ?>">
             <?php appFuncModule::dbForm('comment_sheet', $option); ?>
         </div>
     </div>
