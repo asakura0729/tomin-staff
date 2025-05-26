@@ -55,7 +55,6 @@ class appFuncCrmArray
             'sheet_approval_status' => array_merge(self::csSheet['sheet_approval_status'], [self::rowCategory => self::rows['sheet']]),
             'sheet_cs_category' => self::csSheet['sheet_cs_category'],
             'sheet_funeral_company_name' => self::csSheet['sheet_funeral_company_name'],
-            'sheet_funeral_manager_name' => self::csSheet['sheet_funeral_manager_name'],
             'sheet_plan_category' => self::csSheet['sheet_plan_category'],
             'sheet_ensconce_category' => self::csSheet['sheet_ensconce_category'],
             'sheet_funeral_date' => self::csSheet['sheet_funeral_date'],

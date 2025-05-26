@@ -20,15 +20,15 @@
         <?php /*分岐：申請*/ ?>
         <div class="bg-white position-relative p-1 form-sheets">
             <div class="pos-middle-center w-80per text-center">
-                <?php if ($inputValue != appConfigStatus::approval_status['complete']['key']): ?>
-                    <?php /*分岐1：申請中*/ ?>
-                    <?php echo appConfigStatus::approval_status['progress']['name']; ?>
-                    <input name="<?php echo $inputName; ?>" type="hidden" value="<?php echo $inputValue; ?>">
-                <?php else: ?>
-                    <?php /*分岐2：申請済*/ ?>
-                    <input type="checkbox" class="form-control" checked disabled>
+                <?php if ($inputValue === appConfigStatus::approval_status['complete']['key']): ?>
+                    <?php /*分岐：申請＞承認済*/ ?>
+                    <?php echo appConfigStatus::approval_status['complete']['name']; ?>
                     <span class="pt-1 d-block" data-disp="approval_by"></span>
+                <?php else: ?>
+                    <?php /*分岐2：申請＞未承認*/ ?>
+                    <?php echo appConfigStatus::approval_status['progress']['name']; ?>
                 <?php endif; ?>
+                <input name="<?php echo $inputName; ?>" type="hidden" value="<?php echo $inputValue; ?>">
             </div>
         </div>
     <?php elseif ($inputType === 'checkbox' && $inputName === appDatabaseCs::table['delivery_status']['name']): ?>

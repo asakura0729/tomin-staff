@@ -224,7 +224,14 @@ class appFuncCrmGet
             $result['client_tel'] = $getTel;
             $result['cs_category'] = appConfigStatus::csCategoryLog;
             $result['delivery_status'] = appConfigStatus::delivery_status['unnecessary']['key'];
-            $result['approval_status'] = appConfigStatus::approval_status['progress']['key'];
+            if (appFuncSession::checkAuth(appConfigUser::authorityManager) === true) {
+                /*分岐1-1：権限：管理者*/
+                $result['approval_status'] = appConfigStatus::approval_status['complete']['key'];
+                $result['approval_by'] = $_SESSION[appConfigSession::userId];
+            } else {
+                /*分岐1-2：権限：その他*/
+                $result['approval_status'] = appConfigStatus::approval_status['progress']['key'];
+            }
         } else {
             /*分岐2：既存データ*/
             $getCloneFlg = appFuncArray::issetKey($get, self::getCloneFlg, '') == 'true'  ? true : false;
@@ -310,6 +317,13 @@ class appFuncCrmGet
             $result['parent_cs_id'] = $_GET[appDatabaseCs::primaryKey];
             $result['cs_category'] = appConfigStatus::csCategorySheet;
             $result['approval_status'] = appConfigStatus::approval_status['progress']['key'];
+            $result['funeral_date'] = '';
+            $result['hall_name'] =  '';
+            $result['dec_region'] =  '';
+            $result['crematory_name'] = '';
+            $result['ensconce_category'] =  '';
+            $result['dest_address'] =  '';
+            $result['option_name'] = '';
         }
         if ($dataformat === true) {
             /*分岐：取得したデータのフォーマット指定あり*/
