@@ -1,6 +1,6 @@
 <div class="print_wrap mx-auto bg-white position-relative">
     <header class="pb-2">
-        <h2 class="font-size-2 font-notoserif text-center"><?php appFuncModule::dbForm('title', $option); ?></h2>
+        <h2 class="font-size-2 text-center font-weight-bold"><?php appFuncModule::dbForm('title', $option); ?></h2>
     </header>
 
     <div class="d-none">
@@ -96,7 +96,7 @@
     </table>
 
     <div class="pt-3 pb-3">
-        <div class="border p-2 h-200px">
+        <div class="border p-2 minh-200px">
             <?php appFuncModule::dbForm('comment_sheet', $option); ?>
         </div>
     </div>

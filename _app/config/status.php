@@ -17,7 +17,7 @@ class appConfigStatus
     /*発送状況*/
     public const delivery_status = [
         'unnecessary' => ['key' => 'unnecessary', 'name' => '発送不要'],
-        'required' => ['key' => 'required', 'name' => '要発送'],
+        'required' => ['key' => 'required', 'name' => '発送済'],
     ];
 
     /*架電ステータス*/

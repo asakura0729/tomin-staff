@@ -37,7 +37,10 @@ class appFuncCrmDisp
                 $result = appConfigFuneral::funeral_company_name;
                 break;
             case appDatabaseCs::table['comment']['name']:
-                $result = [['name' => '通常テンプレート', 'value' => appFuncString::convertTextForDataAttribute(appConfigString::commentTmpl)]];
+                $result = [
+                    ['name' => '通常テンプレート', 'value' => appFuncString::convertTextForDataAttribute(appConfigString::commentTmpl)],
+                    ['name' => '依頼後テンプレート', 'value' => appFuncString::convertTextForDataAttribute(appConfigString::commentTmplAfter)]
+                ];
                 break;
             case appDatabaseCs::table['comment_sheet']['name']:
                 $result = [['name' => '通常テンプレート', 'value' => appFuncString::convertTextForDataAttribute(appConfigString::commentSheetTmpl)]];
