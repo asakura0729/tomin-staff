@@ -19,7 +19,7 @@
     @media screen {
         .print_wrap {
             width: 210mm;
-            height: 297mm;
+            min-height: 297mm;
             padding: 10mm;
         }
     }
