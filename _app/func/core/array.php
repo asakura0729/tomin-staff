@@ -53,7 +53,6 @@ class appFuncArray
     {
         $result = "";
         foreach ($arrays as $key => $value) {
-            echo $value[$key];
             if ($key === '' || isset($value[$filterParam]) && $value[$filterParam] === $filterValue) {
                 $result .= $value;
             }
