@@ -18,7 +18,7 @@ class appFuncCrmDisp
             /*分岐2：新規作成*/
             $result = '（新規作成）';
         }
-        $result = strip_tags($result);
+        $result = appFuncString::removeNewlines(strip_tags($result));
         return  $result;
     }
     //-----------------------------------------------------

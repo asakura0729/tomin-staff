@@ -7,10 +7,12 @@
 ?>
 <script>
     (function() {
-        const target = document.querySelectorAll("<?php echo $option['target']; ?>");
+        const target = "<?php echo $option['target']; ?>";
         const msg = "<?php echo $option['msg']; ?>";
-        target.forEach(function(selecter) {
-            selecter.textContent = msg;
-        });
+        if (!!document.querySelectorAll(target) === true) {
+            document.querySelectorAll(target).forEach(function(selecter) {
+                selecter.textContent = msg;
+            });
+        }
     }());
 </script>

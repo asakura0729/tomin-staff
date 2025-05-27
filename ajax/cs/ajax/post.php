@@ -11,14 +11,14 @@
     'postPrimaryKey' => appHttpAjaxCsAjaxPost::$postPrimaryKey
 ]); ?>
 
-<?php if (appHttpAjaxCsAjaxPost::$postPrimaryKey != '' && appHttpAjaxCsAjaxPost::$redirectFlg === true): ?>
-    <?php /*分岐1：データ更新 + リダイレクト指定あり*/ ?>
-    <?php appFuncModule::component('alert-success'); ?>
-    <?php appFuncModule::js('redirect', ['path' => appRoutesWeb::sitemap['adminCsSheetEdit']['contents'] . appFuncPath::setGetParam(['cs_id', appFuncCrmGet::getCloneFlg], [appHttpAjaxCsAjaxPost::$postPrimaryKey, 'true'])]); ?>
-<?php elseif (appHttpAjaxCsAjaxPost::$postPrimaryKey != ''): ?>
-    <?php /*分岐2：データ更新*/ ?>
+<?php if (appHttpAjaxCsAjaxPost::$postPrimaryKey != ''): ?>
+    <?php /*分岐1：データ更新*/ ?>
     <?php appFuncModule::component('alert-success'); ?>
     <?php appFuncModule::js('url-push', ['path' => appRoutesWeb::sitemap['adminCsEdit']['path'] . appFuncPath::setGetParam(['cs_id'], [appHttpAjaxCsAjaxPost::$postPrimaryKey])]); ?>
+    <?php if (appHttpAjaxCsAjaxPost::$redirectFlg === true): ?>
+         <?php /*分岐1：データ更新 + リダイレクト指定あり*/ ?>
+         <?php appFuncModule::js('redirect', ['path' => appRoutesWeb::sitemap['adminCsSheetEdit']['contents'] . appFuncPath::setGetParam(['cs_id', appFuncCrmGet::getCloneFlg], [appHttpAjaxCsAjaxPost::$postPrimaryKey, 'true'])]); ?>
+    <?php endif; ?>
 <?php endif; ?>
 
 <?php appFuncModule::include('../../_module/js-form-edit.php', ['dbResult' => appHttpAjaxCsAjaxPost::$dbResult]); ?>
