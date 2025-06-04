@@ -147,6 +147,33 @@
                 });
             });
         }
+        const setTextAreaResize = function() {
+            const debounceTimers = new Map();
+            const observer = new ResizeObserver(entries => {
+                for (const entry of entries) {
+                    const textarea = entry.target;
+                    if (debounceTimers.has(textarea)) {
+                        clearTimeout(debounceTimers.get(textarea));
+                    }
+                    const timer = setTimeout(() => {
+                        for (const entry of entries) {
+                            const height = entry.target.offsetHeight;
+                            changeInputHeight(height);
+                        }
+                        debounceTimers.delete(textarea);
+                    }, 200);
+                    debounceTimers.set(textarea, timer);
+                }
+            });
+            targetForm.querySelectorAll('textarea').forEach(textarea => {
+                observer.observe(textarea);
+            });
+        }
+        const changeInputHeight = function(height) {
+            targetForm.querySelectorAll('textarea').forEach(function(input) {
+                input.style.height = height + 'px';
+            });
+        }
         const changeInputNumberFormat = function(selecter) {
             selecter.addEventListener("change", function() {
                 inputNumberFormat(this);
@@ -194,6 +221,7 @@
         setInputNumberFormat(dataElem.dataInputNumber);
         setAddCloneValBtn(dataElem.dataAddClone);
         setAddValSelectmenu(dataElem.dataAddSelect);
+        setTextAreaResize();
         changeInputDateAction(dataElem.dataInputDate);
     }());
 </script>
