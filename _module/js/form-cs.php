@@ -61,6 +61,8 @@
                                         col.querySelector('input').value = '';
                                     } else if (col.querySelector('textarea')) {
                                         col.querySelector('textarea').value = '';
+                                    } else if (col.querySelector('select')) {
+                                        col.querySelector('select').selectedIndex = 0;
                                     }
                                 }
                             });
@@ -138,7 +140,7 @@
                     const data = JSON.parse(this.getAttribute(dataAttribute(selecter)));
                     const dataTarget = data.target;
                     const dataClone = data.clone;
-                    targetForm.querySelector(dataTarget).value ='';
+                    targetForm.querySelector(dataTarget).value = '';
                     setTimeout(() => {
                         targetForm.querySelector(dataTarget).value = targetForm.querySelector(dataClone).value;
                     }, "250");

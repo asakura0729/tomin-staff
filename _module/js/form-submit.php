@@ -14,7 +14,6 @@
             document.querySelectorAll(submitBtn).forEach(function(selecter) {
                 selecter.addEventListener("click", function() {
                     spinners(true);
-                    formDisabled(this);
                     this.closest("form").dispatchEvent(new Event("submit", {
                         bubbles: true
                     }));

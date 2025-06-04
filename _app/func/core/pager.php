@@ -47,8 +47,10 @@ class appFuncPager
         //ページネーションの開始数値
         $pageNum = $currentPageNum - 2;
         if ($pageNum <= 0 || $pagerCount < $dispMaxPagerCount) {
+            /*分岐：ページ番号なし、またはページネーションの要素数がページネーション最大表示数以下*/
             $pageNum = 1;
-        } else if ($pageNum >= $pagerCount - $dispMaxPagerCount && $pagerCount > $dispMaxPagerCount) {
+        } else if ($pageNum >= $pagerCount - $dispMaxPagerCount) {
+            /*分岐：ページ番号がページネーションの要素数を上回る*/
             $pageNum = $pagerCount - $dispMaxPagerCount + 1;
         }
 
