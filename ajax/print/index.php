@@ -154,9 +154,10 @@
             <div data-postcode class="wrap-postcode border-poscode-lred p-1 text-center"><span class="color-lgray print_nodisp">0</span></div>
         </header>
         <div class="l-prev-mark d-none" data-disp="send-materials"><img src="/assets/img/envelope/pic_mark.svg" alt="料金後納郵便"></div>
-        <div class="pos-bottom-left w-100 font-size-0_8 text-center pb-3">
-            資料発送センター<br>
-            〒150-0043&nbsp;東京都渋谷区道玄坂1丁目10番8号渋谷道玄坂東急ビル2F−C
+        <div class="pos-bottom-left w-100 text-center pb-3">
+            <div class="font-weight-bold" style="font-size:1.3rem;">資料発送センター</div>
+            <div class="pb-1 font-weight-bold color-pink" style="font-size:1.5rem;"><i class="fa fa-phone pr-1" aria-hidden="true"></i><?php echo appConfigSite::tel; ?></div>
+            <div class="font-size-0_8" style="line-height:1.3">〒151-0051<br>東京都渋谷区千駄ヶ谷5-16-11<br> Lʼtia OFFICE YOYOGI 6階</div>
         </div>
         <div class="position-relative font-notoserif">
             <div class="row justify-content-end">
