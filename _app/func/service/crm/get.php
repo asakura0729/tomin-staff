@@ -37,17 +37,12 @@ class appFuncCrmGet
         $select = appFuncSql::select(self::tableName, appDatabaseCs::tableCsList);
         $select = appFuncSql::select(self::alias, appDatabaseCs::tableCsListJoin, $select);
         $select = appFuncSql::from(self::tableName, $select);
-        $select = self::sqlJoin($select, self::alias);
-        $where = appFuncSql::where(self::tableName, appDatabaseCs::tableCsList, $get);
-        $where = appFuncSql::where(self::alias, appDatabaseCs::tableCsListJoin, $get, $where);
-        $where = self::whereClienCategory($get, self::tableName, $where);
-        $sql = $select . $where;
-        return $sql;
+        return $select;
     }
     //-----------------------------------------------------
     // SQL作成＞JOIN句作成
     //-----------------------------------------------------
-    public static function sqlJoin($select, $alias): string
+    public static function sqlJoin(string $select, string $alias): string
     {
         $select = appFuncSql::join([
             'parent' => self::tableName,
@@ -59,9 +54,19 @@ class appFuncCrmGet
         return $select;
     }
     //-----------------------------------------------------
+    // SQL作成＞Where句作成
+    //-----------------------------------------------------
+    public static function sqlWhere(string $sql, array $get = []): string
+    {
+        $where = appFuncSql::where(self::tableName, appDatabaseCs::tableCsList, $get);
+        $where = appFuncSql::where(self::alias, appDatabaseCs::tableCsListJoin, $get, $where);
+        $where = self::whereClienCategory(self::tableName, $where, $get);
+        return $sql . $where;
+    }
+    //-----------------------------------------------------
     // SQL作成＞Where句＞有効・無効電話のフィルタリング
     //-----------------------------------------------------
-    public static function whereClienCategory($get, $tableName, $result = ""): string
+    public static function whereClienCategory(string $tableName, string $result = "", array $get = []): string
     {
         if (isset($get[self::getClientCategoryFilter])) {
             $filterparam = $get[self::getClientCategoryFilter];
@@ -89,6 +94,8 @@ class appFuncCrmGet
     public static function getData(array $get = [], int $colCount = 1): array
     {
         $sql = self::sqlSelectFrom($get);
+        $sql = self::sqlJoin($sql, self::alias);
+        $sql = self::sqlWhere($sql, $get);
         $sql .= appFuncSql::orderBy(self::tableName, self::primaryKey);
         $sql .= appFuncSql::limit($colCount);
         $result = appFuncDatabase::getData($sql);
@@ -137,12 +144,10 @@ class appFuncCrmGet
     public static function count(array $get = []): string
     {
         $result = '0';
-        $select = appFuncSql::getCount(self::tableName, self::primaryKey);
-        $select = self::sqlJoin($select, self::alias);
-        $where = appFuncSql::where(self::tableName, appDatabaseCs::tableCsList, $get);
-        $where = appFuncSql::where(self::alias, appDatabaseCs::tableCsListJoin, $get, $where);
-        $where = self::whereClienCategory($get, self::tableName, $where);
-        $dbresult = appFuncDatabase::getData($select . $where);
+        $sql = appFuncSql::getCount(self::tableName, self::primaryKey);
+        $sql = self::sqlJoin($sql, self::alias);
+        $sql = self::sqlWhere($sql, $get);
+        $dbresult = appFuncDatabase::getData($sql);
         if (isset($dbresult[0]['count'])) {
             /*分岐：データが存在*/
             $result = $dbresult[0]['count'];
@@ -247,7 +252,6 @@ class appFuncCrmGet
                 $result['client_tel'] = $result['sheet_client_tel'];
                 $result['dec_name'] = $result['sheet_dec_name'];
                 $result['dec_relation'] = $result['sheet_dec_relation'];
-                $result['funeral_company_name'] = $result['sheet_funeral_company_name'];
                 $result['funeral_date'] = $result['sheet_funeral_date'];
                 $result['hall_name'] = $result['sheet_hall_name'];
                 $result['dec_region'] = $result['sheet_dec_region'];
@@ -317,12 +321,6 @@ class appFuncCrmGet
             $result['parent_cs_id'] = $_GET[appDatabaseCs::primaryKey];
             $result['cs_category'] = appConfigStatus::csCategorySheet;
             $result['approval_status'] = appConfigStatus::approval_status['progress']['key'];
-            $result['funeral_date'] = '';
-            $result['hall_name'] =  '';
-            $result['crematory_name'] = '';
-            $result['ensconce_category'] =  '';
-            $result['dest_address'] =  '';
-            $result['option_name'] = '';
         }
         if ($dataformat === true) {
             /*分岐：取得したデータのフォーマット指定あり*/
@@ -330,6 +328,23 @@ class appFuncCrmGet
             $formatResult['post_date']  = substr($formatResult['post_date'], 0, -6);
             $formatResult['approval_status'] =  $result['approval_status']; //【!】承認ステータスは生データを使用
             $result = $formatResult;
+        }
+        return $result;
+    }
+    //-----------------------------------------------------
+    // 送客シート編集画面＞親要素読込
+    //-----------------------------------------------------
+    public static function csSheetParent(array $parentDbResult): array
+    {
+        $result = [];
+        if (count($parentDbResult) > 0) {
+            $result = self::getData([
+                self::primaryKey => $parentDbResult['parent_cs_id'],
+                'cs_category' => appConfigStatus::csCategoryLog
+            ]);
+            if (count($result) > 0) {
+                return $result[0];
+            }
         }
         return $result;
     }

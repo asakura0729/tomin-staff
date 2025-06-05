@@ -55,10 +55,7 @@
                     appRoutesWeb::sitemap['adminCsSheetEdit'],
                     [
                         'css' => 'w-100 text-center',
-                        'queryParam' => appFuncPath::setGetParam(
-                            ['cs_id'],
-                            [appHttpCssheetAjaxDetail::$dbResult['cs_id']]
-                        )
+                        'queryParam' => appFuncPath::setGetParam(['cs_id'], [appHttpCssheetAjaxDetail::$dbResult['cs_id']])
                     ]
                 );
                 ?>
@@ -68,8 +65,25 @@
                     'chevron_btn',
                     appRoutesWeb::sitemap['adminCsEdit'],
                     [
-                        'title' => '対応ログ編集（送客シート引継ぎ）',
+                        'title' => '対応ログ編集',
                         'css' => 'w-100 text-center',
+                        'queryParam' => appFuncPath::setGetParam(['cs_id'], [appHttpCssheetAjaxDetail::$dbResult['parent_cs_id']])
+                    ]
+                );
+                ?>
+            </div>
+        </div>
+        <div class="container pt-3 border-top">
+            <h2 class="font-size-1 color-contrast text-center pb-2">管理者専用メニュー</h2>
+            <div class="pb-3">
+                <?php appFuncModule::link(
+                    'chevron_btn',
+                    appRoutesWeb::sitemap['adminCsEdit'],
+                    [
+                        'title' => '対応ログ編集（送客シート転記）',
+                        'css' => 'w-100 text-center',
+                        'disabled' => appHttpCssheetAjaxDetail::$overwriteBtnDisabled,
+                        'popover' => '対応ログが' . appConfigStatus::approval_status['progress']['name'] . 'の場合、この操作はできません',
                         'queryParam' => appFuncPath::setGetParam(
                             ['cs_id', appFuncCrmGet::getOverwriteSheetFlg],
                             [appHttpCssheetAjaxDetail::$dbResult['parent_cs_id'], 'true']
@@ -78,8 +92,6 @@
                 );
                 ?>
             </div>
-        </div>
-        <div class="container pt-3">
             <form data-hx-post="<?php echo appRoutesWeb::sitemap['adminCsSheetDetail']['contents'] . appFuncPath::setGetParam(['cs_id'], [appHttpCssheetAjaxDetail::$dbResult['cs_id']]); ?>" data-hx-target="<?php echo appConfigSite::pageMain; ?>">
                 <?php appFuncModule::form('form-control', appHttpCssheetAjaxDetail::$dbResult['cs_id'], ['inputName' => 'cs_id', 'inputType' => 'hidden']); ?>
                 <?php if (appFuncSession::checkAuth(appConfigUser::authorityManager) === true): ?>
