@@ -80,11 +80,17 @@
                         </div>
                     <?php elseif ($row['input'] === 'number'): ?>
                         <?php /*分岐2：価格*/ ?>
-                        <div data-row class="p-1 pt-2 border-right border-bottom font-size-0_8  text-right">
+                        <div data-row class="p-1 pt-2 border-right border-bottom font-size-0_8 text-right">
                             <span class="pr-1"><?php echo appFuncString::strlenString(appFuncArray::issetKey($value, $key, ''), appFuncString::textNone); ?></span>円
                         </div>
+                    <?php elseif ($row['input'] === 'textarea'): ?>
+                        <?php /*分岐3：テキストエリア*/ ?>
+                        <div data-row class="position-relative p-1 pt-2 border-right border-bottom font-size-0_8">
+                            <div class="overflow-hidden h-50px"><?php echo appFuncCrmDisp::dbResultValue($value, $key, $row['input']); ?></div>
+                            <div class="cm-resizer" data-row-resize role="separator" aria-orientation="vertical" tabindex="0">&nbsp;</div>
+                        </div>
                     <?php elseif ($row['input'] != '' && $row['input'] != 'hidden'): ?>
-                        <?php /*分岐3：その他*/ ?>
+                        <?php /*分岐4：その他*/ ?>
                         <div data-row class="p-1 pt-2 border-right border-bottom font-size-0_8">
                             <?php echo appFuncCrmDisp::dbResultValue($value, $key, $row['input']); ?>
                         </div>
@@ -92,6 +98,7 @@
                 <?php endforeach; ?>
             </div>
         <?php endforeach; ?>
+
     </div>
     <div class="pt-2 pb-2 w-lg-600px">
         <div class="bg-white p-2 pl-3 d-flex font-size-0_8">
@@ -115,5 +122,9 @@
 <?php if (count(adminCsAjaxList::$dbResultCs) > 0): ?>
     <?php appFuncModule::js('message', ['target' => '#message', 'msg' => '過去の対応ログが存在する電話番号です']); ?>
 <?php endif; ?>
+<?php if (isset($_GET[appRoutesWeb::getPage])): ?>
+    <?php appFuncModule::js('totop'); ?>
+<?php endif; ?>
 <?php appFuncModule::js('layout-wide'); ?>
+<?php appFuncModule::js('row-resize'); ?>
 <?php appFuncModule::js('form-approval'); ?>

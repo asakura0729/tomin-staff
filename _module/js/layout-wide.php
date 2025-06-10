@@ -43,14 +43,16 @@
                 selecter.style.width = windowWidth + "px";
             });
         }
+        const resizeEvent = function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                setTableLayout();
+            }, 500);
+        }
         if (!!mainContents.querySelector(targetTable) === true) {
             setTableLayout();
-            window.addEventListener('resize', () => {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(() => {
-                    setTableLayout();
-                }, 500);
-            });
+            window.removeEventListener("resize", resizeEvent);
+            window.addEventListener('resize', resizeEvent)
         }
     }());
 </script>

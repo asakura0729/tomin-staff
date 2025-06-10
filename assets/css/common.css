@@ -186,6 +186,10 @@ width-height
     height: 100%;
 }
 
+.h-50px {
+    height: 50px;
+}
+
 .h-150px {
     height: 150px;
 }
@@ -357,6 +361,11 @@ typography
 
 .font-Oswald {
     font-family: 'Oswald', sans-serif;
+}
+
+.font-size-0_6 {
+    /*label,xsmall*/
+    font-size: 0.6rem;
 }
 
 .font-size-0_8 {
@@ -613,12 +622,6 @@ body .bg-white {
     background: #d7d0e7;
 }
 
-.bg-grid {
-    background-image: url('/assets/img/bg-grid.svg');
-    background-repeat: repeat;
-    background-size: 50px 50px;
-}
-
 body .bg-hover-lgray:hover {
     background-color: var(--l-gray) !important;
 }
@@ -710,6 +713,12 @@ utilities
     position: absolute;
     bottom: 0;
     left: 0;
+}
+
+.pos-bottom-right {
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
 
 .pos-top-left {
@@ -946,6 +955,19 @@ components
     top: 50%;
     left: 50%;
     transform: translateY(-50%) translateX(-50%);
+}
+
+.cm-resizer {
+    width: 11px;
+    height: 11px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-image: url('/assets/img/bg-resize.png');
+    background-repeat: no-repeat;
+    background-size: 9px 9px;
+    background-position: 1px 1px;
+    cursor: ns-resize;
 }
 
 /*pagination*/

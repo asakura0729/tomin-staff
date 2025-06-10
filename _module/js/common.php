@@ -12,6 +12,7 @@
     const elem = {
         header: document.querySelector(id.header),
         main: document.querySelector(id.main),
+        dataHxGet: "[data-hx-get]",
         dataHxPushUrl: "[data-hx-push-url]",
         dataHxReplaceUrl: "[data-hx-replace-url]",
         dataAddSpinner: "[data-add-spinner]",
@@ -58,6 +59,17 @@
             $(selector).find(elem.dataPopover).popover();
         });
     }
+    const clearEventListener = function(evt) {
+        const triggerElement = evt.detail.elt;
+        const method = evt.detail.requestConfig.verb;
+        if (method === "get" && triggerElement.hasAttribute(dataAttribute(elem.dataHxGet))) {
+            const target = '#' + evt.detail.target.id;
+            if (!(target instanceof Element)) return;
+            const clone = target.cloneNode(true);
+            target.replaceWith(clone);
+            return clone;
+        }
+    }
     const gNavColorChange = function() {
         const path = location.pathname;
         const gnavLinks = elem.header.querySelectorAll(elem.dataHxPushUrl);
@@ -83,6 +95,9 @@
     htmxSetting(elem.header);
     htmx.onLoad(function(ajaxContents) {
         htmxSetting(ajaxContents);
+    });
+    document.body.addEventListener("htmx:beforeSwap", function(event) {
+        clearEventListener(event);
     });
     document.body.addEventListener("htmx:afterSettle", function(event) {
         if (event.target.id === id.main.replace("#", "")) {
