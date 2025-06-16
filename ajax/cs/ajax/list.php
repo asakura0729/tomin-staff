@@ -87,7 +87,7 @@
                         <?php /*分岐3：テキストエリア*/ ?>
                         <div data-row class="position-relative p-1 pt-2 border-right border-bottom font-size-0_8">
                             <div class="overflow-hidden h-50px"><?php echo appFuncCrmDisp::dbResultValue($value, $key, $row['input']); ?></div>
-                            <div class="cm-resizer" data-row-resize role="separator" aria-orientation="vertical" tabindex="0">&nbsp;</div>
+                            <div class="cm-resizer" data-row-resize role="separator" aria-orientation="vertical" tabindex="0"></div>
                         </div>
                     <?php elseif ($row['input'] != '' && $row['input'] != 'hidden'): ?>
                         <?php /*分岐4：その他*/ ?>
